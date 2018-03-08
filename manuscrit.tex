@@ -1,0 +1,57 @@
+\documentclass[a4paper,11pt]{book}
+
+\input{packageFR}
+\input{packageStyle}
+
+\begin{document}
+\pagestyle{mypagestyle}
+
+\frontmatter
+
+%\include{page_de_garde/}
+%\include{Remerciements/remerciements}
+
+\tableofcontents
+
+\listoffigures
+\listoftables
+
+%\chapter*{Liste des abréviations}
+%\addcontentsline{toc}{chapter}{Liste des abbréviations}
+%
+%\chapter*{Liste des notations}
+%\addcontentsline{toc}{chapter}{Liste des notations}
+%
+%\chapter*{Liste des publications}
+%\addcontentsline{toc}{chapter}{Liste des publications}
+
+
+\include{resume_abstract/resume}
+\include{resume_abstract/abstract}
+
+
+\mainmatter
+\pagestyle{fancy}
+
+%\include{Intro_Conclusion/Introduction}
+\include{Chap1_cartographie/cartographie}
+\include{Chap2_detection/detection}
+\include{Chap3_nmf/NMF}
+\include{Chap4_sceneSonore/creationScene}
+\include{Chap5_resultAmbiance/result_ambiance}
+%\include{Chap6_resultGrafic}
+%\include{Intro_Conclusion/Conclusion}
+
+
+\begin{appendices}
+
+\end{appendices}
+
+
+\backmatter
+
+\bibliographystyle{alpha-fr}
+\bibliography{bibliographie}
+
+
+\end{document}
