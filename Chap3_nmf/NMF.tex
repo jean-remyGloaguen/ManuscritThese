@@ -2,7 +2,7 @@
 %
 %\input{../packageFR}
 %\input{../packageStyle}
-
+%
 %\begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{La factorisation en matrices non-négatives}
@@ -25,7 +25,7 @@ où les caractères minuscules représentent des vecteurs colonne et $n$ est une
 
 \begin{figure}[t]
 \centering
-%\includegraphics[width=.5\textwidth]{../images/NMF/schema_introduction_nmf.pdf}
+\includegraphics[width=.5\textwidth]{./figures/NMF/schema_introduction_nmf.pdf}
 \caption{Exemple d'une NMF pour un signal audio de mixture urbaine composé de 3 sources sonores (dans l'ordre d'apparition klaxon, passage de voiture et oiseaux). $\mathbf{W}$ et $\mathbf{H}$ sont consititués de 3 bases (K = 3).}
 \label{fig:ex_NMF}
 \end{figure}
@@ -170,7 +170,7 @@ La figure~\ref{fig:allure-divergence} permet d'illustrer le comportement stricte
 
 \begin{figure}[h]
 \centering
-%\includegraphics[width=.7\textwidth]{../images/NMF/betaDiv_exemple01.pdf}
+\includegraphics[width=.7\textwidth]{./figures/NMF/betaDiv_exemple01.pdf}
 \caption{Évolution des $\beta$-divergences pour un cas simple ($x$ = 1)}
 \label{fig:allure-divergence}
 \end{figure}
@@ -550,7 +550,7 @@ Cette métrique possède l'intérêt d'être invariante d'échelle et normée. L
 
 \begin{figure}
     \centering
-    %\includegraphics[width=0.7\linewidth]{../images/NMF/lin_sig.pdf}
+    \includegraphics[width=0.7\linewidth]{./figures/NMF/lin_sig.pdf}
     \caption{Similarité cosinus pour une représentation linéaire et sigmoïdienne.}
     \label{fig:resume_simil}
 \end{figure}
@@ -588,7 +588,7 @@ avec $\mathbf{\alpha}_{1 \times K} = \left[\alpha_1, \alpha_2 \dots \alpha_K \ri
 
 \begin{figure}
 \centering
- % \includegraphics[width=.7\textwidth]{../images/NMF/seuillage.pdf}
+	\includegraphics[width=.7\textwidth]{./figures/NMF/seuillage.pdf}
   \caption{Pondération $\alpha$ appliquée à $\mathbf{W'}$ composé de 100 bases avec pour seuil $t = 0,2$ (seuillage dur) et $t_{f,1} = 0,3$ et $t_{f,2} = 0,15$ (pour le seuillage \textit{firm})}
   \label{fig:seuillage}
 \end{figure}
@@ -693,7 +693,7 @@ $A$ résume les valeurs des contraintes selon $k$, $\overrightarrow{\mathbf{H}}$
 
 \begin{figure}[hbtp]
 \centering
-%\includegraphics[width=0.7\linewidth]{../images/NMF/smoothness_02.pdf}
+	\includegraphics[width=0.7\linewidth]{./figures/NMF/smoothness_02.pdf}
 \caption{Influence de la pondération sur la forme des activateurs sommés selon $K$ sur une scène de 30 secondes.}
 \label{fig:smoothnessExample}
 \end{figure}

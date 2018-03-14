@@ -82,7 +82,7 @@ Chaque paramètre est également complété par un écart-type permettant d'inst
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[width=.7\textwidth]{D:/gloaguen/Pictures/SimScene/exempleSimScene_spectrogramme_sourcesSonores.pdf}
+\includegraphics[width=.7\textwidth]{./figures/SimScene/exempleSimScene_spectrogramme_sourcesSonores.pdf}
 \caption{Scène créée sous \textit{SimScene}. \`A gauche, le spectrogramme du signal global composé de trois sources (une voiture, un klaxon, un oiseau), à droite les spectrogrammes des trois sources audio utilisées}
 \end{figure}
 
@@ -91,9 +91,9 @@ En parallèle, \textit{SimScene} génère 3 fichiers images (l'évolution tempor
 
 
 \begin{figure}[ht]
-\includegraphics[width=5cm]{../../../Pictures/SimScene/exempleSimScene2-timeDomain.png}\hfill
-\includegraphics[width=5cm]{../../../Pictures/SimScene/exempleSimScene2-pianoRoll.png}\hfill
-\includegraphics[width=5cm]{../../../Pictures/SimScene/exempleSimScene2-spectrum.png}
+\includegraphics[width=5cm]{./figures/SimScene/exempleSimScene2-timeDomain.png}\hfill
+\includegraphics[width=5cm]{./figures/SimScene/exempleSimScene2-pianoRoll.png}\hfill
+\includegraphics[width=5cm]{./figures/SimScene/exempleSimScene2-spectrum.png}
 \caption{Représentation temporelle (à gauche), \textit{Piano Roll} (au centre) et spectrogramme (à droite) générés par \textit{SimScene}.}\label{fig:somefiglabel}
 \end{figure}
 
@@ -108,7 +108,7 @@ Des enregistrements audio d'environnements sonores, réalisés dans le cadre du 
  
 \begin{figure}[hbtp]
 \centering
-\includegraphics[width=.7\textwidth]{D:/gloaguen/Pictures/grafic/trajet_19pts.png}
+\includegraphics[width=.7\textwidth]{./figures/grafic/trajet_19pts.png}
 \caption{Parcours réalisé par l'étude avec les 19 points de mesures avec le niveau sonore mesuré équivalent}
 \label{fig:parcoursGRAFIC}
 \end{figure}
@@ -178,7 +178,7 @@ En raison de la présence d'arbres situés proche de la piste, de nombreux oisea
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[width=.9\textwidth]{../../../Pictures/autres/filtrageMedian_VL1_R3_40_FR.pdf}
+\includegraphics[width=.9\textwidth]{./figures/autres/filtrageMedian_VL1_R3_40_FR.pdf}
 \caption{Zoom du spectrogramme (fenêtre $W = 2^{12}$, $nfft = 2^{12}$, overlapping = 50 $\%$) dans la bande de fréquence $\left[1500-7500 \right]$ Hz d'un enregistrement de passage de véhicule (véhicule Renault, rapport 3, 40 km/h). \`A gauche, l'enregistrement original, à droite l'enregistrement filtré par le filtre médian.}
 \end{figure}
 
@@ -262,7 +262,7 @@ Cet algorithme est dit $D$-optimal car il fait intervenir l'opérateur \textit{D
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width = 0.7\textwidth]{../../../Pictures/test_perceptif/nb_replication.pdf}
+\includegraphics[width = 0.7\textwidth]{./figures/test_perceptif/nb_replication.pdf}
 \caption{Nombre de réplication, $R$, pour chaque scène obtenu dans $X_{opt}$ avec comme combinaison $J = 50$, $B = 40$, $K = 20$. Les 20 premières scènes sont les scènes issus des enregistrements du projet GRAFIC, les 20 suivantes sont les scènes répliquées sous \textit{SimScene}.}
 \label{fig:replication}
 \end{figure}
@@ -271,7 +271,7 @@ L'optimisation du plan ne permet alors pas d'avoir un nombre de réplication $R$
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width = .7\textwidth]{../../../Pictures/test_perceptif/repartition-real-simulated.pdf}
+\includegraphics[width = .7\textwidth]{./figures/test_perceptif/repartition-real-simulated.pdf}
 \caption{Répartition entre les scènes réelles et simulées par juge. La somme cumulée des deux ensembles correspond aux nombres d'écoutes $K$ qu'effectue un juge.}
 \label{fig:repartition}
 \end{figure}
@@ -289,7 +289,7 @@ La figure \ref{fig:panelTest} résume, sous forme d'histogrammes, l'âge, le sex
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width = .8\textwidth]{../../../Pictures/test_perceptif/testPerceptif_panel.pdf}
+\includegraphics[width = .8\textwidth]{./figures/test_perceptif/testPerceptif_panel.pdf}
 \caption{Résumé des informations relatifs aux panélistes}
 \label{fig:panelTest}
 \end{figure}
@@ -384,11 +384,11 @@ La \textit{p-valeur} est supérieure au seuil de signification $\alpha$ et est s
 
 En plus des résultats textuels, une représentation graphique sous forme de diagramme en boîte à moustache est faite selon le type de scènes (figure \ref{fig:ANOVA_scene}). Cette représentation graphique permet de comparer plusieurs distributions en résumant pour chaque boîte la médiane (trait plein rouge), les valeurs du  premier quartile au troisième quartile (boîte en bleue), la valeur maximale et minimale de la distribution (respectivement trait supérieur et inférieur en noir). \`A cela est également ajoutée la moyenne.\\
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = 0.8\textwidth]{../../../Pictures/test_perceptif/testPerceptif_boxplotType.pdf}
-%\caption{Représentation en diagramme en boîte à moustache entre les scènes réelles et simulées}\label{fig:ANOVA_scene}
-%\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/testPerceptif_boxplotType_FR.png}
+\caption{Représentation en diagramme en boîte à moustache entre les scènes réelles et simulées}\label{fig:ANOVA_scene}
+\end{figure}
 
 La répartition des notes pour les deux type de scènes, quelque soit l'expérience de l'auditeur, est similaire. Chaque type présente des valeurs identiques (médiane, valeurs extrêmes, quantiles). Seule la note moyenne permet de différencier les deux ensembles : $m_{Re} = 4.93 \pm 1.64$ et $m_{Si} = 5.06 \pm 1.56$. Les deux valeurs sont quasiment similaires confirmant que les deux distributions sont donc bien identiques et que les scènes simulées ont un rendu similaire aux enregistrements réels. \\
 
@@ -414,11 +414,11 @@ Il est possible de déterminer l'influence de l'expérience de l'auditeur dans l
 \label{tab:anova_exp}
 \end{table}
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = 0.8\textwidth]{../../../Pictures/test_perceptif/testPerceptif_boxplotExperience.pdf}
-%\caption{Distribution des notes selon le type de scène et l'expérience dans l'écoute des scènes sonores urbaines}\label{fig:ANOVA_exp}
-%\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/testPerceptif_boxplotExperience_EN.pdf}
+\caption{Distribution des notes selon le type de scène et l'expérience dans l'écoute des scènes sonores urbaines}\label{fig:ANOVA_exp}
+\end{figure}
 
 
 %\begin{table}[]
@@ -443,38 +443,38 @@ Toutefois, malgré ces faibles différences, les moyennes et les distributions r
 
 On regroupe, dans la figure~\ref{fig:boxplot_ambiance}, les scènes par ambiances sonores (\textit{parc}, rue \textit{calme}, rue \textit{animée}, rue \textit{très animée}).\\
 
-%\begin{figure}[hbtp]
-%\centering
-%\includegraphics[width=0.7\textwidth]{../../../Pictures/test_perceptif/testPerceptif_boxplotAmbianceCOLOR.pdf}
-%
-%\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%\end{tabular}
-%
-%\caption{Distribution en fonction de l'ambiance sonore pour les scènes réelles (en haut) et les scènes simulées (en bas)}
-%\label{fig:boxplot_ambiance}
-%\end{figure}
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.7\textwidth]{./figures/test_perceptif/testPerceptif_boxplotAmbianceCOLOR_EN.pdf}
+
+\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
+\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
+Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
+\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
+\end{tabular}
+
+\caption{Distribution en fonction de l'ambiance sonore pour les scènes réelles (en haut) et les scènes simulées (en bas)}
+\label{fig:boxplot_ambiance}
+\end{figure}
 
  
 Cette représentation permet de constater que les ambiances sonores \textit{animée} et \textit{très animée}, dans les deux types de scènes, sont évaluées comme les plus réalistes : la médiane et la moyenne sont élevées avec une distribution peu dispersée. \`A l'inverse, les ambiances plus calmes (\textit{parc} et \textit{calme}) sont plus dispersés et ont une note moyenne plus faible. C'est donc les ambiances constituées en majorité du trafic qui sont les mieux évalués. Les scènes dans les parcs et rues calmes, constituées de moins de trafic et plus de sons urbains divers (voix, bruit de pas, oiseaux), sont moins bien évaluées aussi bien pour les scènes issus d'enregistrements que celles créer.\\
 
 Enfin, pour chaque scène, la distribution des notes est établie et sont mis en relation avec les commentaires laissés par les auditeurs (figure~\ref{fig:ANOVA_scene}).\\
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = .9\textwidth]{../../../Pictures/test_perceptif/testPerceptif_meanPerSceneCOLOR.pdf}
-%
-%\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%\end{tabular}
-%
-%\caption{Distribution par scène pour les scènes réelles (de 1 à 20) et les scènes simulées (de 21 à 40)}
-%\label{fig:moyParScene}
-%\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\textwidth]{./figures/test_perceptif/testPerceptif_meanPerSceneCOLOR.pdf}
+
+\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
+\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
+Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
+\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
+\end{tabular}
+
+\caption{Distribution par scène pour les scènes réelles (de 1 à 20) et les scènes simulées (de 21 à 40)}
+\label{fig:moyParScene}
+\end{figure}
 
 
 Plusieurs observations peuvent être émises : 
