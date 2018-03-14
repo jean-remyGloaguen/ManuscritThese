@@ -1,9 +1,10 @@
 %\documentclass[twoside,openright,a4paper,11pt]{book}
 %
-%\input{packageFR}
-%\input{packageStyle}
-%
+%\input{../packageFR}
+%\input{../packageStyle}
+
 %\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{La factorisation en matrices non-négatives}
 Ce chapitre propose un état de l'art de la factorisation en matrices non-négatives. 
 
@@ -22,9 +23,9 @@ où $\textbf{W}$ et $\textbf{H}$ sont deux matrices, également non-négatives, 
 
 où les caractères minuscules représentent des vecteurs colonne et $n$ est une trame temporelle. Les majuscules résument des matrices. $\mathbf{W}$ est alors composé d'un ensemble de parties élémentaires (exemple en figure~\ref{fig:ex_NMF}). 
 
-\begin{figure}[htb]
+\begin{figure}[t]
 \centering
-\includegraphics[width=.5\textwidth]{images/NMF/schema_introduction_nmf.pdf}
+%\includegraphics[width=.5\textwidth]{../images/NMF/schema_introduction_nmf.pdf}
 \caption{Exemple d'une NMF pour un signal audio de mixture urbaine composé de 3 sources sonores (dans l'ordre d'apparition klaxon, passage de voiture et oiseaux). $\mathbf{W}$ et $\mathbf{H}$ sont consititués de 3 bases (K = 3).}
 \label{fig:ex_NMF}
 \end{figure}
@@ -169,7 +170,7 @@ La figure~\ref{fig:allure-divergence} permet d'illustrer le comportement stricte
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.7\textwidth]{./images/NMF/betaDiv_exemple01.pdf}
+%\includegraphics[width=.7\textwidth]{../images/NMF/betaDiv_exemple01.pdf}
 \caption{Évolution des $\beta$-divergences pour un cas simple ($x$ = 1)}
 \label{fig:allure-divergence}
 \end{figure}
@@ -489,120 +490,108 @@ soit en utilisant un masquage \textit{soft}:
 
 
 \section{NMF semi-supervisée}\label{NMF_SS}
-La NMF supervisée pose le problème de la généralisation de $\mathbf{W}$: comment adapter un dictionnaire fixe, appris avec une base de données d'apprentissage limitée, à un ensemble de cas suceptible d'être extrêmement différent et varié ? 
-Comme il est impossible de contenir dans $\mathbf{W}$ l'ensemble des sons présents dans la nature, il faut pouvoir adapter l'ensemble ou une partie du dictionnaire à son environnement. La NMF semi-supervisée \cite{lee_semi-supervised_2010} \cite{smaragdis2007supervised} permet cela à travers un dictionnaire $\mathbf{W}$ de dimensions $F \times (K+J)$ comprenant une partie fixe, $\mathbf{W_s}$ de dimensions $F \times K$, construit de la même manière que pour la NMF supervisée, et aurait une partie mobile,  $W_r$ de dimensions réduite, $F \times J$ avec $J << K$, qui pourrait ainsi s'adapter à l'ensemble des autres sources sonores présentes. $\mathbf{W_r}$ est alors initialisé aléatoirement lors de la première itération pour ensuite être mis à jour.\\
-
-La matrice $\mathbf{H}$ est, quant à elle, constituée de la matrice $\mathbf{H_s}_{K \times N}$ et de la matrice $\mathbf{H_r}_{J \times N}$. Ainsi 
+La NMF supervisée pose le problème de la généralisation de $\mathbf{W}$: comment adapter un dictionnaire fixe, appris avec une base de données d'apprentissage limitée, peut être généralisé à un ensemble de cas suceptibles d'être extrêmement différent et varié ? 
+Il est impossible de contenir dans $\mathbf{W}$ l'ensemble des sons présents dans la nature ville tant cette tâche serait très longue à réaliser et aurait un cout de calcul prohibitif. Ajouter une partie au dictionnaire qui serait susceptible de s'adapter à son environnement serait donc avantageux. C'est le principe de la NMF semi-supervisée \cite{lee_semi-supervised_2010, smaragdis2007supervised} qui permet cela à travers un dictionnaire $\mathbf{W}$ de dimensions $F \times (K+J)$ comprenant une partie fixe, $\mathbf{W_s}$ de dimensions $F \times K$, construit de la même manière que pour la NMF supervisée, et une partie mobile,  $\mathbf{W}_r$ de dimensions réduites, $F \times J$ avec $J << K$. Cette conditition est nécessaire afin de focaliser la reconstruction du signal avec les sources présentes dans $\mathbf{W_s}$. On obtient donc 
 
 \begin{equation}
-\mathbf{V} \approx \mathbf{W_s} \mathbf{H_s} + \mathbf{W_r} \mathbf{H_r}
+\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]
 \end{equation}
 
-avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et $\mathbf{H} = \left[ \genfrac{}{}{0pt}{0}{\mathbf{H_s}}{\mathbf{H_r}} \right]$ où $\mathbf{H_s}$, $\mathbf{W_r}$ et $\mathbf{H_r}$ sont les 3 matrices à déterminer. Dans le cas où $\mathbf{W_s}$ est composé de spectres relatifs au trafic, le produit $\mathbf{W_r} \mathbf{H_r}$ est amené à n'être composé que d'éléments qui appartiennent à d'autres classes de sons. Les expressions des mises à jours des matrices sont résumées par les équations \ref{eq:WH-SSupdate}. \\ 
+Cette méthode peut ainsi mieux s'adapter à l'ensemble des autres sources sonores présentes. $\mathbf{W_r}$ est alors initialisé aléatoirement lors de la première itération pour ensuite être mis à jour (Eq \ref{eq:W_r_SS}).\\
+
+La matrice $\mathbf{H}$ est, quant à elle, constituée de la matrice $\mathbf{H_s}_{K \times N}$ et de la matrice $\mathbf{H_r}_{J \times N}$ telle que $\mathbf{H} = \left[ \genfrac{}{}{0pt}{0}{\mathbf{H_s}}{\mathbf{H_r}} \right]$.  Ainsi 
+
+\begin{equation}
+\mathbf{V} \approx \mathbf{WH} = \mathbf{W_s} \mathbf{H_s} + \mathbf{W_r} \mathbf{H_r}
+\end{equation}
+
+où $\mathbf{H_s}$, $\mathbf{W_r}$ et $\mathbf{H_r}$ sont les 3 matrices à déterminer. Dans le cas où $\mathbf{W_s}$ est composé de spectres relatifs au trafic, le produit $\mathbf{W_r} \mathbf{H_r}$ est amené à n'être composé que d'éléments qui appartiennent à d'autres classes de sons. Les expressions des mises à jours des matrices sont résumées par les équations \ref{eq:WH-SSupdate}. \\ 
 
 \begin{subequations}\label{eq:WH-SSupdate}
 \begin{align}
-\mathbf{W_r}^{(i+1)} &\leftarrow \mathbf{W_r}^{(i)}.\left(\frac{\left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}.\mathbf{V} \right]\mathbf{H_r}^T}{\left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}\mathbf{H_r}^T}\right)^{\gamma(\beta)}\\
+\mathbf{W_r}^{(i+1)} &\leftarrow \mathbf{W_r}^{(i)}.\left(\frac{\left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}.\mathbf{V} \right]\mathbf{H_r}^T}{\left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}\mathbf{H_r}^T}\right)^{\gamma(\beta)}\label{eq:W_r_SS}\\
 \mathbf{H_r}^{(i+1)} &\leftarrow \mathbf{H_r}^{(i)}.\left(\frac{\mathbf{W_r}^T \left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}.\mathbf{V} \right]}{\mathbf{W_r}^T \left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_r_SS}\\
 \mathbf{H_s}^{(i+1)} &\leftarrow \mathbf{H_s}^{(i)}.\left(\frac{\mathbf{W_s}^T \left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}.\mathbf{V} \right]}{\mathbf{W_s}^T \left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_s_SS}
 \end{align}
 \end{subequations}
 
+L'extraction du signal trafic est réalisé à partir de $\mathbf{W_s}$ et de $\mathbf{H_s}$, 
+
+\begin{equation}
+\mathbf{\tilde{V}}_{trafic} = \mathbf{W_s H_s}
+\end{equation}
+
 Plusieurs applications de cette méthode on été proposé notamment en séparation de sources pour des signaux musicaux (\cite{smaragdis_supervised_2007}, \cite{duan_online_2012}) ou encore pour du débruitement de signaux comme dans \cite{mysore_non-negative_2011} où ... 
 
 \section{NMF seuillée initialisée}\label{sec:NMF_TI}
 
-Dans le cas de la NMF non-supervisée considère qu'aucune information n'est disponible sur $\mathbf{W}$ et $\mathbf{H}$. $\mathbf{W}$ est alors déterminé à l'aide d'une base de données d'apprentissage. 
-Afin d'adapter au mieux le dictionnaire aux différentes mixtures sonores et de résoudre le problème de généralisation, une nouvelle approche est proposée où un dictionnaire initial appris sur la source sonore ciblée, $\mathbf{W_0}$, est mis à jours en même temps que $\mathbf{H}$. La mise à jour du dictionnaire est ainsi orienté $\mathbf{W}$ à partir des connaissances connues \textit{a priori} tout en offrant la possibilité d'adapter $\mathbf{W_0}$ afin d'apporter de la souplesse et de l'adaptabilité à la NMF. 
+Afin de répondre au problème de généralisation de $\mathbf{W}$, une nouvelle approche est proposée où un dictionnaire initial, $\mathbf{W_0}$, appris sur la source sonore ciblée (le trafic routier), est mis à jours en même temps que $\mathbf{H}$. La mise à jour du dictionnaire est ainsi orienté à partir des connaissances connues \textit{a priori} tout en adaptant $\mathbf{W_0}$ à la scène sonore. Cette technique permet de générer un dictionnaire unique pour chaque scène. Après $N$ itérations, un dictionnaire $\mathbf{W'}$ est obtenu. Pour estimer le signal \textit{trafic}, chaque élément de $\mathbf{W'}$, $\mathbf{w'}$, est comparé à son spectre d'origine issu de $\mathbf{W_0}$, $\mathbf{w_0}$, afin de déterminer s'il est encore assimilable à un spectre \textit{trafic}.
 
-
-Après $N$ itérations, pour réaliser la séparation de source, le dictionnaire initial est comparé au dictionnaire mis à jours, $\mathbf{W'}$ à travers deux calculs de distance : 
-\begin{itemize}
-\item la distance euclidienne normée entre chaque éléments, 
+La comparaison des 2 éléments est réalisée à travers le calcul de leur similarité cosinus
 
 \begin{equation}
-D_{EUC}(\mathbf{W_0}\Vert\mathbf{W'}) = \sqrt{\sum_{i = 1}^K\frac{(\mathbf{w_0}_k-\mathbf{w'}_k).^2}{\sigma(\mathbf{w_0}_k)^2}}
+ D_{\theta}(\mathbf{w_0}\Vert\mathbf{w'}) = \frac{\mathbf{w_0}.\mathbf{w'}}{\Vert\mathbf{w_0}  \Vert. \Vert\mathbf{w'} \vert \vert}
 \end{equation}
 
-où $\sigma(\mathbf{w_0}_k)^2$ est la variance de la colonne $k$ de $\mathbf{W_0}$. Une valeur proche de 0 signifie alors que les deux vecteurs $k$ de $\mathbf{W_0}$ et $\mathbf{W'}$ sont identiques, là où une grande valeur signifie qu'ils sont extrêmement différents. 
-
-\item la similarité cosinus
- \begin{equation}
- D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = \frac{\mathbf{W_0}.\mathbf{W'}}{\Vert\mathbf{W_0}  \Vert. \Vert\mathbf{W'} \vert \vert}
- \end{equation}
- 
- qui détermine l'angle formée par les vecteurs $k$ de chaque matrice. $\cos \theta$ est alors compris entre -1 et 1. Si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'})$, les deux vecteurs sont stritement identiques, si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = 0$, les deux vecteurs sont orthogonaux, si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = -1$, les deux vecteurs sont opposés (cas impossible ici). Cette métrique possède l'intérêt d'être invariante d'échelle et normée .\\
-\end{itemize}
- 
-Les calculs de distance/similarité sont ensuite respectivement triés par ordre croissant/décroissant puis représentés par 3 fonctions (Figure \ref{fig:resume_dist_simil}) : 
+ qui détermine le cosinus de l'angle $\theta$ formé par les deux vecteurs par le rapport entre leur produit scalaire et leur norme et est alors compris entre -1 et 1: 
 
 \begin{itemize}
-\item une fonction linéaire où la distance est exprimée en fonction de $K$, 
-\item une fonction sigmoïde, $f(x) = \sfrac{1}{(1+\exp^{-\lambda x})}$ avec $\lambda$ le paramètre d'inflexion de la fonction, 
-\item une fonction de base radiale (abrégé RBF pour \textit{Radial Basis Function} en anglais), $f(x) = \exp\left(-\sfrac{x}{\lambda} \right)$.\\
+\item si $D_{\theta}(\mathbf{w_0}\Vert\mathbf{w'})$, les deux vecteurs sont stritement identiques, $\mathbf{w'}$ est alors considéré comme un élément \textit{trafic}, 
+\item si $D_{\theta}(\mathbf{w_0}\Vert\mathbf{w'}) = 0$, les deux vecteurs sont orthogonaux, $\mathbf{w'}$ n'est pas une élément \textit{trafic}
+\item si $D_{\theta}(\mathbf{w_0}\Vert\mathbf{w'}) = -1$, les deux vecteurs sont opposés. Ce cas est impossible en raison de la contrainte de non-négativité.\\
+\end{itemize}
+
+Cette métrique possède l'intérêt d'être invariante d'échelle et normée. La similarité entre $\mathbf{W_0}$ et $\mathbf{W'}$ correspond alors à une suite de valeurs comprises entre 0 et 1,  triées par ordre décroissant puis représentées à travers 2 fonctions (Figure \ref{fig:resume_simil}) : 
+
+\begin{itemize}
+\item une fonction linéaire, $f_{LIN}(k) = D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$,  
+\item une fonction sigmoïde, $f_{SIG}(k) = \sfrac{1}{\left(1+\exp({-\lambda D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$ avec $\lambda$ le paramètre d'inflexion de la fonction.
 \end{itemize}
 
 \begin{figure}
     \centering
-    \subfigure[]{
-    \label{fig:TI_distEuc} 
-    \includegraphics[width=0.45\textwidth]{./images/NMF/distanceEUCDisplay.pdf}}
-    \hfill
-    \subfigure[]{
-    \label{fig:TI_Simil} 
-    \includegraphics[width=0.45\textwidth]{./images/NMF/distanceCosDisplay.pdf}}
-    \caption{Distance Euclidienne normalisée \subref{fig:TI_distEuc} et similarité cosinus \subref{fig:TI_Simil} pour les trois méthodes de représentations}
-    \label{fig:resume_dist_simil}
+    %\includegraphics[width=0.7\linewidth]{../images/NMF/lin_sig.pdf}
+    \caption{Similarité cosinus pour une représentation linéaire et sigmoïdienne.}
+    \label{fig:resume_simil}
 \end{figure}
 
-On observe que pour la similarité cosinus passée au travers des fonction \textit{sigmoïde} et \textit{RBF}, les fonctions sont croissantes alors qu'elle est décroissante exprimé linéairement.
-
-Le dictionnaire \textit{trafic}, $\mathbf{W}_{trafic}$, est ensuite défini en pondérant chaque base de $\mathbf{W}$ par $\alpha$, un vecteur de pondération telle que : 
+Le dictionnaire \textit{trafic}, $\mathbf{W}_{trafic}$, est ensuite défini en pondérant chaque base de $\mathbf{W'}$ par $\alpha$, un vecteur de pondération tel que : 
 
 \begin{equation}
-\mathbf{w}_{k,trafic} = \alpha_k \mathbf{w'}_k
+\mathbf{w}_{trafic} = \alpha_k \mathbf{w'}_k
 \end{equation}
 
-avec $\mathbf{\alpha}_{1 \times K} = \left[\alpha_1, \alpha_2 \dots \alpha_K \right]$ où $\alpha_k \in \left[0,1 \right]$. $\alpha_k$ est défini en fonction de la distance/similarité entre $\mathbf{W_0}$ et $\mathbf{W}$ à l'aide d'une méthode de seuillage. 3 méthodes sont envisagées : 
+avec $\mathbf{\alpha}_{1 \times K} = \left[\alpha_1, \alpha_2 \dots \alpha_K \right]$ où $\alpha_k \in \left[0,1 \right]$. $\alpha_k$ est défini en fonction de la similarité entre $\mathbf{w_0}$ et $\mathbf{w'}$ à l'aide d'une méthode de seuillage. 2 méthodes sont envisagées : 
 
 \begin{itemize}
 \item le seuillage dur (\textit{hard thresholding}) \cite{donoho1994threshold} qui consiste à ne considérer que les éléments de $\mathbf{W'}$ dont la distance/similarité est supérieure à une valeur seuil $t$. 
-\begin{equation*}
-  \alpha_k =
-     \begin{cases}
-        0 & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) <= t,  \\
-        1 & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) > t, 
-     \end{cases}
-\end{equation*}
-\item le seuillage doux (\textit{soft thresholding}) \cite{donoho1995noising} qui vise à pondérer chaque élément par la distance/similarité que l'élément a avec le dictionnaire d'origine, 
-\begin{equation*}
-  \alpha_k =
-     \begin{cases}
-        0 & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) <= t,  \\
-        d(\mathbf{w_0}_k\vert \mathbf{w'}_k)-t  & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) > t, 
-     \end{cases}
-\end{equation*}
 
-\item le seuillage \textit{firm} \cite{fornasier2008iterative} qui condense les deux techniques précédentes : 
-\begin{equation*}
-  \alpha_k =
-     \begin{cases}
-        0 & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) <= t_1,  \\
-        \frac{t_2(d(\mathbf{w_0}_k\vert \mathbf{w'}_k)-t_1)}{t_2-t_1}  & \text{si } t_1 < d(\mathbf{w_0}_k\vert \mathbf{w'}_k) <= t_2,  \\
-        x & \text{si } d(\mathbf{w_0}_k\vert \mathbf{w'}_k) > t_2.
-     \end{cases}
-\end{equation*}
-Cette dernière technique permet d'intégrer les avantages des deux techniques précédentes mais nécessite de déterminer deux valeurs seuils $t_1$ et $t_2$ avec $t_1 < t_2$. \\
+\begin{subequations}\label{eq:seullageDur_def}
+\begin{numcases}{\alpha_k =}
+	0 & si \quad $f_{LIN/SIG}(k) \leq t_h$,  \\
+	1 & si \quad $f_{LIN/SIG}(k) > t_h$, 
+\end{numcases}
+\end{subequations}
+
+\item le seuillage \textit{firm} \cite{fornasier2008iterative} qui consiste à pondérer les éléments situé entre deux seuils $t_{f,1}$ et $t_{f,2}$ avec $t_{f,1} < t_{f,2}$ en les normalisant entre 1 et 0 : 
+
+
+\begin{subequations}\label{eq:seuillageFirm_def}
+\begin{numcases}{\alpha_k =}
+    0, & \text{si}  $f_{LIN/SIG}(k) \leq t_{f,1}$, \\
+    \mathcal{N}(f_{LIN/SIG}(k)), & \text{si}  $t_{f,1} < f_{LIN/SIG}(k) \leq t_{f,2}$,\\
+    x, & \text{si}  $f_{LIN/SIG}(k) > t_{f,2}$.
+\end{numcases}
+\end{subequations}
+
 \end{itemize}
 
 \begin{figure}
 \centering
-  \includegraphics[width=.7\textwidth]{D:/gloaguen/Documents/Production/manuscrit_these/images/NMF/thresholding.pdf}
-  \caption{Pondération $\alpha$ appliquée à $\mathbf{W'}$ composé de 400 bases avec pour seuil $t = 0.7$ (seuillage dur et doux) et $t_1 = 0.7$ et $t_2 = 0.5$ (pour le seuillage firm)}
+ % \includegraphics[width=.7\textwidth]{../images/NMF/seuillage.pdf}
+  \caption{Pondération $\alpha$ appliquée à $\mathbf{W'}$ composé de 100 bases avec pour seuil $t = 0,2$ (seuillage dur) et $t_{f,1} = 0,3$ et $t_{f,2} = 0,15$ (pour le seuillage \textit{firm})}
   \label{fig:seuillage}
 \end{figure}
-
-Les expressions de seuillages sont exprimés dans le cas où le calculs de distance/similarité est décroissante. Lorsqu'elles sont croissantes, les bornes sont inversées afin d'extraire les éléments de $\mathbf{W'}$ nécessaire.
 
 
 \section{NMF avec contraintes}\label{part:NMF_contrainte}
@@ -704,7 +693,7 @@ $A$ résume les valeurs des contraintes selon $k$, $\overrightarrow{\mathbf{H}}$
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[width=0.7\linewidth]{images/NMF/smoothness_02.pdf}
+%\includegraphics[width=0.7\linewidth]{../images/NMF/smoothness_02.pdf}
 \caption{Influence de la pondération sur la forme des activateurs sommés selon $K$ sur une scène de 30 secondes.}
 \label{fig:smoothnessExample}
 \end{figure}
@@ -739,8 +728,7 @@ Les expressions des matrices $\mathbf{H_r}$ et $\mathbf{H_s}$ restent, quant à 
 Cette contrainte n'est toutefois pas la seul qui existe, Duan $\&$ al. \cite{duan_online_2012}, via l'approche de la PLCA, décide dans un premier temps de détecter les évènements qui ne peuvent être reconnu par $\mathbf{W_s}$ pour ensuite apprendre $\mathbf{W_r}$ dessus. \cite{} dans le cas de la séparation entre une signal de parole et musical, ajoute une contrainte de parcimonie sur les éléments mobiles en vue d'y inclure des spectres harmoniques et donc ainsi les signaux musicaux.
  
 
-%\bibliographystyle{unsrt}
-%\bibliography{bibliographie_nmf}
+
 
 
 %\appendix
@@ -824,4 +812,8 @@ Cette contrainte n'est toutefois pas la seul qui existe, Duan $\&$ al. \cite{dua
 %
 %Leur méthode, proposée dans le cadre de la structuration automatique de documents audiovisuels, a pour forme
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\bibliographystyle{unsrt}
+%\bibliography{../bibliographie}
+%
 %\end{document}
