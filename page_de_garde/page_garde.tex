@@ -29,15 +29,15 @@
   \def\@adresse{#1}
 }
 
-\def\@directeur{directeur}
-\newcommand{\directeur}[1]{
-  \def\@directeur{#1}
-}
-
-\def\@encadrant{encadrant}
-\newcommand{\encadrant}[1]{
-  \def\@encadrant{#1}
-}
+%\def\@directeur{directeur}
+%\newcommand{\directeur}[1]{
+%  \def\@directeur{#1}
+%}
+%
+%\def\@encadrant{encadrant}
+%\newcommand{\encadrant}[1]{
+%  \def\@encadrant{#1}
+%}
 \def\@jurya{}{}{}
 \newcommand{\jurya}[3]{
   \def\@jurya{#1,	& #2	& #3\\}
@@ -73,6 +73,18 @@
 \def\@juryi{}{}{}
 \newcommand{\juryi}[3]{
   \def\@juryi{#1,	& #2	& #3\\}
+}
+\def\@directeur{}{}{}
+\newcommand{\directeur}[3]{
+  \def\@directeur{#1,	& #2	& #3\\}
+}
+\def\@encadranta{}{}{}
+\newcommand{\encadranta}[3]{
+  \def\@encadranta{#1,	& #2	& #3\\}
+}
+\def\@encadrantb{}{}{}
+\newcommand{\encadrantb}[3]{
+  \def\@encadrantb{#1,	& #2	& #3\\}
 }
 \makeatother
 
@@ -116,9 +128,9 @@
     	le \@date \\
     \vfill
        {\LARGE \color[rgb]{0,0,1} \bfseries{\@title}} \\
-    \vfill
-        Directeur de thèse : {\bfseries \@directeur}\\
-        Co-encadrant de thèse : {\bfseries \@encadrant}\\
+%    \vfill
+%        Directeur de thèse : {\bfseries \@directeur}\\
+%        Co-encadrant de thèse : {\bfseries \@encadrant}\\
     \vfill
 	\begin{tabular}{>{\bfseries}lll}
 		\large Jury\\
@@ -131,32 +143,32 @@
 		\@juryg
 		\@juryh
 		\@juryi
+		\@directeur
+		\@encadranta
+		\@encadrantb
 	\end{tabular}
 	\vfill
 	
 	\@adresse
   \end{titlepage}
 
-
-
-
 \restoregeometry  
 }
 
-\author{Dorian \textsc{Depriester}}
-\title{Caractérisation et modélisation du procédé de fluotournage inverse à froid du TA6V}
-\ED{\'{E}cole doctorale \no 364 : Sciences Fondamentales et Appliquées}
-\doctorat{Doctorat ParisTech}
-\specialite{Science et Génie des Matériaux}
-\directeur{Elisabeth \textsc{Massoni}}
-\encadrant{Michel \textsc{Bellet}}
-\date{18 décembre 2014}
-\jurya{M. Vincent Vega}{Professeur, MINES ParisTech}{Rapporteur}
-\juryb{M. Jules Winnfield}{Professeur, Arts Et Métiers ParisTech}{Rapporteur}
-\juryc{M. Butch Coolidge}{Chargé de recherche, ENS Cachan}{Examinateur}
-\juryd{Mme. Mya Wallace}{Danseuse, en freelance}{Examinateur}
-\jurye{M. Marsellus Wallace}{Ingénieur, MIT}{Examinateur}
-\ecole{l'\'{E}cole Nationale Supérieure des Mines de Paris}
+\author{Jean-Rémy \textsc{Gloaguen}}
+\title{Titre qui démontre l'intérêt et l'approche novateur de mon super travail}
+\ED{\'{E}cole doctorale \no XXX : Sciences Pour l'Ingénieur}
+\doctorat{Doctorat \'Ecole Centrale de Nantes}
+\specialite{Acoustique}
+\date{\today}
+\jurya{Mme./M. Prénom Nom}{Professeur, Etablissement}{Rapporteur}
+\juryb{Mme./M. Prénom Nom}{Professeur, Etablissement}{Rapporteur}
+\juryc{Mme./M. Prénom Nom}{Chargé de recherche, Etablissement}{Examinateur}
+\juryd{Mme./M. Prénom Nom}{Chargé de recherche, Etablissement}{Examinateur}
+\directeur{M. Jean-François Petiot}{Professeur, \'Ecole Centrale de Nantes}{Directeur de thèse}
+\encadranta{M. Arnaud Can}{Chargé de recherche, UMRAE}{Encadrant}
+\encadrantb{M. Mathieu Lagrange}{Chargé de recherche, LS2N}{Encadrant}
+\ecole{l'\'{E}cole Centrale de Nantes}
 \adresse{
-	\textbf{MINES ParisTech\\ Centre de Mise Forme des Mat\'{e}riaux (CEMEF)}\\	UMR CNRS 7635, F-06904 Sophia Antipolis, France
+	\textbf{Ifsttar Nantes\\ Unité Mixte de Recherche en Acoustique Environnementale (UMRAE)}\\	UMR Nantes, France
 }
