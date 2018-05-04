@@ -3,9 +3,9 @@
 \input{packageFR}
 \input{packageStyle}
 
-%\include{page_de_garde/page_garde}
-
 \begin{document}
+%\input{page_de_garde/page_garde}
+
 %\pagestyle{mypagestyle}
 %
 %\frontmatter
@@ -36,10 +36,10 @@
 %\pagestyle{fancy}
 
 %\include{Intro_Conclusion/Introduction}
-\include{Chap1_cartographie/cartographie}
+%\include{Chap1_cartographie/cartographie}
+\include{Chap4_sceneSonore/creationScene}
 %\include{Chap2_detection/detection}
 %\include{Chap3_nmf/NMF}
-%\include{Chap4_sceneSonore/creationScene}
 %\include{Chap5_resultAmbiance/result_ambiance}
 %\include{Chap6_resultGrafic}
 %\include{Intro_Conclusion/Conclusion}
@@ -52,8 +52,10 @@
 
 %\backmatter
 
-\bibliographystyle{alpha-fr}
+\bibliographystyle{apalike-fr}
 \bibliography{bibliographie}
 
+%\pagestyle{couvertureAbstract}
+%\input{page_de_garde/4_couverture_abstract}
 
 \end{document}

@@ -1,174 +1,74 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%      Fichier maître (Main.tex)      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Dorian Depriester, 2014
+\begin{cover}
+  % Background
+  \AddToShipoutPictureBG*{% from eso-pic package
+    \begin{tikzpicture}[x=\paperwidth,y=\paperheight]
+      % Background common to front and back:
+      \tikzBG{}
+      % Only on front cover:
+      \node at (.66905,.72225) [color=namecolor] {%
+        \fontsize{24}{29}\selectfont \firstName{} \textsc{\surname}};
+      % TODO: you may want to change font size above according to text length.
+    \end{tikzpicture}%
+    % Should SPI change its cover's background, you may use an \inclugraphics
+    % to include it (as a temporary fix), instead of the TikZ macros in \tikzBG.
+  }
 
-\makeatletter
-\def\@ecole{école}
-\newcommand{\ecole}[1]{
-  \def\@ecole{#1}
-}
+  % Front cover margins
+  % TODO: If you modified the main box's size, you may have to change
+  % the bottom margin for the jury table to be suitably aligned.
+  \newgeometry{left=1.5cm, right=2cm, top=9.5cm, bottom=3.5cm}
+  
+  \noindent
+  \begin{minipage}{8.4cm} % in cm: width = 9.9 - left margin
+    \noindent
+    Mémoire présenté en vue de l'obtention du grade de \mbox{\emph{Docteur de l'\'Ecole Centrale de Nantes}} sous le sceau de l'Université Bretagne Loire
+    % \mbox is used to prevent hyphenation
+    \bigskip
 
-\def\@specialite{Spécialité}
-\newcommand{\specialite}[1]{
-  \def\@specialite{#1}
-}
+    \noindent
+    \textbf{\'Ecole doctorale} : Sciences pour l'Ingénieur (SPI)
+    \medskip
 
-\def\@ED{\'{E}cole Doctorale}
-\newcommand{\ED}[1]{
-  \def\@ED{#1}
-}
+    \noindent
+    \textbf{Discipline} : Acoustique
+    \medskip
 
-\def\@doctorat{Doctorat}
-\newcommand{\doctorat}[1]{
-  \def\@doctorat{#1}
-}
+    \noindent
+    \textbf{Unité de recherche} : UMRAE, Ifsttar
+    \medskip
 
-\def\@adresse{Adresse}
-\newcommand{\adresse}[1]{
-  \def\@adresse{#1}
-}
+    \noindent
+    Soutenue le %TODO: put your date of defense here.
+  \end{minipage}
 
-%\def\@directeur{directeur}
-%\newcommand{\directeur}[1]{
-%  \def\@directeur{#1}
-%}
-%
-%\def\@encadrant{encadrant}
-%\newcommand{\encadrant}[1]{
-%  \def\@encadrant{#1}
-%}
-\def\@jurya{}{}{}
-\newcommand{\jurya}[3]{
-  \def\@jurya{#1,	& #2	& #3\\}
-}
-\def\@juryb{}{}{}
-\newcommand{\juryb}[3]{
-  \def\@juryb{#1,	& #2	& #3\\}
-}
-\def\@juryc{}{}{}
-\newcommand{\juryc}[3]{
-  \def\@juryc{#1,	& #2	& #3\\}
-}
-\def\@juryd{}{}{}
-\newcommand{\juryd}[3]{
-  \def\@juryd{#1,	& #2	& #3\\}
-}
-\def\@jurye{}{}{}
-\newcommand{\jurye}[3]{
-  \def\@jurye{#1,	& #2	& #3\\}
-}
-\def\@juryf{}{}{}
-\newcommand{\juryf}[3]{
-  \def\@juryf{#1,	& #2	& #3\\}
-}
-\def\@juryg{}{}{}
-\newcommand{\juryg}[3]{
-  \def\@juryg{#1,	& #2	& #3\\}
-}
-\def\@juryh{}{}{}
-\newcommand{\juryh}[3]{
-  \def\@juryh{#1,	& #2	& #3\\}
-}
-\def\@juryi{}{}{}
-\newcommand{\juryi}[3]{
-  \def\@juryi{#1,	& #2	& #3\\}
-}
-\def\@directeur{}{}{}
-\newcommand{\directeur}[3]{
-  \def\@directeur{#1,	& #2	& #3\\}
-}
-\def\@encadranta{}{}{}
-\newcommand{\encadranta}[3]{
-  \def\@encadranta{#1,	& #2	& #3\\}
-}
-\def\@encadrantb{}{}{}
-\newcommand{\encadrantb}[3]{
-  \def\@encadrantb{#1,	& #2	& #3\\}
-}
-\makeatother
+  % Elastic spacing with weight 1
+  \vspace{\stretch{1}}
 
-%\newcommand\BackgroundPic{%
-%	\put(0,0){%
-%		\parbox[b][\paperheight]{\paperwidth}{%
-%			\includegraphics[height=0.45\paperheight]{./figures/logo/barre.png}%
-%			\vfill
-%		}
-%	}
-%}
+  \begin{center}
+    \scshape\color{titlecolor}%
+    {\LARGE\bfseries\thesisTitle\bigskip}
+    % TODO: you may want to change font size above (and below) according to text length.
 
-\makeatletter
-\newcommand{\pagedegarde}{
-\newgeometry{top=2.5cm, bottom=1cm, left=2cm, right=1cm}
-%\AddToShipoutPicture*{\BackgroundPic}
-%\AddToShipoutPicture*{\EtiquetteThese}
-  \begin{titlepage}
-  \centering
-      %\includegraphics[width=0.4\textwidth]{ParisTech-Institute.pdf}
-      %\hfill
-      %\includegraphics[width=0.2\textwidth]{Mines.pdf}\\
-    %\vspace{1cm}
-      {\Large \@ED}\\
-    %\vspace{1cm}
-      {\huge 
-      	{\bfseries \@doctorat}\\
-    \vspace{0.5cm}
-      	TH\`{E}SE}\\
-    \vspace{1cm}
-   		{\bfseries pour obtenir le grade de docteur délivré par}\\
-    \vspace{1cm}
-    	{\huge\bfseries \@ecole}\\
-    \vspace{0.5cm}
-    	{\Large{\bfseries Spécialité doctorale ``\@specialite''}}\\
-    \vspace{2cm}
-    	\textit{présentée et soutenue publiquement par}\\
-    \vspace{0.5cm}
-    	{\Large {\bfseries \@author}} \\
-    \vspace{0.5cm}
-    	le \@date \\
-    \vfill
-       {\LARGE \color[rgb]{0,0,1} \bfseries{\@title}} \\
-%    \vfill
-%        Directeur de thèse : {\bfseries \@directeur}\\
-%        Co-encadrant de thèse : {\bfseries \@encadrant}\\
-    \vfill
-	\begin{tabular}{>{\bfseries}lll}
-		\large Jury\\
-		\@jurya
-		\@juryb
-		\@juryc
-		\@juryd
-		\@jurye
-		\@juryf
-		\@juryg
-		\@juryh
-		\@juryi
-		\@directeur
-		\@encadranta
-		\@encadrantb
-	\end{tabular}
-	\vfill
-	
-	\@adresse
-  \end{titlepage}
+    %{\large Thesis subtitle}
+    % TODO: Replace text above by your subtitle.
+    % If you have none, remove it, and the \bigskip too.
+  \end{center}
 
-\restoregeometry  
-}
+  % Elastic spacing with weight 2
+  \vspace{\stretch{2}}
 
-\author{Jean-Rémy \textsc{Gloaguen}}
-\title{Titre qui démontre l'intérêt et l'approche novateur de mon super travail}
-\ED{\'{E}cole doctorale \no XXX : Sciences Pour l'Ingénieur}
-\doctorat{Doctorat \'Ecole Centrale de Nantes}
-\specialite{Acoustique}
-\date{\today}
-\jurya{Mme./M. Prénom Nom}{Professeur, Etablissement}{Rapporteur}
-\juryb{Mme./M. Prénom Nom}{Professeur, Etablissement}{Rapporteur}
-\juryc{Mme./M. Prénom Nom}{Chargé de recherche, Etablissement}{Examinateur}
-\juryd{Mme./M. Prénom Nom}{Chargé de recherche, Etablissement}{Examinateur}
-\directeur{M. Jean-François Petiot}{Professeur, \'Ecole Centrale de Nantes}{Directeur de thèse}
-\encadranta{M. Arnaud Can}{Chargé de recherche, UMRAE}{Encadrant}
-\encadrantb{M. Mathieu Lagrange}{Chargé de recherche, LS2N}{Encadrant}
-\ecole{l'\'{E}cole Centrale de Nantes}
-\adresse{
-	\textbf{Ifsttar Nantes\\ Unité Mixte de Recherche en Acoustique Environnementale (UMRAE)}\\	UMR Nantes, France
-}
+  %TODO: replace with your jury.
+  \noindent
+  \begin{tabular}{llll} % use {@{}llll@{}} to remove left and right spaces 
+    \multicolumn{4}{c}{\scshape\color{teal}\Large Jury} \\[10pt]
+    Rapporteurs & Name \textsc{Surname} & Rank & Affiliation\\
+                & Name \textsc{Surname} & Rank & Affiliation \\[10pt]
+    Examinateurs & Name \textsc{Surname} & Rank & Affiliation
+    \\
+                & Name \textsc{Surname} & Rank & Affiliation \\
+                & Name \textsc{Surname} & Rank & Affiliation \\[10pt]
+    Directeur de thèse & Jean-François \textsc{Petiot} & Professeur des Universités & LS2N, École Centrale de Nantes \\
+    Encadrants de thèse & Arnaud \textsc{Can} & Chargé de recherches & UMRAE, Ifsttar \\
+     & Mathieu \textsc{Lagrange} & Chargé de recherches & LS2N, École Centrale de Nantes 
+  \end{tabular}
+\end{cover}

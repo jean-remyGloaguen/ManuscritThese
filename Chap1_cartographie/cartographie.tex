@@ -239,13 +239,13 @@ dans le cas du trafic routier, s'il existe des endroits où celui-ci est quasime
 Dans \cite{Mioduszewski}, la réalisation de mesures par 40 stations fixes durant 1 an révèle que les niveaux sonores mesurés sont supérieurs à ceux prédits par les modèles prédictifs. Une part de cette surestimation provient de la prise en compte des bruits qui ne sont pas relatifs au trafic  mais aussi des modèles prédictifs qui ne permettent pas d'inclure les bruits provoqués par des véhicules pouvant se garer à proximité des capteurs. Ces travaux révèlent donc la nécessité à générer des outils adaptés à l'étude des mesures et enregistrements faits en villes. 
 
 
-\section{Estimation du niveau sonore du trafic routier à partir de mesures}
+\chapter{Estimation du niveau sonore du trafic routier à partir de mesures}
 
-\subsection{Objectifs}
+\section{Objectifs}
 Puisque c'est la source de bruit la plus gênante et principale, nous nous intéressons d'abord à l'estimation du trafic routier à partir d'un réseau de capteurs.
 Appliquer un traitement sur le signal d'enregistrement (44,1 kHz en format wav).
 
-\subsection{Protocole expérimental}
+\section{Protocole expérimental}
 
 Extraire le trafic routier par des méthodes de séparation de sources, d'autre méthodes existent mais on retient celle là pour des raisons explicité plus tard
 
@@ -258,16 +258,6 @@ Extraire le trafic routier par des méthodes de séparation de sources, d'autre 
 
 Pour cela, l'utilisation d'enregistrement n'est pas possible puisque le niveau sonore du trafic réel est l'inconnu qu'on cherche. Dans le cas où il n'y a que du trafic, l'estimation fournie par la méthode peut être comparé mais quid des scènes sonores où le trafic n'est pas prépondérant et que d'autres sources sonores recouvrent cette composante ?
 Le choix est donc fait d'appliquer la méthode de séparation de sources sur des scènes sonores simulées le plus réaliste possible. Cet aspect réaliste est primordiale afin de donner un sens et une validité aux résultats émis par la méthode.\\
-
-
-Deux corpus de son sont construits. Le premier \textit{Ambiance} consiste en un ensemble de 6 sous-corpus où chaque sous-corpus mélange une composante \textit{trafic} avec une classe de son spécifique. Ces 6 classes de sons sont : \textit{alerte} (\textit{klaxon, sirène}), \textit{animaux} (\textit{sifflement d'oiseaux, aboiement de chien}), \textit{climat} (\textit{pluie, vent, orage}), \textit{humains} (\textit{voix humaine}), \textit{mécanique} (\textit{bruit métallique, ventilation}), \textit{transport} (\textit{trains, avion, tramway}). Pour chaque corpus, le niveau sonore du trafic est calibré suivant le niveau sonore de la classe de sons (appelée \textit{interférant} telle que rapport entre le niveau sonore en dB du signal \textit{trafic} et du signal \textit{interférant} (appelé $TIR$ pour \textit{traffic Interfering Ratio} en anglais) soit fixé : $TIR \in \lbrace$ -12 -6 0 6 12 $\rbrace$ dB avec 
-
-\begin{equation}
-TIR = L_{eq,trafic} - L_{eq,interférant}.
-\end{equation}
-
-Lorsque $TIR < 0$ dB, le signal trafic est plus faible que le signal interférant, à l'inverse lorsque $TIR>0$, le trafic devient la classe sonore prépondérante.
-Le second corpus est composé à partir d'annotations d'enregistrement sonore réalisée en ville. 
 
 
 Les scènes sonores étant simulée, un contrôle total des classes sonores présentes et de leur niveau sonore est alors possible. Les niveaux sonores exacte en dB sur la globalité de la scène pour chaque classe de son est ensuite disponible, dont le trafic, $L_{eq,trafic}$. En appliquant la méthode de séparation, la composante trafic est extraite du signal et son niveau sonore, $\tilde{L}_{eq,trafic}$, est estimé. La figure \ref{fig:diagramBlocProtocol}.

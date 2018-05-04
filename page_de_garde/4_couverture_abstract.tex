@@ -1,0 +1,72 @@
+\begin{cover}
+	\cleardoublepage
+
+  \AddToShipoutPictureBG*{%
+    \begin{tikzpicture}[x=\paperwidth,y=\paperheight]
+      % Background common to front and back:
+      \tikzBG{}
+      % Only on back cover:
+      \path [fill=boxcolor3] (.49048,.037037) rectangle (.9048,.08081) node at (.69764,.05892) {\scshape\Large\color{white} Université Bretagne Loire};
+    \end{tikzpicture}%
+  }
+
+  % Back cover margins (different from front cover)
+  \newgeometry{left=1.4cm, right=2.1cm, top=6.6cm, bottom=2.6cm}
+
+  % Name
+  \noindent\textcolor{gray}{\LARGE \firstName{} \textsc{\surname}}
+  
+  \vspace{6pt}
+
+  % Titles
+  \begin{center}
+    \begin{minipage}[c]{.75\linewidth}
+      \large\color{gray}\bfseries
+      \thesisTitle
+      
+      \vspace{18pt}
+
+      \noindent Traffic sound level estimation of source of interests inside urban sound mixture: application to the traffic sound level
+
+    \end{minipage}
+  \end{center}
+  \vspace{20pt}
+
+  \begin{multicols}{2}
+    \noindent\textbf{\large Résumé}
+    \medskip
+    
+	texte
+	
+    \small\noindent 
+    \bigskip
+
+    \noindent
+    \textbf{Mots-clefs}
+    \smallskip
+
+    \noindent 
+    keyword1 ; keyword2 ; keyword3 ; \dots{} ; final keyword.
+
+    % Go to next column
+    \columnbreak
+
+    \noindent
+    \textbf{\large Abstract}
+    \medskip
+	
+	text    
+    
+    \noindent 
+    \bigskip
+
+    \noindent
+    \textbf{Keywords}
+    \smallskip
+
+    \noindent %TODO: put your English keywords here.
+    % Suggested format:
+    keyword1; keyword2; keyword3; \dots{}; final keyword.
+    
+  \end{multicols}
+\end{cover}
