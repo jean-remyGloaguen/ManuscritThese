@@ -169,11 +169,6 @@ L'inconvénient de ces méthodes est qu'elle ne permettent pas la réalisation d
 En conséquence, plusieurs travaux se sont intéressés à l'agrégation des mesures mobiles à des mesures réalisées par des stations fixes.
 \cite{morillas2014uncertainty} s'intéresse aux incertitudes sur l'estimation des niveaux sonores estimés suivant le nombre de points ou de jours de mesures. Dans \cite{can2014measurement}, la prise en compte de mesures mobiles pour compléter des stations fixes est comparé à des méthodes d'interpolation (méthode de Kriging , pondération inverse de la distance). Il en résulte que l'apport des mesures mobiles diminue l'erreur produite par rapport aux méthodes d'interpolation en cela qu'elles permettent d'apporter plus d'informations quant aux variations spatiales du niveau sonore (rues calmes peu fréquentées, rues très passantes, aux abords d'intersections\dots) ce que ne permet pas une méthode d'interpolation numérique. \cite{aumond2018kriging} 
 
-
-\subsection{Mesures participatives}
-
-Enfin, la participation des citadins peut être sollicitée aux travers de mesures participatives. Celles-ci peuvent se réaliser en équipant les personnes de dispositifs spécifiques \cite{aumond2017study} ou bien à partir d'applications développées pour smartphones. Profitant de la démocratisation de ces appareils et de l'augmentation de leurs performances, ces applications leur permettent d'avoir un dispositif suffisamment performant pour mesurer les niveaux sonores. Cette approche permet surtout d'obtenir un plus grand nombre de mesures qui ont le plus souvent une distribution spatiale et temporelle plus aléatoire mais qui sont aussi effectuées moins régulièrement. L'utilisation de ces mesures est toutefois encore sujet à caution puisque de nombreux problèmes sont encore à résoudre comme la calibration et la prise en compte des performances des microphones dans les faibles et forts niveaux sonores ou bien qualité de la réalisation de la mesure faite par l'utilisateur\dots{} Dans ce cas, le traitement statistique des résultats est primordial afin de détecter les mesures incongrues pour ne pas les considérer \cite{guillaume2016noise}. Plusieurs applications ont été dévelopées comme \textit{NoiseSpy} \cite{kanjo_noisespy_2010} ou \textit{Ambicity} \cite{ventura2017estimation}. On peut également relever le projet \textit{Noise Planet}\footnote{\url{http://noise-planet.org}} qui a pour objectif de proposer un outil libre et gratuit pour évaluer le bruit de l'environnement sonore. Il comprend une application pour smartphone, \textit{NoiseCapture} \cite{guillaume2016noise}, qui permet, là aussi, à l'utilisateur d'évaluer les niveaux sonores l'entourant tout en ayant la possibilité de décrire, à l'aide de mots-clés prédéfinis, les sons présents et l'ambiance sonore de la scène. La géo-localisation et les mesures sont ensuites collectées puis traitées pour produire des cartes de bruits, publiées en ligne (voir Figure \ref{fig:carte_noiseModelling}). En plus de collecter plus de données, ces applications permettent également de sensibiliser le citadin à son environnement sonore.\\ 
-
 \begin{figure}[t]
 \begin{center}
     \begin{minipage}[t]{0.3\textwidth}
@@ -192,6 +187,9 @@ Enfin, la participation des citadins peut être sollicitée aux travers de mesur
 \end{center}
 \end{figure}
 
+\subsection{Mesures participatives}
+
+Enfin, la participation des citadins peut être sollicitée aux travers de mesures participatives. Celles-ci peuvent se réaliser en équipant les personnes de dispositifs spécifiques \cite{aumond2017study} ou bien à partir d'applications développées pour smartphones. Profitant de la démocratisation de ces appareils et de l'augmentation de leurs performances, ces applications leur permettent d'avoir un dispositif suffisamment performant pour mesurer les niveaux sonores. Cette approche permet surtout d'obtenir un plus grand nombre de mesures qui ont le plus souvent une distribution spatiale et temporelle plus aléatoire mais qui sont aussi effectuées moins régulièrement. L'utilisation de ces mesures est toutefois encore sujet à caution puisque de nombreux problèmes sont encore à résoudre comme la calibration et la prise en compte des performances des microphones dans les faibles et forts niveaux sonores ou bien qualité de la réalisation de la mesure faite par l'utilisateur\dots{} Dans ce cas, le traitement statistique des résultats est primordial afin de détecter les mesures incongrues pour ne pas les considérer \cite{guillaume2016noise}. Plusieurs applications ont été dévelopées comme \textit{NoiseSpy} \cite{kanjo_noisespy_2010} ou \textit{Ambicity} \cite{ventura2017estimation}. On peut également relever le projet \textit{Noise Planet}\footnote{\url{http://noise-planet.org}} qui a pour objectif de proposer un outil libre et gratuit pour évaluer le bruit de l'environnement sonore. Il comprend une application pour smartphone, \textit{NoiseCapture} \cite{guillaume2016noise}, qui permet, là aussi, à l'utilisateur d'évaluer les niveaux sonores l'entourant tout en ayant la possibilité de décrire, à l'aide de mots-clés prédéfinis, les sons présents et l'ambiance sonore de la scène. La géo-localisation et les mesures sont ensuites collectées puis traitées pour produire des cartes de bruits, publiées en ligne (voir Figure \ref{fig:carte_noiseModelling}). En plus de collecter plus de données, ces applications permettent également de sensibiliser le citadin à son environnement sonore.\\ 
 
 \begin{figure}[t]
 \centering
@@ -203,16 +201,15 @@ Enfin, la participation des citadins peut être sollicitée aux travers de mesur
 
 \section{De l'extraction d'informations des mesures}
 
-Là où l'approche par modèles prédictifs suppose l'utilisation de modèles d'émissions sonores pour chaque source, l'utilisation de mesures acoustiques, dans le cadre de l'étude des ESU, permet : 
+Là où l'approche par modèles prédictifs suppose l'utilisation de modèles d'émissions sonores pour chaque source, l'utilisation de mesures acoustiques, dans le cadre de l'étude des ESU, permettrait : 
+
 \begin{itemize}
 \item d'estimer la contribution \textit{in situ} du trafic routier pour, au minimum, valider les modèles des prédiction de bruit de trafic ou, au mieux, pouvoir estimer le niveau sonore du trafic plus précisément et finement,
 \item de considérer l'ensemble des sources sonores présentes afin de caractériser les ESU dans leur globalité,
 \item et de s'orienter vers la cartographie multi-sources par l'estimation des contributions de sources sonores spécifiques pour ainsi mieux considérer la perception du citadin.\\
 \end{itemize}
 
-Toutefois, comme tout signal mesuré, il est nécessaire de disposer d'outils adaptés afin d'y déterminer les informations utiles.
-
-En effet, l'ESU est un milieu complexe composé d'une multitude de sources variées (trafic routier, voix, oiseaux, klaxon, bruit de pas\dots). Ces sources ont des allures temporelles différentes parfois brèves (le retentissement d'un klaxon) ou longues (le passage d'une voiture) ainsi que des allures spectrales variées (dans les basses fréquences pour le trafic, dans les hautes fréquences pour le sifflement des oiseaux), voir Figure \ref{fig:sourceUrbain}. L'ensemble de ces sources est aussi susceptible d'être généré simultanément. La création d'outils adaptés à cet environnement pour reconnaitre ou détecter des sources spécifiques n'est donc pas triviale. Par exemple, dans le cas du trafic routier, s'il existe des endroits où celui-ci est prépondérant sur les autres sources sonores (périphérique, grand boulevard), il peut l'être moins dans d'autres lieux (dans des rues calmes, au niveau de parc) où ce sont d'autres sources sonores qui sont majoritairement présentes (voix, oiseaux \dots). Considérer l'ensemble des mesures et des enregistrements réalisés en ville sans distinction particulière entre les sources peut donc mener à de mauvaises estimations du temps de présence ou de son niveau sonore et donc à de mauvaises interprétations. 
+Toutefois, comme tout signal mesuré, il est nécessaire de disposer d'outils adaptés afin d'y déterminer les informations utiles. En effet, l'ESU est un milieu complexe composé d'une multitude de sources variées (trafic routier, voix, oiseaux, klaxon, bruit de pas\dots). Ces sources ont des allures temporelles différentes parfois brèves (le retentissement d'un klaxon) ou longues (le passage d'une voiture) ainsi que des allures spectrales variées (dans les basses fréquences pour le trafic, dans les hautes fréquences pour le sifflement des oiseaux), voir Figure \ref{fig:sourceUrbain}. L'ensemble de ces sources est aussi susceptible d'être généré simultanément. La création d'outils adaptés à cet environnement pour reconnaitre ou détecter des sources spécifiques n'est donc pas triviale. Par exemple, dans le cas du trafic routier, s'il existe des endroits où celui-ci est prépondérant sur les autres sources sonores (périphérique, grand boulevard), il peut l'être moins dans d'autres lieux (dans des rues calmes, au niveau de parc) où ce sont d'autres sources sonores qui sont majoritairement présentes (voix, oiseaux \dots). Dans \cite{Mioduszewski}, la réalisation de mesures par 40 stations fixes durant 1 an révèle que les niveaux sonores mesurés sont supérieurs à ceux estimés par les modèles prédictifs de bruit de trafic routier. Une part de cette surestimation provient de la prise en compte des bruits qui ne sont pas relatifs au trafic  mais aussi des modèles prédictifs qui ne permettent pas de considérer l'ensemble des variations sonores des véhicules. Ses travaux révèlent donc la nécessité de générer un outil adapté à l'étude des mesures et enregistrements faits en villes pour y extraire les contributions et les niveaux sonores des sources présentes en villes. Considérer l'ensemble des mesures et des enregistrements réalisés en ville sans distinction particulière entre les sources peut donc mener à de mauvaises estimations du temps de présence ou de son niveau sonore et donc à de mauvaises interprétations.\\
 
 \begin{figure}[t]
 \centering
@@ -224,13 +221,10 @@ En effet, l'ESU est un milieu complexe composé d'une multitude de sources vari�
 \label{fig:sourceUrbain}
 \end{figure}
 
-
-Dans \cite{Mioduszewski}, la réalisation de mesures par 40 stations fixes durant 1 an révèle que les niveaux sonores mesurés sont supérieurs à ceux estimés par les modèles prédictifs. Une part de cette surestimation provient de la prise en compte des bruits qui ne sont pas relatifs au trafic  mais aussi des modèles prédictifs qui ne permettent pas d'inclure les bruits provoqués par des véhicules pouvant se garer à proximité des capteurs. Ses travaux révèlent donc la nécessité de générer un outil adapté à l'étude des mesures et enregistrements faits en villes pour y extraire les contributions et les niveaux sonores des sources présentes en villes.\\
-
 En conséquence, les travaux de cette thèse cherchent à répondre à ces questions : 
 \begin{itemize}
 \item \textbf{Comment déterminer le niveau sonore des sources en villes ?}
-\item \textbf{Quelles sont les méthodes disponibles pour réaliser cette tâches ?}
+\item \textbf{Quelles sont les méthodes disponibles pour réaliser cette tâches ? Quel est l'outil le plus adapté à cet environnement parmi ces méthodes ?}
 \item \textbf{Quel protocole expérimental mettre en oeuvre pour tester et valider les performances de ces outils ?}
 \end{itemize}
 
@@ -238,49 +232,53 @@ En conséquence, les travaux de cette thèse cherchent à répondre à ces quest
 \section{Estimation du niveau sonore du trafic routier à partir de mesures}
 
 \subsection{Objectifs}
-Étant la source principale de bruit en ville ainsi que la plus gênante, le trafic routier sera la source d'intérêt qui sera principalement étudié. 
+Étant la source principale de bruit en ville ainsi que la plus gênante, le trafic routier sera la source d'intérêt qui sera principalement étudié. Le principe générale est résumé en Figure \ref{fig:estimateur0} : à partir d'un enregistrement audio (en format wav et de fréquence d'échantillonnage 44,1 kHz), un outil, appelé \textit{estimateur}, détermine le niveau sonore du trafic routier $\tilde{L}_{eq,trafic}$.
 
-nous nous intéressons à l'estimation du niveau sonore du trafic routier à partir d'enregistrements sonores.
-Cette problématique non traitée va consister à appliquer une méthode de 
-Appliquer un traitement sur le signal d'enregistrement (44,1 kHz en format wav).
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\linewidth]{./figures/NMF/bloc_diagram_estimateur0.pdf}
+\caption{Diagramme bloc de l'approche proposée.}
+\label{fig:estimateur0}
+\end{figure}
+
+L'objectif est donc de construire cet estimateur et un protocole expérimental adéquat afin d'obtenir la meilleure estimation possible du niveau sonore du trafic.
 
 \subsection{Protocole expérimental}
 
-Extraire le trafic routier par des méthodes de séparation de sources, d'autre méthodes existent mais on retient celle là pour des raisons explicité plus tard
+Si plusieurs études se sont déjà intéressées au trafic routier au sein d'environnements sonores urbains (reconnaissance du bruit de véhicule \cite{defreville_automatic_2006}, estimation du débit véhicule \cite{torija2012using}, détection des accidents \cite{harlow2001automated}, estimation des trajectoires \cite{leiba2017large}), la détermination de son niveau sonore a pour l'instant été très peu étudiée. On peut citer récemment les travaux réalisé au sein du projet DYNAMAP \cite{socoro2017anomalous}. Leur approche consiste à entrainer une méthode de détection en vue d'estimer les évènements qui n'appartiennent pas à la classe de son \textit{trafic} afin de ne pas les considérer lors de l'estimation des niveaux sonores. Ici, l'approche choisie est différente : l'estimateur du niveau sonore du trafic routier s'appuie sur une méthode de séparation de sources afin d'extraire l'intégralité de la composante \textit{trafic} des enregistrements audio parmi les autres sources sonores présentes (voir Figure \ref{fig:separation_source}). De cette extraction, le niveau sonore trafic $\tilde{L}_{eq,trafic}$ est calculé.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.7\linewidth]{./figures/NMF/bloc_diagram_source_separation.pdf}
-\caption{Diagramme bloc de l'approche par séparation de sources.}
+\caption{Diagramme en bloc de l'approche par séparation de sources.}
+\label{fig:separation_source}
 \end{figure}
 
-
-Pour cela, l'utilisation d'enregistrement n'est pas possible puisque le niveau sonore du trafic réel est l'inconnu qu'on cherche. Dans le cas où il n'y a que du trafic, l'estimation fournie par la méthode peut être comparé mais quid des scènes sonores où le trafic n'est pas prépondérant et que d'autres sources sonores recouvrent cette composante ?
-Le choix est donc fait d'appliquer la méthode de séparation de sources sur des scènes sonores simulées le plus réaliste possible. Cet aspect réaliste est primordiale afin de donner un sens et une validité aux résultats émis par la méthode.\\
-
-
-Les scènes sonores étant simulée, un contrôle total des classes sonores présentes et de leur niveau sonore est alors possible. Les niveaux sonores exacte en dB sur la globalité de la scène pour chaque classe de son est ensuite disponible, dont le trafic, $L_{eq,trafic}$. En appliquant la méthode de séparation, la composante trafic est extraite du signal et son niveau sonore, $\tilde{L}_{eq,trafic}$, est estimé. La figure \ref{fig:diagramBlocProtocol}.
+Une question reste toutefois à résoudre : comment, à partir d'enregistrements audio, être certain que l'estimateur donne une valeur correcte du niveau sonore du trafic ? Dans le cas où il n'y a que du trafic, l'estimation fournie par la méthode peut être facilement comparée mais quid des scènes sonores où le trafic n'est pas prépondérant et est recouvert par d'autres sources sonores ? La valeur exacte du trafic, $L_{eq,trafic}$, est l'inconnue qu'on cherche justement à déterminer. Sans cette valeur de référence, il est impossible de comparer la valeur déterminée et ainsi la validité et les performances de l'estimateur.
+Le choix est donc fait d'utiliser des corpus de scènes sonores issus d'un processus de simulation où un contrôle total des classes sonores présentes, ainsi que de leur niveau sonore, est alors possible. La valeur exacte, $L_{eq,trafic}$, est alors obtenue. La figure \ref{fig:diagramBlocProtocol} résume le schéma global du procédé suivi.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.7\linewidth]{./figures/NMF/Bloc_diagram_estimateur_FR.pdf}
-\caption{Diagramme bloc du protocol expérimental.}
+\caption{Diagramme bloc du protocole expérimental.}
 \label{fig:diagramBlocProtocol}
 \end{figure}
 
+Se pose alors la question du niveau sonore calculé par scène : choisit-on un niveau sonore à court-terme toutes les 125 ms ? toutes les secondes ? toutes les minutes ? pondéré $A$ ? Aux vues de l'utilisation de cet estimateur qui est faite (meilleur estimation de la contribution du trafic, amélioration de la cartographie des cartes de bruits en ville), le choix est fait de choisir une durée adaptée à cet outil et ainsi de calculer le niveau sonore du trafic chaque minute, $\L_{eq,trafic,60s}$. Enfin, on ne  considère aucune pondération afin de se focaliser sur une estimation physique du niveau \textit{trafic}.\\
 
-Une métrique est alors choisie pour déterminer l'erreur moyenne produite sur un ensemble de $M$ scènes testés. Parmi les différentes métrique possible (somme des carrés des résidus $SCR$, racine de l'erreur quadratique moyenne $RMSE$), l'erreur absolue moyenne, $MAE$ (pour \textit{Mean Absolute Error}) est retenue,  
+Les niveaux sonores exactes et estimés, produits sur un ensemble de $M$ scènes testés, sont ensuite comparés à travers un calcul de métrique. Parmi les différentes métriques possibles (somme des carrés des résidus, la racine de l'erreur quadratique moyenne $RMSE$ \dots), l'erreur absolue moyenne, $MAE$ (pour \textit{Mean Absolute Error}) est retenue : 
 
 \begin{equation}
-MAE = \frac{\sum_{i = 1}^{M} \vert L_{eq, trafic}^i - \tilde{L}_{eq, trafic}^i \vert}{M}.
+MAE = \frac{\sum_{i = 1}^{M} \vert L_{eq, trafic, 60s}^i - \tilde{L}_{eq, trafic, 60s}^i \vert}{M}.
 \end{equation}
 
-Contrairement à l'erreur RMSE, qui revient à la racine carré de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui défie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité.\\
+Contrairement à l'erreur RMSE, qui revient à la racine carré de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité.\\
 
-Ces travaux se concentre sur l'estimation du signal du trafic routier tant elle est la source de bruit principale et la plus gênante. Toutefois, l'estimation d'autre signaux acoustique en ville est naturellement possible à partir de mesures acoustiques ou d'enregistrements en vue de détecter d'autres classes de sons spécifiques ou à l'étude plus générale de l'ESU.
-
-
-
+Les questions à résoudre sont alors : 
+\begin{itemize}
+\item \textbf{Quelle méthode de séparation de sources choisir comme estimateur ?}
+\item \textbf{Comment construire des corpus de scènes sonores urbaines pour tester l'approche proposée ?}
+\end{itemize}
 
 %
 %%\bibliographystyle{unsrt}
@@ -307,13 +305,6 @@ Ces travaux se concentre sur l'estimation du signal du trafic routier tant elle 
 %%
 %%La réalisation de ces cartes visant à diminuer l'exposition des citadins au forts niveaux sonores, les incertitudes provoquées par les différents étapes peuvent entrainer la mise en chantier d'un plan d'action mal adapté à la situation réelle. Mais l'amélioration des cartes, telles qu'elles sont faites actuellement, semble toutefois limité : l'augmentation de la résolution des permettrait bien de corriger certaines erreurs dû aux interpolations mais viendrait à augmenter considérablement les cout de calculs. De plus, ce choix rendrait impossible de mettre à jours les cartes régulièrement pour prendre en compte les fluctuations du trafic à l'échelle de l'année ou même encore durant la journée. En conséquence, à l'heure où les villes s'équipent en réseaux de capteurs (météorologique, qualité de l'air) en vue de devenir des \og villes intelligentes \fg{} (\textit{smart cities} en anglais), il devient possible d'ajouter des capteurs acoustiques afin de s'en servir pour décrire l'environnement sonore urbain. \\
 %
-
-
-%\subsection{Détection d'évènements sonore spécifiques}
-%
-%Plusieurs études se sont intéressées à la détection d'évènements particuliers en lien avec la sécurité. Par exemple, la détection acoustique de la sirène d'une ambulance est envisageable à partir d'un réseaux de capteurs \cite{schroder2013automatic,karpis2012system} ou bien de coups de feu ou d'explosifs \cite{showen1999automatic,simon_sensor_2004}.  
-%Pour aller plus loin, \cite{foggia_audio_2016} propose de coupler des capteurs acoustiques à des caméra vidéo afin de faciliter la détection d'accident de la route. 
-
 
 
 %\subsection{Cartographie des ESU}

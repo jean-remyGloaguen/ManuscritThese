@@ -33,7 +33,7 @@ où $x_i(t)$ est le signal capté à l'instant $t$ au point $i$, $a_{ij}$, le fi
 La possibilité d'isoler une composante sonore d'un signal audio est une question étudiée depuis près de 30 ans. De ces recherches, plusieurs méthodes et approches ont émergés qui diffèrent selon les hypothèses faites sur les sources. On propose dans ce chapitre de présenter certaines des méthodes les plus couramment utilisées. 
 
 \section{Analyse de Scènes Auditives Computationnelle}
-L'Analyse de Scènes Audio Computationnelle (abrégé CASA pour \textit{Computational Auditory Scene Analysis} en anglais) est une des premières techniques numériques cherchant à séparer les différentes sources composant un signal. Elle fut proposée par Brown \cite{brown1994computational} et se base sur la simulation de la réponse auditive d'un humain.
+L'Analyse de Scènes Audio Computationnelle (abrégé CASA pour \textit{Computational Auditory Scene Analysis} en anglais) est une des premières techniques numériques cherchant à séparer les différentes sources composant un signal. Elle fut proposée par Brown \cite{brown1994computational} et se base sur la simulation de la réponse auditive humaine.
 La CASA construit son modèle sur l'architecture de l'oreille et se décompose en 4 parties \cite{wang2006computational} : 
 
 \begin{itemize}
@@ -50,7 +50,7 @@ La CASA construit son modèle sur l'architecture de l'oreille et se décompose e
 \item Un masquage binaire temps-fréquence est ensuite construit et appliqué sur le spectrogramme initial afin d'isoler les différentes sources sonores.\\
 \end{itemize}
 
-C'est donc une approche \textit{bottom-up} où d'un signal complexe, l'ensemble des sources présentes est déterminée.  Cette méthode est le plus souvent utilisée pour la séparation de signaux de paroles \cite{brown2005separation, shao2010computational} ou de musique \cite{martin1998toward}, c'est-à-dire d'un signal harmonique et n'est donc pas adaptée pour celle de sons environnementaux plus complexes où la présence de contenus harmoniques est quasi inexistante. C'est donc une méthode très peu employée pour ces ambiances sonores.\\
+C'est donc une approche \textit{bottom-up} où d'un signal complexe, l'ensemble des sources présentes est déterminée.  Cette méthode est le plus souvent utilisée pour la séparation de signaux de paroles \cite{brown2005separation, shao2010computational} ou de musique \cite{martin1998toward}, c'est-à-dire d'un signal harmonique et n'est donc pas adaptée pour celle de sons environnementaux plus complexes où la présence de contenus harmoniques est faible. Enfin, CASA, en étant basé sur les fonctionnement de la réponse auditive humaine, n'est pas l'approche la plus adapté afin d'estimer des niveaux physiques de sources sonores urbaines.
 
 
 \section{Algorithme DUET}
