@@ -6,7 +6,7 @@
 %\begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{La factorisation en matrices non-négatives}
-Ce chapitre propose un état de l'art de la factorisation en matrices non-négatives. 
+Ce chapitre propose de détailler le fonctionnement de la factorisation en matrices non-négatives. Les principes généraux sont dans un premier temps détaillés, puis les différentes approches de cette méthode sont explicités.
 
 \section{Principe de la NMF}
 La factorisation en matrice non-négative (abrégé NMF pour \textit{Non-negative Matrix Factorization} en anglais) est une technique d'approximation linéaire visant à décomposer une matrice $\textbf{V}$ non-négative de dimensions $F \times N$ en un produit de deux matrices tel que
@@ -26,7 +26,7 @@ où les caractères minuscules représentent des vecteurs colonne et $n$ est une
 \begin{figure}[t]
 \centering
 \includegraphics[width=.5\textwidth]{./figures/NMF/schema_introduction_nmf.pdf}
-\caption{Exemple d'une NMF pour un signal audio de mixture urbaine composé de 3 sources sonores (dans l'ordre d'apparition klaxon, passage de voiture et oiseaux). $\mathbf{W}$ et $\mathbf{H}$ sont consititués de 3 bases (K = 3).}
+\caption{Exemple d'une NMF pour un signal audio de mixture urbaine composé de 3 sources sonores (dans l'ordre d'apparition klaxon, passage de voiture et oiseaux). $\mathbf{W}$ et $\mathbf{H}$ sont constitués de 3 bases (K = 3).}
 \label{fig:ex_NMF}
 \end{figure}
 
@@ -523,7 +523,7 @@ L'extraction du signal trafic est réalisé à partir de $\mathbf{W_s}$ et de $\
 
 Plusieurs applications de cette méthode on été proposé notamment en séparation de sources pour des signaux musicaux (\cite{smaragdis_supervised_2007}, \cite{duan_online_2012}) ou encore pour du débruitement de signaux comme dans \cite{mysore_non-negative_2011} où ... 
 
-\section{NMF seuillée initialisée}\label{sec:NMF_TI}
+\section{NMF initialisée seuillée}\label{sec:NMF_TI}
 
 Afin de répondre au problème de généralisation de $\mathbf{W}$, une nouvelle approche est proposée où un dictionnaire initial, $\mathbf{W_0}$, appris sur la source sonore ciblée (le trafic routier), est mis à jours en même temps que $\mathbf{H}$. La mise à jour du dictionnaire est ainsi orienté à partir des connaissances connues \textit{a priori} tout en adaptant $\mathbf{W_0}$ à la scène sonore. Cette technique permet de générer un dictionnaire unique pour chaque scène. Après $N$ itérations, un dictionnaire $\mathbf{W'}$ est obtenu. Pour estimer le signal \textit{trafic}, chaque élément de $\mathbf{W'}$, $\mathbf{w'}$, est comparé à son spectre d'origine issu de $\mathbf{W_0}$, $\mathbf{w_0}$, afin de déterminer s'il est encore assimilable à un spectre \textit{trafic}.
 
@@ -592,6 +592,30 @@ avec $\mathbf{\alpha}_{1 \times K} = \left[\alpha_1, \alpha_2 \dots \alpha_K \ri
   \caption{Pondération $\alpha$ appliquée à $\mathbf{W'}$ composé de 100 bases avec pour seuil $t = 0,2$ (seuillage dur) et $t_{f,1} = 0,3$ et $t_{f,2} = 0,15$ (pour le seuillage \textit{firm})}
   \label{fig:seuillage}
 \end{figure}
+
+On résume les différentes étapes de cette étape au travers de l'algorithme
+
+\begin{algorithm}
+\caption{NMF initialisée seuillée}
+\begin{algorithmic} 
+\STATE Initialisation de $\mathbf{W_0}$
+\FOR{i = 1 : nombre itération} 
+	\STATE mise à jours de $\mathbf{W_0}$
+	\STATE mise à jours de $\mathbf{H}$
+\ENDFOR
+\STATE Calcul de la similarité cosinus $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W})$
+\IF{représentation sigmoïde}
+	\STATE $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W}) = \sfrac{1}{\left(1+\exp({-\lambda D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$
+\ENDIF
+
+\IF{seuillage \textit{dur}} 
+	\STATE $\alpha$ définit selon Eq. \ref{eq:seullageDur_def}
+\ELSIF{seuillage \textit{firm}} 
+	\STATE $\alpha$ définit selon Eq. \ref{eq:seuillageFirm_def}
+\ENDIF
+\STATE $\mathbf{W}_{trafic} = \alpha \mathbf{W'}$
+\end{algorithmic}
+\end{algorithm}
 
 
 \section{NMF avec contraintes}\label{part:NMF_contrainte}
