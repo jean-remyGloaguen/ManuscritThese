@@ -1,0 +1,67 @@
+\chapter{Distribution de Tweedie et divergences de Bregman}
+
+
+Les fonctions $\lambda(\theta)$ et $\phi(\mu)$ sont alors considérés comme des fonction conjuguées dual tout comme le paramètre $\theta$ est la conjugué de $\mu$. On a alors comme relations
+
+\begin{equation}\label{eq:mu1}
+\mu(\theta) = \frac{d\lambda(\theta)}{d\theta}
+\end{equation}
+\begin{equation}\label{eq:mu2}
+\theta(\mu) = \frac{d\phi(\mu)}{d\mu}
+\end{equation}
+
+Il est alors possible de relier les paramètre $\theta$ et $\mu$, à travers la fonction de variance $v(\mu)$, 
+
+\begin{equation}
+\frac{d\theta}{d\mu} = v(\mu)^{-1}
+\end{equation}
+
+qui est, elle-même, relié à la variance de la distribution de $x$ par le paramètre de dispersion $\lambda$, 
+
+\begin{equation}
+Var(x) = \lambda v(\mu)
+\end{equation}
+
+Il est alors possible d'exprimer chaque divergence de Bregman sous la forme 
+
+\begin{equation} \label{eq:g_exp}
+p\left(x\vert \theta,\lambda\right) = g(x,\varphi) \exp\left(-\lambda^{-1} d_{\theta}(x,\mu) \right), 
+\end{equation}
+
+où $d_{\theta}(x,\mu)$ est la divergence de Bregman définit par l'équation \ref{eq:Bregdiv}. Un cas remarque de distribution est la distribution de Tweedie \cite{jorgensen_exponential_1987} qui relie la variance à la moyenne (ou espérance) de la distribtion $x$ par une relation polynomiale \cite{yilmaz_alpha/beta_2012}, 
+
+\begin{equation}
+v(\mu) = \mu^{p}.
+\end{equation}
+
+Des relations \ref{eq:mu1} et \ref{eq:mu2}, avec un changement de variable $p = 2-\beta$, la fonction $\phi_{\beta}(\mu)$ est déterminée : 
+
+\begin{subequations}\label{eq:gamma_beta}
+\begin{numcases}{\phi_{\beta}(\mu)=}
+    \frac{\mu^{\beta}}{\beta(\beta-1)}-\frac{\mu}{\beta-1}+\frac{1}{\beta}, & $\beta \in \mathbb{R} \backslash \lbrace 0,1\rbrace$,\label{eq:phi}\\
+    -\log \mu + \mu - 1, & $\beta = 0$,\label{eq:phiIs}\\
+    \mu\log \mu - \mu + 1, & $\beta = 1$.\label{eq:phiKL}
+\end{numcases}
+\end{subequations}
+
+Une distribution gaussienne de moyenne $\mu$ et de variance $\sigma^2$, 
+
+\begin{equation}
+p(x \vert \theta, \lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1}{2} \left(\frac{x-\mu}{\sigma} \right)^2 \right)
+\end{equation}
+
+peut alors s'exprimer sous la forme d'une distribution de Tweedie, avec $\beta$ = 2, $g(x, \lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$ et $\lambda = \sigma^2$. $d_{2}(\mu)$ correspond alors à la distance euclidienne. Le cas $\beta = 1$ fait apparaitre la divergence de Kullback-Liebler et correspond alors à une distribution de Poisson et $\beta = 0$ exprime la divergence d'Itakura-Saïto  dans une distribution Gamma. Ces distances et divergences, déduites de la distribution de Tweedie, sont alors regroupés dans une sous classe des divergences de Bregman, appelée $\beta$-divergences \cite{hennequin_beta-divergence_2011}. C'est cette famille de divergences qui est le plus couramment utilisée dans le cadre de la NMF.\\
+
+Les détails des calculs se trouvent en annexe \ref{annexe:tweedie}.
+
+\subsection{Définition des $\beta$-divergences}
+
+L'application du système \ref{eq:gamma_beta} à l'équation \ref{eq:divBregWise} pour deux valeurs scalaires $x$ et $y$ donne alors 
+
+\begin{subequations}\label{eq:divBetaGenerale}
+\begin{numcases}{d_{\phi_{\beta}}(x\vert y) =}
+    \frac{1}{\beta(\beta-1)}(x^{\beta}+(\beta-1)y^{\beta}-\beta xy^{\beta-1}), & $\beta \in \mathbb{R} \backslash \lbrace 0,1\rbrace$\label{eq:def_beta}\\
+    \dfrac{x}{y}-\log \dfrac{x}{y}-1, & $\beta = 0$,\label{eq:def_divIS}\\
+    x\log \dfrac{x}{y} - x + y, & $\beta = 1$.\label{eq:def_divKL}
+\end{numcases}
+\end{subequations}

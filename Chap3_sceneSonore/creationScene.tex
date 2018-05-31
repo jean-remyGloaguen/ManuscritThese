@@ -34,7 +34,7 @@ Même si les résultats permettent une forte immersion, grâce à la spatialisat
 
 \subsection{Composition de scènes sonores}
 
-Une autre approche pour simuler les environnements sonores urbains, proposée par M. Schafer \cite{schafer1993soundscape}, consiste à les considérer comme la superposition d'évènements sonores distinctifs sur un bruit de fonds sonore continu. Ce processus additif permet alors de créer des mixtures sonores en combinant des sons brefs (de 1 à 20 secondes) à des sons plus long (plusieurs minutes) dont les propriétés acoustiques ne varient pas dans le temps. Le défi est alors de disposer de signaux sonores suffisamment différents pour pouvoir recréer la diversité de cet environnement. Plusieurs outils existent comme le logiciel TAPESTRA \cite{misra_musical_2007} qui se base sur l'extraction de signaux sonores issu d'enregistrements et de leur modulation afin de les insérer dans des mixtures sonores. Les scènes sont alors créées par un processus en trois parties : 
+Une autre approche pour simuler les environnements sonores urbains consiste à les considérer comme la superposition d'évènements sonores distinctifs sur un bruit de fonds sonore continu. Ce processus additif permet alors de créer des mixtures sonores en combinant des sons brefs (de 1 à 20 secondes) à des sons plus long (plusieurs minutes) dont les propriétés acoustiques ne varient pas dans le temps. Le défi est alors de disposer de signaux sonores suffisamment différents pour pouvoir recréer la diversité de cet environnement. Plusieurs outils existent comme le logiciel TAPESTRA \cite{misra_musical_2007} qui se base sur l'extraction de signaux sonores issu d'enregistrements et de leur modulation afin de les insérer dans des mixtures sonores. Les scènes sont alors créées par un processus en trois parties : 
 
 \begin{itemize}
 \item un analyse de phase où des évènements sinusoïdaux, transitoires et le bruit de fond sont séparés d'un enregistrement audio. Les évènements sinusoïdaux sont sélectionnés à partir d'une représentation temps-fréquence du signal. En fixant des fréquences limites et une amplitude seuil, les évènements sont extraits du signal; les régimes transitoires sont extraits à partir des variations d'énergies brusques du signal dans le domaine temporel. Enfin le bruit de fond est le signal résiduel restant après l'extraction des évènements sonores.
@@ -328,7 +328,7 @@ Ces statistiques sont alors utilisées avec une loi de Student pour déterminer 
 \item si $\alpha <$ $p$, l'hypothèse $H_0$ n'est pas considérée comme \textit{vraie} mais on considère qu'il n'y a pas de raison à rejeter $H_0$. Cette nuance provient du fait que cette décision se base sur un nombre limité d'informations (le nombre total d'observations) qui ne permet pas de rejeter totalement l'hypothèse $H_1$.\\
 \end{itemize} 
 
-Par soucis de concision, seul l'ensemble des 20 valeurs $t$ calculé et les boites à moustaches de chaque scène sont résumés dans les Figures  \ref{fig:test-student} et \ref{fig:boxplot_scene}.
+Par soucis de concision, seul l'ensemble des 20 valeurs $t$ calculées et les boites à moustaches de chaque scène sont résumés dans les Figures  \ref{fig:test-student} et \ref{fig:boxplot_scene}.
 
 \begin{figure}[ht]
 \centering
