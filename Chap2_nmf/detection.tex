@@ -9,48 +9,56 @@
 \chapter{Méthode de séparation des sources sonores}
 
 
-Savoir isoler les composantes qui constituent un signal est une question vaste et complexe intervenant dans des domaines variés comme en biologie \cite{}, dans le monde médical \cite{} ou bien encore en télécommunication \cite{}. Dans le domaine de l'audio, cette question intervient alors que la quasi-totalité des sons qui nous entourent sont composé d'une multitude de sources sonores. Le problème se pose mathématiquement comme : 
+Savoir isoler les différentes composantes qui constituent un signal est une question vaste et complexe intervenant dans des domaines variés comme en biologie \cite{chiappetta2004blind}, dans le monde médical \cite{jung2000removing} ou bien encore dans le domaine de l'image \cite{}. En audio, cette question intervient alors que la quasi-totalité des sons qui nous entourent sont composées d'une multitude de sources sonores. En considérant, $N$ sources sonores, pour 1 capteur $i$, le problème de la séparation de source peut se poser comme un problème linéaire inverse : 
 
-\begin{equation}
-x_i(t) = \sum_{j = 1}^{J}\sum_{\tau = -\infty}^{+\infty} a_{ij}(t-\tau,\tau)s_j(t-\tau)
+\begin{equation}\label{eq:BSS}
+x_i(t) = \sum_{j = 1}^{N}\sum_{\tau = 0}^{+\infty} a_{ij}(\tau)s_j(t-\tau)
 \end{equation}
 
-où $x_i(t)$ est le signal capté à l'instant $t$ au point $i$, $a_{ij}$, le filtrage mixant sur la source $j$ au point $i$, et $s_{j}$ la source originale $j$.
-Chacune de ces sources sonores possèdent ses propres caractéristiques acoustiques (intensité, durée, fréquences) et pouvant être simultanées, avoir entre elles des liens de causes à effets ou bien encore avoir été altérée lors de la propagation dans un milieu. 
-Le développement de tels outils permet alors d'éditer, d'analyser ou de modifier les composantes des mixtures sonores, pour ainsi, par exemple : 
+où $x_i(t)$ est un signal capté à l'instant $t$ au point $i$, $s_j(t)$ une source originale $j$ émise à l'instant $t$ et $a_{ij}$, le filtrage mixant de la source $j$ au point $i$. Une seconde approche similaire au problème \ref{eq:BSS} a également été proposée dans \cite{cardoso_blind_1998} : 
+
+\begin{equation}
+x_i(t) = \sum_{n = 1}^{N}c_n(t)
+\end{equation}
+
+qui exprime le signal capté par le microphone $i$ comme la contribution de chacune des sources $n$ modulé par l'environnement. $c_j(t)$, appelé \textit{image spatiale de la source $n$}, s'exprime sous la forme $c_n(t) = (a_{ij} \ast s_j)(t)$.
+Chacune source $s_j$ possède ses propres caractéristiques acoustiques (intensité, durée, fréquences), peut être émise simultanément avec les autres sources ou bien avoir entre elles des liens de causes à effets. 
+L'intérêt de développer des outils de séparation de sources sur de tels mixtures donne la possibilité d'éditer, d'analyser ou de modifier les composantes, avec comme applications, par exemple, 
 
 \begin{itemize}
-\item débruiter la voix pour améliorer la qualité des appareils auditifs,
-\item isoler des instruments de musique pour restaurer des vieux enregistrements de musique,
-\item estimer la présence de sources sonores spécifiques comme les oiseaux dans un environnement.
-\item \dots\\
+\item le débruitage de la voix pour améliorer la qualité des appareils auditifs, 
+\item l'amélioration de la reconnaissance de la voix dans des contenus audio-visuels, 
+\item la transcription des mélodies d'un morceau de musique, 
+\item la restauration de vieux enregistrements 
+\item \dots
 \end{itemize}
 
-De part la variété des sons, c'est donc une tâche complexe qui est à l'étude depuis plus de 30 ans. De ces recherches, plusieurs méthodes et approches ont émergés qui diffèrent selon les hypothèses faites sur les sources. On propose dans ce chapitre de présenter certaines des méthodes les plus couramment utilisées. 
+De part la variété des sons, c'est donc une tâche complexe qui est à l'étude depuis plus de 30 ans. De ces recherches, plusieurs méthodes et approches ont émergés qui diffèrent selon les approches choisies. On propose dans ce chapitre de présenter certaines des méthodes les plus couramment utilisées pour déterminer celle qui est la plus adapté au cas d'étude de la thèse. 
 
 \section{Analyse de Scènes Auditives Computationnelle}
 L'Analyse de Scènes Audio Computationnelle (abrégé CASA pour \textit{Computational Auditory Scene Analysis} en anglais) est une des premières techniques numériques cherchant à séparer les différentes sources composant un signal. Elle fut proposée par Brown \cite{brown1994computational} et se base sur la simulation de la réponse auditive humaine.
-La CASA est inspirée de l'Analyse de Scènes Auditives selon Bregman \cite{bregman1994auditory} qui explore les façons dont le cerveau humain comprend et organise les sons qui l'entoure. L'architecture de la CASA se décompose alors en 4 parties \cite{wang2006computational} : 
+La méthode CASA est inspirée de l'Analyse de Scènes Auditives selon Bregman \cite{bregman1994auditory} qui explore les façons dont le cerveau humain comprend et organise les sons qui l'entourent. L'architecture de la CASA se décompose en 4 parties \cite{wang2006computational} : 
 
 \begin{itemize}
 \item un filtrage cochléaire qui consiste en une suite de filtres passe-bas qui modélisent l'oreille externe et moyenne, et d'un filtre gammatone qui simule les réponses impulsionnelles de chaque cellule ciliée. Le signal obtenu est exprimé, en sortie, au travers d'un cochléogramme.
-\item Une analyse temps-fréquence qui permet au travers différents outils d'augmenter les dimensions du problème et de mettre en évidence la présence de sons harmoniques notamment : 
+\item Une analyse temps-fréquence qui permet, au travers différents outils, d'augmenter les dimensions du problème et de mettre en évidence la présence de sons harmoniques notamment : 
 \begin{itemize}[label=$\bullet$]
-\item une corrélation croisée entre les canaux fréquentiels proches pour faire émerger la présence des formants, 
-\item une corrélation croisée entre les deux canaux des deux oreilles pour localiser la source grâce à leur déphasage,
-\item une fonction d'autocorrélation dans chaque canal pour faire surgir des maximas à des positions correspondant au période d'un son,
+\item la corrélation croisée entre les canaux fréquentiels proches pour faire émerger la présence des formants, 
+\item la corrélation croisée entre les deux canaux des deux oreilles pour localiser la source grâce à leur déphasage,
+\item la fonction d'autocorrélation dans chaque canal pour faire émerger des maximas à des positions correspondant au période d'un son,
 \item un lissage temporel afin de faire apparaitre des phénomènes de modulation,
 \item \dots 
 \end{itemize}
 \item Un groupement de sources qui consiste à ré-organiser les objets élémentaires pour construire les sources sonores en appliquant, par exemple, une contrainte temporelle  sur les représentations spectrales. Ce groupement peut se faire progressivement (CASA de type \textit{data-driven}) ou bien à l'aide de schéma déjà établi (CASA de type \textit{top-down})
-\item Un masquage binaire temps-fréquence qui construit et appliqué sur le spectrogramme initial isole les différentes sources sonores.\\
+\item Un masquage binaire temps-fréquence est enfin construit pour chaque source identifié et est appliqué sur le spectrogramme initial permettant d'isoler les différentes sources sonores.\\
 \end{itemize}
 
-L'utilisation de cette méthodes à des sons environnementaux est très limitée. Des applications dans la reconnaissance de scènes sonores existent \cite{peltonen2002computational} mais sont peu nombreuses. Cette méthode se révèlent surtout apte à extraire des composantes harmoniques et a donc surtout été développée dans le cas des signaux de paroles \cite{ellis1999using, brown2005separation, shao2010computational}. 
+Développée à partir de l'analyse des sons par notre cerveau, la méthode CASA a notamment trouvé des applications dans le domaine de la parole, en cela qu'elle est adaptée pour retrouver des sons harmoniques \cite{ellis1999using, brown2005separation, shao2010computational}. 
+L'utilisation de cette méthode à des sons environnementaux est donc très limitée puisque ces sons sont susceptibles d'être plus bruités. Des applications dans la reconnaissance de scènes sonores existent \cite{peltonen2002computational} mais les applications de cette méthode à ce genre d'environnement sont peu nombreuses. 
 
 \section{Algorithme DUET}
 
-L'algorithme de séparation de sources DUET (\textit{Degenerate Unmixing Estimation Techniques)} est une méthode proposée par \cite{rickard2007duet} qui permet de déterminer $N$ sources sonores d'une mixture sonore à partir du déphasage et de l'atténuation entre les enregistrements de deux microphones $x_1(t)$ et $x_2(t)$. Cette approche se base sur 2 hypothèses : les signaux sont émis dans des conditions anéchoïques et il n'y a pas (ou très peu) de recouvrement fréquentiel entre les $N$ sources sonores $s_j(t)$. Les conditions d'anéchoïcité permettent d'exprimer les 2 signaux captés sous la forme d'un signal exprimé en champ direct, $x_1(t) = \sum_{j = 1}^{N}s_j(t)$, et d'un autre, $x_2(t) = \sum_{j = 1}^{N} a_j s_j(t-\delta_j)$, pondéré par l'atténuation $a_j$ et en déphasage (positif ou négatif) $\delta_j$ avec la condition $\delta_j \leqslant \frac{d_{\mu_1,\mu_2}}{c_0}$ où $d_{\mu_1,\mu_2}$ est la distance entre les microphones et $c_0$ la célérité du son. En raison de la distance entre les microphones et du déphasage entre les signaux, le dispositif limite la fréquence maximale du signal qu'il peut traiter à $f_{max} = \frac{c_0}{2 d_{\mu_1,\mu_2}}$. Le problème s'exprime sous forme matriciel : 
+L'algorithme de séparation de sources DUET (\textit{Degenerate Unmixing Estimation Techniques)} est une méthode proposée par \cite{rickard2007duet} qui permet de déterminer $N$ sources sonores d'une mixture sonore à partir du déphasage et de l'atténuation entre les enregistrements de deux microphones $x_1(t)$ et $x_2(t)$. Cette approche se base sur 2 hypothèses : les signaux sont émis dans des conditions anéchoïques et il n'y a pas (ou très peu) de recouvrement fréquentiel entre les $N$ sources sonores $s_j(t)$. La condition d'anéchoïcité permet d'exprimer les 2 signaux captés sous la forme d'un signal exprimé en champ direct, $x_1(t) = \sum_{j = 1}^{N}s_j(t)$, et d'un autre déphasé, $x_2(t) = \sum_{j = 1}^{N} a_j s_j(t-\delta_j)$, pondéré par l'atténuation $a_j$ et en déphasage (positif ou négatif) $\delta_j$ avec la condition $\delta_j \leqslant \frac{d_{\mu_1,\mu_2}}{c_0}$ où $d_{\mu_1,\mu_2}$ est la distance entre les 2 microphones et $c_0$ la célérité du son. En raison de la distance entre les microphones et du déphasage entre les signaux, le dispositif limite la fréquence maximale du signal qu'il peut traiter à $f_{max} = \frac{c_0}{2 d_{\mu_1,\mu_2}}$. Le problème s'exprime sous forme matriciel : 
 
 \begin{equation}\label{eq:algo-DUET}
 \begin{bmatrix}
@@ -87,20 +95,15 @@ Les différents pics émergeant associés à un couple particulier de $\tilde{a}
 \label{fig:DUET_hist}
 \end{figure}
 
-Une implémentation de cet algrorithme pour une utilisation en temps réel est proposée \cite{rickard2001real}.
+Une implémentation de cet algrorithme, pour une utilisation en temps réel, est proposée \cite{rickard2001real}.
 Afin de s'extraire des conditions strictes imposées par la méthode et de s'approcher d'applications plus réelles, \cite{rickard2007duet} propose de considérer l'ajout d'un terme de bruit à l'équation \ref{eq:algo-DUET} et de déterminer l'\textit{atténuation symétrique} $\alpha_j$ et le \textit{déphasage symétrique} $\delta_j$ de chaque source : 
 
 \begin{equation}
 \alpha_j = \frac{\iint_{(\omega,\tau)} \vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q \alpha(\omega,\tau) d\omega d\tau}{\iint_{(\omega,\tau)}\vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q d\omega d\tau},
 \end{equation}
 
-avec
+avec $\alpha(\omega,\tau) = \bigg\vert \frac{X_2(\omega,\tau)}{X_1(\omega,\tau)} \bigg\vert - \bigg\vert  \frac{X_1(\omega,\tau)}{X_2(\omega,\tau)} \bigg\vert$ et 
 
-\begin{equation}
-\alpha(\omega,\tau) = \bigg\vert \frac{X_2(\omega,\tau)}{X_1(\omega,\tau)} \bigg\vert - \bigg\vert  \frac{X_1(\omega,\tau)}{X_2(\omega,\tau)} \bigg\vert,
-\end{equation}
-
-et 
 \begin{equation}
 \delta_j = \frac{\iint_{(\omega,\tau)} \vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q \tilde{\delta}(\omega,\tau) d\omega d\tau}{\iint_{(\omega,\tau)}\vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q d\omega d\tau},
 \end{equation}
@@ -117,10 +120,10 @@ Ces deux indicateurs dépendent de deux constantes définies, $p$ et $q$ qui per
 Différentes applications basées sur cet algorithme existent notamment pour des signaux de paroles \cite{yilmaz2004blind, jourjine2000blind}.
 Plusieurs développement ont été proposés afin d'étendre l'utilisation de cette méthode : dans  \cite{melia2007underdetermined} plusieurs versions sont décrites et comparées dont la \textit{echoic DESPRIT} qui propose avec $M$ microphones de retrouver $N$ signaux (en supposant que le nombre de chemins empruntés par les signaux est inférieur à $\sfrac{M}{2}$) ou bien, dans la variante \textit{echoic ESPRIT}, que le nombre de sources actives simultanément n'excède pas $\sfrac{M}{2}$. \\
 
-Basé sur une hypothèse d'anéchoïcité, malgré des extensions pour s'affranchir de celle-ci, elle reste peu évidente et adaptée pour un environnement sonore urbain où le champs diffus est prépondérant.
+Basée sur une hypothèse d'anéchoïcité, malgré des extensions pour s'affranchir de celle-ci, elle reste peu évidente et adaptée pour un environnement sonore urbain où le champs diffus est prépondérant.
 
 \section{Analyse en Composantes Indépendantes}
-L'Analyse en Composantes Indépendantes (ACI) \cite{comon_independent_1994, jutten1991blind} est une méthode appartenant aux méthodes dites de \textit{séparation aveugle de sources}, c'est-à-dire qui sépare un ensemble de sources sonores d'une mixture sans (ou avec peu) informations sur celles-ci. L'illustration la plus couramment citée, pour cette méthode, est l'effet \og cocktail party \fg{}. Cet effet résume le processus qui permet à un être humain de séparer la voix de l'interlocuteur, avec qui il discute, du flux sonore environnant composé d'autre discussions, de musique\dots{} Cette habilité est notamment permise par l'indépendance entre le signal \textit{voix} et les autres sources sonores aux alentour ainsi que par l'écoute binaural du sujet. L'ACI se base sur ces hypothèses pour construire son modèle et s'exprime alors sous la forme d'un produit matriciel : 
+L'Analyse en Composantes Indépendantes (ACI) \cite{comon_independent_1994, jutten1991blind} est une méthode appartenant aux méthodes dites de \textit{séparation de sources aveugle}, c'est-à-dire qui sépare un ensemble de sources sonores d'une mixture sans (ou avec peu) informations sur celles-ci. L'illustration la plus couramment citée, pour cette méthode, est l'effet \og cocktail party \fg{}. Cet effet résume le processus qui permet à un être humain de séparer la voix de l'interlocuteur, avec qui il discute, du flux sonore environnant composé d'autre discussions, de musique\dots{} Cette habilité est notamment permise par l'indépendance entre le signal \textit{voix} et les autres sources sonores aux alentour ainsi que par l'écoute binaural du sujet. L'ACI se base sur ces hypothèses pour construire son modèle et s'exprime alors sous la forme d'un produit matriciel : 
 
 \begin{equation}\label{eq:ACI2}
 \mathbf{x} = \mathbf{As}
@@ -138,20 +141,15 @@ De nombreux développements ont été proposés afin d'obtenir une indépendance
 
 \begin{itemize}
 \item la minimisation de l'information mutuelle \cite{hyvarinen97independentcomponent} qui consiste à maximiser un calcul de distance (au travers d'une divergence de Kullback-Leilbler) entre l'entropie de l'ensemble des composantes et d'une composante $i$, 
-\item décorrélation non-linéaire qui consiste à minimiser la corrélation deux composantes $y_i$ et $y_j$ chacune exprimé par une fonction $f(y)$ et $g(y)$ dont au moins une est non-linaire (polynôme de degré 2 ou plus, fonction tangente hyperbolique). Pour passer de la non-corrélation à l'indépendance, \cite{jutten1991blind} ajoute une condition où la fonction non-linéaire (ou une des deux)  est impair avec une moyenne nulle.
-\item la minimisation de la \og gaussianité \fg{} des composantes, basée sur le \textit{Théorème Centrale Limite} qui démontre que la somme de variables aléatoires indépendantes forme un ensemble gaussien. La recherche de l'indépendance des sources revient alors à minimiser la \og gaussianité \fg{} entre les composantes. Cette approche est la base de la mesure de la négentropie (ou entropie relative) \cite{lee2000unifying} ou de l'algorithme FastICA \cite{hyvarinen1999fast} qui est l'algorithme le plus couramment utilisé.
+\item la décorrélation non-linéaire qui consiste à minimiser la corrélation deux composantes $y_i$ et $y_j$ chacune exprimée par une fonction $f(y)$ et $g(y)$ dont au moins une est non-linaire (polynôme de degré 2 ou plus, fonction tangente hyperbolique). Pour passer de la non-corrélation à l'indépendance, \cite{jutten1991blind} ajoute une condition où la fonction non-linéaire (ou une des deux)  est impaire avec une moyenne nulle.
+\item la minimisation de la \og gaussianité \fg{} des composantes, basée sur le \textit{Théorème Centrale Limite} qui démontre que la somme de variables aléatoires indépendantes forme un ensemble gaussien. La recherche de l'indépendance des sources revient alors à minimiser la \og gaussianité \fg{} entre les composantes. Cette approche est la base de la mesure de la négentropie (ou entropie relative) \cite{lee2000unifying} ou de l'algorithme FastICA \cite{hyvarinen1999fast} qui est l'algorithme le plus couramment utilisé pour résoudre l'ACI.
 \end{itemize}
 
 Une large revue exhaustive des méthodes employées sont détaillées dans \cite{hyvarinen2004independent}.
-Pour être résolu, l'ICA est, le plus souvent, sur-déterminé, ce qui signifie qu'il y a au moins autant de signaux captés que de sources sonores. Pour obtenir une matrice $\mathbf{A}$ carré, l'ACP peut être utilisée afin de supprimer les informations redondantes.  Le cas de la sous-détermination a toutefois été étudié, par exemple dans \cite{bofill2000blind} en considérant les signaux comme parcimonieux.
-L'ACI a trouvé de nombreuses applications, en tant que méthode de séparation aveugle de sources, dans le domaine médical, pour extraire les différentes composantes d'un signal d'électroencéphalogramme \cite{delorme2007enhanced,makeig1996independent} ou d'une IMR \cite{lee1999independent}, pour traiter des signaux contenant de la parole \cite{sarela2005denoising, hsieh2009independent} ou pour des contenus musicaux \cite{uhle2003extraction, abdallah2003independent}. Des utilisations de l'ACI pour des sons environnementaux existent aussi \cite{lombard2011tdoa, eronen2006audio}. Cette méthode peut également être utilisée pour des antennes acoustiques et pour de la formation de voie (\textit{beamforming})\cite{cardoso_blind_1998,saruwatari2003blind}.
+Pour être résolue, l'ICA est, le plus souvent, sur-déterminée, ce qui signifie qu'il y a au moins autant de signaux captés que de sources sonores. Pour obtenir une matrice $\mathbf{A}$ carrée, une ACP peut être utilisée afin de supprimer les informations redondantes.  Le cas de la sous-détermination a toutefois été étudié, par exemple dans \cite{bofill2000blind} en considérant les signaux comme parcimonieux.
+L'ACI a trouvé de nombreuses applications, en tant que méthode de séparation de sources aveugle, dans le domaine médical, pour extraire les différentes composantes d'un signal d'électroencéphalogramme \cite{delorme2007enhanced,makeig1996independent} ou d'une IMR \cite{lee1999independent}, pour traiter des signaux contenant de la parole \cite{sarela2005denoising, hsieh2009independent} ou pour des contenus musicaux \cite{uhle2003extraction, abdallah2003independent}. Des utilisations de l'ACI pour des sons environnementaux existent aussi \cite{lombard2011tdoa, eronen2006audio}. Cette méthode peut également être utilisée pour des antennes acoustiques et pour la formation de voie (\textit{beamforming})\cite{cardoso_blind_1998,saruwatari2003blind}.
 
-Séparer aveuglement les sources contenues dans leurs mélanges est entaché d’ambiguïté.
-En effet, la séparation peut être obtenue avec une infinité de solutions [90],
-[91]. Pour chaque cas, instantané ou convolutif, le comportement de l’ambiguïté a une
-incidence sur la reconstruction des sources.
-
-La détermination des matrices $\mathbf{A}$ et $\mathbf{s}$ ne sont toutefois pas sans générer des ambiguïtés bien identifiées. La première est l'\textit{ambiguïté de permutation} qui traduit la variabilité dans l'ordre de détermination des composantes indépendantes : une composante estimée $s_1$ peut être déterminé à un rang différent sans pour autant changer la reconstruction du signal global.  Ce problème est toutefois dans conséquence la plupart du temps. Une seconde limite est l'\textit{ambiguité d'échelle} qui traduit la possibilité d'avoir un facteur d'échelle présent dans la matrice $\mathbf{A}$ et $\mathbf{s}$ tel que : 
+La détermination des matrices $\mathbf{A}$ et $\mathbf{s}$ ne sont toutefois pas sans générer des ambiguïtés bien identifiées dans la littérature. La première est l'\textit{ambiguïté de permutation} qui traduit la variabilité dans l'ordre de détermination des composantes indépendantes : une composante estimée $s_1$ peut être déterminé à un rang différent sans pour autant changer la reconstruction du signal global.  Ce problème est toutefois dans conséquence la plupart du temps. Une seconde limite est l'\textit{ambiguité d'échelle} qui traduit la possibilité d'avoir un facteur d'échelle présent dans la matrice $\mathbf{A}$ et $\mathbf{s}$ tel que : 
 
 \begin{equation}
 \begin{bmatrix}
@@ -182,32 +180,32 @@ La Factorisation en Matrices Non-négatives (abrégé NMF pour \textit{Non-negat
 \mathbf{V} \approx \mathbf{\tilde{V}} = \mathbf{WH}
 \end{equation}
 
-où $\mathbf{V}$ est le spectrogramme en amplitude ou en puissance d'un signal audio de dimensions $F \times N$, $\mathbf{W}$ est appelé \textit{dictionnaire} ou \textit{base}. De dimensions $F \times K$, il contient un ensemble de spectres sonores. $\mathbf{H}$ est la matrice d'activation qui traduit les variations dans le temps de chaque spectre de $\mathbf{W}$.  $K$ défini le rang des matrices et est le plus souvent choisie telle que $F\times K + K \times N \ll F \times N$ afin d'être une méthode qui permet la réduction de données. Cette condition n'est toutefois pas obligatoire.
-Là où l'ICA impose une contrainte d'orthogonalité, la NMF impose celle de la \og non-négativité \fg{} ($\mathbf{V}$, $\mathbf{W}$ et $\mathbf{H} \in \mathbb{R}_+$). Cette contrainte ne permet alors que des combinaisons additives entre les composantes et leur assure ainsi d'appartenir au même domaine et donc de leur interprétabilité.
+où $\mathbf{V}$ est le spectrogramme en amplitude ou en puissance d'un signal audio de dimensions $F \times N$, $\mathbf{W}$ est appelé \textit{dictionnaire} ou \textit{base}. De dimensions $F \times K$, il contient un ensemble de spectres sonores. $\mathbf{H}$ est la matrice d'activation qui traduit les variations dans le temps de chaque spectre de $\mathbf{W}$.  $K$ définit le rang des matrices et est le plus souvent choisi tel que $F\times K + K \times N \ll F \times N$ afin d'être une méthode qui permet la réduction de données. 
+Là où l'ACI impose une contrainte d'indépendance, la NMF impose celle de la \og non-négativité \fg{} ($\mathbf{V}$, $\mathbf{W}$ et $\mathbf{H} \in \mathbb{R}_+$). Cette contrainte n'autorise alors que des combinaisons additives entre les composantes et leur assure ainsi d'appartenir au même domaine et donc de leur interprétabilité.
 L'approximation entre $\mathbf{V}$ et $\mathbf{WH}$ est résolue en minimisant leur $\beta$-divergence : 
 
 \begin{equation}\label{eq:d_v_wh}
 \text{min}~D_{\beta}\left(\textbf{V} \vert\vert \textbf{WH}\right) \quad \text{avec} \quad \mathbf{W} \geq 0, \mathbf{H} \geq 0 
 \end{equation}
 
-Plusieurs approches existent alors afin de résoudre le problème \ref{eq:d_v_wh}, basées sur des approches itératives : mise à jours multiplicatives \cite{lee_algorithms_2000}, méthode des moindres aux carrés alternés \cite{cichocki_regularized_2007}, gradient projeté \cite{lin_projected_2007} \dots{} La NMF permet d'ajouter des contraintes sur chaque matrice \cite{virtanen_monaural_2007} afin de forcer un type de comportement particulier des matrices suivant le problème posé.
+Plusieurs approches existent afin de résoudre le problème \ref{eq:d_v_wh}, basées sur des approches itératives : mise à jours multiplicatives \cite{lee_algorithms_2000}, méthode des moindres aux carrés alternés \cite{cichocki_regularized_2007}, gradient projeté \cite{lin_projected_2007} \dots{} La NMF permet aussi d'ajouter des contraintes sur chaque matrice \cite{virtanen_monaural_2007} afin de forcer un type de comportement particulier des matrices suivant le problème posé.
 
-Cette méthode a gagné une grande popularité en trouvant de nombreuses applications pour la musique (transcription de partitions de musique \cite{smaragdis_non-negative_2003,bertin2009tempering}, classification de genre musicaux \cite{panagakis2008music} et d'instruments \cite{benetos2006musical}) et pour la parole (débruitage \cite{wilson2008speech,sprechmann2014supervised}, séparation de sources \cite{smaragdis2007convolutive,hurmalainen2012detection}). \dots{}
-
+Cette méthode a gagné une grande popularité en trouvant de nombreuses applications pour la musique (transcription de partitions de musique \cite{smaragdis_non-negative_2003,bertin2009tempering}, classification de genre musicaux \cite{panagakis2008music} et d'instruments \cite{benetos2006musical}) et pour la parole (débruitage \cite{wilson2008speech,sprechmann2014supervised}, séparation de sources \cite{smaragdis2007convolutive,
+hurmalainen2012detection})\dots{} 
 Cette méthode a également déjà été confrontée à des sons environnementaux pour différentes tâches comme dans \cite{kumar2016audio} où la NMF est utilisée afin de localiser l'origine de différents extraits sonores. Dans \cite{sobieraj2017masked}, la NMF sert à la détection d'oiseaux dans différents environnements sonores. Dans \cite{heittola_sound_2011}, la NMF est utilisée en vue de détecter jusqu'à 4 évènements sonores émis simultanément en représentant les évènements à travers des Chaines de Markov Cachés (HMM) et des Mel Frequency Cepstral Coeffcient (MFCC).  Enfin dans \cite{satoshi_innami_nmf-based_2012}, la NMF est utilisée en tant que méthode de séparation de sources pour extraire différents signaux (voix, aboiements de chien, croassements de grenouille). 
 Par son fonctionnement, la NMF présente l'avantage, en plus de prendre naturellement en compte le recouvrement temporel entre les sources sonores, d'être adaptée à des réseaux de capteurs monophoniques.
 
 \section{Autre approche : la détection d'anomalies}
 
-Il ne s'agit pas d'une méthode de séparation de source, à proprement parlé puisque l'objectif est d'identifier les sources sonores qui composent une mixture sonore pour ensuite ne considérer que celles d'intérêts.
+Cette approche n'est pas une méthode de séparation de source puisque l'objectif est d'identifier les sources sonores qui composent une mixture sonore pour ensuite ne considérer que celles d'intérêts.
 
-De nombreux travaux se sont attardés à la reconnaissance et la détection de sources sonores environnementales à l'aide descripteurs \cite{dufaux2000automatic,defreville_automatic_2006}. Ces travaux suivent le plus souvent un protocole établi : i) apprentissage sur une base de données d'un détecteur, ii) application de ce détecteur sur une base de test en vue d'estimer les performances de l'outil. Dans \cite{mesaros2010acoustic}, 61 évènements sonores sont détectés parmi des enregistrements audio annotés à l'aide de l'algorithme de Viterbi et des HMM. \cite{ntalampiras2011probabilistic} détecte des évènements anormaux tel que des cris, des tirs d'armes à feu à partir de mixtures sonores stnthétisées où le niveau sonore de ces évènements est échelonné entre -5 dB et 15 dB. Les descripteurs utilisés sont les MFCC, MPEG-7 et les \textit{Perceptual Wavelet Packets} et le classifieur est basé sur un Modèle de Mixtures Gaussiennes (GMM) et sur des HMM. Ces travaux seront étendu dans \cite{ntalampiras2014universal} pour réaliser un outil de surveillance du trafic routier. Dans le cadre du projet DYNAMAP, un détecteur d'évènements sonores anormaux (DESA) a été réalisé \cite{socoro2017anomalous} pour détecter les évènements sonores qui ne sont pas relié au trafic, dans le but de ne pas les considérer dans l'estimation du niveau sonore du trafic routier. Leur outils se base, là aussi, sur les MFCC (13 bandes), exprimés sur des trames temporelles de 30 ms, couplé à des GMM. Le corpus de test est divisé en deux classes : \textit{urbain} et \textit{banlieue}. Les performances du détecteur, évalué au travers du F-score, est pour chaque classe du corpus de 61,5 $\%$ et de 72,26 $\%$. 
+De nombreux travaux se sont attardés à la reconnaissance et la détection de sources sonores environnementales à l'aide de descripteurs \cite{dufaux2000automatic,defreville_automatic_2006}. Ces travaux suivent le plus souvent un protocole établi : i) apprentissage d'un détecteur sur une base de données, ii) application de ce détecteur sur une base de test en vue d'estimer les performances de l'outil. Dans \cite{mesaros2010acoustic}, 61 évènements sonores sont détectés parmi des enregistrements audio annotés à l'aide de l'algorithme de Viterbi et des HMM. \cite{ntalampiras2011probabilistic} détecte des évènements anormaux tel que des cris, des tirs d'armes à feu à partir de mixtures sonores synthétisées où le niveau sonore de ces évènements est échelonné entre -5 dB et 15 dB. Les descripteurs utilisés sont les MFCC, MPEG-7 et les \textit{Perceptual Wavelet Packets} et le classifieur est basé sur un Modèle de Mixtures Gaussiennes (GMM) et sur des HMM. Ces travaux seront étendus dans \cite{ntalampiras2014universal} pour réaliser un outil de surveillance du trafic routier. Dans le cadre du projet DYNAMAP, un détecteur d'évènements sonores anormaux (DESA) a été réalisé \cite{socoro2017anomalous} pour identifier les évènements sonores qui ne sont pas reliés au trafic, dans le but de ne pas les considérer dans l'estimation du niveau sonore du trafic routier. Leur outil se base, là aussi, sur les MFCC (13 bandes), exprimés sur des trames temporelles de 30 ms, couplés à des GMM. Le corpus de test est divisé en deux classes : \textit{urbain} et \textit{banlieue}. Les performances du détecteur, évalué au travers du F-score, est pour chaque classe du corpus de 61,5 $\%$ et de 72,3 $\%$. 
 
 \section{Comparaison des approches}
 
 Le Tableau \ref{tab:comparaison_method} compare les différents caractéristiques que doit avoir l'outil de séparation de sources afin de satisfaire le cahier des charges proposé dans la partie \ref{part:cachier_charges}. Pour rappel, celui-ci doit être adapté aux sons environnementaux, au phénomène de recouvrement temporel et aux réseaux de capteurs monophoniques.
 
-\begin{table}[t]
+\begin{table}[ht]
 \centering
 \caption{Comparaison des 4 méthodes de séparation de sources pour estimer le niveau sonore du trafic routier à partir d'un enregistrement monophonique.}
 \label{tab:comparaison_method}
@@ -224,7 +222,7 @@ DESA  & ++ & + & ++ & \\
 \end{tabular}
 \end{table}
 
-En conclusion, la méthode CASA et l'algorithme DUET sont des méthodes qui sont peu adapté au cas d'étude présent, car développé notamment pour des sons harmoniques et qui nécessité au minimum, deux microphones pour chaque point de mesure. Pour la même raison, l'ACI n'est pas une méthode adaptée à la mise en place de réseaux de capteurs monophoniques. De plus l'\textit{ambiguité d'échelle} est un frein pour estimer correctement le niveau sonore du trafic. L'outil DESA répond à une grande partie des besoins, mais, comparé à la NMF, ne gère pas aussi bien le problème du recouvrement temporel, où à un instant $t$, un évènement est classé soit \textit{trafic} soit \textit{anormal}. Or dans certain cas, le recouvrement peut être très important et s'étendre dans la durée. Cette approche serait susceptible de mettre de coté trop d'échantillons. C'est donc, la NMF qui, au vue de son fonctionnement (reconstruire le spectrogramme d'un signal à l'aide d'un dictionnaire), est la méthode la plus adaptée au cadre de cet étude.
+En conclusion, la méthode CASA et l'algorithme DUET sont des méthodes qui sont peu adaptées au cas d'étude présent, car elles sont développées notamment pour des sons harmoniques et qui nécessitent au minimum, deux microphones pour chaque point de mesure. Pour la même raison, l'ACI n'est pas une méthode adaptée à la mise en place de réseaux de capteurs monophoniques. De plus l'\textit{ambiguité d'échelle} est un frein pour estimer correctement le niveau sonore du trafic. L'outil DESA répond à une grande partie des besoins, mais, comparé à la NMF, ne gère pas aussi bien le problème du recouvrement temporel, où à un instant $t$, un évènement est classé soit \textit{trafic} soit \textit{anormal}. Or dans certain cas, le recouvrement peut être très important et s'étendre dans la durée. Cette approche serait susceptible de mettre de coté trop d'échantillons. C'est donc, la NMF qui, au vue de son fonctionnement (reconstruire le spectrogramme d'un signal à l'aide d'un dictionnaire), parait la méthode la plus adaptée au cadre de cet étude.
 
 %\section{Formation de voies ou \textit{beamforming}}
 %

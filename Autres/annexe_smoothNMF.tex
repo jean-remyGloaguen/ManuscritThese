@@ -1,83 +1,113 @@
 \chapter{Développement de la smooth-NMF pour $\beta = 0$ et $\beta = 2$}\label{annex:smoothNMF}
 
-Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, un algorithme de \textit{smooth NMF} est développé, basé sur l'approche de \textit{majorisation-minimisation}. D'abord développé pour la divergence K-L, elle a été étendue au cas de la distance EUC et à la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
+Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, un algorithme de \textit{smooth NMF} est développé, basé sur l'approche de \textit{majorisation-minimisation}. D'abord développé pour la divergence K-L, elle est étendue au cas de la distance EUC et de la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
 
 \section{Cas de la distance Euclidienne}
 \begin{align}
 C(\mathbf{H}) &= D_2(\mathbf{V} \Vert \mathbf{WH}) + \alpha C_{MM}(\mathbf{H})\\
- &= \frac{1}{2}(\mathbf{V}-\mathbf{WH})^2+\alpha L(h_n; h_{n+1}, h_{n-1}) 
+ &= \frac{1}{2}\sum_n(\mathbf{v}_n-\mathbf{Wh}_n)^2+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
 \end{align}
-
-En suivant la méthode de \textit{majorisation-minimisation}, une fonction auxiliaire $G_{SM}(h_n\vert h_n)$ est définie : 
+On définit $\mathbf{h}$, la valeur de $\mathbf{h}$ à déterminer à l'itération $i+1$, $\mathbf{\tilde{h}}$, sa valeur à l'itération $i$ et $\mathbf{\tilde{v}}_f = \left[W\tilde{h}\right]$.
+En suivant la méthode de \textit{majorisation-minimisation}, une fonction auxiliaire $G_{SM}(\mathbf{h}_{k}\vert \mathbf{\tilde{h}}_{k})$ est définie : 
 
 \begin{equation}
-G_{SM}(h_n\vert h_n) = G_{2}(h_n\vert h_n)+\alpha L(h_n; h_{n+1}, h_{n-1})
+G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) = G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})
 \end{equation}
 
-\begin{align}
-G_{2}(h_n\vert h_n) &= \frac{1}{2}\sum_{f} \sum_{k} \frac{w_{fk}\tilde{h}_n v_f^2}{\tilde{v}_f}-2w_{fk} h_k v_f+w_{fk}\frac{h_k^2}{\tilde{h}_k} \tilde{v}_f\\
-L(h_n; h_{n+1}, h_{n-1}) &= \frac{1}{2}\sum_{k}\lambda_k^2 \left[ (h_{k(n+1)}-h_{kn})^2+(h_{kn}-h_{k(n-1)}^2) \right]\\
- &= \sum_k \lambda_k^2 \left[ h_{kn}^2- h_{kn}(h_{k(n+1)}+h_{k(n-1)}+\frac{1}{2} (h_{k(n+1)}^2+h_{k(n-1)}^2)) \right]
-\end{align}
-
-La minimisation de la fonction $G_{SM}(h_n\vert h_n)$ est alors déterminée en trouvant les zéros de son gradient $\nabla_{h_k} G_{SM}(h_n\vert h_n)$ :
 
 \begin{align}
-\nabla_{h_k} G_{SM}(h_n\vert h_n) &= \nabla_{h_k} G_{2}(h_n\vert h_n) + \alpha \nabla_{h_k} L(h_n; h_{n+1}, h_{n-1})\\
- &= \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_f + 2 w_{fk} v_f \frac{h_k}{\tilde{h}_k} + \alpha \lambda_k^2 \left[ 2 h_{kn} - (h_{k(n+1)}^2+h_{k(n-1)}^2)) \right]\\
- &= \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_f} {\tilde{h}_k}\right)h_k - \left(w_{fk} v_f + \alpha   \lambda_k^2 (h_{k(n+1)}^2+h_{k(n-1)}^2))\right) \label{eq:smooth_2}
+G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \frac{1}{2}\sum_{f} \sum_k \frac{w_{fk} \tilde{h}_{kn} v_{fn}^2}{\tilde{v}_{fn}}-2 w_{fk} h_{kn} v_{fn}+w_{fk}\frac{h_{k}^2}{\tilde{h}_{k}}\tilde{v}_{fn}
+\\
+L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) &= \frac{1}{2}\sum_{k}\lambda_k^2 \left[ \left(h_{k(n+1)}-h_{kn}\right)^2+\left(h_{kn}-h_{k(n-1)}\right)^2 \right]\\
+&= \sum_k \lambda_k^2 \left[ h_{kn}^2- h_{kn}\left(h_{k(n+1)}+h_{k(n-1)}\right)+\frac{1}{2} \left(h_{k(n+1)}^2+h_{k(n-1)}^2\right) \right]
+\end{align}
+ 
+où $\lambda_k = \Vert w_k \Vert$, la terme de normalisation des matrices $\mathbf{W}$. La minimisation de la fonction $G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ est alors déterminée en trouvant les zéros de son gradient $\nabla_{h_k} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ :
+
+
+\begin{align}
+\nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) ={}& \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
+\begin{split}
+ ={}& \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_{fn} + 2 w_{fk} v_{fn} \frac{h_{kn}}{\tilde{h}_{kn}} \\
+ & + \alpha \lambda_k^2 \left[ 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right]
+ \end{split}\\
+\begin{split}
+ ={}& \sum_{f} \sum_{k} \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}} {\tilde{h}_{kn}}\right)h_{kn} \\
+ & - \left(w_{fk} v_{fn} + \alpha  \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
+\end{split}\label{eq:smooth_1}
 \end{align}
 
-L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expression des mises à jours de $h_n$ : 
+\begin{align}
+\nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
+\begin{split}
+    ={}& \sum_{f} \sum_{k} \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}}{\tilde{h}_{kn}}\right)h_{kn} \\
+    & - \left(w_{fk} v_{fn} + \alpha \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
+    \end{split}\label{eq:smooth_2}\\
+\begin{split}
+    ={}& \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_{fn} + 2 w_{fk} v_{fn} \frac{h_{kn}}{\tilde{h}_{kn}} \\
+    & + \alpha \lambda_k^2 \left( 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right)
+\end{split}
+\end{align}
+
+
+
+L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expression des mises à jours de $h_{kn}$ : 
 
 \begin{equation}
-h_n = \frac{w_{fk} v_f+\alpha   \lambda_k^2 \left(h_{k(n+1)}^2+h_{k(n-1)}^2)\right)}{2\alpha \lambda_k^2 + \frac{w_{fk} v_f} {\tilde{h}_k}}
+\fbox{$
+h_{kn} = \frac{w_{fk} v_{fn}+\alpha  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
 \end{equation}
 
 Dans le cas où $\alpha$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}.
 
 
 \section{Cas de la divergence d'Itakura-Saïto}
-Dans le cas d'une divergence IS, le problème est similaire avec
+Dans le cas d'une divergence I-S, le problème est similaire avec
 
 \begin{align}
 C(\mathbf{H}) &= D_0(\mathbf{V} \Vert \mathbf{WH}) + \alpha C_{MM}(\mathbf{H})\\
- &= \frac{\mathbf{V}}{\mathbf{WH}}-\log \frac{\mathbf{V}}{\mathbf{WH}}-1+\alpha L(h_n; h_{n+1}, h_{n-1}) 
+ &= \sum_k\frac{\mathbf{v}_n}{\mathbf{Wh}_n}-\log \frac{\mathbf{v}_n}{\mathbf{Wh}_n}-1+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
 \end{align}
 
-La fonction auxiliaire $G_0(h_n\vert h_n)$ n'est toutefois pas la même : 
+La fonction auxiliaire $G_0(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ n'est toutefois pas la même : 
 
 \begin{equation}
-G_0(h_n\vert h_n) = \sum \left[ \sum_{k = 1}^K \frac{w_{fk} \tilde{h}_k}{\tilde{v}_f}v_f \frac{\tilde{h}_k}{\tilde{v}_f h_k} + \log \tilde{v}_f+ \frac{1}{\tilde{v}_f}(w_{fk}(h_k-\tilde{h}_k) + v_f(\log v_f - 1)\right]
+G_0(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) = \sum_f \sum_k \left[  \frac{w_{fk} \tilde{h}_{kn}}{\tilde{v}_{fn}}v_{fn} \frac{\tilde{h}_{kn}}{\tilde{v}_{fn} h_{kn}} + \log \tilde{v}_{fn}+ \frac{1}{\tilde{v}_{fn}}(w_{fk}(h_{kn}-\tilde{h}_{kn}) + v_f(\log v_{fn} - 1)\right]
 \end{equation}
 
 \begin{align}
-\nabla_{h_k} G_{SM}(h_n\vert h_n) &= \nabla_{h_k} G_0(h_n\vert h_n) + \alpha \nabla_{h_k} L(h_n; h_{n+1}, h_{n-1})\\
-&= \sum_f \sum_k -\frac{w_{fk} \tilde{h}_k^2 v_f}{\tilde{v}_f^2 h_k^2}+\frac{w_{fk}}{\tilde{v}_f} + \alpha \lambda_k^2 \left[ 2 h_{kn} - (h_{k(n+1)}^2+h_{k(n-1)}^2)) \right]\\
- &= 2\alpha_\lambda^2h_n^3+h_{n}^2\left[\frac{w_{fk}}{\tilde{v}_f} - \alpha \lambda_k^2(h_{k(n+1)}+h_{k(n-1}) \right] - w_{fk}\frac{v_f}{\tilde{v}_f}\tilde{h}_n^2 \label{eq:eq_mimiser_smooth}
+\nabla_{h_{k}} G_{SM}(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) &= \nabla_{h_{k}} G_0(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
+\begin{split}
+=&{} \sum_f \sum_k -w_{fk}\frac{\tilde{h}_{kn}^2}{h_{kn}^2} \frac{v_{fn}}{\tilde{v}_{fn}^2}+\frac{w_{fk}}{\tilde{v}_{fn}}\\
+&  + \alpha \lambda_k^2 \left[ 2 h_{kn} - \left(h_{k(n+1)}+h_{k(n-1)}\right) \right]
+\end{split}\\
+\begin{split}
+ =&{} \sum_f \sum_k 2\alpha_\lambda^2h_{kn}^3+\left[\frac{w_{fk}}{\tilde{v}_{fn}} - \alpha \lambda_k^2\left( h_{k(n+1)}+h_{k(n-1)}\right) \right]h_{kn}^2\\
+ & - w_{fk}\frac{v_{fn}}{\tilde{v}_{fn}^2}\tilde{h}_{kn}^2 
+ \end{split}\label{eq:eq_mimiser_smooth}
 \end{align}
 
 On obtient un problème de type équation du 3ème ordre : $ax^3+bx^2+cx+d = 0$ avec 
 \begin{itemize}
 \item $a = 2\alpha_\lambda^2$, 
-\item $b = \frac{w_{fk}}{\tilde{v}_f} - \alpha \lambda_k^2(h_{k(n+1)}+h_{k(n-1})$, 
+\item $b = \frac{w_{fk}}{\tilde{v}_f} - \alpha \lambda_k^2\left(h_{k(n+1)}+h_{k(n-1}\right)$, 
 \item $c = 0$, 
-\item $d = w_{fk}\frac{v_f}{\tilde{v}_f}\tilde{h}_n^2$
+\item $d = -w_{fk}\frac{v_{fn}}{\tilde{v}_{fn}}\tilde{h}_{kn}^2$
 \end{itemize}
 
 Cette polynôme d'ordre 3 se résout à l'aide de la méthode de Cardan \cite{nickalls1993new}, qui dans le cas présent, s'exprime sous la forme : 
 
 \begin{equation}
-x^3+\frac{b}{a}x^2+\frac{d}{a} = 0
+x^3+\frac{b}{a}x^2+\frac{d}{a} = 0.
 \end{equation}
 
-Dans un premier temps, un premier changement de variable est effectué $x = X = \frac{b}{3a}$ et on obtient : 
+Dans un premier temps, un premier changement de variable est effectué $x = X - \frac{b}{3a}$ et on obtient : 
 
 \begin{equation}\label{eq:cardan}
 X^3+pX+q = 0
 \end{equation}
 
-avec $p = -\frac{b^2}{3a^2}$ et $q = \frac{2b^3}{27a^3}+\frac{d}{a}$. La variable $X$ est alors décomposé en deux variables complexes : $X = u+v$. L'équation \ref{eq:cardan} devient alors : 
+avec $p = -\frac{b^2}{3a^2}$ et $q = \frac{2b^3}{27a^3}+\frac{d}{a}$. La variable $X$ est alors décomposée en deux variables complexes : $X = u+v$. L'équation \ref{eq:cardan} devient alors : 
 
 \begin{equation}\label{eq:u_v}
 u^3+v^3+(3uv+p)(u+v)+q = 0
@@ -91,7 +121,7 @@ u^3+v^3 &= -q.
 \end{align}
 \end{subequations}
 
-Du système d'équations \ref{eq:condition1}, on en obtient un nouveau : 
+Du système d'équations \ref{eq:condition1}, on obtient  : 
 
 \begin{subequations}\label{eq:condition2}
 \begin{align}
@@ -112,57 +142,61 @@ V^2+qV-\frac{p^3}{27} &= 0.
 Le système \ref{eq:polyUV} se résout classiquement : 
 
 \begin{equation}
-\Delta_u = \Delta_v = q^2-4\frac{p^3}{27}
+\Delta_U = \Delta_V = \Delta = q^2-4\frac{p^3}{27}
 \end{equation}
 
-$U$ et $V$ ont alors deux solutions ($U_1/V_1 = \frac{-q+\sqrt{\Delta}}{2}$ et $U_2/V_2 = \frac{-q-\sqrt{\Delta}}{2}$). Seul le couple de solution  $\left[U_1-V_2\right]$ (ou $\left[V_1-U_2\right]$) est conservé afin de respecter les conditions \ref{eq:condition2}. Les valeurs de $X$ et solutions de l'équation \ref{eq:cardan} dépendent alors du signe de $\Delta$
+Les équations \ref{eq:polyUV} ont alors les deux mêmes solutions. Les valeurs de $X$ et solutions de l'équation \ref{eq:cardan} dépendent alors du signe de $\Delta$ : 
 
 \begin{itemize}
 \item pour $\Delta >0$, 
 
 \begin{subequations}
 \begin{align}
-X_1 &= \sqrt[3]{\frac{-q+i\sqrt{\Delta}}{2}}+\sqrt[3]{\frac{-q-i\sqrt{\Delta}}{2}}\\
-X_2 &= j\sqrt[3]{\frac{-q+i\sqrt{\Delta}}{2}}+j\sqrt[3]{\frac{-q-i\sqrt{\Delta}}{2}}\\
-X_3 &= j^2\sqrt[3]{\frac{-q+i\sqrt{\Delta}}{2}}+j^2\sqrt[3]{\frac{-q-i\sqrt{\Delta}}{2}}
+X_1 &= \sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}\\
+X_2 &= j\sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+j^2\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}\\
+X_3 &= j^2\sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+j\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}
 \end{align}
 \end{subequations}
 
 avec $j = e^{\sfrac{2i\pi}{3}}$. Une autre forme d'écriture la solution est possible sous une forme trigonométrique : 
 
 \begin{equation}
-X_{k+1} = 2\sqrt{\frac{-p}{3}} \cos \left(\frac{1}{3} \arccos\left(\frac{-q}{2}\sqrt{\frac{27}{-p^3}}\right) + \frac{2k\pi}{3}\right)
+X_{z} = 2\sqrt{\frac{-p}{3}} \cos \left(\frac{1}{3} \arccos\left(\frac{-q}{2}\sqrt{\frac{27}{-p^3}}\right) + \frac{2(z-1)\pi}{3}\right)
 \end{equation}
 
-avec $k \in \left\lbrace 0,1,2 \right\rbrace$.
+avec $z \in \left\lbrace 1,2,3 \right\rbrace$.
 
 
 \item pour $\Delta = 0$, parmi les 3 solutions possibles, 1 seule solution est réelle : 
 
 \begin{subequations}
 \begin{align}
-X_1 &= \frac{3q}{p}\\
+X_1 &= \frac{3q}{p},\\
 X_2 &= X_3 = \frac{-3q}{2p}
 \end{align}
 \end{subequations}
 
-\item pour $\Delta < 0$, l'équation possède une solution réelle et deux solutions complexes
-$U =  \frac{-q+i\sqrt{\vert \Delta \vert}}{2}$ et $V = \frac{-q-i\sqrt{\vert \Delta \vert}}{2}$. L'équation possède alors une solution réelle et 2 solutions complexes qui sont 
+\item pour $\Delta < 0$, les équations \ref{eq:polyUV} ont pour solutions 
+\begin{align}
+S_1 &= \frac{-q+i\sqrt{\vert\Delta \vert}}{2},\\
+S_2 &= \frac{-q-i\sqrt{\vert \Delta \vert}}{2}. 
+\end{align} 
+L'équation \ref{eq:cardan} possède alors une solution réelle et 2 solutions complexes qui sont 
 : 
 
 \begin{subequations}
 \begin{align}
-X_1 &= \sqrt[3]{U}+\sqrt[3]{V}\\
-X_2 &= j\sqrt[3]{U}+\bar{j}\sqrt[3]{V}\\
-X_3 &= j^2\sqrt[3]{U}+\bar{j^2}\sqrt[3]{V}.
+X_1 &= \sqrt[3]{S_1}+\sqrt[3]{S_2},\\
+X_2 &= j\sqrt[3]{S_1}+j^2\sqrt[3]{S_2},\\
+X_3 &= j^2\sqrt[3]{S_1}+j\sqrt[3]{S_2}.
 \end{align}
 \end{subequations}
 \end{itemize}
 
-La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_k$ qui est réelle et positive, définie selon le signe de $\Delta$ : 
+La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui est réelle et positive parmis les trois solutions possibles, définie selon le signe de $\Delta$ : 
 
 \begin{equation}
 \fbox{$
-h_n = X_{k}^+-\frac{b}{3a}.
+h_{kn} = X_{z}^+-\frac{b}{3a}.
 $}
 \end{equation}
