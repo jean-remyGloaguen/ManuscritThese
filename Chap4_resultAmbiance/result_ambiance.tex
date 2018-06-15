@@ -1,6 +1,23 @@
 
 \chapter{\'Etude du corpus de son \textit{ambiance}}
 
+\begin{itemize}
+\item rappel du corpus
+\item présentation des paramètres, des équations
+\item apprentissage du dictionnaire
+\item résumé de tout les paramètres (nombre complet de combinaisons)
+\item résultats
+\begin{itemize}
+\item mae générale (filtre VV, supervisé, semi-supervisé, seuillé VV)
+\item mae pour chaque TIR et chaque ambiance (filtre VV, supervisé, semi-supervisé, seuillé VV)
+\item allure des courbes Lp,1s pour TIR -12 et 12 (supervisé, semi-supervisé, seuillé)
+\item fonction cost (supervisé, semi-supervisé, seuillé)
+\item allure des 2 éléments dans Wr
+\item distance $w_0$ et $w$
+\end{itemize}
+
+\end{itemize}
+
 \section{plan expérimental}
 
 Le plan expérimental mis en place pour déterminer le niveau sonore du trafic. Deux méthodes sont utilisées : la NMF et une méthode basique, un filtrage par un filtre passe-bas, qui servira de référence pour comparer les performances de la NMF. Pour cela 3 étapes de calcul sont réalisées. La première consiste à générer un dictionnaire $W$ à partir de la base de données correspondante (en vert dans la figure \ref{fig:bloc_diag_nmf}). Cette étape n'est pas utile dans le cas du filtrage. La seconde étape consiste à estimer le niveau sonore du trafic routier (en rouge dans les figures \ref{fig:bloc_diag_filtre} et \ref{fig:bloc_diag_nmf}). Enfin la dernière étape calcul l'erreur RMSE entre le niveau sonore estimé et exact (en bleu dans les figures \ref{fig:bloc_diag_filtre} et \ref{fig:bloc_diag_nmf}). \\
