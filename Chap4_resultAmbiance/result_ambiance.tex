@@ -2,15 +2,16 @@
 \chapter{\'Etude du corpus de son \textit{ambiance}}
 
 \begin{itemize}
-\item rappel du corpus
-\item présentation des paramètres, des équations
-\item apprentissage du dictionnaire
-\item résumé de tout les paramètres (nombre complet de combinaisons)
+\item rappel du corpus ambiance avec ces classes de son, ces TIR, le nombres total d'échantillons
+\item rappel du principe de la méthode avec la métrique en bout de course
+\item paramètre de la NMF (supervisée, semi-supervisée, seuillé, beta, threshold)
+\item apprentissage du dictionnaire : rappel du corpus, comment on fait entre le fenêtrage et l'algo kmeans
+\item résumé de tout les paramètres (nombre complet de combinaisons) sous forme de tableau avec le nombre total de combinaison, nombre d'itération, mention de expLanes (avec lien)
 \item résultats
 \begin{itemize}
 \item mae générale (filtre VV, supervisé, semi-supervisé, seuillé VV)
 \item mae pour chaque TIR et chaque ambiance (filtre VV, supervisé, semi-supervisé, seuillé VV)
-\item allure des courbes Lp,1s pour TIR -12 et 12 (supervisé, semi-supervisé, seuillé)
+\item allure des courbes Lp,1s pour TIR -12 et 12 (supervisé, semi-supervisé, seuillé) dans deux cas extrêmes, y'a des fois ou ça marche moins notamment avec la météo mais ça c'est moins grave (on a des capteurs, on peut les mettre à part, à voir si ce n'est que l'orage)
 \item fonction cost (supervisé, semi-supervisé, seuillé)
 \item allure des 2 éléments dans Wr
 \item distance $w_0$ et $w$
