@@ -16,12 +16,14 @@ Savoir isoler les différentes composantes qui constituent un signal est une que
 x_i(t) = \sum_{j = 1}^{N} a_{ij}s_j(t)
 \end{equation}
 où $x_i(t)$ est un signal capté à l'instant $t$ au point $i$, $s_j(t)$ une source originale $j$ émise à l'instant $t$ et $a_{ij}$, le filtrage mixant entre la source $j$ et le capteur situé en $i$. On y considère alors que les signaux des $N$ sources arrivent au même moment à chaque capteur. \'A l'inverse, un approche plus complexe et plus complète est de considérer le problème à partir de mixtures convolutives qui considèrent les multiples voies de propagation des sources $s_i$ (champ direct et réfléchis) jusqu'au capteur $x_i$,  
+
 \begin{subequations}
 \begin{align}
 x_i(t) &= \sum_{j = 1}^{N} \sum_{k = 1}^{+\infty} a_{ijk} s_j(t-\tau_{ijk})\\
  &= \sum_{j = 1}^{N} a_{ij}(t) \ast s_j(t)\label{eq:BSS_convol}
 \end{align}
 \end{subequations}
+
 Chaque chemin de propagation est caractérisé par l'atténuation $a_{ijk}$ et le temps de propagation $\tau_{ijk}$ entre la source $s_j$ et le capteur $x_i$. Ces deux approches peuvent être résumées selon \cite{cardoso_blind_1998} par la relation  
 
 \begin{equation}
@@ -30,15 +32,14 @@ x_i(t) = \sum_{j = 1}^{N}S_j(t)
 
 
 qui décompose le signal capté $i$ comme la contribution de chacune des sources $n$ modulé par l'environnement. $S_j(t)$, appelé \textit{image spatiale de la source $j$}. 
-Notons que le problème émis par la tâche de la séparation de sources est équivalent au problème posé au début du chapitre \ref{chap:modele} sur la définition d'un ESU où le filtre mixant $a_{ij}(t)$ de l'équation \ref{eq:BSS_convol} correspond au filtre de propagation $\delta(t)$ \ref{eq:}. 
+Notons que le problème émis par la tâche de la séparation de sources est équivalent à la définition, au début du chapitre \ref{chap:modele}, d'un ESU où le filtre mixant $a_{ij}(t)$ de l'équation \ref{eq:BSS_convol} correspond au filtre de propagation $\delta(t)$ \ref{eq:convolution_ESU}. 
 
 L'intérêt de développer des outils de séparation de sources sur de telles mixtures donne la possibilité d'éditer, d'analyser ou de modifier les composantes. Ceci est utile pour des applications comme par exemple,
 
 \begin{itemize}
-\item le débruitage de la voix pour améliorer la qualité des appareils auditifs,
-\item l'amélioration de la reconnaissance de la voix dans des contenus audio-visuels,
-\item la transcription des mélodies d'un morceau de musique,
-\item la restauration de vieux enregistrements
+\item le débruitage de la voix pour améliorer la qualité des appareils auditifs \cite{gannot2017consolidated},
+\item la transcription des mélodies d'un morceau de musique \cite{vincent2006musical},
+\item la restauration d'enregistrements audio \cite{canadas2016constrained}.
 \item \dots
 \end{itemize}
 
@@ -63,7 +64,7 @@ La méthode CASA est inspirée de l'Analyse de Scènes Auditives selon Bregman \
 \item Un masquage binaire temps-fréquence est enfin construit pour chaque source identifiée et est appliqué sur le spectrogramme initial permettant d'isoler les différentes sources sonores.\\
 \end{itemize}
 
-Développée à partir de la compréhension de certains aspects des capacités d'analyse des sons par notre cerveau, la méthode CASA a notamment trouvé des applications dans le domaine de la parole \cite{ellis1999using, brown2005separation, shao2010computational}. Des applications dans la reconnaissance de scènes sonores existent \cite{peltonen2002computational}. % mais les applications de cette méthode à ce genre d'environnement sont peu nombreuses.
+Développée à partir de la compréhension de certains aspects des capacités d'analyse des sons par notre cerveau, la méthode CASA a notamment trouvé des applications dans le domaine de la parole \cite{ellis1999using, brown2005separation, shao2010computational} ou pour la reconnaissance de scènes sonores \cite{peltonen2002computational}. % mais les applications de cette méthode à ce genre d'environnement sont peu nombreuses.
 
 \section{Algorithme DUET}
 
@@ -197,16 +198,16 @@ L'approximation entre $\mathbf{V}$ et $\mathbf{WH}$ est résolue en minimisant l
 \text{min}~D_{\beta}\left(\textbf{V} \vert\vert \textbf{WH}\right) \quad \text{avec} \quad \mathbf{W} \geq 0, \mathbf{H} \geq 0
 \end{equation}
 
-Plusieurs approches existent afin de résoudre le problème \ref{eq:d_v_wh}, basées sur des approches itératives : mises à jour multiplicatives \cite{lee_algorithms_2000}, méthode des moindres carrés alternés \cite{cichocki_regularized_2007}, gradient projeté \cite{lin_projected_2007} \dots{} La NMF permet aussi d'ajouter des contraintes sur chaque matrice \cite{virtanen_monaural_2007} afin de forcer un type de comportement particulier des matrices suivant le problème posé.
+Plusieurs approches existent afin de résoudre le problème \ref{eq:d_v_wh}, basées sur des approches itératives : mises à jour multiplicatives \cite{lee_algorithms_2000}, méthode des moindres carrés alternés \cite{cichocki_regularized_2007}, gradient projeté \cite{lin_projected_2007} \dots{} La NMF permet aussi d'ajouter des contraintes sur chaque matrice \cite{virtanen_monaural_2007, bertin2010enforcing} afin de forcer un type de comportement particulier des matrices suivant le problème posé.
 
-Cette méthode a reçu une grande popularité en trouvant de nombreuses applications pour la musique (transcription de partitions de musique \cite{smaragdis_non-negative_2003,bertin2009tempering}, classification de genre musicaux \cite{panagakis2008music} et d'instruments \cite{benetos2006musical}) et pour la parole (débruitage \cite{wilson2008speech,sprechmann2014supervised}, séparation de sources \cite{smaragdis2007convolutive,
+Cette méthode a reçu une grande popularité en trouvant de nombreuses applications pour la musique (transcription de partitions de musique \cite{smaragdis_non-negative_2003,bertin2009tempering}, classification de genre musicaux \cite{panagakis2008music} et d'instruments \cite{benetos2006musical}, séparation des pistes musicales \cite{souviraa2015music}) et pour la parole (débruitage \cite{wilson2008speech,sprechmann2014supervised}, séparation de sources \cite{smaragdis2007convolutive, 
 hurmalainen2012detection})\dots{}
 Cette méthode a également déjà été confrontée à des sons environnementaux pour différentes tâches comme dans \cite{kumar2016audio} où la NMF est utilisée afin de localiser l'origine de différents extraits sonores. Dans \cite{sobieraj2017masked}, la NMF sert à la détection d'oiseaux dans différents environnements sonores. Dans \cite{heittola_sound_2011}, la NMF est utilisée en vue de détecter plusieurs évènements sonores émis simultanément en représentant les évènements à travers des Chaines de Markov Cachées (HMM) et des Mel Frequency Cepstral Coeffcient (MFCC).  Enfin dans \cite{satoshi_innami_nmf-based_2012}, la NMF est utilisée en tant que méthode de séparation de sources pour extraire différents signaux (voix, aboiements de chien, croassements de grenouille).
 Par son fonctionnement, la NMF présente l'avantage, en plus de prendre naturellement en compte le recouvrement temporel entre les sources sonores, d'être adaptée à des réseaux de capteurs monophoniques.
 
 %Emmanuel a fait un travail consequent dans le domaine, as-tu bien cite son travail ?
 
-\section{La détection d'anomalies}
+\section{Détection d'évènements sonores}
 
 Cette approche n'est pas une méthode de séparation de sources puisque l'objectif est d'identifier les sources sonores qui composent une mixture pour ensuite ne considérer que celles d'intérêt.
 

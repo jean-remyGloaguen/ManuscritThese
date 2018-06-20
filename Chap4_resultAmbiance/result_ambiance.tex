@@ -1,5 +1,27 @@
 
 \chapter{\'Etude du corpus de son \textit{ambiance}}
+\label{chap:ambiance}
+Dans ce chapitre, le premier corpus élémentaire \textit{Ambiance} est soumis à la NMF et à ses différentes version.
+Dans un premier temps, un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais) est résumé. Puis les étapes menant à l'apprentissage du dictionnaire sont détaillés. Enfin les résultats des calculs menés sur le coprus sont présentés.
+
+
+\section{Apprentissage du dictionnaire}
+
+Le dictionnaire $\mathbf{W}$ est composé à partir des fichiers audio des passages de voitures enregistré sur la piste d'essais. Ici, les 53 échantillons audio issus des enregistrements des voitures Renault Sénic et Dacia Sandero sont utilisés. Afin d'éviter tout problème de sur-apprentissage, ces échantillons audio ne sont pas ceux utilisés dans la création des scènes sonores. 
+
+Pour cela le spectrogramme de chaque fichier audio est réalisé à l'aide d'une STFT (nombre de point $w = 2^12$ avec 50 $\%$ de recouvrement). Comme l'intervalle temporel y est alors faible
+Sur l'ensemble de ces spectrogrammes, on réalise une moyenne énergétique sur une fenêtre glissante de durée $w_t \in \lbrace 0,5 1 2 3 \rbrace$ en vue d'obtenir des représentations différentes des éléments définis selon soit une précision fine soit une précision longue.
+Dans le cas où $w_t \in \lbrace 0,5 1 2 3 \rbrace$, le nombre d'échantillon obtenue est élevé.
+
+\begin{itemize}
+\item chaque échantillon audio est représenté selon une spectrogramme d'amplitude obtenue par une STFT nombre de point $w = 2^{12}$ avec 50 $\%$ de recouvrement).
+\item En vue de diversifier la forme des spectres, une fenêtre temporel de dimension $F \times w_t$ avec $w_t\in \lbrace 0,5; 1 2; 3 \rbrace$ est appliqué, sans recouvrement sur chaque spectrogramme. Dans chaque fenêtre la valeur rms des spectres inclus est réalisé. On obtient alors des allures de spectres différents plus ou moins fin, selon la durée de la fenêtre $w_t$.
+\item Le nombre d'échantillon sonores restant trop élevés et afin de supprimer des informations redondantes, l'ensemble de ces spectres sont soumis à un algorithme de clustering $K$-mean afin de réduire et de fixer le nombre d'éléments dans $\mathbf{W}$ à $K \in \lbrace 25; 50; 100; 200 \rbrace$.
+\end{itemize}
+
+En plus de ces étapes, on ajoute un cas où la valeur rms est calculé sur l'ensemble des spectrogrammes ($w_t = all$). En cela, des 53 fichiers audio, 53 spectres sont générés. Ces 53 spectres sont également soumis à l'algorithme de clustering mais avec cette fois, $K \in \lbrace 25 50 \rbrace$.
+
+
 
 \begin{itemize}
 \item rappel du corpus ambiance avec ces classes de son, ces TIR, le nombres total d'échantillons
@@ -16,70 +38,8 @@
 \item allure des 2 éléments dans Wr
 \item distance $w_0$ et $w$
 \end{itemize}
-
 \end{itemize}
 
-\section{plan expérimental}
-
-Le plan expérimental mis en place pour déterminer le niveau sonore du trafic. Deux méthodes sont utilisées : la NMF et une méthode basique, un filtrage par un filtre passe-bas, qui servira de référence pour comparer les performances de la NMF. Pour cela 3 étapes de calcul sont réalisées. La première consiste à générer un dictionnaire $W$ à partir de la base de données correspondante (en vert dans la figure \ref{fig:bloc_diag_nmf}). Cette étape n'est pas utile dans le cas du filtrage. La seconde étape consiste à estimer le niveau sonore du trafic routier (en rouge dans les figures \ref{fig:bloc_diag_filtre} et \ref{fig:bloc_diag_nmf}). Enfin la dernière étape calcul l'erreur RMSE entre le niveau sonore estimé et exact (en bleu dans les figures \ref{fig:bloc_diag_filtre} et \ref{fig:bloc_diag_nmf}). \\
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.7\linewidth]{../../../Pictures/autres/bloc_diagram_filtrage.pdf}
-\caption{Bloc diagram de l'estimation du niveau sonore dans le cas  \og filtrage \fg{}}
-\label{fig:bloc_diag_filtre}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.8\linewidth]{../../../Pictures/autres/bloc_diagram_NMF.pdf}
-\caption{Bloc diagram de l'estimation du niveau sonore dans le cas \og NMF \fg{}}
-\label{fig:bloc_diag_nmf}
-\end{figure}
-
-
-
-L'étude est mené à l'aide de l'outil \textit{expLanes} \footnote{\url{https://github.com/mathieulagrange/expLanes}}, un outil développé sous le logiciel Matlab qui permet la mise en place d'étude paramétrique en gérant la gestion des différentes combinaisons de facteurs.\\
-
-En plus de ces 3 étapes, une étape préliminaire génère les scènes sonores utile pour tester la NMF (en jaune dans les figures \ref{fig:bloc_diag_filtre} et \ref{fig:bloc_diag_nmf}). Cette partie détaille ces différentes étapes. 
-
-\section{Génération des corpus de test}
-En vue de mieux comprendre le fonctionnement de la NMF et de valider l'approche, 3 corpus sont successivement créés par \textit{simScene} et testés. Le premier est composé uniquement de la classe de son \textit{trafic}. Le second corpus comprend un ensemble de 6 catégories de scènes. Chacune est caractérisé par les évènements sonores spécifiques s'y trouvant, en plus d'évènements sonore \textit{trafic} : \textit{alerte}, \textit{animaux}, \textit{climatique}, \textit{humain}, \textit{mécanique} et \textit{transport}. Enfin un troisième corpus, le plus réaliste, comprend les mixtures sonores générées à partir de la transcription des enregistrements \textit{GRAFIC}.
-
-\subsection{Corpus de scènes \textit{trafic}}
-50 scènes composés seulement de la classe \textit{trafic} à la foi en évènement et en bruit de fond sonore. L'intérêt de cette base de données est de vérifier les performances où aucun autre évènement sonore ne vient perturber l'estimation du niveau sonore. Il est évident que l'estimation du niveau sonore pour un filtre passe-bas à 20 kHz trouvera une erreur nulle puisque toute l'énergie du signal est conservé. 
-
-\subsection{Corpus de scènes \textit{ambiance}}
-
-Ce second corpus se divise en 6 catégories : chaque catégorie regroupe un ensemble de 25 scènes mélangeant des évènements sonore \textit{trafic} avec d'autres évènements sonores,  appelés \textit{perturbateur}, n'appartenant qu'à une seule classe de sons. Ces 6 catégories sont : 
-
-\begin{itemize}
-\item \textit{alerte}, constitué de signaux \textit{klaxon} et \textit{sirène},
-\item \textit{animaux}, constitués d'évènements sonores relatif aux animaux (aboiement de chien, sifflement d'oiseaux) avec une partie des scènes ayant en bruit de fond sonore également des sifflements d'oiseaux permanent,
-\item \textit{climatique}, qui comprend des sons comme du tonnerre et de la pluie,
-\item \textit{humain} qui comprend des évènements tels que les voix et également des bruit de fond sonore \textit{foule}, 
-\item \textit{mecanique} qui inclut des sons métalliques (classe \textit{bruit de rue}, de ventilations et de chantiers,
-\item \textit{transport} qui inclut des sons de transports qui ne sont pas relatifs au trafic routier (train, tramway, avion).\\
-\end{itemize}
-
-Pour chaque catégorie, on vient en plus modifier le niveau sonore du trafic sur l'intégralité de la scène selon un rapport \og \textit{trafic}$\diagup$\textit{perturbateur}\fg{} (abrégé TPR pour \textit{traffic}$\diagup$\textit{perturbator ratio} en anglais) afin d'observer l'influence de la prédominance du trafic sur l'estimation de son niveau sonore. Le TPR est alors définit à -12, -6, 0, 6 et 12 dB. Pour TPR = -12 dB, la présence du trafic alors est faible alors que pour TPR = 12 dB, elle est la source sonore principale.\\
-
-En tout ce corpus est composé de 750 scènes (25 scènes $\times$ 6 catégories $\times$ 5 TPR).
-
-\subsection{Corpus de scènes \textit{GRAFIC}} 
-
-Ce dernier corpus correspond au scènes issus des enregistrements \textit{GRAFIC} retranscrites et qui ont été testé lors du test perceptif. On rappelle qu'il est composé d'un ensemble de 74 scène répartit en 4 catégories selon l'ambiance sonore : \textit{parc} (8 scènes), \textit{rue calme} (35 scènes), \textit{rue animée} (23 scènes), \textit{rue très animée}(8 scènes). 
-
-\section{Formation du dictionnaire}
-La première étape consiste à constituer les différentes versions du dictionnaire qu'il est possible de réaliser. 
-
-4 paramètres sont déterminés : 
-\begin{itemize}
-\item \textbf{classes de son}, plusieurs classe de sons peuvent être présentes dans $\mathbf{W}$
-\item \textbf{pas temporel}, Pour chaque signal sonore, on réalise un spectrogramme avec des paramètres fixés (taille de la fenêtre $win$, recouvrement $noverlap$, nombre de point dans la fft $nfft$). Puis une moyenne énergétique de ces spectres est réalisé sur un intervalle temporel $dt$ choisi. Ce paramètre permet de savoir s'il est préférable de décrire le dictionnaire à partir d'éléments fin ou non. On réalise également la moyenne énergétique sur l'ensemble du signal afin de réduire le signal audio à un seul spectre. Cette méthode permet d'obtenir systématiquement des spectres ayant $nfft$ points. 
-\item \textbf{nombre d'éléments $K$}, la NMF est contraintes en dimensions, un nombre d'élément $K$ du dictionnaire est donc fixé.
-\item \textbf{méthode de réduction de dimension}, lorsque le nombre de spectres obtenus est supérieur au nombre $K$ imposé, celui-ci est réduit par différentes méthodes. On choisi d'utiliser l'algorithme des \textit{kmean} qui permet def trouver les centroids de l'ensemble des spectres. Une autre méthode consiste de calculer les \textit{kmeans} également puis pour chaque spectre obtenu d'en calculer la distance euclidienne avec les spectres issus des fichiers audio. L'élément le plus proche de l'élément kmean est alors intégrer dans le dictionnaire final. Cette méthode permet d'intégrer des spectres sonores issus de fichiers audio. Enfin l'extraction aléatoire des $K$ éléments parmi ceux calculé est ajouté. 
-\end{itemize}
 
 \begin{table}[h]
 \centering
@@ -143,22 +103,6 @@ La encore plusieurs paramètres interviennent :
 
 Le nombre de combinaison de paramètres dans cette deuxième étape est alors important (plus de 15000 combinaisons possible) auquel s'ajoute les 81 versions du dictionnaire.
 
-\subsection{Calculs des métriques}
-
-La dernière étape consiste ensuite à calculer l'erreur RMSE entre les niveaux sonores estimées et exactes. Cette erreur peut être calculée pour une même scène entre l'évolution du niveau sonore $L_p$ estimé et exact fourni par les fichiers audio de \textit{simScene} (figure). \\
-
-Mais il peut être calculé aussi, pour une combinaison de facteur donnée, entre les niveaux sonores trafic exact et estimés, $L_{eq,exact}$ et $L_{eq,est.}$, des $N$ scènes testés. L'erreur RMSE est calculé pour des niveaux sonores en dB mais aussi en Pa. Pour cette grandeur, l'erreur RMSE est également normalisée par les niveaux sonores globaux exacts $L_{p,global,n}$ et $L_{eq,global,n}$ \ref{eq:erreurRMSE_normLp}, \ref{eq:erreurRMSE_normLeq}. 
-
-\begin{subequations}\label{eq:erreurRMSE}
-\begin{align}
-RMSE_{L_p}& = \sqrt{\frac{1}{T}\sum_{t=1}^T \left(L_{p,est.,t}-L_{p,exact,t} \right)^2}\label{eq:erreurRMSE_Lp} \\
-RMSE_{L_{eq}} &= \sqrt{\frac{1}{N}\sum_{n=1}^N \left(L_{eq,est., n}-L_{eq,exact,n} \right)^2} \label{eq:erreurRMSE_Leq} \\
-nRMSE_{L_p}& = \sqrt{\frac{1}{T}\sum_{t=1}^T \left(\frac{L_{p,tr,est.,t}-L_{p,tr,exact,t}}{L_{p,glob.,exact,t}} \right)^2} \label{eq:erreurRMSE_normLp} \\
-nRMSE_{L_{eq}} &= \sqrt{\frac{1}{N}\sum_{n=1}^N \left(\frac{L_{eq,est., n}-L_{eq,exact,n}}{L_{eq,global,n}} \right)^2} \label{eq:erreurRMSE_normLeq}
-\end{align}
-\end{subequations}
-
-où $N$ est ici le nombre de valeur de niveau sonore. 
 
 
 %\end{document}
