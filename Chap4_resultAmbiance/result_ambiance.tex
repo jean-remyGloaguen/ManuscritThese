@@ -1,32 +1,33 @@
 
 \chapter{\'Etude du corpus de son \textit{ambiance}}
 \label{chap:ambiance}
-Dans ce chapitre, le premier corpus élémentaire \textit{Ambiance} est soumis à la NMF et à ses différentes version.
-Dans un premier temps, un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais) est résumé. Puis les étapes menant à l'apprentissage du dictionnaire sont détaillés. Enfin les résultats des calculs menés sur le coprus sont présentés.
+Dans ce chapitre, on étudie le comportement des différentes versions de la NMF avec le premier corpus élémentaire \textit{Ambiance}.
+Nous ferons dans un premier temps un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais). Puis les étapes menant à l'apprentissage du dictionnaire sont détaillées. Enfin les résultats des calculs menés sur le corpus sont présentés.
 
 
-\section{Apprentissage du dictionnaire}
+\section{Constitution du dictionnaire}
 
-Le dictionnaire $\mathbf{W}$ est composé à partir des fichiers audio des passages de voitures enregistré sur la piste d'essais. Ici, les 53 échantillons audio issus des enregistrements des voitures Renault Sénic et Dacia Sandero sont utilisés. Afin d'éviter tout problème de sur-apprentissage, ces échantillons audio ne sont pas ceux utilisés dans la création des scènes sonores. 
+Le dictionnaire $\mathbf{W}$ est composé à partir des fichiers audio des passages de voitures enregistrés sur la piste d'essais. Ici, les 53 échantillons audio issus des enregistrements des voitures Renault Scénic et Dacia Sandero sont utilisés. Afin d'éviter tout problème de sur-apprentissage, ces échantillons audio ne sont pas ceux utilisés dans la création des scènes sonores.
 
-Pour cela le spectrogramme de chaque fichier audio est réalisé à l'aide d'une STFT (nombre de point $w = 2^12$ avec 50 $\%$ de recouvrement). Comme l'intervalle temporel y est alors faible
-Sur l'ensemble de ces spectrogrammes, on réalise une moyenne énergétique sur une fenêtre glissante de durée $w_t \in \lbrace 0,5 1 2 3 \rbrace$ en vue d'obtenir des représentations différentes des éléments définis selon soit une précision fine soit une précision longue.
-Dans le cas où $w_t \in \lbrace 0,5 1 2 3 \rbrace$, le nombre d'échantillon obtenue est élevé.
+Le spectrogramme de chaque fichier audio est réalisé à l'aide d'une STFT (nombre de point $w = 2^12$ avec 50 $\%$ de recouvrement). Comme l'intervalle temporel y est alors faible, on réalise sur l'ensemble de ces spectrogrammes une moyenne énergétique sur une fenêtre glissante de durée $w_t \in \lbrace 0,5 1 2 3 \rbrace$ en vue d'obtenir des représentations différentes des éléments définis selon que l'on souhaite soit une précision fine soit une précision longue. \ml{ca ne veut rien dire}
+Dans le cas où $w_t \in \lbrace 0,5 1 2 3 \rbrace$, le nombre d'échantillons obtenu est élevé.
 
 \begin{itemize}
-\item chaque échantillon audio est représenté selon une spectrogramme d'amplitude obtenue par une STFT nombre de point $w = 2^{12}$ avec 50 $\%$ de recouvrement).
-\item En vue de diversifier la forme des spectres, une fenêtre temporel de dimension $F \times w_t$ avec $w_t\in \lbrace 0,5; 1 2; 3 \rbrace$ est appliqué, sans recouvrement sur chaque spectrogramme. Dans chaque fenêtre la valeur rms des spectres inclus est réalisé. On obtient alors des allures de spectres différents plus ou moins fin, selon la durée de la fenêtre $w_t$.
+\item Chaque échantillon \ml{un echantillon, c'est un echantillon, trouve un autre terme} audio est représenté selon un spectrogramme d'amplitude obtenu par une STFT avec un nombre de points $w = 2^{12}$ avec 50 $\%$ de recouvrement).
+\item En vue de diversifier la forme des spectres, une fenêtre temporelle de dimension $F \times w_t$ avec $w_t\in \lbrace 0,5; 1 2; 3 \rbrace$ est appliquée, sans recouvrement sur chaque spectrogramme. Dans chaque fenêtre la valeur rms des spectres inclus est réalisé. On obtient alors des allures de spectres différents plus ou moins fin, selon la durée de la fenêtre $w_t$.
 \item Le nombre d'échantillon sonores restant trop élevés et afin de supprimer des informations redondantes, l'ensemble de ces spectres sont soumis à un algorithme de clustering $K$-mean afin de réduire et de fixer le nombre d'éléments dans $\mathbf{W}$ à $K \in \lbrace 25; 50; 100; 200 \rbrace$.
 \end{itemize}
 
 En plus de ces étapes, on ajoute un cas où la valeur rms est calculé sur l'ensemble des spectrogrammes ($w_t = all$). En cela, des 53 fichiers audio, 53 spectres sont générés. Ces 53 spectres sont également soumis à l'algorithme de clustering mais avec cette fois, $K \in \lbrace 25 50 \rbrace$.
 
+\ml{la terminologie est a revoir, ce n'est pas rigoureux. A reecrire, on ne comprends rien et on ne vois pas pourquoi tu fais tout ca.}
 
+\ml{manque une transition, ce n'est pas un rapport interne}
 
 \begin{itemize}
 \item rappel du corpus ambiance avec ces classes de son, ces TIR, le nombres total d'échantillons
 \item rappel du principe de la méthode avec la métrique en bout de course
-\item paramètre de la NMF (supervisée, semi-supervisée, seuillé, beta, threshold)
+\item paramètre de la NMF (supervisée, semi-supervisée, seuillée, beta, threshold)
 \item apprentissage du dictionnaire : rappel du corpus, comment on fait entre le fenêtrage et l'algo kmeans
 \item résumé de tout les paramètres (nombre complet de combinaisons) sous forme de tableau avec le nombre total de combinaison, nombre d'itération, mention de expLanes (avec lien)
 \item résultats
@@ -47,22 +48,22 @@ En plus de ces étapes, on ajoute un cas où la valeur rms est calculé sur l'en
 
 \multicolumn{1}{c}{\textbf{paramètre}} & \multicolumn{1}{c}{\textbf{valeurs}} \\ \hline
 \textbf{classe de son} & voiture, voiture+oiseaux, toutes les classes \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{pas temporel} & 0, 0.5, 1.0 \\ \hline
 \textbf{nombre $K$} & 25, 50, 100 \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{méthode de réduction} & kmeans, kmeans-medoïd, aléatoire \\ \hline
 \end{tabular}
 \caption{Valeur des paramètres choisis pour l'élaboration du dictionnaire}
 \label{tab:valeur_dictionary}
 \end{table}
 
-En tout, 81 différentes versions du dictionnaire sont élaborées. 
+En tout, 81 différentes versions du dictionnaire sont élaborées.
 
 \subsection{Estimation des niveaux sonores}
-L'éatpe suivante consiste à déterminer le niveau sonore du trafic. Deux méthodes sont donc utilisées. Cette estimation se fait à l'aide de la NMF et de ces différentes versions proposés. Pour chacune, le choix de la divergence ($\beta$) ou bien encore les différentes pondérations prennent plusieurs valeurs. La méthode NMF et ces différentes version sont sont comparé à une méthode simple de filtrage passe-bas. Comme l'énergie spectrale du trafic se situe dans les basses fréquences ($\approx \left[0-5000 \right]$ Hz), cette méthode assimile que la partie située dans la bande passante correspond au trafic routier. Cette seconde méthode permet également de comparer les performances de la NMF face à une autre méthode. 
+L'éatpe suivante consiste à déterminer le niveau sonore du trafic. Deux méthodes sont donc utilisées. Cette estimation se fait à l'aide de la NMF et de ces différentes versions proposés. Pour chacune, le choix de la divergence ($\beta$) ou bien encore les différentes pondérations prennent plusieurs valeurs. La méthode NMF et ces différentes version sont sont comparé à une méthode simple de filtrage passe-bas. Comme l'énergie spectrale du trafic se situe dans les basses fréquences ($\approx \left[0-5000 \right]$ Hz), cette méthode assimile que la partie située dans la bande passante correspond au trafic routier. Cette seconde méthode permet également de comparer les performances de la NMF face à une autre méthode.
 
-La encore plusieurs paramètres interviennent : 
+La encore plusieurs paramètres interviennent :
 \begin{itemize}
 \item méthode employée, la NMF ou le filtrage
 \item la fréquence de coupure $f_c$
@@ -81,21 +82,21 @@ La encore plusieurs paramètres interviennent :
 \begin{tabular}{L{5cm} L{5cm}}
 \multicolumn{1}{c}{\textbf{paramètre}} & \multicolumn{1}{c}{\textbf{valeurs}} \\ \hline
 \textbf{estimateur} & filtrage passe-bas, NMF \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{type de NMF} & supervisée, semi-supervisée \\ \hline
 \textbf{fréquence $f_c$ (kHz)} & 0.5, 1, 2, 5, 10, 20 \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{corpus} & voiture, ambiance, grafic \\ \hline
 \textbf{TPR} & -12, -6, 0, 6, 12 \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{$\beta$} & 0, 1, 2 \\ \hline
 \textbf{$\alpha_{sp}$} & 0, 0.1, 0.5 \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{$\alpha_{sm}$} & 0, 1, 5, 10 \\ \hline
 \textbf{application $\alpha_{sm}$} & trafic, toutes les classes \\ \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 \textbf{Nombre J} & 2, 3 \\ \hline
-\textbf{$\beta_{ss}$} & 1, 2 
+\textbf{$\beta_{ss}$} & 1, 2
 \end{tabular}
 \caption{Valeurs des différents paramètres utilisés dans l'estimation du niveau sonore, les valeurs des pondérations de $\alpha_{ss}$ font l'objet d'une partie en elles seules (voir partie BLABLA).}
 \label{tab:valeur_estimation}

@@ -1,7 +1,7 @@
 %\documentclass[twoside,openright,a4paper,11pt]{book}
 %
 %\input{../packageFR}
-%\input{../packageStyle}	
+%\input{../packageStyle}
 %
 %
 %\begin{document}
@@ -9,96 +9,98 @@
 \chapter{Création de corpus de mixtures sonores urbaines}
 \label{chap:corpusSonore}
 
-La méthode de la NMF a été retenue comme estimateur afin d'obtenir les niveaux sonores du trafic routier. Toutefois, nous choisissons de ne pas l'appliquer directement sur des enregistrements audio réalisés en ville. En effet, le trafic sonore y est alors mélangé à d'autres sources sonores. Son niveau sonore exact est alors inconnu. Il n'est alors pas possible de comparer l'estimation fourni par la méthode NMF avec une valeur de référence et ainsi évaluer ses performances et sa justesse. L'approche choisie est ici d'appliquer cet estimateur sur des scènes sonores urbaines simulées où la contribution du trafic routier sera connue et où les estimations des niveaux sonores pourront être comparé aux solutions exactes. Cette choix soulève plusieurs questions : comment composer des mixtures sonores urbaines aussi réalistes que des enregistrements sonores ? Comment s'assurer que les corpus de sons sur lesquels sont appliqués les algorithmes permettent de tester les limites des estimateurs ? 
-Il en effet nécessaire de s'attarder sur la création des mixtures sonores urbaines et sur la qualité de leur composition afin que les estimations données par la NMF soit valide.
+La méthode de la NMF a été retenue comme estimateur afin d'obtenir les niveaux sonores du trafic routier. Toutefois, nous choisissons de ne pas l'appliquer directement sur des enregistrements audio réalisés en ville. En effet, le trafic sonore y est alors mélangé à d'autres sources sonores. Son niveau sonore exact est alors inconnu. Il n'est donc pas possible de comparer l'estimation fournie par la méthode NMF avec une valeur de référence et ainsi évaluer ses performances et sa justesse. L'approche choisie est ici d'appliquer cet estimateur sur des scènes sonores urbaines simulées où la contribution du trafic routier sera connue avec précision et où les estimations des niveaux sonores pourront être comparées aux niveaux exacts. Cette choix soulève plusieurs questions : comment composer des mixtures sonores urbaines aussi réalistes que des enregistrements sonores ? Comment s'assurer que les corpus de sons sur lesquels sont appliqués les algorithmes permettent de tester les limites des estimateurs ?
+Il en effet nécessaire de s'attarder sur la création des mixtures sonores urbaines et sur la qualité de leur composition afin que les choix architecturaux effectués à la lumière des expérimentations soient d'intérêts.
 
-Plus généralement, la création d'environnements sonores urbains réalistes dépasse la question de l'estimation du niveau sonore du trafic. 
-L'intérêt d'utiliser des scènes sonores issus d'un processus de simulation est de permettre un meilleur contrôle sur leur composition où la présence des différentes classes de son, ainsi que leur niveau sonore, est alors défini par l'utilisateur en fonction de ses besoins.
-Leur utilisation trouve un intérêt dans le cadre des études perceptives des ESU. Leur utilisation a déjà été réalisée pour, par exemple, étudier l'agrément sonore à partir de scènes sonores recréer directement par les participants et estimer l'influence de la présence des sources sonores \cite{lafay_new_2014}, ce que ne permet pas l'écoute faites en villes \cite{adams_soundwalking_2008, liu2014effects} ou en laboratoire d'enregistrements audio \cite{guastavino2005ecological, cain2013development}. 
+La création d'environnements sonores urbains réalistes dépasse la question de l'estimation du niveau sonore du trafic.L'intérêt d'utiliser des scènes sonores issus d'un processus de simulation est de permettre un meilleur contrôle sur leur composition où la présence des différentes classes de son, ainsi que leur niveau sonore, est alors définie par l'utilisateur en fonction de ses besoins.
+Leur utilisation trouve un intérêt dans le cadre des études perceptives des ESU. Leur utilisation a déjà été réalisée pour, par exemple, étudier l'agrément sonore à partir de scènes sonores recréées directement par les participants et estimer l'influence de la présence des sources sonores \cite{lafay_new_2014}, ce que ne permet pas l'écoute faite en ville \cite{adams_soundwalking_2008, liu2014effects} ou en laboratoire d'enregistrements audio \cite{guastavino2005ecological, cain2013development}.
 Ces scènes sonores simulées peuvent également trouver un intérêt pour tester et développer des outils de traitement du signal \cite{Komatsu2016, geiger2015improving} où l'utilisation de scènes sonores simulées permet d'éviter l'étape d'annotation manuelle, qui peut être longue et fastidieuse.
 
-Toutefois, si l'utilisation de scènes sonores simulées a de nombreux avantages, la question de leur validité écologique reste primordial. En effet, la réalisation de \textit{soundwalks} ou l'utilisation d'enregistrements sonore permettent de baser ces études sur des scènes sonores réelles et donc de mieux s'assurer que les outils ou les lois créés sont bien adaptés à ces environnements.
-Développé avec des scènes sonores simulées qui ne sont pas construites avec certaines précautions (scènes trop simples avec trop peu de diversités ou de recouvrement temporel), les lois et les outils, qui y seraient développés, ne seraient plus adaptés à des sons réels.
-En conséquence, il y a un intérêt certain à savoir simuler des environnements sonores urbains de façon à obtenir une complexité et un réalisme suffisant, c'est-à-dire assimilable à des enregistrements faits en ville. Cette tâche reste un défi qui n'a, pour l'instant, pas été relevé et n'est pas trivial puisque l'environnement sonore urbain est un milieu extrêmement variable à la fois temporellement (à un endroit donné, les sources sonores varient constamment) et spatialement (d'un quartier à un autre, les sources ne sont pas les mêmes). 
-Ce chapitre décrit la création des corpus de scènes sonores urbaines simulées. Dans une première partie, plusieurs approches, pour simuler de tels environnements, sont résumées, puis l'outil retenu est présenté en détail. Les étapes menant à la création d'une base de données, appelé corpus élémentaire, et de deux corpus d'évaluation sont ensuite exposées. Enfin, le test perceptif et les résultats obtenu, démontrant le réalisme d'un des corpus, sont présentés.
+Toutefois, si l'utilisation de scènes sonores simulées a de nombreux avantages, la question de leur validité écologique est importante. En effet, la réalisation de \textit{soundwalks} ou l'utilisation d'enregistrements sonore permettent de baser ces études sur des scènes sonores réelles et donc de mieux s'assurer que les outils sont bien adaptés à ces environnements.
+
+En conséquence, il y a un intérêt certain à savoir simuler des environnements sonores urbains de façon à obtenir une complexité et un réalisme suffisant, c'est-à-dire assimilable à des enregistrements faits en ville. Cette tâche reste un défi qui n'a, pour l'instant, pas été relevé et n'est pas trivial puisque l'environnement sonore urbain est un milieu extrêmement variable à la fois temporellement (à un endroit donné, les sources sonores varient constamment) et spatialement (d'un quartier à un autre, les sources ne sont pas les mêmes).
+Ce chapitre décrit notre méthode de création des corpus de scènes sonores urbaines simulées. Dans une première partie, plusieurs approches permettant de simuler de tels environnements sont résumées, puis l'outil retenu est présenté en détail. Les étapes menant à la création d'une base de données, appelé corpus élémentaire, et de deux corpus d'évaluation sont ensuite exposées. On présente enfin le test perceptif et les résultats obtenus démontrant le réalisme d'un des corpus.
 
 \section{Création de scènes sonores : choix d'une méthode}
 
-Dans une première partie, deux approches pour réaliser des scènes sonores urbaines sont présentés : l'auralisation et la simulation de scènes sonores. 
+Dans une première partie, deux approches pour réaliser des scènes sonores urbaines sont présentés : l'auralisation et la simulation de scènes sonores.
 
 \subsection{Auralisation d'ESU}
 
-Une des premières approches possible pour restituer un ESU est d'utiliser les techniques d'auralisation \cite{forssen2009auralization}. Cette méthode vise à modéliser l'évolution temporel d'un signal sonore $M_i(t)$ en un point $i$ en prenant en compte les différentes sources sonores présente $s_j(t)$ et l'environnement spatial $\delta_{ij}(t)$ et les effets qu'ils génèrent sur la propagation des sources sonores. Cette méthode équivaut à modéliser les équations \ref{eq:convolution_ESU} et \ref{eq:propagation}. En choisissant le type et le nombre de sources, l'environnement urbain, il est alors envisageable de déterminer en un point la contribution de chaque source sonore.
-Pour cela, on réalise la convolution entre la réponse impulsionnelle d'une rue, obtenue soit par sa mesure soit par sa modélisation par un logiciel (CATT-acoustics, I-Simpa \dots), avec un signal sonore, enregistré dans des conditions d'anéchoïcité ou bien synthétisé. La restitution de l'ESU en un point donné et son évolution dans le temps peut alors être écoutées \cite{vorlander2007auralization}. Cette tâche reste toutefois complexe pour un tel environnement : 
+Une des premières approches possible pour restituer un ESU est d'utiliser les techniques d'auralisation \cite{forssen2009auralization}. Cette méthode vise à modéliser l'évolution temporelle d'un signal sonore $M_i(t)$ en un point $i$ en prenant en compte les différentes sources sonores présente $s_j(t)$ et l'environnement spatial $\delta_{ij}(t)$ et les effets qu'ils génèrent sur la propagation des sources sonores. Cette méthode équivaut à modéliser les équations \ref{eq:convolution_ESU} et \ref{eq:propagation}. En choisissant le type et le nombre de sources, l'environnement urbain, il est alors envisageable de déterminer en un point la contribution de chaque source sonore.
+Pour cela, on réalise la convolution entre la réponse impulsionnelle d'une rue, obtenue soit par sa mesure soit par sa modélisation par un logiciel (CATT-acoustics, I-Simpa \dots), avec un signal sonore, enregistré dans des conditions d'anéchoïcité ou bien synthétisé. La restitution de l'ESU en un point donné et son évolution dans le temps peut alors être écoutées \cite{vorlander2007auralization}. Cette tâche reste toutefois complexe pour un tel environnement :
 
 \begin{itemize}
-\item La mesure de réponses impulsionnelles des rues \cite{picaut2005experimental} est une tâche complexe à réaliser puisqu'elle nécessite tout un dispositif expérimental avec des conditions les plus neutres possibles (faible bruit de fond, conditions météorologiques neutres).
-\item La modélisation numérique des rues est alors la voie la plus souvent choisie car elle offre plus de possibilité, mais cela nécessite tout de même de simplifier l'environnement (allure des façade, présence de petits mobiliers urbain) afin de limiter les temps de calculs.
-\item Les effets de propagation du son en tenant en compte les phénomènes de diffusion, de réflexions dans un milieu urbain sont encore difficile à modéliser pleinement pour un rendu réaliste \cite{schissler2014high}.
-\item La modélisation dynamique des sources sonores n'est modéliser certaines sources sonores, comme le trafic routier ou ferroviaire en utilisant des modèles dynamiques pour simuler leur déplacement, soit d'utiliser des enregistrements audio qui, si elle est une approche plus simple, est plus restreinte en possibilité là où la modélisation des sources sonores et le contrôle des paramètres par l'utilisateur offre plus de possibilités.
+\item La mesure de réponses impulsionnelles des rues \cite{picaut2005experimental} est une tâche complexe à réaliser puisqu'elle nécessite un dispositif expérimental conséquent qui doit être utilisé avec des conditions les plus neutres possibles (faible bruit de fond, conditions météorologiques neutres).
+\item La modélisation numérique des rues est alors la voie la plus souvent choisie car elle offre plus de possibilité, mais cela nécessite tout de même de simplifier l'environnement (allure des façades, présence de petits mobiliers urbain) afin de limiter les temps de calculs.
+\item Les effets de propagation du son en tenant en compte les phénomènes de diffusion, de réflexions dans un milieu urbain sont encore difficile à modéliser avec un rendu réaliste \cite{schissler2014high}.
+\item La modélisation dynamique des sources sonores n'est modéliser certaines sources sonores, comme le trafic routier ou ferroviaire en utilisant des modèles dynamiques pour simuler leur déplacement, soit d'utiliser des enregistrements audio qui, si elle est une approche plus simple, est plus restreinte en possibilité là où la modélisation des sources sonores et le contrôle des paramètres par l'utilisateur offre plus de possibilités. \ml{testPerceptif_boxplotAmbianceCOLOR_EN}
 \end{itemize}
 
-\cite{stienen2015auralization} résument ces différents aspects, les questions soulevées et les champs d'applications que permet l'auralisation des environnements sonore urbains. 
-Si cette tâche reste complexe, il existe tout de même quelques outils comme le logiciel \textit{MithraSON} du CSTB qui propose de générer des ESU \footnote{extrait sonore \url{https://www.youtube.com/watch?v=ACCV2mi81j8}}. À partir d'un quartier modélisé, les sources sonores liées au trafic sont générés en temps réel à partir d'une synthèse granulaire et à l'aide d'un modèle dynamique de trafic. L'ensemble des autres sources sonores (voix, oiseaux, cloche \dots) est basé sur des enregistrements audio qui sont ensuite intégré à l'ESU. La propagation des signaux est générée à l'aide d'une méthode de tirs de rayons. 
-Même si les résultats permettent une forte immersion, grâce à la spatialisation du son par l'écoute binaural, cette méthode reste complexe à implémenter et nécessitent des ressources numériques importantes.
+\cite{stienen2015auralization} résument ces différents aspects, les questions soulevées et les champs d'applications que permet l'auralisation des environnements sonore urbains.
+Si cette tâche reste complexe, il existe tout de même quelques outils comme le logiciel \textit{MithraSON} du CSTB qui propose de générer des ESU \footnote{extrait sonore \url{https://www.youtube.com/watch?v=ACCV2mi81j8}}. À partir d'un quartier modélisé, les sources sonores liées au trafic sont générés en temps réel à partir d'une synthèse granulaire et à l'aide d'un modèle dynamique de trafic. L'ensemble des autres sources sonores (voix, oiseaux, cloche \dots) est basé sur des enregistrements audio qui sont ensuite intégré à l'ESU. La propagation des signaux est générée à l'aide d'une méthode de tirs de rayons.
+Même si les résultats permettent une forte immersion, grâce à la spatialisation du son par l'écoute binaurale, cette méthode reste complexe à implémenter et nécessitent des ressources numériques importantes.
 
 \subsection{Simulateur de scènes sonores}
 
-Une autre approche pour simuler les environnements sonores urbains consiste à considérer l'ESU selon la description de R. Schafer, dans sa définition du paysage sonore \cite{schafer1977tuning} : une combinaison de bruits de fond (ou texture  sonore) et d'évènements sonores (ou objets sonores) qui, par un processus additif, permet alors de créer des mixtures sonores formant l'ESU. La catégorie bruit de fond inclut des sons plus longs (plusieurs minutes) dont les propriétés acoustiques ne varient pas dans le temps comme le bruit généré par un trafic continu, le chant des oiseaux dans un parc ou les voies des enfants dans une cours de récréation. 
+Une autre approche pour simuler les environnements sonores urbains consiste à considérer l'ESU selon la description de R. Schafer, dans sa définition du paysage sonore \cite{schafer1977tuning} : une combinaison de bruits de fond (ou texture  sonore) et d'évènements sonores (ou objets sonores) qui, par un processus additif, permet alors de créer des mixtures sonores formant l'ESU \ml{je ne pense pas que sachafer dise cela, regarde plutot nelken skeleton of events on a bed of textures}. La catégorie bruit de fond inclut des sons plus longs (plusieurs minutes) dont les propriétés acoustiques ne varient pas dans le temps comme le bruit généré par un trafic continu, le chant des oiseaux dans un parc ou les voies des enfants dans une cours de récréation.
 La catégorie \textit{évènement} équivaut à des sons brefs (de 1 à plusieurs secondes) qui émergent du bruit de fond pour être perçu individuellement par un auditeur (un voiture qui passe, des bruits de pas, une sonnerie de téléphone \dots). L'ensemble de ces évènements ayant la même type d'objet comme d'émission sonore est également classifié en \textit{classes de son}. Par exemple, on appelle \textit{voiture}, la classe de son qui résume l'ensemble des évènements sonores qui sont générés par l'objet \textit{voiture}.
-Le défi est alors de disposer de signaux sonores suffisamment différents pour pouvoir recréer la diversité de cet environnement. Plusieurs outils ont été développé en vu d'étudier la perception du paysage sonore (ou \textit{soundscape} en anglais) et l'influence de la présence des différentes source sonores \cite{valle2009framework, finney2010soundscape}. Le simulateur TAPESTREA \cite{misra_musical_2007} se base sur l'extraction de signaux sonores issu d'enregistrements, la classification de ces signaux (sinusoïdal, transitoire ou bruit de fond) et leur modulation afin de les insérer dans des mixtures sonores. Les fichiers audio modifiés peuvent alors être placés dans une scène sonore soit de manière bouclée, c'est-à-dire qu'un évènement sonore sera placé $n$ fois dans un intervalle de temps, soit plus précisément en situant temporellement son emplacement superposé à un bruit de fond.
-Ces techniques présentent l'avantage de s'appuyer sur des sons réels issus directement d'enregistrements sonores, et non des sons synthétisés ainsi que de permettre la modification des sons extraits selon de nombreux paramètres ainsi que d'avoir une grande maitrise dans la construction des scènes sonores. La limite de cette technique est la phase d'extraction où les évènements sonores doivent soit avoir un rapport $signal/bruit$ élevé, soit ne pas présenter de recouvrement temporel et fréquentiel avec d'autres sources sonores. Sans cela, l'extraction des signaux est moins performante. De plus, dans le but d'obtenir des scènes sonores urbaines, il faut veiller à ne pas trop modifier les objets sonores afin d'éviter l'apparition d'artefacts qui réduiraient leur réalisme. 
-D'autre simulateurs se basent sur des bases de données de sons pré-existantes comme chez \cite{bruce_development_2009} et \cite{rossignol_simscene_2015}. 
+Le défi est alors de disposer de signaux sonores suffisamment variés pour pouvoir recréer la diversité de cet environnement. Plusieurs outils ont été développé en vu d'étudier la perception du paysage sonore (ou \textit{soundscape} en anglais) et l'influence de la présence des différentes source sonores \cite{valle2009framework, finney2010soundscape}. Le simulateur TAPESTREA \cite{misra_musical_2007} se base sur l'extraction de signaux sonores issu d'enregistrements, la classification de ces signaux (sinusoïdal, transitoire ou bruit de fond) et leur modulation afin de les insérer dans des mixtures sonores. Les fichiers audio modifiés peuvent alors être placés dans une scène sonore soit de manière bouclée, c'est-à-dire qu'un évènement sonore sera placé $n$ fois dans un intervalle de temps, soit plus précisément en situant temporellement son emplacement superposé à un bruit de fond.
+Ces techniques présentent l'avantage de s'appuyer sur des sons réels issus directement d'enregistrements sonores, et non des sons synthétisés ainsi que de permettre la modification des sons extraits selon de nombreux paramètres ainsi que d'avoir une grande maitrise dans la construction des scènes sonores. La limite de cette technique est la phase d'extraction où les évènements sonores doivent soit avoir un rapport $signal/bruit$ élevé, soit ne pas présenter de recouvrement temporel et fréquentiel avec d'autres sources sonores. Sans cela, l'extraction des signaux est moins performante. De plus, dans le but d'obtenir des scènes sonores urbaines, il faut veiller à ne pas trop modifier les objets sonores afin d'éviter l'apparition d'artefacts qui réduiraient leur réalisme.
+D'autre simulateurs se basent sur des bases de données de sons pré-existantes comme chez \cite{bruce_development_2009} et \cite{rossignol_simscene_2015}.
 
-Dans l'outil de Bruce et Davies, l'utilisateur a la possibilité de choisir les sources sonores dans la scène, d'ajuster le niveau sonore et de choisir la position de la source. Leur base de données de sons est issus d'enregistrements audio réalisé par leur soin basé sur un nombre de sources défini selon de précédentes interviews et marches sonores réalisées. Leur simulateur fut ensuite utilisé dans le cas de la synthèse de scènes sonores urbaines afin de déterminer les classes de sons les plus influentes \cite{davies2014soundscape}. 
-Enfin le simulateur développé par \cite{rossignol_simscene_2015}, \textit{SimScene}, propose à l'utilisateur de gérer un ensemble de paramètres (classe de son, position des évènements, émergence des évènements sonores par rapport au bruit de fond \dots) mais où leur définition est réalisée en donnant des valeurs moyennes complétées par des écarts-types. 
-Cet particularité permet à l'utilisateur soit de définir précisément la position d'évènements sonores (\textit{je veux un évènement tous les 5 secondes}), soit de générer des variations aléatoire que \textit{SimScene} gère (\textit{je veux un évènement tous les 5 ($\pm$ 2) secondes}). En raison de cette particularité, le simulateur \textit{SimScene} est utilisé afin de réaliser les corpus de scènes sonores urbaines.
+Dans l'outil de Bruce et Davies, l'utilisateur a la possibilité de choisir les sources sonores dans la scène, d'ajuster le niveau sonore et de choisir la position de la source. Leur base de données de sons est issus d'enregistrements audio réalisé par leur soin basé sur un nombre de sources défini selon de précédentes interviews et marches sonores réalisées. Leur simulateur fut ensuite utilisé dans le cas de la synthèse de scènes sonores urbaines afin de déterminer les classes de sons les plus influentes \cite{davies2014soundscape}.
+Enfin le simulateur développé par \cite{rossignol_simscene_2015}, \textit{SimScene}, propose à l'utilisateur de gérer un ensemble de paramètres (classe de son, position des évènements, émergence des évènements sonores par rapport au bruit de fond \dots) modélisés par des valeurs moyennes complétées par des écarts-types.
+Cette particularité permet à l'utilisateur soit de définir précisément la position d'évènements sonores (\textit{je veux un évènement tous les 5 secondes}), soit de générer des variations aléatoire que \textit{SimScene} gère (\textit{je veux un évènement tous les 5 ($\pm$ 2) secondes}). En raison de cette particularité, le simulateur \textit{SimScene} est utilisé afin de réaliser les corpus de scènes sonores urbaines.
 
 \section{Présentation de \textit{SimScene}}
-Le logiciel \textit{SimScene} \cite{rossignol_simscene_2015} est un simulateur de scènes sonores \footnote{projet open-source disponible à \url{https://bitbucket.org/mlagrange/simscene}} qui consiste à superposer des \textit{évènement} sonore, issus d'une base de données de sons isolés, à un signal \textit{bruit de fond} qui dure tout le long de l'échantillon. À la différence de l'outil TAPESTRA, la base de données est constituée de sons isolés et non plus à partir d'une phase d'extraction. Cette particularité permet d'avoir une grande liberté quant aux sources sonores qu'on peut intégrer. \textit{SimScene} permet de renseigner plusieurs paramètres de hauts niveaux pour réaliser des mixtures sonores : 
+Le logiciel \textit{SimScene} \cite{rossignol_simscene_2015} est un simulateur de scènes sonores \footnote{projet open-source disponible à \url{https://bitbucket.org/mlagrange/simscene}} qui consiste à superposer des \textit{évènement} sonore, issus d'une base de données de sons isolés, à un signal \textit{bruit de fond} qui dure tout le long de l'échantillon. À la différence de l'outil TAPESTRA, la base de données est constituée de sons isolés et non plus à partir d'une phase d'extraction. Cette particularité permet d'avoir une grande liberté quant aux sources sonores qu'on peut intégrer. \textit{SimScene} permet de renseigner plusieurs paramètres de hauts niveaux pour réaliser des mixtures sonores :
 
 \begin{itemize}
 \item le rapport \textit{évènement/bruit de fond} (abrégé ebr pour \textit{Event Background Ratio}),
 \item le temps de présence moyen d'une classe de son,
-\item l'occurrence moyenne d'une classe de son dans une scène, 
+\item l'occurrence moyenne d'une classe de son dans une scène,
 \item l'intervalle temporel entre chaque audio d'une même classe de son,
 \item la présence d'un \textit{fade in} et d'un \textit{fade out} pour chaque échantillon.\\
 \end{itemize}
 
 Chaque paramètre est également complété par un écart-type permettant d'instaurer de la variabilité entre les scènes simulées. En plus d'un audio pour la mixture sonore globale, un audio pour chaque classe de son présent dans la scène est généré permettant de connaitre sa contribution exacte. Ici, ce sont toutes les classes de sons relatifs au trafic routier, source d'intérêt, qui permettent d'estimer son niveau sonore exact dans la scène.\\
 
-En parallèle, \textit{SimScene} génère 3 fichiers images (l'évolution temporelle du niveau sonore, le spectrogramme et un \textit{piano Roll} pour visualiser la répartition dans le fichier de chacune des classes, Figure \ref{fig:somefiglabel}), un fichier .txt résumant les temps de présence de l'ensemble des sons présents dans la scène et un fichier .mat où se trouve la totalité des résultats et des paramètres de la scène.\\
+En parallèle, \textit{SimScene} génère 3 fichiers images (l'évolution temporelle du niveau sonore, le spectrogramme et un \textit{piano Roll} pour visualiser la répartition dans le fichier de chacune des classes, Figure \ref{fig:somefiglabel}), un fichier texte résumant les temps de présence de l'ensemble des sons présents dans la scène et un fichier .mat où se trouve la totalité des résultats et des paramètres de la scène.\\
+
+\ml{la reference qui pose le modele c'est \cite{lagrange2015evaluation}. Cette partie manque de rigueur}
 
 
 \begin{figure}[ht]
 \includegraphics[width=5cm]{./figures/SimScene/exemple-timeDomain.pdf}\hfill
 \includegraphics[width=5cm]{./figures/SimScene/exemple-pianoRoll.pdf}\hfill
 \includegraphics[width=5cm]{./figures/SimScene/exemple-spectrum.pdf}
-\caption{Représentation temporelle (à gauche), \textit{Piano Roll} (au centre) et spectrogramme (à droite) générés par \textit{SimScene} d'une scènes composée, d'un bruit de fond \textit{trafic}(en vert foncé) et \textit{parc} (en gris) et d'évènements \textit{oiseaux} (en vert), \textit{voiture} (en magenta) et \textit{passant} (en rouge).}\label{fig:somefiglabel}
+\caption{Représentation temporelle (à gauche), \textit{Piano Roll} (au centre) et spectrogramme (à droite) générés par \textit{SimScene} d'une scène composée, d'un bruit de fond \textit{trafic}(en vert foncé) et \textit{parc} (en gris) et d'évènements \textit{oiseaux} (en vert), \textit{voiture} (en magenta) et \textit{passant} (en rouge).}\label{fig:somefiglabel}
 \end{figure}
 
-La génération de scènes sous \textit{SimScene} peut se faire selon 2 modes. Dans le mode \textit{abstract}, l'utilisateur renseigne lui-même les échantillons sonores présents dans la scène et chaque paramètre permettant de créer des scènes complètement artificiels. \`A l'inverse, dans le mode \textit{replicate}, le schéma de la scène s'appuie sur un fichier texte où la position d'évènements sonore (début et fin) et leur classe de son correspondante sont détaillées. Ce mode permet de reproduire des scènes réelles annotées.\\
+La génération de scènes avec \textit{SimScene} peut se faire selon 2 modes. Dans le mode \textit{abstract}, l'utilisateur renseigne lui-même les échantillons sonores présents dans la scène et chaque paramètre permettant de créer des scènes complètement artificiels. \`A l'inverse, dans le mode \textit{replicate}, le schéma de la scène s'appuie sur un fichier texte où la position d'évènements sonore (début et fin) et leur classe de son correspondante sont détaillées. Ce mode permet de reproduire des scènes avec la même organisation temporelle que celle des scènes réelles qui ont servies de référence.\\
 
-Application de simScene \cite{lagrange2015evaluation} \cite{lafay2015approaching}
+Application de simScene \cite{lagrange2015evaluation} \cite{lafay2015approaching} \ml{???, bien dire que les samples sont choisis au hasard}
 
-Si \textit{SimScene} offre de nombreux paramètres pour créer de multiples scènes sonores variées, il nécessite d'avoir une base de données de sons isolés, appelée corpus élémentaire, devant être suffisamment exhaustive. De plus, la qualité de chaque audio (rapport Signal/Bruit élevé, échantillonnage à 44,1 kHz) doit être suffisante pour que leurs juxtapositions ne viennent pas détériorer le rendu final. 
+\textit{SimScene} nécessite d'avoir une base de données de sons isolés, appelée corpus élémentaire, devant être suffisamment reprsentatif. De plus, la qualité de chaque audio (rapport Signal/Bruit, échantillonnage) doit être suffisante pour que leurs juxtapositions ne viennent pas détériorer le rendu final.
+
 %Afin de réaliser au mieux des scènes sonores urbaines, des enregistrements sonores urbains sont étudiés. Ils permettent de connaitre les différentes ambiances sonores qui sont susceptibles d'exister en ville ainsi que les sources sonores qui les composent et enfin d'extraire les paramètres que \textit{SimScene} requiert (niveaux sonores, nombre d'occurrence d'une classe de son) pour réaliser des mixtures sonores en mode \textit{abstract} et les annotations nécessaire pour le mode \textit{replicate}. \\
 
 \section{Création d'un corpus élémentaire d'échantillons audio}
 
 \subsection{Recherche en ligne des échantillons audio}
 
-La base de données de sons pour \textit{SimScene} comprend un ensemble de classes de sons isolés (oiseaux, voiture, klaxon  \dots) qui contiennent chacune plusieurs échantillons (\textit{oiseaux01.wav}, \textit{oiseaux02.wav} \dots) pour permettre une grande variabilité dans les mixtures sonores créées. La plupart des échantillons sont trouvés sur des sites en ligne de sons \footnote{\url{www.freesound.org}} \footnote{\url{www.universalsoundbank.com}} et à l'aide de la base de données constituée dans  \cite{salamon_dataset_nodate}. Leur base de données comprend en tout plus de 8000 fichiers audio, collectés également sur le site \textit{freesound.org}, d'une durée inférieure à 4 secondes, répartis en 10 classes de sons : ventilation, klaxon de voiture, enfants qui joue, chien qui aboie, sonnerie, moteur en fonctionnement, coup de feu, marteau-piqueur, sirène et musique dans la rue. L'ensemble des échantillons a été trié afin de ne conserver que les audio ayant un rapport signal à bruit élevé et un échantillonnage de 44,1 kHz. \`A partir de la liste des noms des fichiers originaux fournis avec cette base de données, les fichiers audio sont récupérés dans leur intégralité sur le site internet et intégrés dans la base de données.\\
-Afin d'obtenir un rapport signal à bruit acceptable, certains audio ont été filtrés à l'aide du logiciel d'Audacity. D'autres signaux ont, quant à eux, été tronqués ou bien divisés en plusieurs fichiers afin d'obtenir des durées convenables. 
- 
+La base de données de sons utilisée dans cette étude comprend un ensemble de classes de sons isolés (oiseaux, voiture, klaxon  \dots) qui contiennent chacune plusieurs échantillons (\textit{oiseaux01.wav}, \textit{oiseaux02.wav} \dots) pour permettre une grande variabilité dans les mixtures sonores créées. La plupart des échantillons sont trouvés sur des sites en ligne de sons \footnote{\url{www.freesound.org}} \footnote{\url{www.universalsoundbank.com}} et à l'aide de la base de données constituée dans  \cite{salamon_dataset_nodate}. Leur base de données comprend en tout plus de 8000 fichiers audio, collectés également sur le site \textit{freesound.org}, d'une durée inférieure à 4 secondes, répartis en 10 classes de sons : ventilation, klaxon de voiture, enfants qui joue, chien qui aboie, sonnerie, moteur en fonctionnement, coup de feu, marteau-piqueur, sirène et musique dans la rue. L'ensemble des échantillons a été trié afin de ne conserver que les audio ayant un rapport signal à bruit élevé et un échantillonnage de 44,1 kHz. \`A partir de la liste des noms des fichiers originaux fournis avec cette base de données, les fichiers audio sont récupérés dans leur intégralité sur le site internet et intégrés dans la base de données.\\
+Afin d'obtenir un rapport signal à bruit acceptable, certains audio ont été filtrés à l'aide du logiciel d'Audacity. D'autres signaux ont, quant à eux, été tronqués ou bien divisés en plusieurs fichiers afin d'obtenir des durées convenables.
+
 \subsection{Enregistrements de passages de véhicules}
 S'il est possible de trouver l'ensemble des classes de son avec une qualité suffisante en ligne, dans le cas de la classe \textit{voiture}, étant la source sonore d'intérêt, il était nécessaire de réaliser des enregistrements de passages de véhicules contrôlés sur une piste d'essai afin de posséder un ensemble varié et maitrisé de vitesses et de modèles de véhicules. Pour cela, 2 véhicules à motorisation essence (Renault Mégane, Renault Sénic) et 2 autres à motorisation diesel (Renault Clio, Dacia Sandero) ont été enregistrées en suivant un plan de mesure défini comprenant plusieurs vitesses stabilisées à différents rapports de vitesses ainsi que des phases d'accélération et de freinage du véhicule.
 
 \input{tab/tab_plan_vitesse_voiture}
 
 Les enregistrements ont été réalisés sur la piste d'essais de l'Ifsttar de Nantes le 7 et 8 juillet 2016 à l'aide du système d'acquisition Sound Device 702, la position du microphone a respecté la norme de mesure de bruit au passage S 31-119 et fut donc situé à 7 m de la piste à une hauteur de 1m50. Enfin, les conditions météorologiques étaient satisfaisantes (temps clair et dégagé, température à l'ombre de 25$\degree$ C , vitesse moyenne du vent inférieure à 2 m/s). Les enregistrements sont ensuite extraits en fichiers audio en format .wav échantillonnés à 44,1 kHz.
- 
-Afin d'obtenir des échantillons de qualité suffisante, la présence d'oiseaux dans les enregistrements a été atténuée à l'aide d'un filtre médian \cite{fitzgerald_harmonic/percussive_2010} appliqué dans la bande de fréquence $\left[2500 - 6500\right]$ Hz, correspondante aux fréquences d'émission des oiseaux. Ce filtre consiste à définir une fenêtre et à attribuer la valeur médiane de cette fenêtre à l'élément central. Puisque les aspects à la fois temporel et fréquentiel sont à prendre en compte, le fenêtre du filtre est de forme rectangulaire de dimension $5 \times 9$ (96 Hz $\times$ 230 ms). Un exemple de l'application de cette fenêtre est présenté en Figure \ref{fig:filtre_median}\\
+
+Afin d'obtenir des échantillons de qualité suffisante, la présence d'oiseaux dans les enregistrements a été atténuée à l'aide d'un filtre médian \cite{fitzgerald_harmonic/percussive_2010} appliqué dans la bande de fréquence $\left[2500 - 6500\right]$ Hz, correspondante aux fréquences d'émission des oiseaux. Ce filtre consiste à définir une fenêtre et à attribuer la valeur médiane de cette fenêtre à l'élément central. Puisque les aspects à la fois temporels et fréquentiels sont à prendre en compte, la fenêtre du filtre est de forme rectangulaire de dimension $5 \times 9$ (96 Hz $\times$ 230 ms). Un exemple de l'application de cette fenêtre est présenté en Figure \ref{fig:filtre_median}\\
 
 \begin{figure}[t]
 \centering
@@ -108,24 +110,24 @@ Afin d'obtenir des échantillons de qualité suffisante, la présence d'oiseaux 
 \end{figure}
 
 
-Même si elle reste persistante sur certains enregistrements, la présence des oiseaux est fortement atténuée sans toutefois dégrader la qualité du signal global du véhicule.\\
+Même si elle reste persistante sur certains enregistrements, la présence des oiseaux est fortement atténuée sans toutefois dégrader la qualité perceptive du signal global du véhicule.\\
 
 \subsection{Composition du corpus élémentaire complet}
 
-La base de données est alors divisée en deux catégories. Une première comprend les évènements sonores courts allant de 1 seconde (klaxon, aboiement de chien) à plusieurs dizaines de secondes (passages de voitures, sirènes d'ambulances). Ces éléments permettent de générer les évènements sonores émergeant dans une scène. Une seconde catégorie est composée des sons de durées plus longues (1 min à 2 min) qui vont permettre de construire le bruit de fond utile à la création de l'ambiance sonore générale de la scène (chants d'oiseaux continu, voix d'enfants dans une cours de récréation, trafic routier continu \dots). 
+La base de données est alors divisée en deux catégories. Une première comprend les évènements sonores courts allant de 1 seconde (klaxon, aboiement de chien) à plusieurs dizaines de secondes (passages de voitures, sirènes d'ambulances). Ces éléments permettent de générer les évènements sonores émergeant dans une scène. Une seconde catégorie est composée des sons de durées plus longues (1 min à 2 min) qui vont permettre de construire le bruit de fond utile à la création de l'ambiance sonore générale de la scène (chants d'oiseaux continu, voix d'enfants dans une cours de récréation, trafic routier continu \dots).
 
-Les enregistrements des passages de voitures sont, quant à eux, séparés en deux parties : les enregistrements issus des deux  véhicules Renault Mégane et Renault Clio sont inclus dans le corpus élémentaire afin de construire les scènes sonores, les autres échantillons des deux autres voitures (Renault Sénic, Dacia Sandero) serviront dans les chapitres \ref{chap:ambiance} et \ref{chap:grafic} afin de construire le dictionnaire de la NMF et ainsi éviter le surapprentissage.
-Puis, les échantillons sont séparés en deux classes de sons : \textit{voiture Ville} (si la vitesse stabilisée ou finale est inférieure ou égale à 50 km/h) et \textit{Voiture Route} (si la vitesse stabilisée ou finale est supérieure à 50 km/h). L'ensemble des fichiers audio est en format .wav échantillonnés à 44,1 kHz. La base de données finale est résumée dans le Tableau \ref{tab:dataBaseEv} pour les évènements sonores et dans le Tableau \ref{tab:dataBaseBcg} pour les bruits de fond sonores. 
+Les enregistrements des passages de voitures sont, quant à eux, séparés en deux parties : les enregistrements issus des deux  véhicules Renault Mégane et Renault Clio sont inclus dans le corpus élémentaire afin de construire les scènes sonores, les autres échantillons des deux autres voitures (Renault Scénic, Dacia Sandero) serviront dans les chapitres \ref{chap:ambiance} et \ref{chap:grafic} afin de construire le dictionnaire de la NMF et ainsi éviter toute problématique de surapprentissage.
+Les échantillons sont ensuite séparés en deux classes de sons : \textit{voiture Ville} (si la vitesse stabilisée ou finale est inférieure ou égale à 50 km/h) et \textit{Voiture Route} (si la vitesse stabilisée ou finale est supérieure à 50 km/h). L'ensemble des fichiers audio est en format .wav échantillonnés à 44,1 kHz. La base de données finale est résumée dans le Tableau \ref{tab:dataBaseEv} pour les évènements sonores et dans le Tableau \ref{tab:dataBaseBcg} pour les bruits de fond sonores.
 
 \input{tab/tab_base_de_donnee}
 
 La classe de son \textit{bruit rue} résume les nombreux bruits, le plus souvent très bref, dont la source sonore n'a pas pu être déterminée. De la même façon, les sons relatifs à un chantier en construction (marteau-piqueur, marteau, perceuse) sont regroupés en une seule classe par soucis de simplification.
 
-À partir de ce corpus constitué, disponible en ligne\footnote{\url{https://zenodo.org/record/1213793}}, il est possible de réaliser des corpus de scènes sonores urbaines. En vue de tester à la foi les limites des estimateurs et leur performances lors d'une utilisation proche de mesures faites en ville, deux corpus de scènes sonores urbaines sont construits. 
+À partir de ce corpus constitué, disponible en ligne\footnote{\url{https://zenodo.org/record/1213793}}, il est possible de réaliser des corpus de scènes sonores urbaines. En vue d'évaluer les performances lors d'une utilisation proche de mesures faites en ville, deux corpus de scènes sonores urbaines sont construits.
 
 \section{Corpus d'évaluation \textit{Ambiance}}
 \label{part:corpus_ambiance}
-Dans un premier temps le choix est fait de générer un corpus où la présence de chaque source est définie selon sa classe de son et où les niveaux sonores du trafic sont calibrés. Ce corpus a vocation à étudier le comportement de la NMF selon certaines sources sonores isolées et selon la prédominance du trafic routier dans les scènes. 
+Dans un premier temps le choix est fait de générer un corpus où la présence de chaque source est définie selon sa classe de son et où les niveaux sonores du trafic sont calibrés. Ce corpus a vocation à étudier le comportement de la NMF selon certaines sources sonores isolées et selon la prédominance du trafic routier dans les scènes.
 
 \begin{figure}[ht]
 \centering
@@ -135,9 +137,9 @@ Dans un premier temps le choix est fait de générer un corpus où la présence 
 \end{figure}
 
 
-Nommé \textit{Ambiance}, ce premier corpus consiste en un ensemble de 6 sous-corpus de 25 scènes ayant chacune une durée de 30 secondes. Chaque sous-corpus mélange une composante \textit{trafic} avec une classe de son spécifique (appelée classe \textit{interférante}). 
-Ces 6 classes de sons sont : \textit{alerte} (qui inclut des sons de klaxons et de sirènes), \textit{animaux} (sifflement d'oiseaux et aboiement de chien), \textit{climat} (pluie, vent et orage), \textit{humains} (voix humaine), \textit{mécanique} (bruit métallique et ventilation), \textit{transport} (trains, avion et tramway). 
-Chaque scène générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont, chacune, dupliquées ensuite 5 fois où le niveau sonore du trafic y calibré tel que, pour une scène $i$, $L_{eq,trafic, tir, i} - L_{eq,interferant, i} = TIR$ avec $TIR = \lbrace$ -12 -6 0 6 12 $\rbrace$. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec 
+Nommé \textit{Ambiance}, ce premier corpus consiste en un ensemble de 6 sous-corpus de 25 scènes ayant chacune une durée de 30 secondes. Chaque sous-corpus mélange une composante \textit{trafic} avec une classe de son spécifique (appelée classe \textit{interférante}).
+Ces 6 classes de sons sont : \textit{alerte} (qui inclut des sons de klaxons et de sirènes), \textit{animaux} (sifflement d'oiseaux et aboiement de chien), \textit{climat} (pluie, vent et orage), \textit{humains} (voix humaine), \textit{mécanique} (bruit métallique et ventilation), \textit{transport} (trains, avion et tramway).
+Chaque scène générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont, chacune, dupliquées ensuite 5 fois où le niveau sonore du trafic y calibré tel que, pour une scène $i$, $L_{eq,trafic, tir, i} - L_{eq,interferant, i} = TIR$ avec $TIR = \lbrace$ -12 -6 0 6 12 $\rbrace$. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
 
 \begin{equation}
 \alpha(TIR,i) = 10^{\sfrac{(TIR-TIR_{init,i})}{20}}
@@ -160,7 +162,7 @@ Pour palier à l'artificialité de corpus \textit{Ambiance}, un second corpus es
 \subsection{Présentation des enregistrements audio de références}
 
 Les enregistrements audio de références sont issus du projet GRAFIC \cite{aumond2017modeling} et ont été recueillis à pied dans le 13\ieme~arrondissement de la ville de Paris sur un parcours comprenant 19 points d'arrêts (Figure \ref{fig:parcoursGRAFIC}). Le parcours définit présente l'avantage de couvrir plusieurs ambiances sonores représentatifs d'un environnement sonore urbain (Tableau \ref{tab:resume19pts}).\\
- 
+
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=.7\textwidth]{./figures/grafic/trajet_19pts.png}
@@ -191,12 +193,12 @@ L'annotation des 74 enregistrements est ensuite réalisée qui consiste à écou
 \toprule
 \textbf{évènements}    & $\mathbf{t_{init}}$ \textbf{(s)} & $\mathbf{t_{fin}}$ \textbf{(s)} \\ \midrule
 bruit rue     & 0,00            & 8,50           \\
-\rowcolor[HTML]{C0C0C0} 
-voix          & 0,00            & 44,00          \\ 
-camion        & 1,00            & 56,10          \\ 
 \rowcolor[HTML]{C0C0C0}
-voix          & 36,50           & 42,30          \\ 
-voiture Ville & 52,00          & 63,00          \\ 
+voix          & 0,00            & 44,00          \\
+camion        & 1,00            & 56,10          \\
+\rowcolor[HTML]{C0C0C0}
+voix          & 36,50           & 42,30          \\
+voiture Ville & 52,00          & 63,00          \\
 \rowcolor[HTML]{C0C0C0}
 voix          & 59,00           & 66,50         \\ \bottomrule
 \end{tabular}
@@ -213,7 +215,7 @@ Les sources sonores les plus communes sont \textit{voiture}, \textit{voix} et \t
 
 La composition des environnements sonore diffère entre eux : dans \textit{parc} la voix et les oiseaux sont les bruits de fond sonores principales permettant d'établir l'ambiance sonore adéquate, puis, plus la rue est animée plus la part de la classe \textit{trafic} et celle de l'activité humaine (\textit{voix, bruit de pas}) sont prédominantes. À l'inverse, les classes de sons \og naturel \fg{} (\textit{oiseaux)} disparaissent progressivement.
 
-Notons que dans \textit{rue calme}, \textit{animée} et dans \textit{parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très animée} où c'est un flot de véhicules qui peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la foi comme bruit de fond et évènements sonore. 
+Notons que dans \textit{rue calme}, \textit{animée} et dans \textit{parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très animée} où c'est un flot de véhicules qui peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la foi comme bruit de fond et évènements sonore.
 Sans étude perceptive sur le débit de véhicule à partir duquel les passages de véhicules deviennent un flux, une moyenne de 1 véhicule par seconde est alors considérée. Un contrôle à l'écoute permet de vérifier que le rendu est satisfaisant. Le rapport nombre d'évènement/min renseigné dans le Tableau \ref{tab:obsScene} est donc soumis à une forte incertitude mais reste cependant cohérent avec les indications du débit moyen fournis dans \cite{aumond2017modeling} ($\approx$ 2000 véhicules/heure). \\
 
 \subsection{Reproduction des enregistrements audio}
@@ -230,24 +232,24 @@ Afin de vérifier que le rendu global des scènes répliquées est suffisamment 
 \subsection{Mise en place du test}
 
 Ce test consiste à faire écouter, à un panel d'auditeurs, un ensemble de scènes sonores comprenant autant d'enregistrements sonores que de scènes reconstitués. À chaque scène, l'auditeur doit alors évaluer, sur une échelle de Likert à 7 points allant de \og très peu réaliste \fg{} à \og extrêmement réaliste \fg{}, le réalisme de la scène qu'il vient d'entendre. L'objectif est que l'ensemble des scènes répliquées soient perçues de façon similaire aux scènes réalistes.
-Sur l'ensemble des 148 scènes (74 enregistrées, 74 répliquées), un ensemble de 40 scènes sont testés. 
+Sur l'ensemble des 148 scènes (74 enregistrées, 74 répliquées), un ensemble de 40 scènes sont testés.
 Cet ensemble est composé dans une première moitié de scènes enregistrées choisis aléatoirement parmi les 74 enregistrements tout en prenant soin d'avoir une répartition équitable entre les ambiance sonores afin d'avoir suffisamment de diversité sonore. On extrait alors 5 scènes issues d'une ambiance \textit{Parc}, 6 issues de \textit{Rue calme}, 4 de \textit{Rue animée} et 5 de \textit{Rue très animée}. Pour chaque audio, 30 secondes sont ensuite sélectionnés aléatoirement.
 Dans la seconde moitié, les mêmes scènes répliquées sont sélectionnés (même audio mais en version répliquée, même 30 secondes). L'hypothèse faite est que si le réalisme de ces 20 scènes répliquées est perçu de la même manière que les 20 scènes enregistrées, celui-ci pourra être étendu aux 54 autres scènes répliquées. Un récapitulatif des fichiers audio sélectionnés et de la position des 30 secondes extraites sont résumés dans le Tableau~\ref{tab:resume_scene_test}.\\
 
 \input{tab/tab_40_audio_teste}
 
-Un seul auditeur n'écoute toutefois pas les 40 scènes disponibles car le test serait trop long ($\approx$ 20 minutes) et la capacité de concentration de l'auditeur ne pourrait pas être constante tout le long du test. Ainsi, chaque auditeur écoute un sous-corpus de 20 audio ; la durée du test n'excède alors pas 10 minutes. Comme les auditeurs n'évaluent plus l'ensemble des scènes mais seulement une partie, il faut définir un plan d'écoute qui répartit équitablement l'ordre de succession des écoutes. Pour cela, on réalise un \og Bloc Équilibré Incomplet \fg{} (BEI) \cite{pages_blocs_2007}. 
+Un seul auditeur n'écoute toutefois pas les 40 scènes disponibles car le test serait trop long ($\approx$ 20 minutes) et la capacité de concentration de l'auditeur ne pourrait pas être constante tout le long du test. Ainsi, chaque auditeur écoute un sous-corpus de 20 audio ; la durée du test n'excède alors pas 10 minutes. Comme les auditeurs n'évaluent plus l'ensemble des scènes mais seulement une partie, il faut définir un plan d'écoute qui répartit équitablement l'ordre de succession des écoutes. Pour cela, on réalise un \og Bloc Équilibré Incomplet \fg{} (BEI) \cite{pages_blocs_2007}.
 En analyse sensorielle, un BEI permet d'élaborer l'ordre d'évaluation des produits testés pour chaque panéliste en évitant que des biais statistiques apparaissent (effet de rang, du juge, de succession \dots). Il se construit à partir de plusieurs variables :
 
 \begin{itemize}
-\item le nombre de blocs $J$ (appelé ici auditeur), 
+\item le nombre de blocs $J$ (appelé ici auditeur),
 \item le nombre de traitement à tester, $B$ (qui correspondant au nombre total d'extraits sonores dans le test),
 \item le nombre de traitement testé par juge, $K$ (qui équivaut au nombre d'écoutes réalisées par chaque auditeur)
-\item le nombre de réplications d'un traitement, $R$, 
+\item le nombre de réplications d'un traitement, $R$,
 \item le nombre de répétabilités d'une paire de traitement, $\lambda$.\\
 \end{itemize}
 
-Plusieurs conditions sont à remplir entre ces variables pour réaliser un BEI correct : 
+Plusieurs conditions sont à remplir entre ces variables pour réaliser un BEI correct :
 
 \begin{subequations}\label{BIE_cond}
 \begin{align}
@@ -305,14 +307,14 @@ Dans un premier temps, la distribution de toutes les notes des scènes enregistr
 
 La répartition des notes pour les deux types de scènes est fortement similaire. Chaque type présente des valeurs identiques (médiane, valeurs extrêmes, quantiles). Seule la note moyenne permet de différencier les deux ensembles ($m_{En} = 4,93 (\pm 1,64) / 7$ et $m_{Re} = 5,06 (\pm 1,56) / 7$) où la note moyenne des scènes répliquées est légèrement supérieur.\\
 
-À cette première observation, un test $t$ de Student est considéré pour chaque scène entre les notes de la catégorie \textit{enregistrée} et la catégorie \textit{répliquée}. Un test de Student consiste à comparer les moyennes de 2 groupes d'échantillons pour déterminer si elles sont significativement différentes d'un point de vue statistique. Toutefois, puisque pour chaque scène, les évaluations entre le pendant \textit{enregistré} et \textit{répliqué} sont réalisées par des individus différents, que le nombre d'évaluation par catégorie n'est pas identique et que les variances entre les deux catégories ne sont pas égales, c'est une variante du test-$t$ de Student qui est réalisée : le test-$t$ de Welch \cite{ruxton2006unequal}. Dans ce test, pour chaque scène, deux hypothèses sont émises sur les distributions : 
+À cette première observation, un test $t$ de Student est considéré pour chaque scène entre les notes de la catégorie \textit{enregistrée} et la catégorie \textit{répliquée}. Un test de Student consiste à comparer les moyennes de 2 groupes d'échantillons pour déterminer si elles sont significativement différentes d'un point de vue statistique. Toutefois, puisque pour chaque scène, les évaluations entre le pendant \textit{enregistré} et \textit{répliqué} sont réalisées par des individus différents, que le nombre d'évaluation par catégorie n'est pas identique et que les variances entre les deux catégories ne sont pas égales, c'est une variante du test-$t$ de Student qui est réalisée : le test-$t$ de Welch \cite{ruxton2006unequal}. Dans ce test, pour chaque scène, deux hypothèses sont émises sur les distributions :
 
 \begin{itemize}
 \item les distributions des échantillons des deux catégories sont semblables (hypothèse \textit{nulle} $H_0$),
 \item les deux distributions sont différentes, (hypothèse \textit{alternative} $H_1$).\\
 \end{itemize}
 
-Plusieurs statistiques sont alors définis : 
+Plusieurs statistiques sont alors définis :
 \begin{itemize}
 \item la valeur $t$
 
@@ -320,7 +322,7 @@ Plusieurs statistiques sont alors définis :
 t = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{\frac{s_1^2}{N_1}+\frac{s_2^2}{N_2}}},
 \end{equation}
 
-où $\bar{X}_i$, $s_i$ et $N_i$ sont, respectivement, la moyenne de l'échantillon, la variance et le nombre d'échantillon de la catégorie $i$, 
+où $\bar{X}_i$, $s_i$ et $N_i$ sont, respectivement, la moyenne de l'échantillon, la variance et le nombre d'échantillon de la catégorie $i$,
 \item les degrés de liberté $DDL$
 
 \begin{equation}
@@ -329,12 +331,12 @@ DDL = \frac{\left(\frac{s_1^2}{N_1}+\frac{s_2^2}{N_2} \right)^2}{\frac{s_1^4}{N_
 
 \end{itemize}
 
-Ces statistiques sont alors utilisées avec une loi de Student pour déterminer une valeur $p$ qui permet de rejeter (ou non) l'hypothèse $H_0$ selon une valeur seuil de référence $\alpha$ (défini à 5 $\%$) :  
+Ces statistiques sont alors utilisées avec une loi de Student pour déterminer une valeur $p$ qui permet de rejeter (ou non) l'hypothèse $H_0$ selon une valeur seuil de référence $\alpha$ (défini à 5 $\%$) :
 
 \begin{itemize}
 \item si $\alpha >$ $p$, il existe alors au moins deux distributions différentes, l'hypothèse $H_0$ est rejetée et $H_1$ est acceptée,
 \item si $\alpha <$ $p$, l'hypothèse $H_0$ n'est pas considérée comme \textit{vraie} mais on considère qu'il n'y a pas de raison à rejeter $H_0$. Cette nuance provient du fait que cette décision se base sur un nombre limité d'informations (le nombre total d'observations) qui ne permet pas de rejeter totalement l'hypothèse $H_1$.\\
-\end{itemize} 
+\end{itemize}
 
 Par soucis de concision, seul l'ensemble des 20 valeurs $t$ calculées et les boites à moustaches de chaque scène sont résumés dans les Figures  \ref{fig:test-student} et \ref{fig:boxplot_scene}.
 
@@ -360,14 +362,14 @@ Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & &
 \label{fig:boxplot_scene}
 \end{figure}
 
-L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ supérieures au seuil de signification $\alpha$ de 5 $\%$. L'hypothèse $H_0$ n'est donc pas rejetée sur l'ensemble des scènes : le réalisme des scènes testées du type \textit{répliquée} est alors considéré comme similaire à celui du type \textit{enregistrée}.  
+L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ supérieures au seuil de signification $\alpha$ de 5 $\%$. L'hypothèse $H_0$ n'est donc pas rejetée sur l'ensemble des scènes : le réalisme des scènes testées du type \textit{répliquée} est alors considéré comme similaire à celui du type \textit{enregistrée}.
 
 
 \subsubsection{Effets des auditeurs sur l'évaluation des scènes}
 
 Pour aller plus loin, une analyse de variance (abrégée ANOVA pour \textit{ANalyse Of VAriance} en anglais) est réalisée afin de déterminer l'influence de chaque auditeur sur l'évaluation des scènes. En effet, selon l'auditeur, l'échelle des notes émises peut varier (un auditeur peut noter sur l'ensemble de l'échelle, d'autres peuvent noter une échelle réduite), influençant l'interprétation des résultats.
 
-C'est ainsi une ANOVA à deux facteurs (\textit{type de scènes} (\textit{enregistré}, \textit{répliqué}) et \textit{auditeur} (50 auditeurs)) avec interaction qui est considérée . De la même manière que le test de Student, l'ANOVA est un outil statistique qui permet de comparer des moyennes d'échantillons et d'étudier l'effet des variables qualitatives (ou facteurs), pouvant prendre plusieurs valeurs (ou niveaux), sur une variable quantitative. 
+C'est ainsi une ANOVA à deux facteurs (\textit{type de scènes} (\textit{enregistré}, \textit{répliqué}) et \textit{auditeur} (50 auditeurs)) avec interaction qui est considérée . De la même manière que le test de Student, l'ANOVA est un outil statistique qui permet de comparer des moyennes d'échantillons et d'étudier l'effet des variables qualitatives (ou facteurs), pouvant prendre plusieurs valeurs (ou niveaux), sur une variable quantitative.
 Pour cela, plusieurs statistiques sont calculées (somme des carrés des écarts, le degré de liberté du facteurs, la variance, la statistique de Fischer $F$). De ces indices, la valeur \textit{p} établie, là encore, la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie par rapport à la valeur seuil $\alpha$. Les définitions de ces indices sont résumées en annexe \ref{annexe:}. Les résultats sont résumés dans le Tableau \ref{tab:anova_auditeur}.
 
 \begin{table}[ht]
@@ -391,7 +393,7 @@ Pour cela, plusieurs statistiques sont calculées (somme des carrés des écarts
 \label{tab:anova_auditeur}
 \end{table}
 
-Le facteur \textit{auditeur} a une influence significative (valeur $p$ < $\alpha$) révélant que les auditeurs n'ont pas les même échelle d'évaluation. L'influence du facteur \textit{type} reste toujours non significative. Son interaction avec le facteur \textit{auditeur} est non-significatif également. 
+Le facteur \textit{auditeur} a une influence significative (valeur $p$ < $\alpha$) révélant que les auditeurs n'ont pas les même échelle d'évaluation. L'influence du facteur \textit{type} reste toujours non significative. Son interaction avec le facteur \textit{auditeur} est non-significatif également.
 Le phénomène d'interaction traduit l'influence des différents niveaux d'un facteur sur l'autre facteur. Ici, l'interaction entre le facteur \textit{auditeur} et \textit{type} est non-significative, ce qui signifie que pour chaque juge, la perception des scènes est similaire, même si entre chaque juge des dissimilarité existent.
 
 \subsubsection{Effets de l'ambiance sonore}
@@ -426,30 +428,30 @@ Pour visualiser ce phénomène d'interaction entre le type de scènes et l'ambia
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\linewidth]{./figures/test_perceptif/testPerceptif_interactionAmbiance.pdf} 
+\includegraphics[width=0.8\linewidth]{./figures/test_perceptif/testPerceptif_interactionAmbiance.pdf}
 \caption{Évolution de la note moyenne du réalisme par ambiance et selon le type.}\label{fig:interaction_ambianceType}
 \end{figure}
 
 
 Même si les moyennes globales et les distributions entre les scènes enregistrées et répliquées sont similaires, des disparités existent selon les auditeurs ou les ambiances sonores sans toutefois que celles-ci remettent en cause les similarités entre les deux types.\\
 
-En conclusion, deux corpus de scènes sonores urbaines ont été construits : 
+En conclusion, deux corpus de scènes sonores urbaines ont été construits :
 \begin{itemize}
-\item le corpus d'évaluation \textit{Ambiance} où le trafic est mêlé à une classe de son générique et où le niveau sonore du trafic est calibré.  Ce corpus a pour objectif de tester le comportement de la NMF. 
+\item le corpus d'évaluation \textit{Ambiance} où le trafic est mêlé à une classe de son générique et où le niveau sonore du trafic est calibré.  Ce corpus a pour objectif de tester le comportement de la NMF.
 \item le corpus d'évaluation \textit{SOUR} qui est la transcription d'enregistrement sonore urbain en scènes simulées. La réalisation de ces scènes simulées a été soumis à un test perceptif qui a révélé que les scènes simulées étaient perçues de façon similaire à des enregistrements audio. Les conclusions de ce test sont alors étendu à l'ensemble du corpus construit. Ce corpus réaliste a pour vocation à servir l'ensemble des communautés scientifiques développant des outils de reconnaissance, de détection ou de séparation de sources dans un milieu urbain. \\
 \end{itemize}
 
 Ces deux corpus sont alors soumis à la NMF afin d'y déterminer quels sont les paramètres qui permettent de déterminer les niveaux sonores \textit{trafic} avec la plus faible erreur.
 
 
-%Les scènes sont alors créées par un processus en deux parties : 
+%Les scènes sont alors créées par un processus en deux parties :
 %
 %\begin{itemize}
 %\item un analyse de phase où des évènements sinusoïdaux, transitoires et le bruit de fond sont séparés d'un enregistrement audio. Les évènements sinusoïdaux sont sélectionnés à partir d'une représentation temps-fréquence du signal. En fixant des fréquences limites et une amplitude seuil, les évènements sont extraits du signal; les régimes transitoires sont extraits à partir des variations d'énergies brusques du signal dans le domaine temporel. Enfin le bruit de fond est le signal résiduel restant après l'extraction des évènements sonores.
-%\item Une phase de synthèse où chaque signal extrait est modifié. Pour les sons sinusoïdaux, ces modifications peuvent être fréquentielles, en multipliant les fréquences des spectres par un facteur, ou bien temporelles en changeant sa durée (allongement, troncature...). Les signaux en régime transitoire peuvent être aussi modifiés en hauteur et en durée à l'aide d'un vocoder de phase. Quant au bruit de fond, le choix est fait de générer un nouvel audio similaire à un des audio extraits, à partir d'un algorithme d'apprentissage en arbres d'ondelettes. 
-%\end{itemize}  
+%\item Une phase de synthèse où chaque signal extrait est modifié. Pour les sons sinusoïdaux, ces modifications peuvent être fréquentielles, en multipliant les fréquences des spectres par un facteur, ou bien temporelles en changeant sa durée (allongement, troncature...). Les signaux en régime transitoire peuvent être aussi modifiés en hauteur et en durée à l'aide d'un vocoder de phase. Quant au bruit de fond, le choix est fait de générer un nouvel audio similaire à un des audio extraits, à partir d'un algorithme d'apprentissage en arbres d'ondelettes.
+%\end{itemize}
 
-%%Ce test statistique considère plusieurs statistiques : un nombre de facteur $F$ comprenant chacun un nombre $N$ de niveaux où $M_n$ observations sont réalisées dans chaque niveau. Le modèle s'exprime alors : 
+%%Ce test statistique considère plusieurs statistiques : un nombre de facteur $F$ comprenant chacun un nombre $N$ de niveaux où $M_n$ observations sont réalisées dans chaque niveau. Le modèle s'exprime alors :
 %%
 %%\begin{equation}
 %%y_{in} = \alpha_i + \beta_j + \gamma_{ij}+\epsilon_{ijk}
@@ -457,20 +459,20 @@ Ces deux corpus sont alors soumis à la NMF afin d'y déterminer quels sont les 
 %%
 %%où $\alpha_i$ et $\beta_j$ sont respectivement les effets des niveaux $i$ et $j$ du 1\er et 2\nd facteur, $\gamma_{ij}$ est l'interaction produite par ces deux facteurs et $\epsilon_{ijk}$ est l'erreur aléatoire qui suit une loi Normale $\mathbb{N}(0,\sigma^2)$.
 %%
-%%Deux hypothèses sont alors émises sur les distributions : 
+%%Deux hypothèses sont alors émises sur les distributions :
 %%
 %%\begin{itemize}
 %%\item les distributions des niveaux $n$ et $m$ sont semblables (hypothèse \textit{nulle} $H_0$),
 %%\item les deux distributions sont différentes, (hypothèse \textit{alternative} $H_1$).\\
 %%\end{itemize}
 %%
-%%Le test statistique de Fischer détermine alors si l'hypothèse $H_0$ est vraie ou fausse (et donc si l'hypothèse $H_1$ est vérifiée). Ce test consiste à établir le rapport $\mathbf{F}$ de deux variances, 
-%% 
+%%Le test statistique de Fischer détermine alors si l'hypothèse $H_0$ est vraie ou fausse (et donc si l'hypothèse $H_1$ est vérifiée). Ce test consiste à établir le rapport $\mathbf{F}$ de deux variances,
+%%
 %%\begin{equation}
 %%\mathbf{F} = \frac{var_1}{var_2}.
 %%\end{equation}
 %%
-%%Le problème étant à 1 dimension, la variance totale $var_{tot}$ s'exprime comme la somme de la variance du modèle $var_{mod}$ (appelé variabilité inter-niveau) et celui d'un résidu $var_{res}$ (ou variabilité intra-niveau) : 
+%%Le problème étant à 1 dimension, la variance totale $var_{tot}$ s'exprime comme la somme de la variance du modèle $var_{mod}$ (appelé variabilité inter-niveau) et celui d'un résidu $var_{res}$ (ou variabilité intra-niveau) :
 %%
 %%\begin{equation}
 %%var_{tot} = var_{mod} + var_{res}.
@@ -484,29 +486,29 @@ Ces deux corpus sont alors soumis à la NMF afin d'y déterminer quels sont les 
 %%\end{equation}
 %%
 %%\begin{equation}
-%%var_{res} = \frac{SCE_{res}}{DDL_{res}} 
+%%var_{res} = \frac{SCE_{res}}{DDL_{res}}
 %%\end{equation}
 %%
-%%avec 
+%%avec
 %%
 %%\begin{itemize}
-%%\item la somme des carrés des écarts du modèle, $SCE_{mod} = \sum_{n=1}^{N} m_n (\bar{y}_{in} - \bar{y})^2$, 
-%%\item la somme des carrés des écarts du résidu, $SCE_{res} = \sum_{i=1}^{M_n} \sum_{n=1}^{N} (y_{in} - \bar{y}_n)^2$, 
+%%\item la somme des carrés des écarts du modèle, $SCE_{mod} = \sum_{n=1}^{N} m_n (\bar{y}_{in} - \bar{y})^2$,
+%%\item la somme des carrés des écarts du résidu, $SCE_{res} = \sum_{i=1}^{M_n} \sum_{n=1}^{N} (y_{in} - \bar{y}_n)^2$,
 %%\item le degré de liberté du modèle, $DDL_{mod} = F-1$,
-%%\item le degré de liberté du résidu, $DDL_{res} = M-F$, 
+%%\item le degré de liberté du résidu, $DDL_{res} = M-F$,
 %%\item $\bar{y} = $
 %%\end{itemize}
 %%
 %%
-%%Le rapport $\mathbf{F}$ s'exprime alors : 
+%%Le rapport $\mathbf{F}$ s'exprime alors :
 %%\begin{align}
 %%\mathbf{F} & = \frac{var_{mod}}{var_{res}}\\
 %%& = \frac{\nicefrac{SCE_{mod}}{DDL_{mod}}}{\nicefrac{SCE_{res}}{DDL_{res}}}\\
 %%& = \frac{M-F}{F-1}\frac{\sum_{n=1}^{N} m_n (\bar{y}_{in} - \bar{y})^2}{\sum_{i=1}^{M_n} \sum_{n=1}^{N} (y_{in} - \bar{y}_k)^2}.
 %%\end{align}
 %%
-%%Des degrés de libertés et de la valeur $\mathbf{F}$, on peut déterminer la \textit{p-valeur} (à l'aide des tables de Fischer ou à l'aide de logiciels comme \textit{R} ou Matlab) qui établit la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie. Cette valeur est comparée a une seuil de signification $\alpha = 0.05$. 
-% 
+%%Des degrés de libertés et de la valeur $\mathbf{F}$, on peut déterminer la \textit{p-valeur} (à l'aide des tables de Fischer ou à l'aide de logiciels comme \textit{R} ou Matlab) qui établit la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie. Cette valeur est comparée a une seuil de signification $\alpha = 0.05$.
+%
 %
 %
 %\subsubsection{Par type de scènes}
@@ -608,7 +610,7 @@ Ces deux corpus sont alors soumis à la NMF afin d'y déterminer quels sont les 
 %\label{fig:boxplot_ambiance}
 %\end{figure}
 %
-% 
+%
 %Cette représentation permet de constater que les ambiances sonores \textit{animée} et \textit{très animée}, dans les deux types de scènes, sont évaluées comme les plus réalistes : la médiane et la moyenne sont élevées avec une distribution peu dispersée. \`A l'inverse, les ambiances plus calmes (\textit{parc} et \textit{calme}) sont plus dispersés et ont une note moyenne plus faible. C'est donc les ambiances constituées en majorité du trafic qui sont les mieux évalués. Les scènes dans les parcs et rues calmes, constituées de moins de trafic et plus de sons urbains divers (voix, bruit de pas, oiseaux), sont moins bien évaluées aussi bien pour les scènes issus d'enregistrements que celles créer.\\
 %
 %Enfin, pour chaque scène, la distribution des notes est établie et sont mis en relation avec les commentaires laissés par les auditeurs (figure~\ref{fig:ANOVA_scene}).\\
@@ -628,10 +630,10 @@ Ces deux corpus sont alors soumis à la NMF afin d'y déterminer quels sont les 
 %\end{figure}
 %
 %
-%Plusieurs observations peuvent être émises : 
+%Plusieurs observations peuvent être émises :
 %\begin{itemize}
 %\item La meilleure moyenne est obtenue pour 2 scènes ex-æquo : la scène 2 (6.0 $\pm$ 1.0) et 23 (6.0 $\pm$ 1.1).
-%\item La plus mauvaise moyenne est réalisée pour la scène 6 (3.6 $\pm$ 1.6). C'est donc une scène issu d'un enregistrement qui a été jugé la moins réaliste. Celle-ci a la particularité de n'avoir aucun évènement sonore discernable. 
+%\item La plus mauvaise moyenne est réalisée pour la scène 6 (3.6 $\pm$ 1.6). C'est donc une scène issu d'un enregistrement qui a été jugé la moins réaliste. Celle-ci a la particularité de n'avoir aucun évènement sonore discernable.
 %\item Parmi les 20 scènes simulées, on peut observé 4 scènes dont les moyennes sont plus faibles que les autres (scènes 22, 24, 26 et 27). Dans les scènes 24 et 26, les auditeurs ont remarqué que la présence des bruits de pas paraissent trop fort cassant le réalisme du reste de la scène. La scène 22 est, quant à elle, évaluée plus faiblement en raison d'un bruit de portail également trop fort au début de l'extrait. Ces trois scènes appartiennent à l'ambiance \textit{Parc}. La scène 27 enfin n'a pas reçu de commentaire mais sa note moyenne plus faible peut s'expliquer par un bruit de fond composé d'un nombre d'oiseaux peut être trop grand et qui parait peu réaliste dans un milieu urbain.\\
 %\end{itemize}
 %
