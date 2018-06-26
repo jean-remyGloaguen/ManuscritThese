@@ -1,0 +1,140 @@
+
+\chapter{\'Etude du corpus de son \textit{grafic}}
+
+Dans ce chapitre, le corpus de SOUR est soumis à la NMF en vue de déterminer le niveau sonore du trafic routier. 
+
+\section{Rappel des facteurs expérimentaux}
+
+Le corpus SOUR est composé de 74 fichiers audio d'une durée totale de .... Les fichiers sont classés selon 4 ambiance sonores : \textit{parc} (P) contenant 8 fichiers audio, rue calme (C), fichiers audio, rue bruyante (Br), fichiers audio et rue Très Bruyante (Tr-Br), fichier audio. 
+À l'inverse du corpus Ambiance, la répartition de scènes entre les 4 catégories sonores ne sont pas les mêmes en raison du corpus d'enregistrement récupéré. Si cette répartition peut être considéré comme représentative de l'ESU.
+
+
+De nombreux facteurs expérimentaux présenté dans le chapitre précédent sont utilisés ici.
+La construction du dictionnaire est similaire à l'étape précédente : les spectrogrammes des signaux trafic sont découpés en trame de largeur $w_t$ pour ensuite les soumettre à un algorithme de clustering $K$-mean. Ici comme le corpus est plus petit, on étend le nombre d'élément dans le dictionnaire à 300. Le résumé de ces paramètres se trouve dans le tableau.
+
+La même baseline est utilisée également : un filtre passe-bas de fréquence de coupure $f_c$.
+Comme les scènes sonores sont plus longues (de 1 min jusqu'à 3 minutes), le nombre d'itération est étendu à 400. 
+Le nombre d'élément dans le dictionnaire $\mathbf{W_r}$, pour le NMF SS, est maintenu à $J = 2$.
+Dans le cas de la NMF IS, l'influence de l'opérateur sigmoïde dans le calcul de la distance et l'utilisation du seuil \textit{firm} s'étant relevé très faible, le choix a été fait de réduire l'étude au seul cas de représentation linéaire de la distante avec un seuillage dur afin de réduire les temps de calculs. 
+
+On résume non plus l'erreur arithmétique mais l'erreur moyenne pondérée des erreurs ? plus juste non ? 
+
+
+\begin{table*}[t]
+\centering
+\caption{Facteurs expérimentaux et leur modalité utilisé pour le coprus SOUR.}
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
+	\hline
+    \textbf{\begin{tabular}[c]{@{}l@{}}facteur \\ expérimentaux \end{tabular}} & \textbf{modalités} & \begin{tabular}[c]{@{}C{2cm}@{}}\textbf{nombre de}\\ \textbf{modalité}\end{tabular}\\ \toprule
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
+    \textbf{Environnement sonore} & \begin{tabular}[c]{@{}c@{}}parc\\ 'P'\end{tabular} & \begin{tabular}[c]{@{}c@{}}rue calme \\ 'Q'\end{tabular} & \begin{tabular}[c]{@{}c@{}}rue bruyante\\ 'N' \end{tabular}& \begin{tabular}[c]{@{}c@{}}rue très bruyante\\ 'vN'\end{tabular} & 4\\
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
+	\rowcolor[HTML]{C0C0C0}
+  \textbf{method} & filtre passe bas & NMF SUP & NMF SEM & NMF IS & 4\\
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}C{2cm}@{}}
+\rowcolor[HTML]{C0C0C0}
+   $\mathbf{f_c}$ (kHz) & 0.5 & 1 & 2 &  5 & 10 & 20 & 6\\
+   \bottomrule
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
+    $\mathbf{w_t}$ (s)& 0.5 & 1 & 2 & \textit{all} & 4\\
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
+	\rowcolor[HTML]{C0C0C0}
+    $\mathbf{K}$ & 25 & 50 & 100 & 200 & 4\\
+\end{tabularx}
+
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{4cm}@{}@{}C{4cm}@{}@{}C{4cm}@{}C{2cm}@{}}
+   $\mathbf{\beta}$ & 0 & 1 & 2 & 3\\
+\end{tabularx}
+
+\begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
+	\rowcolor[HTML]{C0C0C0}
+   seuillage dur $\mathbf{t_h}$ & de 0.30 à 0.60 avec un pas de 0.01 & 31\\
+   \bottomrule
+\end{tabularx}
+\label{tab:experimental_factorsNMF}
+\end{table*}
+
+\section{Résultats}
+
+\subsection{Erreur produite par la baseline}
+Dans un premier temps, les erreurs réalisées par la baseline sont observés sur l'ensemble du corpus (Tableau), puis selon chaque ambiance (Figure \Ref{}).
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{llllll}
+$f_c$ (Hz) & $MAE$ & $MAE_{P}$ & $MAE_Q$ & $MAE_{Br}$ & $MAE_{Tr-Br}$ \\
+      &     &            &        &             &                \\
+500   &     &            &        &             &                \\
+1k    &     &            &        &             &                \\
+2k    &     &            &        &             &                \\
+5k    &     &            &        &             &                \\
+10k   &     &            &        &             &                \\
+20k   &     &            &        &             &               
+\end{tabular}
+\end{table}
+
+Au final, on obtient le même comportement, un filtre avec une faible fréquence de coupure ($f_c$ = ). Il est nécessaire de l'augmenter ici puisque le corpus est composé de moins de scène où le trafic est moins présent.
+
+\subsection{Erreur produite par la NMF}
+
+
+\label{chap:grafic}
+\begin{itemize}
+\item rappel du corpus ambiance avec ces ambiances, le nombres total d'échantillons et la durée par ambiances
+\item rappel du principe de la méthode avec la métrique en bout de course
+\item paramètre de la NMF (supervisée, semi-supervisée, seuillé, beta, threshold)
+\item résumé de tout les paramètres (nombre complet de combinaisons) sous forme de tableau avec le nombre total de combinaison, nombre d'itération
+\item résultats
+\begin{itemize}
+\item mae générale (filtre VV, supervisé VV, semi-supervisé VV, seuillé VV)
+\item mae pour chaque ambiance (filtre VV, supervisé VV, semi-supervisé VV, seuillé VV)
+\item allure des courbes Lp,1s pour chaque ambiance
+\item fonction cost (supervisé VV, semi-supervisé VV, seuillé)
+\item allure des 2 éléments dans Wr
+\item distance $w_0$ et $w$
+\item smoothness et impact notable sur le semi-supervisée
+\item optimisation de la valeur seuil en fonction d'indicateur
+calibration qui fait défault donc les valeurs de référence sont à revoir mais ça signifie qu'avec des indicateurs assez simple, on peut ajuster les seuils.
+\end{itemize}
+
+
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{lcccccc}
+méthode & $f_c$ & $\beta$ & K & $w_t$ & t & MAE (dB) \\
+filtre &  & - & - & - & - &  \\
+filtre &  & - & - & - & - &  \\
+NMF SUP & - & 0 & 200 & 1000 & - & 4,17 ($\pm$ 4,81) \\
+NMF SUP & - & 1 & 25 & 2000 & - & 2,78 3,32 \\
+NMF SUP & - & 2 & 25 & 500 & - & 2,31 2,87 \\
+NMF SEM & - & 0 & 200 & 500 & - & 2,08 0,72 \\
+NMF SEM & - & 1 & 200 & 2000 & - & 1,94 0,34 \\
+ & - & 2 & 200 & 2000 & - & 2,33 1,32 \\
+NMF IS & - & 0 &  &  &  &  \\
+NMF IS & - & 1 &  &  &  &  \\
+NMF IS & - & 2 &  &  &  & 
+\end{tabular}
+\end{table}
+
+
+\end{itemize}
+
+
+
+%\end{document}
