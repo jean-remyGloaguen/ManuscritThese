@@ -406,7 +406,7 @@ Les niveaux sonores exacts et estimés, produits sur un ensemble de $M$ scènes 
 MAE = \frac{\sum_{i = 1}^{M} \vert L_{eq, trafic, \delta t}^i - \tilde{L}_{eq, trafic, \delta t}^i \vert}{M}.
 \end{equation}
 
-Contrairement à l'erreur RMSE, qui revient à la racine carré de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité.\\
+Contrairement à l'erreur RMSE, qui revient à la racine carré de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité. Le choix de confronter des grandeurs logarithmiques (les niveaux sonores en dB) à un opérateur arithmétique (l'opérateur moyenne) est justifié par ses usages fréquents dans la communauté d'acoustique environnementale. Cet emploi a été traité plusieurs fois et est un point dont la communauté à conscience \cite{maurin2008proposal}. 
 
 À partir de cette proposition, il nous reste maintenant à :
 \begin{itemize}
