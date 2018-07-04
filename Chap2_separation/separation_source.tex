@@ -13,14 +13,15 @@
 Savoir isoler les différentes composantes qui constituent un signal est une question complexe intervenant dans des domaines variés comme en biologie \cite{chiappetta2004blind}, dans le monde médical \cite{jung2000removing} ou bien encore dans le domaine de l'image \cite{nuzillard2000blind}. En audio, cette question intervient alors que la quasi-totalité des environnements sonores qui nous entourent sont composés d'une multitude de sources sonores. En considérant $N$ sources sonores qui possèdent leur propre caractéristiques acoustique (intensité, fréquences, durée), pour un capteur $i$, le problème de la séparation de source peut se poser comme un problème linéaire inverse. Le cas le plus simple est celui qui suppose des mixtures instantanées linéaire, 
 
 \begin{equation}
-x_i(t) = \sum_{j = 1}^{N} a_{ij}s_j(t)
+x_i(t) = \sum_{j = 1}^{N} a_{ij}s_j(t),
 \end{equation}
+
 où $x_i(t)$ est un signal capté à l'instant $t$ au point $i$, $s_j(t)$ une source originale $j$ émise à l'instant $t$ et $a_{ij}$, le filtrage mixant entre la source $j$ et le capteur situé en $i$. On y considère alors que les signaux des $N$ sources arrivent au même moment à chaque capteur. \'A l'inverse, un approche plus complexe et plus complète est de considérer le problème à partir de mixtures convolutives qui considèrent les multiples voies de propagation des sources $s_i$ (champ direct et réfléchis) jusqu'au capteur $x_i$,  
 
 \begin{subequations}
 \begin{align}
-x_i(t) &= \sum_{j = 1}^{N} \sum_{k = 1}^{+\infty} a_{ijk} s_j(t-\tau_{ijk})\\
- &= \sum_{j = 1}^{N} a_{ij}(t) \ast s_j(t)\label{eq:BSS_convol}
+x_i(t) &= \sum_{j = 1}^{N} \sum_{k = 1}^{+\infty} a_{ijk} s_j(t-\tau_{ijk}),\\
+ &= \sum_{j = 1}^{N} a_{ij}(t) \ast s_j(t).\label{eq:BSS_convol}
 \end{align}
 \end{subequations}
 
@@ -90,8 +91,8 @@ avec $X_i$ et $S_j$, les représentations temps-fréquences du signal $x_i$ et d
 Le rapport des amplitudes des signaux permet d'exprimer les rapports d'amplitudes $\tilde{a}$ et de phases $\tilde{\delta}$ :
 \begin{subequations}
 \begin{align}
-\tilde{a}(\omega,\tau) &= \vert\sfrac{X_2(\omega,\tau)}{X_1(\omega,\tau)}\vert \\
-\tilde{\delta}(\omega,\tau) &= \sfrac{-1}{\omega}\angle\left(\sfrac{X_2(\omega,\tau)}{X_1(\omega,\tau)}\right)
+\tilde{a}(\omega,\tau) &= \vert\sfrac{X_2(\omega,\tau)}{X_1(\omega,\tau)}\vert, \\
+\tilde{\delta}(\omega,\tau) &= \sfrac{-1}{\omega}\angle\left(\sfrac{X_2(\omega,\tau)}{X_1(\omega,\tau)}\right).
 \end{align}
 \end{subequations}
 
@@ -115,7 +116,7 @@ Afin de s'extraire des conditions strictes imposées par la méthode et de s'app
 avec $\alpha(\omega,\tau) = \bigg\vert \frac{X_2(\omega,\tau)}{X_1(\omega,\tau)} \bigg\vert - \bigg\vert  \frac{X_1(\omega,\tau)}{X_2(\omega,\tau)} \bigg\vert$ et
 
 \begin{equation}
-\delta_j = \frac{\iint_{(\omega,\tau)} \vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q \tilde{\delta}(\omega,\tau) d\omega d\tau}{\iint_{(\omega,\tau)}\vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q d\omega d\tau},
+\delta_j = \frac{\iint_{(\omega,\tau)} \vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q \tilde{\delta}(\omega,\tau) d\omega d\tau}{\iint_{(\omega,\tau)}\vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q d\omega d\tau}.
 \end{equation}
 
 Ces deux indicateurs dépendent de deux constantes définies, $p$ et $q$ qui permettent de pondérer le poids de chaque point temps-fréquence :
@@ -150,8 +151,8 @@ L'ACI peut être vue comme une extension de l'Analyse en Composante Principale (
 De nombreux développements ont été proposés afin d'obtenir une indépendance maximale entre les sources :
 
 \begin{itemize}
-\item la minimisation de l'information mutuelle \cite{hyvarinen97independentcomponent} qui consiste à maximiser un calcul de distance (au travers d'une divergence de Kullback-Leibler) entre l'entropie de l'ensemble des composantes et celle d'une composante $i$,
-\item la décorrélation non-linéaire qui consiste à minimiser la corrélation entre deux composantes $y_i$ et $y_j$ chacune exprimée par une fonction $f(y)$ et $g(y)$ dont au moins une est non-linaire (polynôme de degré 2 ou plus, fonction tangente hyperbolique \dots). Pour passer de la non-corrélation à l'indépendance, \cite{jutten1991blind} ajoute une condition où la fonction non-linéaire (ou une des deux)  est impaire avec une moyenne nulle.
+\item la minimisation de l'information mutuelle \cite{hyvarinen97independentcomponent} qui consiste à maximiser un calcul de distance (au travers d'une divergence de Kullback-Leibler) entre l'entropie de l'ensemble des composantes et celle d'une composante $i$.
+\item La décorrélation non-linéaire qui consiste à minimiser la corrélation entre deux composantes $y_i$ et $y_j$ chacune exprimée par une fonction $f(y)$ et $g(y)$ dont au moins une est non-linaire (polynôme de degré 2 ou plus, fonction tangente hyperbolique \dots). Pour passer de la non-corrélation à l'indépendance, \cite{jutten1991blind} ajoute une condition où la fonction non-linéaire (ou une des deux)  est impaire avec une moyenne nulle.
 \item la minimisation de la \og gaussianité \fg{} des composantes, basée sur le \textit{Théorème Centrale Limite} qui démontre que la somme de variables aléatoires indépendantes forme un ensemble gaussien. La recherche de l'indépendance des sources revient alors à minimiser la \og gaussianité \fg{} entre les composantes. Cette approche est la base de la mesure de la négentropie (ou entropie relative) \cite{lee2000unifying} ou de l'algorithme FastICA \cite{hyvarinen1999fast} qui est l'algorithme le plus couramment utilisé pour résoudre l'ACI.
 \end{itemize}
 
@@ -177,7 +178,7 @@ x_{N}
 \sfrac{s_{1}}{\alpha_1}\\
 \vdots\\
 \sfrac{s_{N}}{\alpha_N}
-\end{bmatrix}
+\end{bmatrix}.
 \end{equation}
 
 La détermination de l'amplitude exacte des signaux est donc soumise à l'incertitude \cite{naik2011overview}.
@@ -195,7 +196,7 @@ Là où l'ACI impose une contrainte d'indépendance, la NMF impose celle de la \
 L'approximation entre $\mathbf{V}$ et $\mathbf{WH}$ est résolue en minimisant leur $\beta$-divergence :
 
 \begin{equation}\label{eq:d_v_wh}
-\text{min}~D_{\beta}\left(\textbf{V} \vert\vert \textbf{WH}\right) \quad \text{avec} \quad \mathbf{W} \geq 0, \mathbf{H} \geq 0
+\text{min}~D_{\beta}\left(\textbf{V} \vert\vert \textbf{WH}\right) \quad \text{avec} \quad \mathbf{W} \geq 0, \mathbf{H} \geq 0.
 \end{equation}
 
 Plusieurs approches existent afin de résoudre le problème \ref{eq:d_v_wh}, basées sur des approches itératives : mises à jour multiplicatives \cite{lee_algorithms_2000}, méthode des moindres carrés alternés \cite{cichocki_regularized_2007}, gradient projeté \cite{lin_projected_2007} \dots{} La NMF permet aussi d'ajouter des contraintes sur chaque matrice \cite{virtanen_monaural_2007, bertin2010enforcing} afin de forcer un type de comportement particulier des matrices suivant le problème posé.
@@ -219,7 +220,7 @@ Le Tableau \ref{tab:comparaison_method} compare les différentes caractéristiqu
 
 \begin{table}[ht]
 \centering
-\caption{Comparaison des 5 méthodes de séparation de sources en vue d'estimer le niveau sonore du trafic routier à partir d'enregistrements monophoniques (\og - \fg{} : pas adapté, \og + \fg{} : adapté, \og ++ \fg{} : très adapté.}
+\caption{Comparaison des 5 méthodes de séparation de sources en vue d'estimer le niveau sonore du trafic routier à partir d'enregistrements monophoniques (\og - \fg{} : pas adapté, \og + \fg{} : adapté, \og ++ \fg{} : très adapté.})
 \label{tab:comparaison_method}
 \begin{tabular}{lcccl}
 \toprule

@@ -6,6 +6,8 @@
 %\begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{La factorisation en matrices non-négatives}
+\label{chap:NMF}
+
 La factorisation en matrices non-négatives étant la méthode retenue pour la suite des travaux, ce chapitre en présente son fonctionnement. Les principes généraux sont dans un premier temps détaillés, puis les différentes approches de cette méthode sont explicitées.
 
 \section{Principe de la NMF}
@@ -18,7 +20,7 @@ La factorisation en matrice non-négatives (abrégé NMF pour \textit{Non-negati
 où $\textbf{W}$ et $\textbf{H}$ sont deux matrices, également non-négatives, de dimensions respectives $F \times K$ et $K \times N$, appelées \textit{dictionnaire} et \textit{matrice d'activation}. Le choix du rang de factorisation $K$ est le plus souvent déterminé afin que la relation $F \times K + K \times N << F \times N$ soit respectée. Dans ce cas, la NMF est une méthode d'approximation dite de faible rang car elle permet la réduction de la dimensionalité des données. La contrainte de non-négativité permet d'assurer que les éléments du dictionnaires appartiennent bien tous au même domaine non-négatif que les données d'observations $\mathbf{V}$, et donc de leur interprétabilité. Comme seules des combinaisons additives sont permises, la soustraction d'information n'est pas possible dans le produit $\mathbf{WH}$. En cela, la NMF réalise alors une représentation dite \og par partie \fg{} dans laquelle $\mathbf{W}$ est composée de briques élémentaires qui, additionnées, permettent d'approximer l'ensemble de $\mathbf{V}$. Un exemple de NMF est présenté dans la Figure \ref{fig:ex_NMF}. Chaque colonne $n$ de la matrice $\mathbf{V}$ est décrite comme la somme des éléments de $\mathbf{W}$ pondérés par la colonne $n$ de la matrice $\mathbf{H}$ :
 
 \begin{equation}\label{eq:nmf_h}
-\mathbf{v} \approx \tilde{v} =  \mathbf{Wh}
+\mathbf{v} \approx \mathbf{\tilde{v}} =  \mathbf{Wh}
 \end{equation}
 
 où les caractères minuscules représentent des vecteurs colonnes et $n$ est une trame temporelle. Les majuscules dénotent des matrices.
@@ -117,7 +119,7 @@ L'ensemble des divergences de Bregman définies par cette distribution dans l'é
 
 \begin{subequations}\label{eq:divBetaGenerale}
 \begin{numcases}{d_{\phi_{\beta}}(x\vert y) =}
-    \frac{1}{\beta(\beta-1)}(x^{\beta}+(\beta-1)y^{\beta}-\beta xy^{\beta-1}), & $\beta \in \mathbb{R} \backslash \lbrace 0,1\rbrace$\label{eq:def_beta}\\
+    \frac{1}{\beta(\beta-1)}(x^{\beta}+(\beta-1)y^{\beta}-\beta xy^{\beta-1}), & $\beta \in \mathbb{R} \backslash \lbrace 0,1\rbrace$,\label{eq:def_beta}\\
     \dfrac{x}{y}-\log \dfrac{x}{y}-1, & $\beta = 0$,\label{eq:def_divIS}\\
     x\log \dfrac{x}{y} - x + y, & $\beta = 1$.\label{eq:def_divKL}
 \end{numcases}
@@ -126,7 +128,7 @@ L'ensemble des divergences de Bregman définies par cette distribution dans l'é
 Les équations \ref{eq:def_divIS} et \ref{eq:def_divKL} sont des cas limites de l'expression \ref{eq:def_beta}. Chaque paramètre de forme choisi coïncide alors avec une distribution particulière des données : pour $\beta = 1$, la distribution de Tweedie s'apparente à une distribution de Poisson, pour $\beta = 0$, c'est une distribution gamma (ou exponentielle). Dans le cas où $\beta = 2$, cela correspond à d'une distribution normale de moyenne $\mu$ et de variance $\sigma^2$ :
 
 \begin{align}
-p(x \vert \theta, \lambda) & = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1}{2} \left(\frac{x-\mu}{\sigma} \right)^2 \right)\\
+p(x \vert \theta, \lambda) & = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1}{2} \left(\frac{x-\mu}{\sigma} \right)^2 \right),\\
 & = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1}{\sigma^2}  d_{\phi_{2}}(x\vert \mu) \right)
 \end{align}
 
@@ -141,8 +143,8 @@ avec $g(x,\lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$, $\lambda = \sigma^2$ et $
 
 Dans le reste du document, par soucis de clarté, les $\beta$-divergences $d_{\phi_{\beta}}$ seront dénommées $d_{\beta}$. Les trois cas énumérés, $\beta  = [0,1,2]$, associés à des distributions particulières, sont trois $\beta$-divergences remarquables qu'on présente dans les parties suivantes.
 
-\subsection{Distance euclidienne}
-La première divergence remarquable se réalise lorsque $\beta = 2$ en devenant \textbf{la distance euclidienne} (abrégé EUC) :
+\subsection{Distance euclidienne}\label{part:dist_EUC}
+Lorsque $\beta = 2$, la $\beta$-divergence devient \textbf{la distance euclidienne} (abrégé EUC) :
 
 \begin{equation}
 d_{{2}}(x\vert y) = \dfrac{1}{2}(x-y)^2.
@@ -162,10 +164,10 @@ Comme chaque mesure de distance au point $(x,y)$ possède le même poids que les
 d'_2(v_{fn} \vert w_{fk} h_{kn}) = g_{v_{fn}} d_2 (v_{fn} \vert w_{fk} h_{kn}).
 \end{equation}
 
-\subsection{Divergence de Kullback-Leibler}
+\subsection{Divergence de Kullback-Leibler}\label{part:div_KL}
 L'expression \ref{eq:def_divKL} correspond à \textbf{la divergence de Kullback-Leibler} (abrégé K-L) \cite{kompass_generalized_2007, cichocki_new_2006} . Elle traduit comment une densité de probabilité $\mathbf{x}$ diverge d'une seconde distribution $\mathbf{y}$. En d'autres termes, c'est une mesure de l'information perdue lorsque $\mathbf{y}$ est utilisée pour approximer $\mathbf{x}$. Ne respectant pas les propriétés de symétrie et d'inégalité triangulaire, elle n'est donc pas une distance. La divergence K-L est un cas remarquable puisqu'elle appartient à la fois aux divergences de Bregman et à une autre famille de divergences, les divergences de Csiszar \cite{cichocki_csiszars_2006}.
 
-\subsection{Divergence d'Itakura-Saïto}
+\subsection{Divergence d'Itakura-Saïto}\label{part:div_IS}
 L'expression \ref{eq:def_divIS} est celle de \textbf{la divergence d'Itakura-Saïto} (abrégé I-S) \cite{itakura1968analysis, bertin_les_2009}. Cette divergence est la seule des $\beta$-divergences à posséder la propriété d'\textit{invariance d'échelle} :
 
 \begin{equation}\label{eq:scale_IS}
@@ -185,7 +187,7 @@ Dans le cas où $\beta > 0$, la divergence est plus influencée par les composan
 Si on s'est attardé à décrire longuement les $\beta$-divergences, d'autres familles de divergences peuvent être utilisées pour la NMF notamment celles appartenant aux divergences de Csiszar (ou appelées $f$-divergences). Cette famille est toutefois moins utilisée que celle de Bregman. Elle se définit comme
 
 \begin{equation}
-D_{\Psi} (\mathbf{x} \Vert\mathbf{y}) = \mathbf{x} \mathbf{\Psi} \left( \frac{\mathbf{x}}{\mathbf{y}}\right)
+D_{\Psi} (\mathbf{x} \Vert\mathbf{y}) = \mathbf{x} \mathbf{\Psi} \left( \frac{\mathbf{x}}{\mathbf{y}}\right).
 \end{equation}
 
 Elle intègre notamment la distance de variation totale ($\psi(x) = \frac{1}{2}\vert x-1 \vert $), la divergence $\chi^2$ ($\psi(x) = (x-1)^2$), la distance d'Hellinger ($\psi(x) = (\sqrt{x}-1)^2$), les divergences $\alpha$ d'Amari $(\psi(x) = \frac{4}{1-\alpha^2} \left(1-x^{(1+\alpha)/2} \right))$ et la divergence de Kullback-Leibler ($\psi(x) = x\log (x)$). Elle possède plusieurs propriétés (non-négativité, unicité de la solution, symétrie, convexité, dépendance) qui sont détaillées dans \cite{csiszar2004information}.
@@ -206,12 +208,12 @@ Sont présentés ici les algorithmes multiplicatifs les plus couramment utilisé
 
 \subsection{Algorithme heuristique par descente de gradient}
 
-Dans leur premier article consacré à la NMF, Lee et Seung \cite{lee_learning_1999} proposent une première formulation des algorithmes de mises à jour, sans toutefois expliciter leur origine,  pour $\beta  \in \lbrace 1,2 \rbrace$.
+Dans leur premier article consacré à la NMF, Lee et Seung \cite{lee_learning_1999} proposent une première formulation des algorithmes de mises à jour, sans toutefois expliciter leur origine,  pour $\beta  \in \lbrace 1,2 \rbrace$ :
 
 \begin{subequations}\label{eq:WHupdateGD}
 \begin{align}
-\textbf{W}^{(i+1)} &\leftarrow \textbf{W}^{(i)}\otimes\frac{\left[\left(\textbf{W}^{(i)}\mathbf{H} \right)^{(\beta-2)}\otimes\textbf{V} \right]\textbf{H}^T}{\left[\textbf{W}^{(i)}\mathbf{H} \right]^{(\beta-1)}\textbf{H}^T}\\
-\textbf{H}^{(i+1)} &\leftarrow \textbf{H}^{(i)}\otimes\frac{\textbf{W}^T \left[\left(\textbf{WH}^{(i)} \right)^{(\beta-2)}\otimes.\textbf{V} \right]}{\textbf{W}^T \left[\textbf{WH}^{(i)} \right]^{(\beta-1)}}
+\textbf{W}^{(i+1)} &\leftarrow \textbf{W}^{(i)}\otimes\frac{\left[\left(\textbf{W}^{(i)}\mathbf{H} \right)^{.(\beta-2)}\otimes\textbf{V} \right]\textbf{H}^T}{\left[\textbf{W}^{(i)}\mathbf{H} \right]^{.(\beta-1)}\textbf{H}^T},\\
+\textbf{H}^{(i+1)} &\leftarrow \textbf{H}^{(i)}\otimes\frac{\textbf{W}^T \left[\left(\textbf{WH}^{(i)} \right)^{.(\beta-2)}\otimes.\textbf{V} \right]}{\textbf{W}^T \left[\textbf{WH}^{(i)} \right]^{.(\beta-1)}}.
 \end{align}
 \end{subequations}
 
@@ -245,8 +247,8 @@ La fonction coût $D(x)$ est alors minimisée lorsque, pour un point donné, le 
 
 \begin{subequations}
     \begin{align}
-     \mathbf{W}^{(i+1)} & \leftarrow \mathbf{W}^{(i)}\frac{\nabla_\mathbf{W}^-D(\mathbf{V}\Vert\mathbf{WH})}{\nabla_\mathbf{W}^+D(\mathbf{V}\vert \vert \mathbf{WH})}\\
-     \mathbf{H}^{(i+1)} & \leftarrow \mathbf{H}^{(i)}\frac{\nabla_\mathbf{H}^-D(\mathbf{V}\Vert\mathbf{WH})}{\nabla_\mathbf{H}^+D(\mathbf{V}\Vert\mathbf{WH})}
+     \mathbf{W}^{(i+1)} & \leftarrow \mathbf{W}^{(i)}\frac{\nabla_\mathbf{W}^-D(\mathbf{V}\Vert\mathbf{WH})}{\nabla_\mathbf{W}^+D(\mathbf{V}\vert \vert \mathbf{WH})},\\
+     \mathbf{H}^{(i+1)} & \leftarrow \mathbf{H}^{(i)}\frac{\nabla_\mathbf{H}^-D(\mathbf{V}\Vert\mathbf{WH})}{\nabla_\mathbf{H}^+D(\mathbf{V}\Vert\mathbf{WH})}.
     \end{align}
 \end{subequations}
 
@@ -280,8 +282,8 @@ La détermination d'un $\mathbf{h}$ optimal est alors réalisée par un processu
 
 \begin{subequations}\label{eqs:conditionAux2}
 \begin{align}
-\textbf{h}^{(i+1)} &= \underset{\textbf{h} \geq 0}{\text{arg min}}~ G(\textbf{h}\vert \textbf{h}^{(i)})\\
-C(\mathbf{h}^{(i+1)}) \leq G(\textbf{h}^{(i+1)}\vert\mathbf{h}^{(i)}) &\leq G(\textbf{h}^{(i)}\vert\mathbf{h}^{(i)}) = C(\mathbf{h}^{(i)})\label{eq:monotonie}
+\textbf{h}^{(i+1)} &= \underset{\textbf{h} \geq 0}{\text{arg min}}~ G(\textbf{h}\vert \textbf{h}^{(i)}),\\
+C(\mathbf{h}^{(i+1)}) \leq G(\textbf{h}^{(i+1)}\vert\mathbf{h}^{(i)}) &\leq G(\textbf{h}^{(i)}\vert\mathbf{h}^{(i)}) = C(\mathbf{h}^{(i)}).\label{eq:monotonie}
 \end{align}
 \end{subequations}
 
@@ -317,7 +319,7 @@ d_{\beta}(x\vert y) = \breve{d}(x\vert y) + \textit{\textroundcap{d}}(x\vert y) 
 \end{table}
 
 Dans le cas où $\beta \in \left\lbrace1,2 \right\rbrace$, la partie concave et constante sont nulles, ce qui correspond à l'allure des courbes dans la Figure \ref{fig:allure-divergence}.
-La fonction auxiliaire majorante $G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ est obtenue en majorant ces trois parties séparément : par une inégalité de Jensen pour la partie convexe et par une approximation de Taylor au premier ordre (qui équivaut à sa tangente) pour la partie concave.
+La fonction auxiliaire majorante $G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ est obtenue en majorant ces trois parties séparément : par une inégalité de Jensen pour la partie convexe et par une approximation de Taylor au premier ordre (qui équivaut à sa tangente) pour la partie concave. La fonction auxiliaire $G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ devient alors 
 
 \begin{multline}\label{eq:fonction_auxiliaire}
 G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f \left[ \sum_k \frac{w_{fk}h_k^{(i)}}{\tilde{v}_f} \breve{d}\left(v_f\vert \tilde{v}_f\frac{h_k^{(i+1)}}{h_k^{(i)}} \right) \right]\\
@@ -329,14 +331,14 @@ G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f \left[ \sum_k \frac{w_{fk}h
 avec $\mathbf{h}^{(i+1)}$, le vecteur $\mathbf{h}$ à mettre à jour, $\mathbf{h}^{(i)}$, le vecteur actuel de $\mathbf{h}$, $\tilde{v}_f= \left[ \mathbf{W h}^{(i)} \right]_f$. La fonction~\ref{eq:fonction_auxiliaire} est alors minimisée en déterminant le zéro de sa dérivée selon $h_k$ :
 
 \begin{equation}\label{eq:derivé-fonc-auxiliaire}
-\nabla_{h_k} G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f w_{fk}\left[\breve{d}'\left(v_f\vert \tilde{v}_f\frac{h_k^{(i+1)}}{h^{(i)}_k}\right) + \textit{\textroundcap{d}}'(v_f\vert \tilde{v}_f)\right]
+\nabla_{h_k} G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f w_{fk}\left[\breve{d}'\left(v_f\vert \tilde{v}_f\frac{h_k^{(i+1)}}{h^{(i)}_k}\right) + \textit{\textroundcap{d}}'(v_f\vert \tilde{v}_f)\right].
 \end{equation}
 
 De l'équation \ref{eq:derivé-fonc-auxiliaire}, l'expression de $h_k^{(i+1)}$ est déterminée :
 
 \begin{align}\label{eq:update_hk}
-h_k^{(i+1)} & = h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v}_f^{(\beta-1)}}\right)^{\gamma(\beta)}\\
- & = h_k^{(i)}\left(\frac{\nabla_{h_{k}}^- C(\mathbf{\tilde{h}})}{\nabla_{h_{k}}^+ C(\mathbf{\tilde{h}})}\right)^{\gamma(\beta)}.
+h_k^{(i+1)} & = h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v}_f^{(\beta-1)}}\right)^{\gamma(\beta)},\\
+ & = h_k^{(i)}\left(\frac{\nabla_{h_{k}}^- C(\mathbf{\tilde{h}})}{\nabla_{h_{k}}^+ C(\mathbf{\tilde{h}})}\right)^{\gamma(\beta)}
 \end{align}
 
 avec
@@ -350,24 +352,24 @@ avec
 \end{subequations}
 
 L'algorithme \ref{eq:update_hk} déduit est similaire à l'algorithme heuristique à descente de gradient (équation \ref{eq:WHupdateGD}) et ne diffère que par la présence de l'exposant $\gamma
-(\beta)$. Pour $\beta \in \lbrace 1, 2 \rbrace$, où $d_{\beta}(x\vert y)$ est strictement convexe, les deux algorithmes sont même égaux. En dehors de cet intervalle, l'algorithme de \textit{majorisation-minimisation} amène la preuve de la décroissance de l'équation \ref{eq:costFunctionMM} pour tout $\beta$ ce qui n'était qu'observé avec l'algorithme heuristique initial. Ce procédé peut être étendu à $\mathbf{W}$, avec comme fonction auxiliaire $K(\mathbf{w}^{(i+1)}\vert \mathbf{w}^{(i)})$
+(\beta)$. Pour $\beta \in \lbrace 1, 2 \rbrace$, où $d_{\beta}(x\vert y)$ est strictement convexe, les deux algorithmes sont même égaux. En dehors de cet intervalle, l'algorithme de \textit{majorisation-minimisation} amène la preuve de la décroissance de l'équation \ref{eq:costFunctionMM} pour tout $\beta$ ce qui n'était qu'observé avec l'algorithme heuristique initial. Ce procédé peut être étendu à $\mathbf{W}$, avec comme fonction auxiliaire $K(\mathbf{w}^{(i+1)}\vert \mathbf{w}^{(i)})$ :
 
 \begin{multline}\label{eq:derivé-fonc-auxiliaireK}
-K(\mathbf{w}^{(i+1)}\vert \mathbf{w}^{(i)}) =\sum_f \left[ \sum_k \frac{w_{fk}^{(i+1)}h_{k}}{\tilde{v}_f} \breve{d}\left(v_f\vert \tilde{v}_f \frac{w_{fk}^{(i+1)}}{w_{fk}^{(i)}} \right) \right]\\+ \left[ \textit{\textroundcap{d}}'(v_f\vert \tilde{v}_f) \sum_k (w_{fk}^{(i+1)}-w_{fk}^{(i)}) h_k+ \textit{\textroundcap{d}}(v_f\vert \tilde{v}_f)\right] +\bar{d}(v_f)
+K(\mathbf{w}^{(i+1)}\vert \mathbf{w}^{(i)}) =\sum_f \left[ \sum_k \frac{w_{fk}^{(i+1)}h_{k}}{\tilde{v}_f} \breve{d}\left(v_f\vert \tilde{v}_f \frac{w_{fk}^{(i+1)}}{w_{fk}^{(i)}} \right) \right]\\+ \left[ \textit{\textroundcap{d}}'(v_f\vert \tilde{v}_f) \sum_k (w_{fk}^{(i+1)}-w_{fk}^{(i)}) h_k+ \textit{\textroundcap{d}}(v_f\vert \tilde{v}_f)\right] +\bar{d}(v_f).
 \end{multline}
 
-permettant d'obtenir une expression de $w_{fk}$ :
+L'expression de $w_{fk}$ est alors déduite :
 
 \begin{equation}\label{eq:update_wfk}
-w_{fk}^{(i+1)} \leftarrow w_{fk}^{(i)}\left( \frac{h_k v_f \tilde{v}_f^{(\beta-2)}}{h_k\tilde{v}_{f}^{(\beta-1)}}\right)^{\gamma(\beta)}
+w_{fk}^{(i+1)} \leftarrow w_{fk}^{(i)}\left( \frac{h_k v_f \tilde{v}_f^{(\beta-2)}}{h_k\tilde{v}_{f}^{(\beta-1)}}\right)^{\gamma(\beta)}.
 \end{equation}
 
 Les expressions \ref{eq:update_hk} et \ref{eq:update_wfk}, généralisées sous formes matricielles, donnent alors les expressions \ref{eq:WHupdateMM}.
 
 \begin{subequations}\label{eq:WHupdateMM}
 \begin{align}
-\textbf{W}^{(i+1)} &\leftarrow \textbf{W}^{(i)}\otimes\left(\frac{\left[\left(\textbf{W}^{(i)}\mathbf{H} \right)^{(\beta-2)}\otimes\textbf{V} \right]\textbf{H}^T}{\left[\textbf{W}^{(i)}\mathbf{H} \right]^{(\beta-1)}\textbf{H}^T}\right)^{\gamma(\beta)}\label{eq:WupdateMM}\\
-\textbf{H}^{(i+1)} &\leftarrow \textbf{H}^{(i)}\otimes\left(\frac{\textbf{W}^T \left[\left(\textbf{WH}^{(i)} \right)^{(\beta-2)}\otimes\textbf{V} \right]}{\textbf{W}^T \left[\textbf{WH}^{(i)} \right]^{(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:HupdateMM}
+\textbf{W}^{(i+1)} &\leftarrow \textbf{W}^{(i)}\otimes\left(\frac{\left[\left(\textbf{W}^{(i)}\mathbf{H} \right)^{.(\beta-2)}\otimes\textbf{V} \right]\textbf{H}^T}{\left[\textbf{W}^{(i)}\mathbf{H} \right]^{.(\beta-1)}\textbf{H}^T}\right)^{\gamma(\beta)},\label{eq:WupdateMM}\\
+\textbf{H}^{(i+1)} &\leftarrow \textbf{H}^{(i)}\otimes\left(\frac{\textbf{W}^T \left[\left(\textbf{WH}^{(i)} \right)^{.(\beta-2)}\otimes\textbf{V} \right]}{\textbf{W}^T \left[\textbf{WH}^{(i)} \right]^{.(\beta-1)}}\right)^{\gamma(\beta)}.\label{eq:HupdateMM}
 \end{align}
 \end{subequations}
 
@@ -378,8 +380,8 @@ D'autres algorithmes ont été proposés à partir d'approches différentes comm
 
 \begin{subequations}\label{eq:als}
 \begin{align}
-\mathbf{W}^{(i+1)} &= \text{arg}~\underset{\mathbf{W} > 0}{\text{min}}~D\left(\mathbf{V} \vert\vert\mathbf{W}^{(i)}\mathbf{H}^{(i)}\right)\\
-\mathbf{H}^{(i+1)} &= \text{arg}~\underset{\mathbf{H} > 0}{\text{min}}~D\left(\mathbf{V} \vert\vert\mathbf{W}^{(i+1)}\mathbf{H}^{(i)}\right)
+\mathbf{W}^{(i+1)} &= \text{arg}~\underset{\mathbf{W} > 0}{\text{min}}~D\left(\mathbf{V} \vert\vert\mathbf{W}^{(i)}\mathbf{H}^{(i)}\right),\\
+\mathbf{H}^{(i+1)} &= \text{arg}~\underset{\mathbf{H} > 0}{\text{min}}~D\left(\mathbf{V} \vert\vert\mathbf{W}^{(i+1)}\mathbf{H}^{(i)}\right).
 \end{align}
 \end{subequations}
 
@@ -390,7 +392,7 @@ Pour résoudre les équations \ref{eq:als}, Zdunek et Cichocki \cite{zdunek2006n
 Il est à noter qu'une autre approche de la NMF existe à travers un pendant probabiliste : l'Analyse Probabiliste en Composantes Latentes (abrégé PLCA pour \textit{Probabilistic Latent Composent Analysis} en anglais) \cite{hofmann_unsupervised_2001, cazau_understanding_2017}. Elle considère l'ensemble des points d'un spectrogramme $V_{F \times N}$ comme le résultat d'un tirage de $F \times N$ variables indépendantes.  Cette distribution suit une loi de distribution discrète paramétrique $P_{\Lambda}\left(f,n\right)$ où $\Lambda$ résume l'ensemble de ces paramètres. En introduisant la variable aléatoire latente (ou cachée) $k$, on obtient :
 
 \begin{align}
-P_{\Lambda}\left(f,n\right) &= \sum_k P\left( k \right)P\left(f, n\vert k \right)\\
+P_{\Lambda}\left(f,n\right) &= \sum_k P\left( k \right)P\left(f, n\vert k \right),\\
 & = \sum_n P(k)P \left(n \vert k\right)P\left(f \vert k \right)
 \end{align}
 
@@ -403,25 +405,23 @@ Plusieurs variances de la PLCA existent également comme la PLCA par changement 
 L'utilisation de la NMF nécessite deux étapes : une phase d'apprentissage du dictionnaire et une phase de test (Figure \ref{fig:supervised_learning}) :
 
 \begin{itemize}
-\item Durant la phase d'apprentissage, $\mathbf{W}$ et $\mathbf{H}$ sont des matrices dont le contenu est inconnu. Le corpus d'apprentissage est alors soumis à une méthode d'apprentissage permettant de construire le dictionnaire $\mathbf{W}$ (algorithme de clustering \textit{k-mean}, NMF \dots). Dans le cas de la NMF, la matrice d'activation obtenue $\mathbf{H_0}$, propre à ce corpus, est alors rejetée, seul $\mathbf{W}$ est alors conservé pour l'étape suivante.
+\item Durant la phase d'apprentissage, $\mathbf{W}$ et $\mathbf{H}$ sont des matrices dont le contenu est inconnu. Le corpus d'apprentissage est alors soumis à une méthode d'apprentissage permettant de construire le dictionnaire $\mathbf{W}$ (algorithme de clustering \textit{k-mean}, NMF \dots). Dans le cas de la NMF, la matrice d'activation obtenue $\mathbf{H_0}$, propre à ce corpus, est alors rejetée, seul $\mathbf{W}$ est conservé pour l'étape suivante. Si on s'arrête à la première étape d'apprentissage, la NMF peut alors être vu comme un algorithme de \textit{clustering} \cite{li2006relationships} et de réduction des données grâce à la contrainte imposée sur les dimensions des matrices ($F \times K + K \times N << F \times N$).
 \item Pour la phase de test, le dictionnaire $\mathbf{W}$ obtenue est utilisé sur un corpus de test avec $\mathbf{H}$, une nouvelle matrice d'activation inconnue, qui est à déterminer.
 \end{itemize}
-
-Si on s'arrête à la première étape d'apprentissage, la NMF peut alors être vu comme un algorithme de \textit{clustering} \cite{li2006relationships} et de réduction des données grâce à la contrainte imposée sur les dimensions des matrices ($F \times K + K \times N << F \times N$).
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\linewidth]{./figures/NMF/NMF_apprentissage.pdf}
-\caption{Diagramme en bloc des étapes de la NMF}
+\caption{Diagramme en blocs des étapes de la NMF}
 \label{fig:supervised_learning}
 \end{figure}
 
 \subsection{Apprentissage supervisé et non-supervisé}
 Lorsque les classes de sons du corpus d'apprentissage sont inconnues ou que les échantillons audio sont composés d'un mélange de plusieurs sources, il n'est pas possible de connaitre la classe de son de chaque élément qui constitue $\mathbf{W}$. Toutefois, pour réaliser une séparation de sources, il est nécessaire de classifier les différents éléments entre eux. Une étape de \textit{clustering}, à l'aide d'un algorithme des $k$-moyen ou $k$-médoïde, est alors nécessaire pour classer ces éléments selon un nombre de catégories défini par l'utilisateur. Ce cas correspond à une \textit{NMF non-supervisée}.
 À l'inverse, lorsque le jeu de données peut être étiqueté, chaque élément défini dans $\mathbf{W}$ est connu. Ce cas, le plus favorable et le plus simple, correspond à une \textit{NMF supervisée}.
-En connaissant la classe des éléments de $\mathbf{W}$, la séparation de sources est réalisable. Pour cela, soit les éléments relatifs à la source d'intérêt $i$ sont extraits directement de $\mathbf{W}$ et de $\mathbf{H}$,
+En connaissant la classe des éléments de $\mathbf{W}$, la séparation de sources est réalisable. Pour cela, soit les éléments relatifs à la source d'intérêt $i$ sont extraits soit directement de $\mathbf{W}$ et de $\mathbf{H}$,
 
-\begin{equation}
+\begin{equation}\label{eq:WH_trafic}
 \mathbf{V}_i = \left[\mathbf{WH}\right]_i,
 \end{equation}
 
@@ -434,14 +434,14 @@ soit cette séparation est réalisée par un masquage \textit{soft} :
 
 \subsection{Apprentissage semi-supervisé}
 L'apprentissage du dictionnaire pose la question de la généralisation des connaissances : comment à partir de données limitées obtenir une NMF efficace sur un ensemble de cas diverses et variés ?  Cette question se base sur le constat qu'il n'est pas possible de modéliser dans $\mathbf{W}$ l'ensemble des classes de sons qui composent un environnement notamment l'ESU qui est un milieu composé d'une multitude de sources sonores variables. Pour résoudre ce problème, une des premières solutions est de constituer une base d'apprentissage plus importante que la base de test, en vue d'augmenter la généralisation des connaissances apprises ou leur quantité. Toutefois, cette option n'est parfois pas réalisable soit parce que les données ne sont tout simplement pas disponible, soit parce que la quantité de données à gérer ensuite serait trop importante et nécessiterait des moyens de calculs puissant pour pouvoir mener à bien l'approximation du signal testé.
-Une autre possibilité pour tenter de résoudre cette question est de réaliser un apprentissage semi-supervisé, tel que proposée par \cite{lee_semi-supervised_2010, smaragdis2007supervised} (Figure \ref{fig:semi-supervised_learning}). La NMF semi-supervisée propose de construire un dictionnaire $\mathbf{W}_{F \times (K+J)}$ composé d'éléments appris sur le corpus d'apprentissage, $\mathbf{W_s} $ de dimensions $F \times K$, et d'éléments inconnus, $\mathbf{W_r}$ de dimensions $F \times J$ avec $J << K$. Cette condition est nécessaire afin de focaliser la reconstruction du signal avec les sources présentes dans $\mathbf{W_s}$. L'idée est alors de mettre à jour $\mathbf{W_r}$ lors de la phase de test afin d'y intégrer les autres sources sonores qui ne sont pas contenues dans $\mathbf{W_s}$. On obtient donc
+Une autre possibilité pour tenter de résoudre cette question est de réaliser un apprentissage semi-supervisé, tel que proposée par \cite{lee_semi-supervised_2010, smaragdis2007supervised} (Figure \ref{fig:semi-supervised_learning}). La NMF semi-supervisée propose de construire un dictionnaire $\mathbf{W}_{F \times (K+J)}$ composé d'éléments appris sur le corpus d'apprentissage, $\mathbf{W_s} $ de dimensions $F \times K$, et d'éléments inconnus, $\mathbf{W_r}$ de dimensions $F \times J$ avec $J << K$. Cette condition est nécessaire afin de focaliser la reconstruction du signal avec les sources présentes dans $\mathbf{W_s}$. L'idée est alors de mettre à jour $\mathbf{W_r}$ lors de la phase de test afin d'y intégrer les autres sources sonores qui ne sont pas apprises dans $\mathbf{W_s}$. On obtient donc
 
 \begin{equation}
 \mathbf{V} \approx \mathbf{WH} = \mathbf{W_s} \mathbf{H_s} + \mathbf{W_r} \mathbf{H_r}
 \end{equation}
 
 
-avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et respectivement $\mathbf{H} = \left[ \genfrac{}{}{0pt}{0}{\mathbf{H_s}}{\mathbf{H_r}} \right]$ constituée de la matrice $\mathbf{H_s}_{K \times N}$ et de la matrice $\mathbf{H_r}_{J \times N}$. $\mathbf{H_s}$, $\mathbf{W_r}$ et $\mathbf{H_r}$ sont donc les 3 matrices à déterminer lors de la phase de test à l'aide des algorithmes de mises à jour \ref{eq:WH-SSupdate}. Dans le cas où $\mathbf{W_s}$ est composée de spectres relatifs au trafic, le produit $\mathbf{W_r} \mathbf{H_r}$ est supposé n'être composé que d'éléments qui appartiennent à d'autres classes de sons.
+avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et respectivement $\mathbf{H} = \left[ \genfrac{}{}{0pt}{0}{\mathbf{H_s}}{\mathbf{H_r}} \right]$ constituée de la matrice $\mathbf{H_s}_{K \times N}$ et de la matrice $\mathbf{H_r}_{J \times N}$. $\mathbf{H_s}$, $\mathbf{W_r}$ et $\mathbf{H_r}$ sont donc les 3 matrices à déterminer lors de la phase de test à l'aide des algorithmes de mises à jour \ref{eq:WH-SSupdate}. 
 
 \begin{figure}[t]
 \centering
@@ -452,15 +452,15 @@ avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et respectivement $
 
 \begin{subequations}\label{eq:WH-SSupdate}
 \begin{align}
-\mathbf{W_r}^{(i+1)} &\leftarrow \mathbf{W_r}^{(i)}\otimes\left(\frac{\left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}\otimes\mathbf{V} \right]\mathbf{H_r}^T}{\left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}\mathbf{H_r}^T}\right)^{\gamma(\beta)}\label{eq:W_r_SS}\\
-\mathbf{H_r}^{(i+1)} &\leftarrow \mathbf{H_r}^{(i)}\otimes\left(\frac{\mathbf{W_r}^T \left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}\otimes\mathbf{V} \right]}{\mathbf{W_r}^T \left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_r_SS}\\
-\mathbf{H_s}^{(i+1)} &\leftarrow \mathbf{H_s}^{(i)}\otimes\left(\frac{\mathbf{W_s}^T \left[\left(\mathbf{WH}^{(i)} \right)^{(\beta-2)}\otimes\mathbf{V} \right]}{\mathbf{W_s}^T \left(\mathbf{WH}^{(i)} \right)^{(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_s_SS}
+\mathbf{W_r}^{(i+1)} &\leftarrow \mathbf{W_r}^{(i)}\otimes\left(\frac{\left[\left(\mathbf{WH}^{(i)} \right)^{.(\beta-2)}\otimes\mathbf{V} \right]\mathbf{H_r}^T}{\left(\mathbf{WH}^{(i)} \right)^{.(\beta-1)}\mathbf{H_r}^T}\right)^{\gamma(\beta)}\label{eq:W_r_SS}\\
+\mathbf{H_r}^{(i+1)} &\leftarrow \mathbf{H_r}^{(i)}\otimes\left(\frac{\mathbf{W_r}^T \left[\left(\mathbf{WH}^{(i)} \right)^{.(\beta-2)}\otimes\mathbf{V} \right]}{\mathbf{W_r}^T \left(\mathbf{WH}^{(i)} \right)^{.(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_r_SS}\\
+\mathbf{H_s}^{(i+1)} &\leftarrow \mathbf{H_s}^{(i)}\otimes\left(\frac{\mathbf{W_s}^T \left[\left(\mathbf{WH}^{(i)} \right)^{.(\beta-2)}\otimes\mathbf{V} \right]}{\mathbf{W_s}^T \left(\mathbf{WH}^{(i)} \right)^{.(\beta-1)}}\right)^{\gamma(\beta)}\label{eq:H_s_SS}
 \end{align}
 \end{subequations}
 
-L'extraction du signal trafic est réalisée à partir de $\mathbf{W_s}$ et de $\mathbf{H_s}$,
+Dans le cas où $\mathbf{W_s}$ est composée de spectres relatifs au trafic, le produit $\mathbf{W_r} \mathbf{H_r}$ est supposé être composé que d'éléments qui appartiennent à d'autres classes de sons. L'extraction du signal trafic est réalisée à partir de $\mathbf{W_s}$ et de $\mathbf{H_s}$,
 
-\begin{equation}
+\begin{equation}\label{eq:WSHs_trafic}
 \mathbf{\tilde{V}}_{trafic} = \mathbf{W_s H_s}
 \end{equation}
 
@@ -523,7 +523,7 @@ avec $\alpha = \left[\alpha_1, \alpha_2 \dots \alpha_K \right]$ qui est défini 
 \begin{numcases}{\alpha_k =}
     0, & \text{si}  $f(k) \leq t_{f,1}$, \\
     \mathcal{N}(f(k)), & \text{si}  $t_{f,1} < f(k) \leq t_{f,2}$,\\
-    1, & \text{si}  $f(k) > t_{f,2}$.
+    1, & \text{si}  $f(k) > t_{f,2}$
 \end{numcases}
 \end{subequations}
 avec $\mathcal{N}(f(k)) = \frac{f(k)-\min(f(k))}{\max(f(k))-\min(f(k))}$
@@ -581,7 +581,7 @@ C(h_k) = \frac{\sqrt{N}-\left( \sum_{n=1}^N \vert h_{kn} \vert \/ \sqrt{\sum_{n 
 qui équivaut au rapport de la norme $\ell_1$ et $\ell_2$ normalisée de $h_{kn}$. Ce rapport est ensuite défini tel que $C(h_k) = C_h$, une valeur constante définie qui fixe la quantité de parcimonie souhaitée dans $\mathbf{H}$. Un algorithme de gradient de descente permet ensuite , sous cette contrainte, de résoudre l'équation \ref{eq:D(V-WH)}. Virtanen \cite{virtanen_monaural_2007} propose l'ajout d'une contrainte $C_{sp}(\mathbf{h})$, le plus souvent considérée comme la norme $\ell_1$ des éléments de $\mathbf{H}$,
 
 \begin{equation}
-C_{sp}(\mathbf{h}) = \sum_k h_{kn}
+C_{sp}(\mathbf{h}) = \sum_k h_{kn}.
 \end{equation}
 
 Cette pénalisation peut facilement être prise en compte dans les algorithmes de \textit{majorisation-minimisation} :
@@ -606,7 +606,7 @@ L'algorithme de mise à jour de $\mathbf{H}$ devient alors
 
 \begin{subequations}
 \begin{numcases}{h_k^{(i+1)} =}
-    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}+\lambda}\right)^{\gamma(\beta)}, & $\beta < 2$\label{eq:h_sparsity}\\
+    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}+\lambda}\right)^{\gamma(\beta)}, & $\beta < 2$,\label{eq:h_sparsity}\\
     h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}-\lambda}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}}\right)^{\gamma(\beta)}, & $\beta \geq 2$.\label{eq:h_sparsity_2}
 \end{numcases}
 \end{subequations}
@@ -618,7 +618,7 @@ Dans le cas où $\beta \geq 2$, la contrainte apparait au numérateur et est sou
 La mise à jour de la matrice d'activation $\mathbf{H}$ se fait par défaut trame par trame sans considérer de liens entre les trames $n$ et les précédentes. Néanmoins, la plupart des sons réels ont une évolution temporelle lente. Prendre en compte l'évolution des trames temporelles adjacentes peut permettre que la forme des activateurs soit plus réaliste et propose un outil plus robuste dans la reconstruction du signal. Cet outil trouve son intérêt dans la musique (\cite{virtanen_sound_2003, fevotte_majorization-minimization_2011}) où les instruments (à l'exception des instruments percussifs) peuvent jouer des notes durant, au moins, plusieurs centaines de milli-secondes. Mais c'est aussi le cas au sein d'environnements sonores urbains où les sons (notamment le trafic routier) ont des variations lentes, de plusieurs secondes. L'une des approches les plus citées est celle de Virtanen \cite{virtanen_monaural_2007} qui fut ensuite généralisée sous la forme d'un algorithme générique dans \cite{fevotte2017single} avec l'ajout d'une contrainte $C_t(\mathbf{H})$ :
 
 \begin{equation}\label{eq:smoothnessVirtanen}
-C_t(\mathbf{H}) = \sum_{n=1}^K \alpha_k\sum_{n=2}^N \left(h_{kn} - h_{k(n-1)}\right)^2
+C_t(\mathbf{H}) = \sum_{n=1}^K \alpha_k\sum_{n=2}^N \left(h_{kn} - h_{k(n-1)}\right)^2,
 \end{equation}
 
 où $\alpha_k$ est la pondération de la contrainte. Celle-ci peut être variable suivant $k$ ou bien constante sur tout les éléments ($\alpha_k = \alpha$). Par l'ajout de cette contrainte, les fortes variations d'un vecteur d'activation entre l'indice $n$ et $n-1$ sont donc pénalisées par la mise au \textit{carré} de leur distance. La mise à jour de $\mathbf{H}$ privilégie alors les variations plus lentes pour réduire le poids de la contrainte $C_t(\mathbf{H})$. L'algorithme de mise à jour devient :
@@ -696,7 +696,7 @@ La \textbf{NMF locale} a été proposée par \cite{li2001learning} qui contraint
 Dans le cadre de la NMF-SS, une contrainte est proposée dans \cite{yagi2012music}, puis étendue dans \cite{kitamura2014music} pour toute valeur de $\beta$, dans le cadre de la séparation de signaux musicaux afin de \textbf{maximiser la distance} (ou la divergence) entre le dictionnaire appris $\mathbf{W_s}$ et le dictionnaire libre $\mathbf{W_r}$ afin de s'assurer qu'un minimum d'information d'intérêt y soit intégré. Dans \cite{wang2016semi}, c'est une contrainte de propagation qui est considérée où un nouveau dictionnaire $\mathbf{W}$ est construit dans lequel les éléments similaires dans $\mathbf{W_r}$ à ceux appris et étiquetés sont pondérés. Dans \cite{lefevre2012semi}, la contrainte ajoutée consiste à pondérer le poids des éléments appris dans la reconstruction de $\mathbf{V}$ afin de donner une prépondérance différente des éléments non-appris.
 
 En conclusion, parmi ces différentes formes de NMF proposées qui diffèrent selon les techniques d'apprentissage de leur dictionnaire (non-supervisée, supervisée et semi-supervisée) ou des contraintes qui y sont appliquées (parcimonie, régularité temporel), plusieurs sont implémentés dans le cas de ces travaux et testés en vue de déduire, sur des corpus de sons présentés dans le chapitre suivant, le niveau sonore du trafic routier.
-La \textbf{NMF supervisée}, \textbf{semi-supervisée} et celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observés pour un des corpus de sons. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S}($\beta = 0$)) seront celles utilisées sur chaque corpus.
+La \textbf{NMF supervisée}, \textbf{semi-supervisée} et celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observés pour un des corpus de sons. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
 
 
 %\appendix

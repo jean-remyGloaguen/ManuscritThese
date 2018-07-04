@@ -5,19 +5,37 @@ Dans ce chapitre, le corpus de SOUR est soumis à la NMF en vue de déterminer l
 
 \section{Rappel des facteurs expérimentaux}
 
-Le corpus SOUR est composé de 74 fichiers audio d'une durée totale de .... Les fichiers sont classés selon 4 ambiance sonores : \textit{parc} (P) contenant 8 fichiers audio, rue calme (C), fichiers audio, rue bruyante (Br), fichiers audio et rue Très Bruyante (Tr-Br), fichier audio. 
-À l'inverse du corpus Ambiance, la répartition de scènes entre les 4 catégories sonores ne sont pas les mêmes en raison du corpus d'enregistrement récupéré. Si cette répartition peut être considéré comme représentative de l'ESU.
+Le corpus SOUR est composé de 74 fichiers audio d'une durée totale de 2h50. Les détails du corpus par ambiance sonore sont présentés dans le tableau \ref{tab:resume_sour}.
 
+\begin{table}[]
+\caption{Résumé du corpus SOUR}
+\label{tab:resume_sour}
+\centering
+\begin{tabular}{L{3cm}C{2cm}C{2cm}}
+\textbf{ambiance sonore}  & \textbf{N} & \textbf{durée (s)}  \\ \toprule
+parc & 8 & 960 \\
+rue calme & 35 & 4636 \\
+rue bruyante & 23 & 3366 \\
+rue très bruyante & 8 & 1285 \\ \midrule
+\textbf{total} & 74 & 10 247 \\ \bottomrule
+\end{tabular}
+\end{table}
 
-De nombreux facteurs expérimentaux présenté dans le chapitre précédent sont utilisés ici.
-La construction du dictionnaire est similaire à l'étape précédente : les spectrogrammes des signaux trafic sont découpés en trame de largeur $w_t$ pour ensuite les soumettre à un algorithme de clustering $K$-mean. Ici comme le corpus est plus petit, on étend le nombre d'élément dans le dictionnaire à 300. Le résumé de ces paramètres se trouve dans le tableau.
+Ce corpus est plus petit que le corpus \textit{Ambiance} mais présente l'avantage de mélanger un plus grand nombre de classe et d'être assimilable à des enregistrements sonores faits en ville. 
 
-La même baseline est utilisée également : un filtre passe-bas de fréquence de coupure $f_c$.
-Comme les scènes sonores sont plus longues (de 1 min jusqu'à 3 minutes), le nombre d'itération est étendu à 400. 
+La même baseline que précédemment est utilisée également : un filtre passe-bas de fréquence de coupure $f_c$.
+La construction du dictionnaire est la même qu'à l'étape précédente : les spectrogrammes des signaux trafic sont découpés en trame de largeur $w_t$ pour ensuite les soumettre à un algorithme de clustering $K$-mean. Ici comme le corpus est plus petit, on étend le nombre d'élément dans le dictionnaire à 300. 
 Le nombre d'élément dans le dictionnaire $\mathbf{W_r}$, pour le NMF SS, est maintenu à $J = 2$.
-Dans le cas de la NMF IS, l'influence de l'opérateur sigmoïde dans le calcul de la distance et l'utilisation du seuil \textit{firm} s'étant relevé très faible, le choix a été fait de réduire l'étude au seul cas de représentation linéaire de la distante avec un seuillage dur afin de réduire les temps de calculs. 
+Dans le cas de la NMF IS, l'influence de l'opérateur sigmoïde dans le calcul de la distance et l'utilisation du seuil \textit{firm} s'étant relevé très faible, le choix a été fait de réduire l'étude au seul cas de représentation linéaire de la distante avec un seuillage dur afin de réduire les temps de calculs.
+Comme les scènes sonores sont plus longues (de 1 min jusqu'à 3 minutes), le nombre d'itération est étendu à 400. 
+Le résumé de ces paramètres se trouve dans le Tableau \ref{tab:experimental_factorsNMF}.
+ 
 
-On résume non plus l'erreur arithmétique mais l'erreur moyenne pondérée des erreurs ? plus juste non ? 
+Dans le corpus, la durée des scènes n'étant pas la même, à l'inverse du corpus \textit{Ambiance}, c'est l'erreur MAE toute les 60 secondes qui est calculée, $MAE_{60}$ afin d'avoir une durée normalisée. Si la durée totale de chaque ambiance est différente, avec donc un nombre d'erreur par minute calculé différent. Le choix a été fait de ne pas pondérer les erreurs par le nombre de minute dans le calcul de l'erreur MAE globale, $MAE_{gl.}$ afin d'obtenir la combinaison la plus efficace sur l'ensemble des ambiances. Par leur durée plus importante, la combinaison trouvée serait surtout celle la plus performante dans les ambiances \textit{rue calme} et \textit{rue bruyante}.
+
+\begin{equation}
+MAE_{g, SOUR} = \frac{\sum_{i = 1}^4 MAE_i}{4}.
+\end{equation}
 
 
 \begin{table*}[t]
@@ -37,28 +55,25 @@ On résume non plus l'erreur arithmétique mais l'erreur moyenne pondérée des 
   \textbf{method} & filtre passe bas & NMF SUP & NMF SEM & NMF IS & 4\\
 \end{tabularx}
 
-\begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}C{2cm}@{}}
-\rowcolor[HTML]{C0C0C0}
-   $\mathbf{f_c}$ (kHz) & 0.5 & 1 & 2 &  5 & 10 & 20 & 6\\
-   \bottomrule
+\begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}C{2cm}@{}}
+   $\mathbf{f_c}$ (kHz) & 1 & 0.5 & 1 & 2 &  5 & 10 & 20 & 7\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
+\rowcolor[HTML]{C0C0C0}
     $\mathbf{w_t}$ (s)& 0.5 & 1 & 2 & \textit{all} & 4\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
-	\rowcolor[HTML]{C0C0C0}
     $\mathbf{K}$ & 25 & 50 & 100 & 200 & 4\\
 \end{tabularx}
 
-
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{4cm}@{}@{}C{4cm}@{}@{}C{4cm}@{}C{2cm}@{}}
+\rowcolor[HTML]{C0C0C0}
    $\mathbf{\beta}$ & 0 & 1 & 2 & 3\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
-	\rowcolor[HTML]{C0C0C0}
    seuillage dur $\mathbf{t_h}$ & de 0.30 à 0.60 avec un pas de 0.01 & 31\\
    \bottomrule
 \end{tabularx}
@@ -68,21 +83,24 @@ On résume non plus l'erreur arithmétique mais l'erreur moyenne pondérée des 
 \section{Résultats}
 
 \subsection{Erreur produite par la baseline}
-Dans un premier temps, les erreurs réalisées par la baseline sont observés sur l'ensemble du corpus (Tableau), puis selon chaque ambiance (Figure \Ref{}).
+Dans un premier temps, les erreurs réalisées par la baseline sont observés sur l'ensemble du corpus (Tableau), puis selon chaque ambiance (Figure \ref{}).
 
 \begin{table}[]
+
+\caption{Erreur moyenne $MAE_{gl.,60}$ et $MAE_{60}$ pour l'estimateur \textit{baseline}.}
+\label{tab:grafic_baseline}
 \centering
-\caption{My caption}
-\label{my-label}
-\begin{tabular}{llllll}
-$f_c$ (Hz) & $MAE$ & $MAE_{P}$ & $MAE_Q$ & $MAE_{Br}$ & $MAE_{Tr-Br}$ \\
-      &     &            &        &             &                \\
-500   &     &            &        &             &                \\
-1k    &     &            &        &             &                \\
-2k    &     &            &        &             &                \\
-5k    &     &            &        &             &                \\
-10k   &     &            &        &             &                \\
-20k   &     &            &        &             &               
+\begin{tabular}{L{2cm}C{2.5cm}C{2cm}C{2cm}C{2cm}C{2cm}}
+$f_c$ (Hz) & $MAE_{60}$ & $MAE_{P}$ & $MAE_Q$ & $MAE_{Br}$  & $MAE_{TrBr}$ \\
+\toprule
+100 & 2,93 $\pm$ 0,60  & \textbf{2,53} & 3,98 & 2,69  & 2,69 \\
+500 & \textbf{\textcolor{red}{2,03 $\pm$ 1,43}}  & 4,00 & \textbf{2,18} & 0,93  & 1,03 \\
+1k & 2,45 $\pm$ 2,62 & 6,17 & 2,48 & \textbf{0,63}  & 0,58 \\
+2k & 3,00 $\pm$ 3,32 & 7,69 & 2,98 & 0,95  & \textbf{0,38} \\
+5k & 3,50 $\pm$ 3,90 & 9,01 & 3,44 & 1,13  & 0,42 \\
+10k & 3,61 $\pm$ 3,99 & 9,24 & 3,61 & 1,17  & 0,43 \\
+20k & 3,64 $\pm$ 4,00 & 9,28 & 3,65 & 1,20  & 0,44 \\
+\bottomrule         
 \end{tabular}
 \end{table}
 
@@ -105,35 +123,54 @@ Au final, on obtient le même comportement, un filtre avec une faible fréquence
 \item fonction cost (supervisé VV, semi-supervisé VV, seuillé)
 \item allure des 2 éléments dans Wr
 \item distance $w_0$ et $w$
-\item smoothness et impact notable sur le semi-supervisée
+\item smoothness VVV et impact notable sur le semi-supervisée
 \item optimisation de la valeur seuil en fonction d'indicateur
-calibration qui fait défault donc les valeurs de référence sont à revoir mais ça signifie qu'avec des indicateurs assez simple, on peut ajuster les seuils.
+calibration qui fait défault donc les valeurs de référence sont à revoir mais ça signifie qu'avec des indicateurs assez simple, on peut ajuster les seuils et optimiser tout cela !.
 \end{itemize}
-
+\end{itemize}
 
 
 \begin{table}[]
 \centering
 \caption{My caption}
 \label{my-label}
-\begin{tabular}{lcccccc}
-méthode & $f_c$ & $\beta$ & K & $w_t$ & t & MAE (dB) \\
-filtre &  & - & - & - & - &  \\
-filtre &  & - & - & - & - &  \\
-NMF SUP & - & 0 & 200 & 1000 & - & 4,17 ($\pm$ 4,81) \\
-NMF SUP & - & 1 & 25 & 2000 & - & 2,78 3,32 \\
-NMF SUP & - & 2 & 25 & 500 & - & 2,31 2,87 \\
-NMF SEM & - & 0 & 200 & 500 & - & 2,08 0,72 \\
-NMF SEM & - & 1 & 200 & 2000 & - & 1,94 0,34 \\
- & - & 2 & 200 & 2000 & - & 2,33 1,32 \\
-NMF IS & - & 0 &  &  &  &  \\
-NMF IS & - & 1 &  &  &  &  \\
-NMF IS & - & 2 &  &  &  & 
+\begin{tabular}{L{2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
+méthode & $f_c$ (kHz) & $\beta$ & K & $w_t$ & $t_h$ & $MAE_{60}$ \\ \toprule
+\multirow{2}{*}{filtre PB} & 20 & - & - & - & - &  3,64 ($\pm$ 4,00)\\
+ & 0,5 & - & - & - & - & 2,03 ($\pm$ 1,43) \\ \midrule
+\multirow{3}{*}{NMF SUP} & - & 0 & 200 & 1000 & - & 4,03 ($\pm$ 4,47) \\
+ & - & 1 & 25 & 2000 & - & 2,69 ($\pm$ 2,90) \\
+ & - & 2 & 25 & 500 & - & 2,22 ($\pm$ 2,33) \\ \midrule
+\multirow{3}{*}{NMF SEM} & - & 0 & 300 & 1000 & - & 2,16 ($\pm$ 0,67) \\
+ & - & 1 & 300 & 500 & - & 1,94 ($\pm$ 0,53) \\
+ & - & 2 & 300 & 2000 & - & 2,23 ($\pm$ 1,41) \\ \midrule
+\multirow{3}{*}{NMF IS} & - & 0 & 25 & 1000 & 0,32 & 1,43 ($\pm$ 0,73) \\
+ & - & 1 & 50 & 0 & 0,34 &  1,32 ($\pm$ 1,15)\\
+ & - & \textbf{2} & \textbf{300} & \textbf{1000} & \textbf{0,35} & \textbf{\textcolor{red}{1,20 ($\pm$ 0,87)}}\\
+ \bottomrule
 \end{tabular}
 \end{table}
 
 
-\end{itemize}
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{L{2cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}}
+méthode & $f_c$ (kHz) & $K$ & $w_t$ & $\beta$ & $t_h$ & P & C & Br & Tr-Br \\ \toprule
+filtre PB & 20 & - & - & - &  - & 9,28 & 3,65 & 1,20 & 0,44\\
+filtre PB & 0,5 & -  & - & - & - & 4,00 & 2,18 & 0,93 & 1,03 \\ \midrule
+NMF SUP & - & 25 & 500 & 2 & - & 5,71 & 2,05 & 0,63 & 0,53\\
+NMF SEM & - & 300 & 500 &  & - & 2,37 & 2,36 & 1,76 & 1,27\\
+NMF IS & - & 300 & 1000 & 1 & 0,35 & 2,21 & 1,64 & 0,61 & 0,34\\ \bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{NMF contraintes Smoothness et parcimonie}
+
+\subsection{Optimation par les seuils}
+
 
 
 

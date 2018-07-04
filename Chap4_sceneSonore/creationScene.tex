@@ -44,11 +44,12 @@ Même si les résultats permettent une forte immersion, grâce à la spatialisat
 
 \subsection{Simulateur de scènes sonores}
 
-Une autre approche pour simuler l'environnement sonore urbain consiste à le considérer selon une combinaison additive d'évènements sonores (ou objets sonores), $S_i$, qui enrichi un bruit de fond (ou texture  sonore), $B$ \cite{nelken2013ear}.
+Une autre approche pour simuler l'environnement sonore urbain consiste à le considérer selon une combinaison additive d'évènements sonores (ou objets sonores), $S_i$, qui enrichi un bruit de fond (ou texture  sonore), $B$ \cite{nelken2013ear} :
 
 \begin{equation}
 M(n) = \sum_{i = 1}^{N} S_i(n) + B
 \end{equation}
+
 où $n$ est un indice temporel.
 La catégorie bruit de fond inclut des sons longs (plusieurs minutes) dont les propriétés acoustiques ne varient pas dans le temps comme le bruit généré par un trafic continu, le chant des oiseaux dans un parc ou les voies des enfants dans une cours de récréation.
 La catégorie \textit{évènement} équivaut à des sons brefs (de 1 à plusieurs secondes), répartis dans le temps, qui émergent du bruit de fond pour être perçu individuellement par un auditeur (un voiture qui passe, des bruits de pas, une sonnerie de téléphone \dots). 
@@ -141,26 +142,30 @@ Dans un premier temps le choix est fait de générer un corpus où la présence 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.9\linewidth]{./figures/autres/TIR_ambiance.pdf}
-\caption{Diagramme bloc de la pondération du signal trafic selon la scène $i$ et le TIR}
+\caption{Diagramme bloc de la pondération du signal trafic selon la scène $i$ et le TIR.}
 \label{fig:bloc_diagram_tir}
 \end{figure}
 
 
-Nommé \textit{Ambiance}, ce premier corpus consiste en un ensemble de 6 sous-corpus de 25 scènes ayant chacune une durée de 30 secondes. Chaque sous-corpus mélange une composante \textit{trafic} avec une classe de son spécifique (appelée classe \textit{interférante}).
-Ces 6 classes de sons sont résumées dans le Tableau \ref{tab:class_inter} avec les classes de sons inclues dans ces classes interférantes.
+Nommé \textit{Ambiance}, ce premier corpus consiste en un ensemble de 6 sous-corpus de 25 scènes $M$ ayant chacune une durée de 30 secondes. Chaque sous-corpus, la mixture sonore $M_i$ mélange une composante \textit{trafic} ($S_{tr}$) avec une classe de son spécifique (appelée classe \textit{interférante}) ($S_{int.}$), tel que,  
 
-\begin{table}[]
+\begin{equation}
+M_i = S_{tr.,i}+S_{int.,i}.
+\end{equation}
+
+Ces 6 sous-corpus sont résumées dans le Tableau \ref{tab:class_inter} avec les classes de sons inclues qui forment les classes interférantes.
+
+\begin{table}[h]
 \centering
-\caption{Résumé des classes de sons inclues dans les classes interférantes, seules les classes \textit{alerte} et \textit{transport} ne contiennent pas de bruit de fond}
+\caption{Résumé des classes de sons inclues dans les classes interférantes, seules les classes \textit{alerte} et \textit{transport} ne contiennent pas de bruit de fond.}
 \label{tab:class_inter}
 \begin{tabular}{lll}
-\toprule
 \textbf{Classe interférante}  & \multicolumn{1}{c}{\textbf{\'Evènement}}                                                & \multicolumn{1}{c}{\textbf{Bruit de fond}}  \\
           \toprule
 alerte    & \begin{tabular}[c]{@{}l@{}}- Klaxon\\ - Sirène\end{tabular}                  & \multicolumn{1}{c}{-}                                                       \\ \hline
 animaux   & \begin{tabular}[c]{@{}l@{}}- Oiseaux\\ - Aboiement de chien\end{tabular}                  & - Oiseaux                                                                   \\ \hline
 climat    & - Orage                                                                      & \begin{tabular}[c]{@{}l@{}}- Vent dans les arbres\\ - Pluie\end{tabular}                    \\ \hline
-humain    & - Voix                                                                       & - Brouhaha de foule                                                                     \\ \hline
+humain    & \begin{tabular}[c]{@{}l@{}}- Voix\\ - Bruit de pas\end{tabular} & - Brouhaha de foule                                                                     \\ \hline
 transport & \begin{tabular}[c]{@{}l@{}}- Train\\ - Tramway\\ - Avion\end{tabular}        & \multicolumn{1}{c}{-}                                                       \\ \hline
 mécanique & \begin{tabular}[c]{@{}l@{}}- Bruit de rue\\ - Bruit de chantier\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Ventilation\\ - Bruit de chantier\end{tabular}\\
 \bottomrule
@@ -170,20 +175,43 @@ mécanique & \begin{tabular}[c]{@{}l@{}}- Bruit de rue\\ - Bruit de chantier\end
 
 Chaque scène comprend un background trafic ainsi que jusqu'à 5 passage de véhicule.
 Pour les classes interférantes, leur présence dans chaque scène est systématique. Elle est définie selon un tirage d'une loi uniforme : une valeur aléatoire est tirée, selon sa valeur elle définit la présence ou non de la classe de son. Pour les évènements sonores, il y a autant de chance d'avoir une classe de son parmi celles inclues dans la classe interférante que d'avoir l'ensemble des classes de sons. Par exemple, dans le cas de la classe interférante \textit{animaux}, qui comprend 2 classes de sons, il y a 33 $\%$ de chance d'avoir la classe \textit{oiseaux}, 33 $\%$ de chance d'avoir des aboiements et 33 $\%$ de chance d'avoir les deux classes présentes. Pour le cas des signaux \textit{alerte}, comme la durée d'un klaxon est plus brève que celle d'une sirène, la répartition de la distribution est est modifié afin de mieux équilibrer la présence temporelle (10 $\%$ de chance d'avoir une sirène, 80 $\%$ de chance d'avoir un coup de klaxon et 10 $\%$ d'avoir les deux dans la même scène).
-Dans le cas de \textit{climat} et \textit{mécanique}, d'autre bruits de fond peuvent également être présent là aussi équitablement répartit. Enfin pour la classe \textit{humain}, la présence d'une foule en bruit de fond est présente une fois sur deux.
+Dans le cas de \textit{climat} et \textit{mécanique}, d'autre bruits de fond peuvent également être présent là aussi équitablement répartit. Enfin pour la classe \textit{humain}, la présence d'une foule en bruit de fond est présente une fois sur deux. 
+
+On résume dans la Figure le spectre moyen sur les 25 scènes du signal \textit{trafic} et \textit{interférant}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.7\linewidth]{./figures/NMF/spectre_ambiance.pdf}
+\caption{Spectres sonores moyens des classes \textit{interférantes} et \textit{trafic} pour chaque sous-corpus}
+\end{figure}
 
 
-Chaque scène générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont, chacune, dupliquées ensuite 5 fois où le niveau sonore du trafic y est calibré tel que, pour une scène $i$, $L_{eq,trafic, tir, i} - L_{eq,interferant, i} = TIR$ avec $TIR = \lbrace$ -12 -6 0 6 12 $\rbrace$. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
+Dans le cas des sous-corpus \textit{alerte} et \textit{animaux}, les allures sont différentes de celles du \textit{trafic}. Ce sont des sons plus aigus et harmoniques. De plus ce sont des sont dont les variations temporelles sont également différentes de celle du trafic : le sifflement d'un oiseau ou le retentissement d'un klaxon sont des sons plus ponctuels que le passage d'un voiture. \'A l'inverse, pour les autres sous-corpus, cette distinction est plus complexe puisque des composantes dans les basses-fréquences sont également présentes.
+
+
+Chaque scène générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont, chacune, dupliquées ensuite 5 fois où le niveau sonore du trafic y est calibré tel que, pour une scène $i$, 
 
 \begin{equation}
-\alpha(TIR,i) = 10^{\sfrac{(TIR-TIR_{init,i})}{20}}
+TIR = L_{eq,trafic, tir, i} - L_{eq,interferant, i}
 \end{equation}
 
-où $TIR_{init,i} = L_{eq,trafic,init,i}-L_{eq,interferant,i}$. Les étapes sont résumés sous la forme d'un diagramme en bloc dans la Figure \ref{fig:bloc_diagram_tir}. Lorsque $TIR < 0$ dB, le signal trafic est plus faible que le signal interférant, à l'inverse lorsque $TIR>0$, le trafic devient la classe sonore prépondérante. 
+avec $TIR$ le Rapport des niveaux sonores du trafic et de la classe interférante (\textit{Traffic Interfering Ratio} en anglais) où $TIR = \lbrace$ -12 -6 0 6 12 $\rbrace$. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
+
+\begin{equation}
+\alpha(TIR,i) = 10^{\sfrac{(TIR_{init,i}-TIR)}{20}}
+\end{equation}
+
+où $TIR_{init,i} = L_{eq,trafic,init,i}-L_{eq,interferant,i}$. Les étapes sont résumés sous la forme d'un diagramme en bloc dans la Figure \ref{fig:bloc_diagram_tir}. Lorsque $TIR < 0$ dB, le signal trafic est plus faible que le signal interférant, à l'inverse lorsque $TIR>0$, le trafic devient la classe sonore prépondérante. La Figure \ref{fig:exemple_TIR} présente un exemple d'une scène sonore \textit{alerte} pour 3 TIR.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.7\linewidth]{./figures/NMF/Lp_TIR.pdf}
+\caption{Exemple de l'évolution du niveau sonore équivalent 1 seconde $L_{p,1s}$ d'une mixture sonore extraite du sous-corpus \textit{alerte} avec la composante trafic calibrée à $TIR \in \left[-12, 0, 12\right]$ dB.}
+\label{fig:exemple_TIR}
+\end{figure}
 
 
-
-En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 TIR) pour une durée totale du corpus de 6h15. Les scènes de ce corpus ne peuvent pas être assimilable à des enregistrements sonores réalisés en ville, mais permettront tout de même d'étudier le comportement des algorithmes d'estimation. 
+En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 TIR) pour une durée totale du corpus de 6h30. Les scènes de ce corpus ne peuvent pas être assimilable à des enregistrements sonores réalisés en ville, mais permettront d'étudier le comportement des estimateurs. 
 
 \section{Corpus d'évaluation de scènes sonores urbaines réalistes}
 \label{part:corpus_grafic}
@@ -193,7 +221,7 @@ Un second corpus est généré, basé sur des enregistrements sonores réalisés
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.7\textwidth]{./figures/autres/bloc_diagram_annotation.pdf}
-\caption{Diagramme bloc résumant la création du corpus d'évaluation de scènes sonores urbaines réalistes}
+\caption{Diagramme en blocs résumant la création du corpus d'évaluation de scènes sonores urbaines réalistes.}
 \label{fig:bloc_diagram_annotation}
 \end{figure}
 
@@ -204,11 +232,11 @@ Les enregistrements audio de références sont issus du projet GRAFIC \cite{aumo
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=.7\textwidth]{./figures/grafic/trajet_19pts.png}
-\caption{Parcours réalisé par l'étude avec les 19 points de mesures avec le niveau sonore mesuré équivalent}
+\caption{Parcours réalisé par l'étude avec les 19 points de mesures avec le niveau sonore mesuré équivalent.}
 \label{fig:parcoursGRAFIC}
 \end{figure}
 
-Ce trajet a été parcouru sur deux jours (le 23/05/2015, jour 1, et le 30/05/2015, jour 2), deux fois par jour (le matin puis l'après-midi) dans un sens (d'est en ouest, EW) et dans l'autre (d'ouest en est, WE). L'enregistrement est réalisé par un système d'acquisition équipé d'un microphone ASASense omnidirectionnel situé sur un sac à dos porté par l'opérateur \cite{aumond2017modelling}. En tout, 76 enregistrements audio (19 points $\times$ 4 trajets) de 1 à 4 minutes sont disponibles. \\
+Ce trajet a été parcouru sur deux jours (le 23/05/2015, jour 1, et le 30/05/2015, jour 2), deux fois par jour (le matin puis l'après-midi) dans un sens (d'est en ouest, EW) et dans l'autre (d'ouest en est, WE). L'enregistrement est réalisé par un système d'acquisition équipé d'un microphone ASASense omnidirectionnel situé sur un sac à dos porté par l'opérateur \cite{aumond2017modeling}. En tout, 76 enregistrements audio (19 points $\times$ 4 trajets) de 1 à 4 minutes sont disponibles. \\
 
 \input{tab/tab_resume_19_points_mesures}
 
@@ -226,10 +254,10 @@ Une majorité de scènes appartiennent à l'ambiance sonore \textit{rue calme} (
 L'annotation des 74 enregistrements est ensuite réalisée qui consiste à écouter chaque fichier audio et à estimer les sources sonores présentes ainsi que leur temps de présence. Pour chaque enregistrement, l'ensemble des annotations est résumé dans un fichier texte. Un exemple d'annotation est présenté dans le Tableau \ref{tab:exemple_annotation}.\\
 
 \begin{table}[h]
+\caption{Exemple d'un fichier d'annotation pour la scène 1-EW-07.}
 \centering
 \begin{tabular}{lll}
-\toprule
-\textbf{évènements}    & $\mathbf{t_{init}}$ \textbf{(s)} & $\mathbf{t_{fin}}$ \textbf{(s)} \\ \midrule
+\textbf{évènements}    & $\mathbf{t_{init}}$ \textbf{(s)} & $\mathbf{t_{fin}}$ \textbf{(s)} \\ \toprule
 bruit rue     & 0,00            & 8,50           \\
 \rowcolor[HTML]{C0C0C0}
 voix          & 0,00            & 44,00          \\
@@ -240,19 +268,15 @@ voiture Ville & 52,00          & 63,00          \\
 \rowcolor[HTML]{C0C0C0}
 voix          & 59,00           & 66,50         \\ \bottomrule
 \end{tabular}
-\caption{Exemple d'un fichier d'annotation pour la scène 1-EW-07.}
 \label{tab:exemple_annotation}
 \end{table}
 
 \input{tab/tab_occurence_source_par_ambiance}
 
-De ces annotations, il est possible d'estimer, par ambiance sonore, un niveau sonore moyen, les classes de sons qui caractérisent leur bruit de fond, les classes de sons catégorisées en évènements sonores ainsi que leur densité (nombre d'évènement par minute). Ces informations sont alors utilisées pour pouvoir recréer ces scènes par le mode \textit{abstract} de \textit{SimScene} (Tableau \ref{tab:obsScene}).\\
-
+De ces annotations, il est possible d'estimer, par ambiance sonore, un niveau sonore moyen, les classes de sons qui caractérisent leur bruit de fond, les classes de sons catégorisées en évènements sonores ainsi que leur densité (nombre d'évènement par minute). Ces informations sont alors utilisées pour pouvoir recréer ces scènes par le mode \textit{abstract} de \textit{SimScene} (Tableau \ref{tab:obsScene}).
 Sur l'ensemble des scènes sonores, 11 classes de sons sont identifiées en tant qu'évènement sonore (trafic routier, voix, sifflements d'oiseaux, bruit de rue, bruit de pas, porte de maison, porte de voiture, chantier, klaxon, sonette, sirène) et 3 classes de sons sont présentes en tant que bruit de fond sonore (brouhaha de foule, sifflements d'oiseaux, trafic routier continu).
 Les sources sonores les plus communes sont \textit{voiture}, \textit{voix} et \textit{bruit rue}. En outre, en plus des classes de sons résumées dans le Tableau \ref{tab:obsScene}, de nombreuses autres classes de sons (\textit{aboiement de chien},\textit{bruit de balais}, \textit{toussotement}, \textit{passage d'avion}, \textit{roulement de valise}) entendus interviennent plus sporadiquement (nombre d'évènement/min < 0,1) et sont susceptibles d'intervenir dans les quatre ambiances sonores.
-
 La composition des environnements sonore diffère entre eux : dans \textit{parc} la voix et les oiseaux sont les bruits de fond sonores principaux permettant d'établir l'ambiance sonore adéquate, puis, plus la rue est animée plus la part de la classe \textit{trafic} et celle de l'activité humaine (\textit{voix, bruit de pas}) sont prédominantes. À l'inverse, les classes de sons \og naturel \fg{} (\textit{oiseaux)} disparaissent progressivement.
-
 Notons que dans \textit{rue calme}, \textit{animée} et dans \textit{parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très animée} où un flot de véhicules peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la fois comme bruit de fond et évènements sonore.
 Sans étude perceptive sur le débit de véhicule à partir duquel les passages de véhicules deviennent un flux, une moyenne de 1 véhicule par seconde est alors considérée comme raisonnable. Un contrôle à l'écoute permet de vérifier que le rendu est satisfaisant. Le rapport nombre d'évènement/min renseigné dans le Tableau \ref{tab:obsScene} est donc soumis à une forte incertitude mais reste cependant cohérent avec les indications du débit moyen fournis dans \cite{aumond2017modeling} ($\approx$ 2000 véhicules/heure). \\
 
@@ -282,7 +306,7 @@ En analyse sensorielle, un BEI permet d'élaborer l'ordre d'évaluation des prod
 \begin{itemize}
 \item le nombre de blocs $J$ (appelé ici auditeur),
 \item le nombre de traitement à tester, $B$ (qui correspondant au nombre total d'extraits sonores dans le test),
-\item le nombre de traitement testé par juge, $K$ (qui équivaut au nombre d'écoutes réalisées par chaque auditeur)
+\item le nombre de traitement testé par juge, $K$ (qui équivaut au nombre d'écoutes réalisées par chaque auditeur),
 \item le nombre de réplications d'un traitement, $R$,
 \item le nombre de répétabilités d'une paire de traitement, $\lambda$.\\
 \end{itemize}
@@ -293,7 +317,7 @@ Plusieurs conditions sont à remplir entre ces variables pour réaliser un BEI c
 \begin{align}
 B &\geq K, \label{eq:BIE_cond1}\\
 JK &= BR, \label{eq:BIE_cond2}\\
-\lambda &= R\frac{K-1}{B-1}. \label{eq:BIE_cond3}
+\lambda &= R\frac{K-1}{B-1} \label{eq:BIE_cond3}
 \end{align}
 \end{subequations}
 
@@ -327,7 +351,7 @@ La Figure \ref{fig:panelTest} résume, sous forme d'histogrammes, l'âge, le sex
 \begin{figure}[ht]
 \centering
 \includegraphics[width = .8\textwidth]{./figures/test_perceptif/testPerceptif_panel.pdf}
-\caption{Résumé des informations relatifs aux auditeurs}
+\caption{Résumé des informations relatifs aux auditeurs.}
 \label{fig:panelTest}
 \end{figure}
 
@@ -364,7 +388,7 @@ où $\bar{X}_i$, $s_i$ et $N_i$ sont, respectivement, la moyenne de l'échantill
 \item les degrés de liberté $DDL$
 
 \begin{equation}
-DDL = \frac{\left(\frac{s_1^2}{N_1}+\frac{s_2^2}{N_2} \right)^2}{\frac{s_1^4}{N_1^2(N_1-1)}+\frac{s_2^4}{N_2^2(N_2-1)}}
+DDL = \frac{\left(\frac{s_1^2}{N_1}+\frac{s_2^2}{N_2} \right)^2}{\frac{s_1^4}{N_1^2(N_1-1)}+\frac{s_2^4}{N_2^2(N_2-1)}}.
 \end{equation}
 
 \end{itemize}
@@ -395,7 +419,7 @@ Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & &
 \hhline{|-|-|~|-|-|~|-|-|~|-|-|}
 \end{tabular}
 
-\caption{Boites à moustaches pour les scènes enregistrées  \subref{fig:boxplotEnreg} et pour les scènes répliquées \subref{fig:boxplotRepli} classé selon leur ambiance sonore.}
+\caption{Boites à moustaches pour les scènes enregistrées  \subref{fig:boxplotEnreg} et pour les scènes répliquées \subref{fig:boxplotRepli} classées selon leur ambiance sonore.}
 
 \label{fig:boxplot_scene}
 \end{figure}
@@ -408,7 +432,8 @@ L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent d
 Pour aller plus loin, une analyse de variance (abrégée ANOVA pour \textit{ANalyse Of VAriance} en anglais) est réalisée afin de déterminer l'influence de chaque auditeur sur l'évaluation des scènes. En effet, selon l'auditeur, l'échelle des notes émises peut varier (un auditeur peut noter sur l'ensemble de l'échelle, d'autres peuvent noter une échelle réduite), influençant l'interprétation des résultats.
 
 C'est ainsi une ANOVA à deux facteurs (\textit{type de scènes} (\textit{enregistré}, \textit{répliqué}) et \textit{auditeur} (50 auditeurs)) avec interaction qui est considérée. De la même manière que le test de Student, l'ANOVA est un outil statistique qui permet de comparer des moyennes d'échantillons et d'étudier l'effet des variables qualitatives (ou facteurs), pouvant prendre plusieurs valeurs (ou niveaux), sur une variable quantitative.
-Pour cela, plusieurs statistiques sont calculées (somme des carrés des écarts, le degré de liberté du facteurs, la variance, la statistique de Fischer $F$). De ces indices, la valeur \textit{p} établie, là encore, la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie par rapport à la valeur seuil $\alpha$. Les définitions de ces indices sont résumées en annexe \ref{annexe:}. Les résultats sont résumés dans le Tableau \ref{tab:anova_auditeur}.
+Pour cela, plusieurs statistiques sont calculées (somme des carrés des écarts, le degré de liberté du facteurs, la variance, la statistique de Fischer $F$). De ces indices, la valeur \textit{p} établie, là encore, la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie par rapport à la valeur seuil $\alpha$. Les résultats sont résumés dans le Tableau \ref{tab:anova_auditeur}.
+% Les définitions de ces indices sont résumées en annexe \ref{annexe:}
 
 \begin{table}[ht]
 \centering
@@ -427,7 +452,7 @@ Pour cela, plusieurs statistiques sont calculées (somme des carrés des écarts
 \textbf{total}      & 2572 & 998 & & & \\
 \hline
 \end{tabular}
-\caption{Résultat de l'ANOVA avec interaction avec les facteurs \textit{type} et \textit{auditeur}}
+\caption{Résultats de l'ANOVA avec interaction avec les facteurs \textit{type} et \textit{auditeur}.}
 \label{tab:anova_auditeur}
 \end{table}
 
@@ -455,7 +480,7 @@ Une seconde ANOVA à deux facteurs avec interaction est effectuée avec pour fac
 \textbf{total}      & 2572 & 998 & & & \\
 \hline
 \end{tabular}
-\caption{Résultat de l'ANOVA avec interaction avec les facteurs \textit{type} et \textit{ambiance}}
+\caption{Résultats de l'ANOVA avec interaction avec les facteurs \textit{type} et \textit{ambiance}.}
 \label{tab:anova_ambiance}
 \end{table}
 
@@ -474,14 +499,14 @@ Pour visualiser ce phénomène d'interaction entre le type de scènes et l'ambia
 Même si les moyennes globales et les distributions entre les scènes enregistrées et répliquées sont similaires, des disparités existent selon les auditeurs ou les ambiances sonores sans toutefois que celles-ci remettent en cause les similarités entre les deux types.\\
 
 
-En conclusion, sur l'ensemble du corpus testé, il y a donc une similarité du réalisme perçu par l'ensemble des participants entre les scènes enregistrées et répliquées. Même s'il y a des disparités entre les distributions des notes selon les ambiances sonores, l'évaluation du réalisme selon les types de scènes et les ambiances restent similaires (les notes restent comprises entre 4 et 6). 
+En conclusion, sur l'ensemble du corpus testé, il y a une similarité du réalisme perçu par l'ensemble des participants entre les scènes enregistrées et répliquées. Même s'il y a des disparités entre les distributions des notes selon les ambiances sonores, l'évaluation du réalisme selon les types de scènes et les ambiances restent similaires (les notes restent comprises entre 4 et 6). 
 Certains sons dans les scènes répliquées sembleraient toutefois mal calibrés, ce qui, sur certaines scènes, impacte leur note. Mais on retrouve également ce phénomène dans les scènes réelles, ce qui viendrait à relativiser cette mauvaise calibration.
 En conséquence, le réalisme perçu des scènes répliquées est considéré comme similaire à celles des scènes réalistes. 
 De ces résultats, comme l'ensemble des scènes répliquées est réalisés avec le même dispositif, on généralise ce résultat à l'ensemble du corpus élémentaire SOUR.\\
 
-Deux corpus de scènes sonores urbaines ont été construits :
+Durant ce chapitre, deux corpus de scènes sonores urbaines ont été construits :
 \begin{itemize}
-\item le corpus d'évaluation \textit{Ambiance} où le trafic est mêlé à une classe de son générique et où le niveau sonore du trafic est calibré.  Ce corpus a pour objectif de tester le comportement de la NMF.
+\item le corpus d'évaluation \textit{Ambiance} où le trafic est mêlé à une classe de son générique et où le niveau sonore du trafic est calibré.  Ce corpus a pour objectif de tester le comportement de la NMF,
 \item le corpus d'évaluation \textit{SOUR} qui est la transcription d'enregistrement sonore urbain en scènes simulées. La réalisation de ces scènes simulées a été soumis à un test perceptif qui a révélé que les scènes simulées étaient perçues de façon similaire à des enregistrements audio. Les conclusions de ce test sont alors étendu à l'ensemble du corpus construit. Ce corpus réaliste a pour vocation à servir l'ensemble des communautés scientifiques développant des outils de reconnaissance, de détection ou de séparation de sources dans un milieu urbain. \\
 \end{itemize}
 
