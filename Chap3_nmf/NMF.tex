@@ -47,7 +47,7 @@ De nombreuses applications de la NMF furent trouvées pour des signaux musicaux 
 %\cite{mesaros_sound_2015} pour le détection aidé par la NMF
 %\cite{satoshi_innami_nmf-based_2012} utilisation de la NMF pour faire de la séparation de sources environnemental.
 
-\section{Fonction coût et familles de divergences}
+\section{Fonction de coût et familles de divergences}
 
 Le problème à résoudre lors d'une NMF est celui d'une minimisation où il faut trouver la combinaison optimale de $\mathbf{WH}$ qui sera la plus proche de $\mathbf{V}$. Cela se traduit mathématiquement par la relation \ref{eq:D(V-WH)} :
 
@@ -55,7 +55,7 @@ Le problème à résoudre lors d'une NMF est celui d'une minimisation où il fau
 \text{min}~D\left(\textbf{V} \Vert \textbf{WH}\right) \quad \text{avec} \quad \mathbf{W} \geq 0, \mathbf{H} \geq 0.
 \end{equation}
 
-$D\left(\textbf{V} \vert\vert \textbf{WH}\right)$ est alors une mesure de similarité, appelée \textit{fonction coût}, qui peut appartenir à différentes familles de divergences comme les divergences de Csiszar \cite{cichocki2006csiszar} et de Bregman \cite{bregman_relaxation_1967, dhillon_generalized_2005}. Cette dernière famille de divergences est la plus couramment utilisée dans le cadre de la NMF. Elle se définit, dans un sous-ensemble convexe $S$ d'un espace de Hilbert, comme :
+$D\left(\textbf{V} \vert\vert \textbf{WH}\right)$ est alors une mesure de similarité, appelée \textit{fonction de coût}, qui peut appartenir à différentes familles de divergences comme les divergences de Csiszar \cite{cichocki2006csiszar} et de Bregman \cite{bregman_relaxation_1967, dhillon_generalized_2005}. Cette dernière famille de divergences est la plus couramment utilisée dans le cadre de la NMF. Elle se définit, dans un sous-ensemble convexe $S$ d'un espace de Hilbert, comme :
 
 \begin{equation}\label{eq:Bregdiv}
 D_{\Phi}(\textbf{x}\vert\vert \textbf{y}) =
@@ -75,7 +75,7 @@ avec $d_{\Phi}(x_n\vert y_n)$, la mesure de similarité entre deux scalaires et 
 D_{\Phi}(\textbf{x}\vert\vert \textbf{y}) = \sum_{n=1}^N \phi(x_n)-\phi(y_n)-\phi'(y_n)(x_n-y_n).
 \end{equation}
 
-La fonction coût s'exprime donc comme la divergence de Bregman appliquée à chaque élément de $\mathbf{V}$ et $\mathbf{WH}$,
+La fonction de coût s'exprime donc comme la divergence de Bregman appliquée à chaque élément de $\mathbf{V}$ et $\mathbf{WH}$,
 
 \begin{equation}\label{eq:similarite2}
 D\left(\textbf{V} \vert\vert \textbf{WH} \right) = \sum_{f = 1}^{F} \sum_{n = 1}^{N} d_{\phi}
@@ -237,13 +237,13 @@ avec $\eta_{\mathbf{W}} = \frac{\mathbf{W}}{\mathbf{WHH^T}}$ et $\eta_{\mathbf{H
 
 
 \subsection{Algorithme multiplicatif par \textit{majorisation-minimisation}}\label{part:majorisation-minimisation}
-Une seconde approche \cite{cichocki2006csiszar} consiste à exprimer le gradient de la fonction cout, $\nabla_x D(x)$, comme la différence entre deux fonctions non-négative :
+Une seconde approche \cite{cichocki2006csiszar} consiste à exprimer le gradient de la fonction de coût, $\nabla_x D(x)$, comme la différence entre deux fonctions non-négative :
 
 \begin{equation}
 \nabla_x D(x) = \nabla_x^+ D(x) - \nabla_x^- D(x).
 \end{equation}
 
-La fonction coût $D(x)$ est alors minimisée lorsque, pour un point donné, le gradient est nul ($\nabla_x^+ D(x) = \nabla_x^- D(x)$). Dans le cas de la NMF, les équations de mises à jour de $\mathbf{W}$ et $\mathbf{H}$ deviennent :
+La fonction de coût $D(x)$ est alors minimisée lorsque, pour un point donné, le gradient est nul ($\nabla_x^+ D(x) = \nabla_x^- D(x)$). Dans le cas de la NMF, les équations de mises à jour de $\mathbf{W}$ et $\mathbf{H}$ deviennent :
 
 \begin{subequations}
     \begin{align}
@@ -252,7 +252,7 @@ La fonction coût $D(x)$ est alors minimisée lorsque, pour un point donné, le 
     \end{align}
 \end{subequations}
 
-En considérant des valeurs initiales positives ou nulles dans $\mathbf{W}$ et $\mathbf{H}$, le processus garantit la non-négativité des valeurs itérées. Par cette approche, la minimisation de la fonction coût \ref{eq:D(V-WH)} a, dans un premier temps, été observée sans toutefois être démontrée. Kompass \cite{kompass_generalized_2007} propose une preuve de son efficacité pour $\beta \in \left\lbrace1,2 \right\rbrace$ en considérant une fonction auxiliaire majorante à minimiser. Cette approche est la base de l'algorithme de \textit{majorisation-minimisation} que Févotte et Idier \cite{fevotte_algorithms_2011} ont étendu à l'ensemble des $\beta$-divergences.
+En considérant des valeurs initiales positives ou nulles dans $\mathbf{W}$ et $\mathbf{H}$, le processus garantit la non-négativité des valeurs itérées. Par cette approche, la minimisation de la fonction de coût \ref{eq:D(V-WH)} a, dans un premier temps, été observée sans toutefois être démontrée. Kompass \cite{kompass_generalized_2007} propose une preuve de son efficacité pour $\beta \in \left\lbrace1,2 \right\rbrace$ en considérant une fonction auxiliaire majorante à minimiser. Cette approche est la base de l'algorithme de \textit{majorisation-minimisation} que Févotte et Idier \cite{fevotte_algorithms_2011} ont étendu à l'ensemble des $\beta$-divergences.
 
 \subsubsection{Définition de la fonction auxiliaire}\label{part:sub_fonction_aux}
 Pour réaliser une fonction auxiliaire, plusieurs conditions sont à considérer :
@@ -287,7 +287,7 @@ C(\mathbf{h}^{(i+1)}) \leq G(\textbf{h}^{(i+1)}\vert\mathbf{h}^{(i)}) &\leq G(\t
 \end{align}
 \end{subequations}
 
-La condition \ref{eq:monotonie} permet alors d'obtenir une valeur itérée qui génère un algorithme monotone, c'est-à-dire qu'il certifie la diminution de la fonction coût à chaque itération. La minimisation de $G(\mathbf{h})$, supposée plus simple, permet,  par extension, celle de $C(\mathbf{h})$. La preuve de la convergence d'un algorithme est présente lorsqu'une suite d'itérations successives tend vers un point $\mathbf{h^*}$ qui satisfait les conditions de Karush-Kuhn-Tucker \cite{fevotte_algorithms_2011, kuhn1982nonlinear}.
+La condition \ref{eq:monotonie} permet alors d'obtenir une valeur itérée qui génère un algorithme monotone, c'est-à-dire qu'il certifie la diminution de la fonction de coût à chaque itération. La minimisation de $G(\mathbf{h})$, supposée plus simple, permet,  par extension, celle de $C(\mathbf{h})$. La preuve de la convergence d'un algorithme est présente lorsqu'une suite d'itérations successives tend vers un point $\mathbf{h^*}$ qui satisfait les conditions de Karush-Kuhn-Tucker \cite{fevotte_algorithms_2011, kuhn1982nonlinear}.
 
 \subsubsection{Construction de la fonction auxiliaire}
 
@@ -563,13 +563,13 @@ On résume les différentes étapes de la NMF-IS au travers de l'algorithme \ref
 
 
 \section{NMF avec contraintes}\label{part:NMF_contrainte}
-Les différentes variantes de la NMF présentées ne sont soumises, jusqu'ici, qu'à la contrainte de non-négativité avec pour objectif la minimisation de l'équation \ref{eq:D(V-WH)}. Toutefois, l'ajout de contraintes sur l'apprentissage du dictionnaire et sur l'allure de la matrice d'activation est possible suivant les connaissances que l'on a \textit{a priori} de ces éléments. Ces contraintes sont alors prises en compte dans la fonction coût \ref{eq:D(V-WH)} par l'ajout d'un second terme pondéré $C(\mathbf{W},\mathbf{H})$. Le problème devient alors :
+Les différentes variantes de la NMF présentées ne sont soumises, jusqu'ici, qu'à la contrainte de non-négativité avec pour objectif la minimisation de l'équation \ref{eq:D(V-WH)}. Toutefois, l'ajout de contraintes sur l'apprentissage du dictionnaire et sur l'allure de la matrice d'activation est possible suivant les connaissances que l'on a \textit{a priori} de ces éléments. Ces contraintes sont alors prises en compte dans la fonction de coût \ref{eq:D(V-WH)} par l'ajout d'un second terme pondéré $C(\mathbf{W},\mathbf{H})$. Le problème devient alors :
 
 \begin{equation}\label{eq:costFunctionPenalized}
 \underset{\textbf{W},\textbf{H}}{\text{min}}~D\left(\textbf{V} \vert\vert \textbf{WH}\right) + \alpha C(\mathbf{W},\mathbf{H}).
 \end{equation}
 
-Les algorithmes de mise à jour vont alors prendre cette contrainte afin de favoriser les matrices qui permettent de minimiser au mieux cette fonction coût. Si l'allure de $\mathbf{W}$ ou $\mathbf{H}$ n'est pas celle souhaitée, la fonction coût \ref{eq:costFunctionPenalized} augmente alors. Le terme de pondération $\alpha$ permet de faire varier le poids de la contrainte : plus ce terme est grand et plus son influence sera prépondérante. Plusieurs types de contraintes sont décrites et serviront dans la suite de l'étude.
+Les algorithmes de mise à jour vont alors prendre cette contrainte afin de favoriser les matrices qui permettent de minimiser au mieux cette fonction de coût. Si l'allure de $\mathbf{W}$ ou $\mathbf{H}$ n'est pas celle souhaitée, la fonction de coût \ref{eq:costFunctionPenalized} augmente alors. Le terme de pondération $\alpha$ permet de faire varier le poids de la contrainte : plus ce terme est grand et plus son influence sera prépondérante. Plusieurs types de contraintes sont décrites et serviront dans la suite de l'étude.
 
 \subsection{Contrainte de parcimonie}
 Une des premières contraintes employées est celle de la parcimonie \cite{hoyer_non-negative_2004, le2015sparse} : c'est-à-dire l'utilisation d'un nombre réduit d'éléments du dictionnaire à chaque instant $t$. Cette contrainte renforce la représentation par partie de la NMF en pénalisant les termes qui seraient non nuls. Elle trouve notamment son intérêt dans le cas d'une représentation \textit{sur-complète} du dictionnaire, c'est à dire $K > \max(F,N)$ où l'ajout de la contrainte parcimonieuse permet de réduire la complexité du problème \cite{eggert2004sparse}. Dans un premier temps, Hoyer \cite{hoyer_non-negative_2004} propose une contrainte telle que
@@ -691,7 +691,7 @@ avec $\mathbf{I}$ une matrice identité, $\mathbf{1}$ un vecteur unitaire et $\a
 D'autres contraintes existent dans la littérature mais ne seront pas étudiées dans ces travaux.
 On peut citer une contrainte sur l'\textbf{harmonicité} des éléments de $\mathbf{W}$ qui a été proposée dans \cite{vincent2008harmonic} dans le cadre de la transcription d'une mélodie de piano. Le dictionnaire est alors décomposé en une somme de partiels sinusoïdes harmoniques ou inharmoniques pondérée selon une enveloppe spectrale. \cite{rigaud2012piano} propose une autre approche où une contrainte d'inharmonicité est imposée permettant à chaque élément de $\mathbf{W}$ de modifier la fréquence de chaque partiel tout en contraignant l'ensemble à suivre une loi d'inharmonicité.
 
-La \textbf{NMF locale} a été proposée par \cite{li2001learning} qui contraint la fonction coût avec trois pénalités : i) le nombre de bases $K$ doit être minimisé, ii) les bases doivent être le plus orthogonales que possible, iii) seules les bases qui donnent le plus d'informations sont conservées. Son application à la classification d'instruments de musique dans \cite{benetos2006musical} est toutefois peu efficace.
+La \textbf{NMF locale} a été proposée par \cite{li2001learning} qui contraint la fonction de coût avec trois pénalités : i) le nombre de bases $K$ doit être minimisé, ii) les bases doivent être le plus orthogonales que possible, iii) seules les bases qui donnent le plus d'informations sont conservées. Son application à la classification d'instruments de musique dans \cite{benetos2006musical} est toutefois peu efficace.
 
 Dans le cadre de la NMF-SS, une contrainte est proposée dans \cite{yagi2012music}, puis étendue dans \cite{kitamura2014music} pour toute valeur de $\beta$, dans le cadre de la séparation de signaux musicaux afin de \textbf{maximiser la distance} (ou la divergence) entre le dictionnaire appris $\mathbf{W_s}$ et le dictionnaire libre $\mathbf{W_r}$ afin de s'assurer qu'un minimum d'information d'intérêt y soit intégré. Dans \cite{wang2016semi}, c'est une contrainte de propagation qui est considérée où un nouveau dictionnaire $\mathbf{W}$ est construit dans lequel les éléments similaires dans $\mathbf{W_r}$ à ceux appris et étiquetés sont pondérés. Dans \cite{lefevre2012semi}, la contrainte ajoutée consiste à pondérer le poids des éléments appris dans la reconstruction de $\mathbf{V}$ afin de donner une prépondérance différente des éléments non-appris.
 

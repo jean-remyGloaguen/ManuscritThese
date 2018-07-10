@@ -376,8 +376,8 @@ Il est donc nécessaire de générer un outil adapté à l'ESU afin de pouvoir e
 
 \section{Estimation du niveau sonore du trafic routier} \label{part:cachier_charges}
 
-Étant la source principale de bruit en ville ainsi que la plus gênante \cite{noauthor_noise_nodate}, le trafic routier sera la source d'intérêt qui sera principalement étudiée dans ce document. Le principe général de la méthode proposée est résumé en Figure \ref{fig:estimateur0} : à partir d'un enregistrement audio monophonique (réalisé en format wav et de fréquence d'échantillonnage 44,1 kHz), un outil, appelé \textit{estimateur}, détermine le niveau sonore estimé du trafic routier $\tilde{L}_{eq,trafic}$.
-L'objectif est donc de construire cet estimateur et un protocole expérimental adéquat afin d'obtenir la meilleure estimation possible du niveau sonore du trafic.\\
+Étant la source principale de bruit en ville ainsi que la plus gênante \cite{noauthor_noise_nodate}, le trafic routier sera la source d'intérêt qui sera principalement étudiée dans ce document. Le principe général de la méthode proposée est résumé en Figure \ref{fig:estimateur0} : à partir d'un enregistrement audio monophonique (réalisé en format wav et de fréquence d'échantillonnage 44,1 kHz), un outil, appelé \textit{estimateur}, détermine le niveau sonore estimé du trafic routier.
+L'objectif est donc de construire cet estimateur et un protocole expérimental adéquat afin de générer l'erreur d'estimation la plus faible possible du niveau sonore du trafic.\\
 
 \begin{figure}[ht]
 \centering
@@ -387,35 +387,39 @@ L'objectif est donc de construire cet estimateur et un protocole expérimental a
 \end{figure}
 
 Parmi les travaux qui s'intéressent au trafic routier à partir d'enregistrements sonores d'ESU,  des outils de reconnaissance du bruit \cite{defreville_automatic_2006}, d'estimation du débit véhicule \cite{torija2012using}, de détection d'accidents de la route \cite{harlow2001automated} ou bien d'estimation des trajectoires  basé sur l'antennerie de microphones \cite{leiba2017large} ont déjà été développés.
-La détermination du niveau sonore du trafic routier en tenant compte des autres sources sonores présentes parmi ces enregistrements a pour l'instant été très peu étudiée. On peut citer les travaux réalisés récemment au sein du projet DYNAMAP \cite{socoro2017anomalous}. Leur approche consiste à entrainer une méthode de détection en vue d'estimer les trames temporelles où la classe de son \textit{trafic} n'est pas présente afin de les rejeter lors de l'estimation des niveaux sonores.
+La détermination du niveau sonore du trafic routier en tenant compte des autres sources sonores présentes parmi ces enregistrements a pour l'instant été très peu étudiée. On peut citer les travaux réalisés récemment au sein du projet DYNAMAP \cite{socoro2017anomalous}. Leur approche consiste à entrainer une méthode de détection en vue d'estimer les trames temporelles où la classe de son \textit{trafic} n'est pas présente afin de les rejeter lors de l'estimation des niveaux sonores. Une limite de cette approche est la possibilité de considérer des faux-positifs et de ne pas répondre à la question du recouvrement avec les autres sources sonores.
 
-Ici, l'approche choisie est différente : l'estimateur du niveau sonore du trafic routier s'appuie sur une méthode de séparation de sources (voir chapitre \ref{chap:methode_separation_source}) afin d'extraire l'intégralité de la composante \textit{trafic} des enregistrements audio parmi les autres sources sonores présentes (voir Figure \ref{fig:separation_source}). La comparaison de cette approche face aux travaux réalisés dans le projet DYNAMAP sera réalisée dans la partie \ref{part:comparaison_method}. 
+\section{Méthode proposée}
+
+Ici, l'approche choisie est différente : l'estimateur du niveau sonore du trafic routier s'appuie sur une méthode de séparation de sources (voir chapitre \ref{chap:methode_separation_source}) afin d'extraire l'intégralité de la composante \textit{trafic} des enregistrements audio parmi les autres sources sonores présentes (voir Figure \ref{fig:separation_source}). L'un des intérêts est notamment la prise en compte naturelle du phénomène de recouvrement temporel. 
+Cette méthode, en isolant la contribution \textit{trafic} d'une mixture sonore permet de déterminer plusieurs de ces caractéristiques dont le niveau sonore. Cette estimation dépend de deux grandeurs : son unité et sa durée d'acquisition $\delta_t$.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\linewidth]{./figures/NMF/bloc_diagram_source_separation.pdf}
-\caption{Diagramme en bloc de l'approche par séparation de sources.}
+\includegraphics[width=0.9\linewidth]{./figures/autres/schema_source_separation_FR.pdf}
+\caption{Diagramme en bloc de l'approche par séparation de sources d'une mixture sonore mélangeant une composante \textit{trafic} avec des sons de klaxons.}
 \label{fig:separation_source}
 \end{figure}
 
-En sortie de l'estimateur, un niveau sonore est déterminé. Il faut cependant définir son unité : soit en grandeur linéaire (équivalent à la pression $p_{rms}$ en Pascal), soit en grandeur logarithmique (en dB), 
+Ce niveau sonore du trafic peut s'exprimer soit en grandeur linéaire (équivalent à la pression $p_{rms}$ en Pascal), soit en grandeur logarithmique (en dB), tel que
 
 \begin{equation}
 L_{p} = 20 \times \log_{10} \left( \frac{p_{rms}}{2\times 10^{-5}} \right)
 \end{equation}
 
-avec $p_0 = 2\times 10^{-5}$, la pression acoustique de référence. Le choix est fait d'exprimer les niveaux sonores en dB afin de calibrer l'échelle de grandeur et ainsi éviter de manipuler des valeurs dont les ordres de grandeurs seraient trop différentes. De plus, le dB est une grandeur couramment utilisée dans le domaine de l'acoustique urbaine, ce qui en fait donc une représentation adaptée. La pondération $A$ n'est pas considérée afin de se focaliser sur une estimation physique du niveau \textit{trafic}. De plus, la pondération $A$ diminue la présence des basses fréquences où se trouve les composantes du trafic. 
+avec $p_0 = 2\times 10^{-5}$, la pression acoustique de référence. Pour ces travaux, le choix est fait d'exprimer les niveaux sonores en dB afin d'éviter de manipuler des valeurs dont les ordres de grandeurs seraient trop différentes et de calibrer l'échelle de grandeur. Enfin, le dB étant une grandeur couramment utilisée dans le domaine de l'acoustique urbaine, c'en est une représentation adaptée. La pondération $A$ n'est pas considérée afin de se focaliser sur une estimation physique du niveau \textit{trafic}. De plus, celle-ci diminue la présence des basses fréquences où se trouve les composantes du trafic. 
 
-La durée d'intégration $\delta_t$ dans le calcul du niveau sonore par scène est également un choix à réaliser : choisit-on un niveau sonore exprimé toutes les 125 ms ? toutes les secondes ? toutes les minutes ? Aux vues de l'utilisation de cet estimateur qui est faite (meilleur estimation de la contribution du trafic, amélioration des cartes de bruits en ville), le choix est fait de considérer une temps d'intégration long de l'ordre de la minute. Il n'est en effet pas pertinent de choisir un pas d'intégration trop faible (de 125 ms par exemple ) qui serait alors une précision trop exigeante par rapport aux applications souhaitées : 
+La durée d'intégration $\delta_t$ sert ensuite à déterminer un niveau sonore équivalent, $L_{eq}$, sur une plage de temps,
 
 \begin{equation}
-L_{eq} = 10 \times \log_{10}\left(\frac{1}{\delta_t} \int_t^{t+\delta_t} 10^{Lp/10} dt \right)
+L_{eq} = 10 \times \log_{10}\left(\frac{1}{\delta_t} \int_t^{t+\delta_t} 10^{Lp/10} dt \right).
 \end{equation}
 
-La durée d'intégration $\delta_t$ sur le premier corpus (voir partie \ref{part:corpus_ambiance}) sera liée à la durée des scènes sonores ($\delta_t$ = 30 secondes). Puis, dans le second corpus (partie \ref{part:corpus_grafic}), la durée des scènes sonores étant variables, on choisira un temps d'intégration à la minute ($\delta_t$ = 60 secondes).\\
+Quelle valeur choisir pour $\delta_t$ ? Choisit-on un niveau sonore exprimé toutes les 125 ms ? toutes les secondes ? toutes les minutes ? Aux vues de l'utilisation de cet estimateur qui est faite (meilleur estimation de la contribution du trafic, amélioration des cartes de bruits en ville), le choix est fait de considérer une temps d'intégration long de l'ordre de la minute. Il n'est en effet pas pertinent de choisir un pas d'intégration trop faible (de 125 ms par exemple) qui serait alors une précision trop exigeante par rapport aux applications souhaitées. 
+Pour le premier corpus (voir partie \ref{part:corpus_ambiance}), la durée des scènes sonores est la même (30 secondes). La durée d'intégration $\delta_t$  sera alors définie selon leur longueur ($\delta_t$ = 30 secondes). Puis, dans le second corpus (partie \ref{part:corpus_grafic}), la durée des scènes sonores étant variables, on choisira un temps d'intégration ramené à la minute ($\delta_t$ = 60 secondes).\\
 
-Il faut ensuite pouvoir comparer le niveau sonore estimé,en dB, à sa valeur exacte afin de pouvoir évaluer la qualité de son estimation. En se basant sur des enregistrements sonores, dans le cas où il n'y a que du trafic, l'estimation fournie par la méthode peut être facilement comparée mais quid des scènes sonores où le trafic n'est pas prépondérant et est capté avec d'autres sources sonores ? La valeur exacte du trafic, $L_{eq,trafic}$, est l'inconnue qu'on cherche justement à déterminer. Sans cette valeur de référence, il est impossible de comparer la valeur déterminée et ainsi la validité et les performances de l'estimateur.
-Le choix est donc fait ici d'utiliser non pas des enregistrements sonores mais des corpus de $M$ scènes sonores issues d'un processus de simulation où un contrôle complet des classes sonores présentes, ainsi que de leur niveau sonore, est alors possible. Grâce à ce procédé, la valeur exacte, $L_{eq,trafic}$, peut ainsi être obtenue. La Figure \ref{fig:diagramBlocProtocol} résume le schéma global du procédé suivi.
+Il faut ensuite pouvoir comparer le niveau sonore estimé du trafic, $\tilde{L}_{eq,trafic, \delta_t}$, à sa valeur exacte, , $L_{eq,trafic, \delta_t}$, afin de pouvoir évaluer la justesse de l'estimateur. En se basant sur des enregistrements sonores, dans le cas où il n'y a que du trafic, l'estimation fournie par la méthode peut être facilement comparée mais quid des scènes sonores où le trafic n'est pas prépondérant et est capté avec d'autres sources sonores ? La valeur exacte du trafic est l'inconnue qu'on cherche justement à déterminer. Sans cette référence, il est impossible de comparer la valeur estimée du trafic et ainsi la validité et les performances de l'estimateur.
+Le choix est donc fait d'utiliser non pas des enregistrements sonores mais des scènes sonores issues d'un processus de simulation où un contrôle complet des classes sonores présentes, ainsi que de leur niveau sonore, est alors possible. Grâce à ce procédé, la valeur exacte, $L_{eq,trafic}$, est ainsi obtenue. La Figure \ref{fig:diagramBlocProtocol} résume le schéma global du procédé suivi.
 
 \begin{figure}[ht]
 \centering
@@ -425,18 +429,16 @@ Le choix est donc fait ici d'utiliser non pas des enregistrements sonores mais d
 \end{figure}
 
 Les niveaux sonores exacts et estimés sont ensuite comparés à travers un calcul de métrique. Le choix du calcul de métrique est un choix important puisqu'il conditionne les conclusions qui seront faites. 
-Dans le cadre de la séparation de source, plusieurs métriques sont été développés afin d'harmoniser et de faciliter la comparaison entre les performances des estimateurs notamment \cite{}
-
-Ici, c'est un indicateur d'écart qui est choisi. Parmi les métrique qui composent cette classe (somme des carrés des résidus, la racine de l'erreur quadratique moyenne ($RMSE$ pour \textit{Root Mean Square Error} en anglais), l'erreur  absolue moyenne en pourcentage ($MAPE$)  \dots), c'est l'erreur absolue moyenne, $MAE$ (pour \textit{Mean Absolute Error}) est retenue :
+Dans le cadre de la séparation de source, plusieurs métriques ont été développées afin d'harmoniser et de faciliter la comparaison entre les performances des méthodes notamment dans \cite{vincent2006performance}.
+Ici, puisque la performance de l'estimateur est liée à son erreur d'estimation du niveau sonore du trafic, c'est un indicateur d'écart qui est choisi. Parmi ces métriques qui composent cette classe (somme des carrés des résidus, la racine de l'erreur quadratique moyenne ($RMSE$ pour \textit{Root Mean Square Error} en anglais), l'erreur  absolue moyenne en pourcentage ($MAPE$)  \dots), c'est l'erreur absolue moyenne, $MAE$ (\textit{Mean Absolute Error}) qui est retenue :
 
 \begin{equation}\label{eq:mae}
 MAE = \frac{\sum_{i = 1}^{M} \vert L_{eq, trafic, \delta t}^i - \tilde{L}_{eq, trafic, \delta t}^i \vert}{M}.
 \end{equation}
 
-Contrairement à l'erreur RMSE, qui revient à la racine carré de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité. 
-Le choix de confronter des grandeurs logarithmiques (les niveaux sonores en dB) à un opérateur arithmétique (l'opérateur moyenne) peut paraitre discutable mais est justifié par la stabilité qu'il possède contrairement aux erreurs $RMSE$ ou $MAPE$ qui sont plus sensibles aux anomalies. De plus, l'usage d'opérateurs statistiques sur des grandeurs logarithmiques est courantes dans la communauté d'acoustique environnementale \cite{aumond2018kriging,morillas2014uncertainty}. 
-En cela l'erreur MAE parait adaptée aux cas d'études présents.
-Par la réalisation de moyenne arithmétique simple sur des grandeurs des dB, l'erreur $MAE$ présente l'avantage d' équitablement comparer les performances des estimateurs dans des cas variés. Toutefois, la valeur fournie par l'erreur $MAE$ n'est pas considérée comme une erreur s'exprimant en dB mais comme un indice de performance sans dimension.\\
+Contrairement à l'erreur RMSE, qui revient à la racine carrée de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévie fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi de gagner en interprétabilité. 
+Le choix de confronter des grandeurs logarithmiques (les niveaux sonores en dB) à un opérateur arithmétique (l'opérateur moyenne) peut paraitre discutable mais est justifié par la stabilité qu'il possède contrairement aux erreurs $RMSE$ ou $MAPE$ qui sont plus sensibles aux anomalies. De plus, l'usage d'opérateurs statistiques sur des grandeurs logarithmiques est courantes dans la communauté d'acoustique environnementale \cite{aumond2018kriging,morillas2014uncertainty}.
+Par la réalisation de moyenne arithmétique simple sur des grandeurs des dB, l'erreur $MAE$ présente l'avantage comparer équitablement les performances des estimateurs dans des cas variés. En effet, pour un estimateur qui estime le niveau sonore du trafic moitié moins, que le niveau soit fort (94 dB) ou faible (54 dB). L'erreur, dans les deux cas, sera de 3 dB. Dans un cas linéaire, ces erreurs seraient respectivement de 0,5 Pa et de 0,05 Pa. La métrique serait alors plus impactée par les erreurs dans les forts niveaux que dans les faibles. Pour mieux équilibrer cette disparité, l'utilisation de cette métrique à des grandeurs en dB est cohérente et adaptée aux cas d'études présents. Toutefois, la valeur fournie par l'erreur $MAE$ n'est pas considérée comme une erreur s'exprimant en dB mais comme un indice de performance sans dimension.\\
 
 À partir de cette proposition, il reste maintenant à :
 \begin{itemize}

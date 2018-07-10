@@ -53,12 +53,29 @@ où $\lambda_k = \Vert w_k \Vert$, la terme de normalisation des matrices $\math
 
 L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expression des mises à jours de $h_{kn}$ : 
 
-\begin{equation}
+\begin{equation}\label{eq:smooth_beta2}
 \fbox{$
-h_{kn} = \frac{w_{fk} v_{fn}+\alpha  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
+h_{kn} = \frac{w_{fk} v_{fn}+\alpha  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
+\end{equation}
+pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient ; 
+
+\begin{equation}
+h_{k1} = \frac{w_{fk} v_{f1}+\alpha \lambda_k^2 h_{k2}^{(i)})}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{h_{k1}^{(i)}}}.
 \end{equation}
 
-Dans le cas où $\alpha$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}.
+Et pour $n = N$, l'équation \ref{eq:smooth_beta2} devient 
+\begin{equation}
+h_{kN} = \frac{w_{fk} v_{fN}+\alpha  \lambda_k^2 h_{kN}^{(i)}}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {h_{kN}^{(i)}}}.
+\end{equation}
+
+On illustre en Figure \ref{fig:smooth_2} l'impact de cet contrainte sur un cas simple d'une scène sonore constitué successivement du passage d'une voiture et de sifflement d'oiseaux : 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\linewidth]{./figures/NMF/LpSmooth_2.pdf}
+\caption{Influence de la contrainte de régularité temporelle pour $\beta$ = 2 selon l'algorithme obtenu par \textit{majorisation-minimisation}.}
+\label{fig:smooth_2}
+\end{figure}
 
 
 \section{Cas de la divergence d'Itakura-Saïto}
@@ -200,3 +217,12 @@ La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui
 h_{kn} = X_{z}^+-\frac{b}{3a}.
 $}
 \end{equation}
+
+Le même exemple illustratif que pour $\beta$ = 2 est repris ici en Figure \ref{fig:smooth_0}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\linewidth]{./figures/NMF/LpSmooth_0.pdf}
+\caption{Influence de la contrainte de régularité temporelle pour $\beta$ = 0 selon l'algorithme obtenu par \textit{majorisation-minimisation}.}
+\label{fig:smooth_0}
+\end{figure}

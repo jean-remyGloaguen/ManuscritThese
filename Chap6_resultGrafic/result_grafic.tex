@@ -64,8 +64,8 @@ MAE_{g, SOUR} = \frac{\sum_{i = 1}^4 MAE_i}{4}.
     $\mathbf{w_t}$ (s)& 0.5 & 1 & 2 & \textit{all} & 4\\
 \end{tabularx}
 
-\begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
-    $\mathbf{K}$ & 25 & 50 & 100 & 200 & 4\\
+\begin{tabularx}{17.5cm}{L{2cm}@{}C{2.4cm}@{}@{}C{2.4cm}@{}@{}C{2.4cm}@{}@{}C{2.4cm}@{}@{}C{2.4cm}@{}C{2cm}@{}}
+    $\mathbf{K}$ & 25 & 50 & 100 & 200 & 300 & 5\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{4cm}@{}@{}C{4cm}@{}@{}C{4cm}@{}C{2cm}@{}}
@@ -104,8 +104,6 @@ $f_c$ (Hz) & $MAE_{60}$ & $MAE_{P}$ & $MAE_Q$ & $MAE_{Br}$  & $MAE_{TrBr}$ \\
 \end{tabular}
 \end{table}
 
-Au final, on obtient le même comportement, un filtre avec une faible fréquence de coupure ($f_c$ = ). Il est nécessaire de l'augmenter ici puisque le corpus est composé de moins de scène où le trafic est moins présent.
-
 \subsection{Erreur produite par la NMF}
 
 
@@ -117,8 +115,8 @@ Au final, on obtient le même comportement, un filtre avec une faible fréquence
 \item résumé de tout les paramètres (nombre complet de combinaisons) sous forme de tableau avec le nombre total de combinaison, nombre d'itération
 \item résultats
 \begin{itemize}
-\item mae générale (filtre VV, supervisé VV, semi-supervisé VV, seuillé VV)
-\item mae pour chaque ambiance (filtre VV, supervisé VV, semi-supervisé VV, seuillé VV)
+
+
 \item allure des courbes Lp,1s pour chaque ambiance
 \item fonction cost (supervisé VV, semi-supervisé VV, seuillé)
 \item allure des 2 éléments dans Wr
@@ -138,11 +136,11 @@ calibration qui fait défault donc les valeurs de référence sont à revoir mai
 méthode & $f_c$ (kHz) & $\beta$ & K & $w_t$ & $t_h$ & $MAE_{60}$ \\ \toprule
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & - &  3,64 ($\pm$ 4,00)\\
  & 0,5 & - & - & - & - & 2,03 ($\pm$ 1,43) \\ \midrule
-\multirow{3}{*}{NMF SUP} & - & 0 & 200 & 1000 & - & 4,03 ($\pm$ 4,47) \\
+\multirow{3}{*}{NMF SUP} & - & 0 & 200 & 500 & - & 4,01 ($\pm$ 4,43) \\
  & - & 1 & 25 & 2000 & - & 2,69 ($\pm$ 2,90) \\
  & - & 2 & 25 & 500 & - & 2,22 ($\pm$ 2,33) \\ \midrule
-\multirow{3}{*}{NMF SEM} & - & 0 & 300 & 1000 & - & 2,16 ($\pm$ 0,67) \\
- & - & 1 & 300 & 500 & - & 1,94 ($\pm$ 0,53) \\
+\multirow{3}{*}{NMF SEM} & - & 0 & 300 & 2000 & - & 2,13 ($\pm$ 0,63) \\
+ & - & 1 & 300 & 2000 & - & 1,98 ($\pm$ 0,51) \\
  & - & 2 & 300 & 2000 & - & 2,23 ($\pm$ 1,41) \\ \midrule
 \multirow{3}{*}{NMF IS} & - & 0 & 25 & 1000 & 0,32 & 1,43 ($\pm$ 0,73) \\
  & - & 1 & 50 & 0 & 0,34 &  1,32 ($\pm$ 1,15)\\
@@ -151,27 +149,39 @@ méthode & $f_c$ (kHz) & $\beta$ & K & $w_t$ & $t_h$ & $MAE_{60}$ \\ \toprule
 \end{tabular}
 \end{table}
 
+\subsection{Contrainte de régularité temporelle}
 
-\begin{table}[]
+contrainte sur Ws et pas sur Wr
+faire K = 300 pour beta = 1 pour la TI NMF
+\begin{table}[h]
 \centering
-\caption{My caption}
-\label{my-label}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{L{2cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}C{1.5cm}}
-méthode & $f_c$ (kHz) & $K$ & $w_t$ & $\beta$ & $t_h$ & P & C & Br & Tr-Br \\ \toprule
-filtre PB & 20 & - & - & - &  - & 9,28 & 3,65 & 1,20 & 0,44\\
-filtre PB & 0,5 & -  & - & - & - & 4,00 & 2,18 & 0,93 & 1,03 \\ \midrule
-NMF SUP & - & 25 & 500 & 2 & - & 5,71 & 2,05 & 0,63 & 0,53\\
-NMF SEM & - & 300 & 500 &  & - & 2,37 & 2,36 & 1,76 & 1,27\\
-NMF IS & - & 300 & 1000 & 1 & 0,35 & 2,21 & 1,64 & 0,61 & 0,34\\ \bottomrule
-\end{tabular}}
+\begin{tabular}{L{2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
+\toprule
+ & $\beta$ & $K$ & $w_t$ & $t_h$ & $\alpha$ & $MAE_{60}$ \\ \midrule
+\multirow{2}{*}{NMF SUP} & 2 & 25 & 0,5 & - & 0 & 2,22 ($\pm$ 2,33) \\
+ & 2 & 25 & 0,5 & - & 0,01 & \textbf{2,13 ($\pm$ 2,20)} \\\midrule
+\multirow{3}{*}{NMF SEM} & 1 & 300 & 2 & - & 0 & 1,98 ($\pm$ 0,51) \\
+ & 1 & 300 & 2 & - & 0,10 & 1,87 ($\pm$ 0,41) \\
+ & 0 & 300 & 2 & - & 0,50 & \textbf{1,55 ($\pm$ 0,98)} \\\midrule
+\multirow{2}{*}{NMF IS} & 1,20 ($\pm$ 0,87) & 1,20 ($\pm$ 0,87) & 1,20 ($\pm$ 0,87) & 1,20 ($\pm$ 0,87) & 1,20 ($\pm$ 0,87) & \textbf{\textcolor{red}{1,20 ($\pm$ 0,87)}} \\
+ & 1 & 200 & 1 & 0,36 & 0,15 & 1,47 ($\pm$ 0,86)\\ \bottomrule
+\end{tabular}
 \end{table}
 
-\subsection{NMF contraintes Smoothness et parcimonie}
-
-\subsection{Optimation par les seuils}
+\subsection{Contrainte par parcimonie}
 
 
+
+\subsection{Optimisation par les seuils}
+
+
+%On a déterminé un seuil optimal par ambiance :
+%parc => th = 
+%calme => th = 
+%br => th = 
+%tr_br=> th = 
+
+Le but est de trouver des indicateurs simples qui serait corrélé à ces seuils
 
 
 %\end{document}

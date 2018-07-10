@@ -103,7 +103,7 @@ L'outil a déjà été utilisé pour des études relatifs au payage sonore \cite
 La base de données de sons utilisée dans cette étude comprend un ensemble de classes de sons isolés (oiseaux, voiture, klaxon  \dots) qui contiennent chacune plusieurs échantillons (\textit{oiseaux01.wav}, \textit{oiseaux02.wav} \dots) pour permettre une grande variabilité dans les mixtures sonores créées. La plupart des échantillons sont trouvés sur des sites en ligne de sons \footnote{\url{www.freesound.org}} \footnote{\url{www.universalsoundbank.com}} et à l'aide de la base de données constituée dans  \cite{salamon_dataset_nodate}. Leur base de données comprend en tout plus de 8000 fichiers audio, collectés également sur le site \textit{freesound.org}, d'une durée inférieure à 4 secondes, répartis en 10 classes de sons : ventilation, klaxon de voiture, enfants qui joue, chien qui aboie, sonnerie, moteur en fonctionnement, coup de feu, marteau-piqueur, sirène et musique dans la rue. L'ensemble des échantillons a été trié afin de ne conserver que les audio ayant un rapport signal à bruit élevé et un échantillonnage de 44,1 kHz. \`A partir de la liste des noms des fichiers originaux fournis avec cette base de données, les fichiers audio sont récupérés dans leur intégralité sur le site internet et intégrés dans la base de données.\\
 Afin d'obtenir un rapport signal à bruit acceptable, certains audio ont été filtrés à l'aide du logiciel d'Audacity. D'autres signaux ont, quant à eux, été tronqués ou bien divisés en plusieurs fichiers afin d'obtenir des durées convenables.
 
-\subsection{Enregistrements de passages de véhicules}
+\subsection{Enregistrements de passages de véhicules}\label{part:voiture_record}
 S'il est possible de trouver l'ensemble des classes de son avec une qualité suffisante en ligne, dans le cas de la classe \textit{voiture}, étant la source sonore d'intérêt, il était nécessaire de réaliser des enregistrements de passages de véhicules contrôlés sur une piste d'essai afin de posséder un ensemble varié et maitrisé de vitesses et de modèles de véhicules. Pour cela, 2 véhicules à motorisation essence (Renault Mégane, Renault Sénic) et 2 autres à motorisation diesel (Renault Clio, Dacia Sandero) ont été enregistrées en suivant un plan de mesure défini comprenant plusieurs vitesses stabilisées à différents rapports de vitesses ainsi que des phases d'accélération et de freinage du véhicule.
 
 \input{tab/tab_plan_vitesse_voiture}
@@ -181,29 +181,28 @@ On résume dans la Figure le spectre moyen sur les 25 scènes du signal \textit{
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.7\linewidth]{./figures/NMF/spectre_ambiance.pdf}
+\includegraphics[width=\linewidth]{./figures/NMF/spectre_ambiance.pdf}
 \caption{Spectres sonores moyens des classes \textit{interférantes} et \textit{trafic} pour chaque sous-corpus}
 \end{figure}
 
 
-Dans le cas des sous-corpus \textit{alerte} et \textit{animaux}, les allures sont différentes de celles du \textit{trafic}. Ce sont des sons plus aigus et harmoniques. De plus ce sont des sont dont les variations temporelles sont également différentes de celle du trafic : le sifflement d'un oiseau ou le retentissement d'un klaxon sont des sons plus ponctuels que le passage d'un voiture. \'A l'inverse, pour les autres sous-corpus, cette distinction est plus complexe puisque des composantes dans les basses-fréquences sont également présentes.
+Dans le cas des sous-corpus \textit{alerte} et \textit{animaux}, les allures des spectres sont différentes de celles du \textit{trafic}. Ce sont des sons plus aigus et harmoniques. De plus ce sont des sons dont les variations temporelles sont également différentes de celle du trafic : le sifflement d'un oiseau ou le retentissement d'un klaxon sont plus ponctuels que le passage d'un voiture. \'A l'inverse, pour les autres sous-corpus, cette distinction est plus complexe puisque des composantes dans les basses-fréquences sont également présentes.
 
-
-Chaque scène générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont, chacune, dupliquées ensuite 5 fois où le niveau sonore du trafic y est calibré tel que, pour une scène $i$, 
+Chaque scène $i$ générée possède alors un niveau sonore trafic initial $L_{eq,trafic,init,i}$ et un niveau sonore \textit{interférant}, $L_{eq,interferant}$. Elles sont ensuite, chacune, dupliquées 5 fois où le niveau sonore du trafic y est calibré tel que, pour une scène $i$, 
 
 \begin{equation}
 TIR = L_{eq,trafic, tir, i} - L_{eq,interferant, i}
 \end{equation}
 
-avec $TIR$ le Rapport des niveaux sonores du trafic et de la classe interférante (\textit{Traffic Interfering Ratio} en anglais) où $TIR = \lbrace$ -12 -6 0 6 12 $\rbrace$. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
+avec $TIR$ le Rapport des niveaux sonores du trafic et de la classe interférante (\textit{Traffic Interfering Ratio} en anglais) où $TIR = \lbrace$ -12, -6, 0, 6, 12 $\rbrace$ dB. Ce $TIR$ s'assimile au rapport \textit{source-interférence} défini dans \cite{vincent2006performance}. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
 
 \begin{equation}
 \alpha(TIR,i) = 10^{\sfrac{(TIR_{init,i}-TIR)}{20}}
 \end{equation}
 
-où $TIR_{init,i} = L_{eq,trafic,init,i}-L_{eq,interferant,i}$. Les étapes sont résumés sous la forme d'un diagramme en bloc dans la Figure \ref{fig:bloc_diagram_tir}. Lorsque $TIR < 0$ dB, le signal trafic est plus faible que le signal interférant, à l'inverse lorsque $TIR>0$, le trafic devient la classe sonore prépondérante. La Figure \ref{fig:exemple_TIR} présente un exemple d'une scène sonore \textit{alerte} pour 3 TIR.
+où $TIR_{init,i} = L_{eq,trafic,init,i}-L_{eq,interferant,i}$. Les étapes sont résumées sous la forme d'un diagramme en blocs dans la Figure \ref{fig:bloc_diagram_tir}. Lorsque $TIR < 0$ dB, le signal trafic est plus faible que le signal interférant, à l'inverse lorsque $TIR>0$, le trafic devient la classe sonore prépondérante. La Figure \ref{fig:exemple_TIR} présente un exemple d'une scène sonore \textit{alerte} pour 3 valeurs du $TIR$.
 
-\begin{figure}[hbtp]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./figures/NMF/Lp_TIR.pdf}
 \caption{Exemple de l'évolution du niveau sonore équivalent 1 seconde $L_{p,1s}$ d'une mixture sonore extraite du sous-corpus \textit{alerte} avec la composante trafic calibrée à $TIR \in \left[-12, 0, 12\right]$ dB.}
@@ -273,7 +272,8 @@ voix          & 59,00           & 66,50         \\ \bottomrule
 
 \input{tab/tab_occurence_source_par_ambiance}
 
-De ces annotations, il est possible d'estimer, par ambiance sonore, un niveau sonore moyen, les classes de sons qui caractérisent leur bruit de fond, les classes de sons catégorisées en évènements sonores ainsi que leur densité (nombre d'évènement par minute). Ces informations sont alors utilisées pour pouvoir recréer ces scènes par le mode \textit{abstract} de \textit{SimScene} (Tableau \ref{tab:obsScene}).
+De ces annotations, il est possible d'estimer, par ambiance sonore, les classes de sons qui caractérisent leur bruit de fond, les classes de sons catégorisées en évènements sonores ainsi que leur densité (nombre d'évènement par minute). Ces informations sont alors utilisées pour pouvoir recréer ces scènes par le mode \textit{abstract} de \textit{SimScene} (Tableau \ref{tab:obsScene}). Le niveau sonore moyen est une donnée qui est à considérer avec prudence. En effet, le fichier audio de calibration n'a pas été fourni avec les enregistrements. Il n'est pas possible d'établir avec certitude les niveaux sonores exactes des scènes. Une calibration relative a toutefois été réalisée sur l'ensemble des enregistrements audio avec l'aide des niveaux sonores renseignés par la Figure \ref{fig:parcoursGRAFIC} afin d'obtenir, par scène, des niveaux sonores équivalents.\\
+
 Sur l'ensemble des scènes sonores, 11 classes de sons sont identifiées en tant qu'évènement sonore (trafic routier, voix, sifflements d'oiseaux, bruit de rue, bruit de pas, porte de maison, porte de voiture, chantier, klaxon, sonette, sirène) et 3 classes de sons sont présentes en tant que bruit de fond sonore (brouhaha de foule, sifflements d'oiseaux, trafic routier continu).
 Les sources sonores les plus communes sont \textit{voiture}, \textit{voix} et \textit{bruit rue}. En outre, en plus des classes de sons résumées dans le Tableau \ref{tab:obsScene}, de nombreuses autres classes de sons (\textit{aboiement de chien},\textit{bruit de balais}, \textit{toussotement}, \textit{passage d'avion}, \textit{roulement de valise}) entendus interviennent plus sporadiquement (nombre d'évènement/min < 0,1) et sont susceptibles d'intervenir dans les quatre ambiances sonores.
 La composition des environnements sonore diffère entre eux : dans \textit{parc} la voix et les oiseaux sont les bruits de fond sonores principaux permettant d'établir l'ambiance sonore adéquate, puis, plus la rue est animée plus la part de la classe \textit{trafic} et celle de l'activité humaine (\textit{voix, bruit de pas}) sont prédominantes. À l'inverse, les classes de sons \og naturel \fg{} (\textit{oiseaux)} disparaissent progressivement.
@@ -282,7 +282,17 @@ Sans étude perceptive sur le débit de véhicule à partir duquel les passages 
 
 \subsection{Reproduction des enregistrements audio}
 
-Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonore est la plus proche possible d'une structure temporelle écologiquement valide. La difficulté réside surtout dans l'estimation du \textit{event background ratio} pour les évènements sonores qui doit être cohérent par rapport à l'ambiance souhaitée. La détermination de sa valeur et de la variance correspondante s'est donc faite empiriquement afin d'obtenir un rendu satisfaisant. Le niveau sonore global de la scène simulée est enfin modifié pour être similaire à celui de l'enregistrement.\\
+Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonore est la plus proche possible d'une structure temporelle écologiquement valide. La difficulté réside surtout dans l'estimation du \textit{event background ratio} pour les évènements sonores qui doit être cohérent par rapport à l'ambiance souhaitée. La détermination de sa valeur et de la variance correspondante s'est donc faite empiriquement afin d'obtenir un rendu satisfaisant. Pour vérifier que la répartition des sons entre les éléments \textit{trafic} et \textit{interférant} dans chaque scène reste cohérent par rapport à l'ambiance sonore qui lui est assigné, le $TIR$ dans chaque scène est calculé et résumé en Figure \ref{fig:tir_grafic}. La valeur du $TIR$ moyen augmente linéairement avec l'ambiance sonore entre -9 dB et 17 dB. L'évolution du $TIR$ à travers les ambiances tradui correctement la présence de plus en plus forte du trafic. Par ailleurs, la plupart des scènes possèdent un $TIR$ positif traduisant une part du trafic plus importante que celle de la classe interférante. Par rapport au corpus \textit{Ambiance}, ce corpus est privilégie donc plus des valeurs du $TIR$ positifs. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\linewidth]{./figures/grafic/TIR_grafic.pdf}
+\caption{Valeurs du $TIR$ par scène et moyennés par ambiance sonore pour le corpus SOUR.}
+\label{fig:tir_grafic}
+\end{figure}
+
+
+La calibration des scènes reproduites par rapport aux scènes enregistrées n'est pas réalisées. De prime abord, puisque les niveaux sonores exactes des enregistrements n'est pas connus, il ne paraissaient pas judicieux de calibrer les scènes sonores dessus. De plus, les scènes sont construites d'un point de vue relatif c'est-à-dire que les scènes sonores et l'ambiance auxquelles elles appartiennent ne sont pas liées à leur niveau sonore global mais aux différentes classes de sons présentes et à leurs émergences définies par rapport au bruit de fond. En vue de déterminer le niveau de bruit du trafic, le facteur déterminant est alors la contribution de cette source sonore dans la scène et non le niveau sonore global de celle-ci.\\
 
 Dans la suite du document, les scènes issues du mode \textit{replicate} de \textit{SimScene} seront appelées \og scènes répliquées \fg{} en raison du processus de duplication. Les scènes originelles sont quant à elle nommées \og scènes enregistrées \fg{}. L'ensemble des ces scènes répliquées forment le \textit{corpus d'évaluation SOUR} (voir Figure \ref{fig:bloc_diagram_annotation}).\\
 
