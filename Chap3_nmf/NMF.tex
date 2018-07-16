@@ -137,7 +137,7 @@ avec $g(x,\lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$, $\lambda = \sigma^2$ et $
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\textwidth]{./figures/NMF/betaDiv_exemple.pdf}
-\caption{Évolution des $\beta$-divergences pour un cas simple ($x$ = 1)}
+\caption{Évolution des $\beta$-divergences pour un cas simple ($x$ = 1).}
 \label{fig:allure-divergence}
 \end{figure}
 
@@ -314,7 +314,7 @@ d_{\beta}(x\vert y) = \breve{d}(x\vert y) + \textit{\textroundcap{d}}(x\vert y) 
    		$\bar{d}(x\vert y)$& $\frac{1}{\beta(\beta-1)}x^{\beta}$ & $x(\log x-1)$ & 0 & $\frac{1}{\beta(\beta-1)}x^{\beta}$\\
    		\hline
  	\end{tabular}
-\caption{Fonctions concaves, convexes et constantes selon $\beta$}
+\caption{Fonctions concaves, convexes et constantes selon $\beta$.}
 \label{tab:fonctionConcaveConvexe}
 \end{table}
 
@@ -412,12 +412,12 @@ L'utilisation de la NMF nécessite deux étapes : une phase d'apprentissage du d
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\linewidth]{./figures/NMF/NMF_apprentissage.pdf}
-\caption{Diagramme en blocs des étapes de la NMF}
+\caption{Diagramme en blocs des étapes de la NMF.}
 \label{fig:supervised_learning}
 \end{figure}
 
 \subsection{Apprentissage supervisé et non-supervisé}
-Lorsque les classes de sons du corpus d'apprentissage sont inconnues ou que les échantillons audio sont composés d'un mélange de plusieurs sources, il n'est pas possible de connaitre la classe de son de chaque élément qui constitue $\mathbf{W}$. Toutefois, pour réaliser une séparation de sources, il est nécessaire de classifier les différents éléments entre eux. Une étape de \textit{clustering}, à l'aide d'un algorithme des $k$-moyen ou $k$-médoïde, est alors nécessaire pour classer ces éléments selon un nombre de catégories défini par l'utilisateur. Ce cas correspond à une \textit{NMF non-supervisée}.
+Lorsque les classes de sons du corpus d'apprentissage sont inconnues ou que les échantillons audio sont composés d'un mélange de plusieurs sources, il n'est pas possible de connaitre la classe de son de chaque élément qui constitue $\mathbf{W}$. Toutefois, pour réaliser une séparation de sources, il est nécessaire de classifier les différents éléments entre eux. Une étape de \textit{clustering}, à l'aide d'un algorithme des $k$NN ($k$ plus proche voisins) par exemple, est alors nécessaire pour classer ces éléments selon un nombre de catégories défini par l'utilisateur. Ce cas correspond à une \textit{NMF non-supervisée}.
 À l'inverse, lorsque le jeu de données peut être étiqueté, chaque élément défini dans $\mathbf{W}$ est connu. Ce cas, le plus favorable et le plus simple, correspond à une \textit{NMF supervisée}.
 En connaissant la classe des éléments de $\mathbf{W}$, la séparation de sources est réalisable. Pour cela, soit les éléments relatifs à la source d'intérêt $i$ sont extraits soit directement de $\mathbf{W}$ et de $\mathbf{H}$,
 
@@ -446,7 +446,7 @@ avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et respectivement $
 \begin{figure}[t]
 \centering
 \includegraphics[width=.85\linewidth]{./figures/NMF/NMF_semi-supervised.pdf}
-\caption{Diagramme en bloc des étapes de la NMF}
+\caption{Diagramme en bloc des étapes de la NMF.}
 \label{fig:semi-supervised_learning}
 \end{figure}
 
@@ -488,7 +488,7 @@ La similarité entre $\mathbf{W_0}$ et $\mathbf{W'}$ correspond alors à une sui
 
 \begin{itemize}
 \item une fonction linéaire, $f_{LIN}(k) = D_{k}(\mathbf{W_0} \Vert \mathbf{W'})$,
-\item une fonction sigmoïde, $f_{SIG}(k) = \sfrac{1}{\left(1+\exp({-\lambda D_{k}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$ avec $\lambda$ le paramètre d'inflexion de la fonction.\\
+\item une fonction sigmoïde, $f_{SIG}(k) = \sfrac{1}{\left(1+\exp({-\lambda D_{k}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$ avec $\lambda$ le paramètre d'inflexion de la fonction. Cet opérateur réduit la fenêtre de variation de la distance $D_{\theta}$, en diminuant les valeurs élevées et en augmentant les valeurs proches de 0.\\
 \end{itemize}
 
 \begin{figure}

@@ -182,7 +182,7 @@ On résume dans la Figure le spectre moyen sur les 25 scènes du signal \textit{
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\linewidth]{./figures/NMF/spectre_ambiance.pdf}
-\caption{Spectres sonores moyens des classes \textit{interférantes} et \textit{trafic} pour chaque sous-corpus}
+\caption{Spectres sonores moyens des classes \textit{interférantes} et \textit{trafic} pour chaque sous-corpus.}
 \end{figure}
 
 
@@ -282,7 +282,23 @@ Sans étude perceptive sur le débit de véhicule à partir duquel les passages 
 
 \subsection{Reproduction des enregistrements audio}
 
-Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonore est la plus proche possible d'une structure temporelle écologiquement valide. La difficulté réside surtout dans l'estimation du \textit{event background ratio} pour les évènements sonores qui doit être cohérent par rapport à l'ambiance souhaitée. La détermination de sa valeur et de la variance correspondante s'est donc faite empiriquement afin d'obtenir un rendu satisfaisant. Pour vérifier que la répartition des sons entre les éléments \textit{trafic} et \textit{interférant} dans chaque scène reste cohérent par rapport à l'ambiance sonore qui lui est assigné, le $TIR$ dans chaque scène est calculé et résumé en Figure \ref{fig:tir_grafic}. La valeur du $TIR$ moyen augmente linéairement avec l'ambiance sonore entre -9 dB et 17 dB. L'évolution du $TIR$ à travers les ambiances tradui correctement la présence de plus en plus forte du trafic. Par ailleurs, la plupart des scènes possèdent un $TIR$ positif traduisant une part du trafic plus importante que celle de la classe interférante. Par rapport au corpus \textit{Ambiance}, ce corpus est privilégie donc plus des valeurs du $TIR$ positifs. 
+Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonore est la plus proche possible d'une structure temporelle écologiquement valide. Les durées cumulées par ambiance sonore sont résumées dans la Tableau \ref{tab:resume_sour}. Avec un nombre de scènes plus importante, \textit{rue calme} est naturellement l'ambiance dont la durée cumulée est la plus longue, l'ambiance \textit{parc} étant alors la plus courte.
+
+\begin{table}[h!]
+\caption{Durées cumulées par ambiance du corpus SOUR.}
+\label{tab:resume_sour}
+\centering
+\begin{tabular}{L{3cm}C{2cm}C{2cm}}
+\textbf{ambiance sonore}  & \textbf{N} & \textbf{durée (s)}  \\ \toprule
+parc & 8 & 960 \\
+rue calme & 35 & 4636 \\
+rue bruyante & 23 & 3366 \\
+rue très bruyante & 8 & 1285 \\ \midrule
+\textbf{total} & 74 & 10 247 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+La difficulté dans la génération des scènes sonores réside surtout dans l'estimation du \textit{event background ratio} pour les évènements sonores qui doit être cohérent par rapport à l'ambiance souhaitée. La détermination de sa valeur et de la variance correspondante s'est donc faite empiriquement afin d'obtenir un rendu satisfaisant. Pour vérifier que la répartition des sons entre les éléments \textit{trafic} et \textit{interférant} dans chaque scène reste cohérent par rapport à l'ambiance sonore qui lui est assigné, le $TIR$ dans chaque scène est calculé et résumé en Figure \ref{fig:tir_grafic}. La valeur du $TIR$ moyen augmente linéairement avec l'ambiance sonore entre -9 dB et 17 dB. L'évolution du $TIR$ à travers les ambiances tradui correctement la présence de plus en plus forte du trafic. Par ailleurs, la plupart des scènes possèdent un $TIR$ positif traduisant une part du trafic plus importante que celle de la classe interférante. Par rapport au corpus \textit{Ambiance}, ce corpus est privilégie donc plus des valeurs du $TIR$ positifs. 
 
 \begin{figure}[h]
 \centering
@@ -374,7 +390,7 @@ Dans un premier temps, la distribution de toutes les notes des scènes enregistr
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/testPerceptif_boxplotType.pdf}
-\caption{Représentation en diagramme en boîte à moustache entre les scènes réelles et simulées}\label{fig:ANOVA_scene}
+\caption{Représentation en diagramme en boîte à moustache entre les scènes réelles et simulées.}\label{fig:ANOVA_scene}
 \end{figure}
 
 La répartition des notes pour les deux types de scènes est fortement similaire. Chaque type présente des valeurs identiques (médiane, valeurs extrêmes, quantiles). Seule la note moyenne permet de différencier les deux ensembles ($m_{En} = 4,93 (\pm 1,64) / 7$ et $m_{Re} = 5,06 (\pm 1,56) / 7$) où la note moyenne des scènes répliquées est légèrement supérieure.\\
