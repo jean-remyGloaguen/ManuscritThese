@@ -277,9 +277,9 @@ Le nombre de combinaisons de modalités entre les différentes facteurs expérim
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & 4,69 ($\pm$ 4,52) \\
  & 0,5 & - & - & - & 2,89 ($\pm$ 2,84) \\
  \midrule
-\multirow{3}{*}{NMF SUP} & - & 0 & 0,5 & 50 & 4,36 ($\pm$ 4,16) \\
+\multirow{3}{*}{NMF SUP} & - & 0 & 2 & 50 & 4,29 ($\pm$ 4,24) \\
  & - & 1 & \textit{all} & 25 & 3,45 ($\pm$ 3,70) \\
- & - & 2 & 0,5 & 25 & 2,86 ($\pm$ 3,21)  \\
+ & - & 2 & 2 & 25 & 2,84 ($\pm$ 3,19)  \\
  \midrule
 \multirow{3}{*}{\textbf{NMF SEM}} & - & 0 & 2 & 200 & 2,46 ($\pm$ 1,14) \\
  & - & \textbf{1} & \textbf{2} & \textbf{200} & \textbf{\textcolor{red}{2,32 ($\pm$ 1,15)}} \\
@@ -350,7 +350,7 @@ Là encore, le dictionnaire optimal reste le même et n'est pas influencé par l
 De ces premiers résultats, moyennés sur l'ensemble du corpus d'évaluation, on retient donc les combinaisons de modalités les plus performantes pour chaque NMF : 
 
 \begin{itemize}
-\item NMF SUP avec $\beta$ = 2, $K$ = 25, et $w_t$ = 0,5 s, 
+\item NMF SUP avec $\beta$ = 2, $K$ = 25, et $w_t$ = 2 s, 
 \item NMF SEM avec $\beta$ = 1, $K$ = 200, et $w_t$ = 2 s, 
 \item NMF IS avec $\beta$ = 1, $K$ = 200, $w_t$ = 0,5 s et $t_h$ = 0,41.\\
 \end{itemize}
@@ -374,14 +374,13 @@ Avant d'observer leur erreurs $MAE_{TIR}$ et $MAE$, l'influence de la forme du d
 
 
 Si le choix de la méthode et de la valeur de $\beta$ sont des facteurs expérimentaux prédominant dans les erreurs produites, l'influence de la forme du dictionnaire est à connaitre également. Pour cela, selon les 3 formes de NMF retenues, l'influence de la taille de la fenêtre de découpage $w_t$ est observé en Figure \ref{fig:influence_wt}. Pour la NMF SUP, ayant un faible nombre d'éléments dans $\mathbf{W}$ le cas où $w_t$ = \textit{all} peut être observé, alors que pour la NMF SEM et IS, il n'est pas possible de l'observer puisque le nombre d'éléments ($K$ = 200) est plus élevé que le nombre de fichiers audio disponibles.
-
 L'influence du facteur $w_t$ est faible sur l'erreur de reconstruction du signal \textit{trafic}. Selon le choix de NMF cette influence est toutefois différente. Pour la NMF SEM, l'erreur tend à diminuer avec l'augmentation de la fenêtre $w_t$ alors que pour la NMF IS, l'erreur décroit avec la réduction de sa taille. Ici son influence est d'autant plus faible que par la mise à jour du dictionnaire son influence est voué à être réduit puisque le dictionnaire s'adapte à la scène.
 
 Puis, en Figure \ref{fig:influence_K} est résumé l'évolution des erreurs $MAE_g$ selon le nombre d'éléments $K$ contenu dans le dictionnaire.
 Pour les 3 NMF, ce facteur est un paramètre plus influant que $w_t$. 
-La NMF SUP privilégie un dictionnaire composé d'un faible nombre d'éléments. Ce comportement provient du fonctionnement de la NMF SUP en elle même : contrainte avec un seul dictionnaire fixe à s'adapter à l'ensemble des cas rencontrés, cette méthode privilégie les dictionnaires composé d'une quantité d'information réduite, plus générique afin d'être le plus généralisable que possible.
+La NMF SUP privilégie un dictionnaire composé d'un faible nombre d'éléments. Ce comportement peut se justifier par le fonctionnement de la NMF SUP en elle même : contrainte avec un seul dictionnaire fixe à s'adapter à l'ensemble des cas rencontrés, cette méthode privilégie les dictionnaires composé d'une quantité d'information réduite, plus générique afin d'être le plus généralisable possible.
 À l'inverse, dans le cas de la NMF IS et SEM, l'erreur diminue avec l'augmentation de $K$. Ces deux méthodes gagnent donc à être composées d'un grand nombre d'éléments pour mieux décrire la source sonore. 
-Dans le cas de la NMF IS cela se comprend d'autant qu'avec un nombre suffisant d'éléments dans le dictionnaire $\mathbf{W'}$, celui-ci permet une description plus fine et mieux adaptée à la scène. 
+Dans le cas de la NMF IS cela se comprend d'autant plus qu'avec un nombre suffisant d'éléments dans le dictionnaire $\mathbf{W'}$, celui-ci permet une description plus fine et mieux adaptée à la scène. 
 
 \subsection{Influence de l'initialisation de la NMF IS}
 
@@ -470,7 +469,7 @@ De ces 3 estimateurs, leurs erreurs $MAE_{TIR}$ sont exprimées dans le Tableau 
 méthode & -12 & -6 & 0 & 6 & 12 \\ \toprule
 filtre PB, $f_c$ = 20 kHz & 12,25 ($\pm$ 0,05) & 6,96 ($\pm$ 0,05) & 3,00 ($\pm$ 0,03) & 0,97 ($\pm$ 0,01) & \textbf{\textcolor{red}{0,26 ($\pm$ 0,00)}}\\
 filtre PB, $f_c$ = 0,5 kHz & 7,39 ($\pm$ 3,00) & 3,44 ($\pm$ 1,65) & \textbf{\textcolor{red}{1,17 ($\pm$ 0,24)}} & 1,03 ($\pm$ 0,26) & 1,45 ($\pm$ 0,13) \\ \midrule
-NMF SUP & 8,16 ($\pm$ 2,35) & 3,90 ($\pm$ 1,53) & 1,18 ($\pm$ 0,62) & \textbf{\textcolor{red}{0,31 ($\pm$ 0,18)}} & \textbf{0,74 ($\pm$ 0,07) } \\
+NMF SUP & 8,08 ($\pm$ 2,44) & 3,84 ($\pm$ 1,58) & 1,15 ($\pm$ 0,62) & \textbf{\textcolor{red}{0,35 ($\pm$ 0,20)}} & \textbf{0,77 ($\pm$ 0,07) } \\
 NMF SEM & \textbf{\textcolor{red}{2,98 ($\pm$ 2,11)}} & \textbf{\textcolor{red}{1,52 ($\pm$ 0,60)}} & 1,60 ($\pm$ 0,47) & 2,49 ($\pm$ 0,30) & 3,02 ($\pm$ 0,22)  \\
 NMF IS & \textbf{5,22 ($\pm$ 2,62)} & \textbf{2,72 ($\pm$ 1,24)} & 1,26 ($\pm$ 0,35) & \textbf{0,75 ($\pm$ 0,34)} & \textbf{0,83 ($\pm$ 0,23)} \\ \bottomrule
 \end{tabular}}
