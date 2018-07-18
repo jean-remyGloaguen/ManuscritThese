@@ -421,6 +421,7 @@ Les valeurs de $D_{\theta}$ sont plus faibles traduisant une disparité plus for
 
 \subsection{Erreurs $MAE_{TIR}$ et fonctions de coût}
 
+\ml{introduire avant dans la partie metrique la fonction de cout en exmpliquant pourquoi c'est interessant de la considérer et faire un rappel ici.}
 
 \begin{figure}[h!]
 \centering
@@ -485,6 +486,8 @@ NMF IS & \textbf{5,22 ($\pm$ 2,62)} & \textbf{2,72 ($\pm$ 1,24)} & 1,26 ($\pm$ 0
 De la même manière que pour l'estimateur filtre dans le Tableau \ref{tab:resuls_ambiance_filtre}, la méthode la plus efficace sur l'ensemble du corpus n'est pas forcément la méthode la plus efficace pour chaque $TIR$. Ici, même si elle est pour quatre valeurs du $TIR$ inférieure à la baseline, la NMF IS n'est jamais la méthode qui propose l'erreur la plus faible. Pour $TIR \in \lbrace -12, -6 \rbrace$ dB, la NMF SEM est la plus performante, alors que pour $TIR\in \lbrace 6, 12 \rbrace$ dB, la NMF SUP supplante les deux autres méthodes.
 Le cas où $TIR$ = 0 dB est un cas unique où aucune NMF n'améliore les résultats de la baseline. Pour $TIR$ = 12 dB c'est finalement le filtre $f_c$ = 20 kHz, qui se trouve être la méthode la plus performante. Toutefois, la NMF IS est la seule méthode à être systématiquement inférieure à la baseline (hormis à $TIR = 0$ dB) et même si elle n'est pas systématiquement la plus performante, elle est celle qui s'adapte le mieux aux différentes valeurs du $TIR$.\\
 
+\ml{conjecturer un peu si possible sur les raisons de ces resultats.}
+
 \begin{figure}%
 \centering
 \subfigure[Erreurs $MAE$ pour la NMF SUP.]{%
@@ -533,7 +536,7 @@ Même pour les sous-corpus \textit{alerte} et \textit{animaux}, la méthode éch
 La NMF SEM (Figure \ref{fig:TIR_class_semi}) présente un comportement différent de la NMF SUP : les erreurs sont plus faibles lorsque les valeurs du $TIR$ sont négatives, hormis pour les sous-corpus \textit{climat}  et \textit{mécanique}. L'ajout de $\mathbf{W_r}$ dans le dictionnaire est donc déterminant puisque c'est cet élément qui différencie les deux méthodes. Cependant, lorsque le TIR devient positif et le trafic dominant, l'erreur augmente systématiquement.
 On compare dans les Figures \ref{fig:Y_ambiance} la somme des deux éléments de $\mathbf{W_r}$ obtenue pour une scène \textit{alerte} et \textit{climat} avec les spectres des signaux trafic et interférant à $TIR$ = $\lbrace -12, 12 \rbrace$ dB. Dans les cas où $TIR$ = -12 dB, la somme des éléments libres $\mathbf{W_r}$ correspond bien au spectre de la classe \textit{interférante} et modélise donc bien cette classe, laissant la partie \textit{trafic} au dictionnaire $\mathbf{W_s}$. À l'opposée, pour $TIR$ = 12 dB, l'allure de $\mathbf{W_r}$ diverge de celle de la classe \textit{interférante}. Certaines parties des spectres participent alors à la modélisation de la composante \textit{trafic}, ce qui réduit la justesse de son estimation du niveau sonore. Les degrés de liberté de la NMF SEM sont donc un avantage lorsque le trafic est peu présent car ils permettent bien d'intégrer la classe de son \textit{interférante}. Mais cette liberté joue en sa défaveur lorsque le trafic devient la classe de son prédominante et où ses composantes sont incluses dans $\mathbf{W_r}$.\\
 
-Enfin, la NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les TIR négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
+Enfin, la \ml{courbe de performance de la  ?? la nmf n'a pas d'allure} NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les TIR négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
 Dans les Figures \ref{fig:TIR_mae}, l'évolution de l'erreur $MAE$ est tracée en fonction du seuil $t_h$ pour chaque sous-corpus et pour 3 valeurs de $TIR$.
 \begin{itemize}
 \item Pour $TIR$ = -12 dB, l'erreur $MAE$ minimale diffèrent selon les sous-corpus.
@@ -561,10 +564,13 @@ Les classes de sons \textit{climat} et de \textit{mécanique} restent encore en 
 \label{fig:TIR_mae}
 \end{figure}
 
-Ce premier corpus a permis d'établir le fonctionnement de la NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante selon les différentes sources sonores interférantes ou la présence variable du trafic.
-La NMF SUP, composée d'un dictionnaire comprenant des éléments relatif au trafic se révèle être peu performante lorsque le trafic est peu présent en activant des bases \textit{trafic} pour simuler d'autres sources sonores et plus efficace lorsque les valeurs du $TIR$ sont positives. La NMF SEM, à l'inverse, est très efficace pour des $TIR$ négatifs, mais échoue lorsque le trafic devient la source sonore principale. L'ajout du dictionnaire libre $\mathbf{W_r}$ est alors un atout ou un inconvénient selon la prédominance du trafic. Finalement, la NMF IS se trouve être l'approche qui minimise le mieux l'erreur sur l'ensemble du corpus. Elle réalise un compromis entre les deux méthodes : elle offre suffisamment de liberté par la mise à jour de $\mathbf{W_0}$ pour s'adapter aux différentes ambiances et sources sonores tout en étant contrainte par le seuillage à ne conserver que les éléments les moins divergents.\\
+Cette étude à partir de ce premier corpus a permis d'établir certaines connaissances du fonctionnement des algorithmes basés NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante selon les différentes sources sonores interférantes ou la présence variable du trafic.
+La NMF SUP, composée d'un dictionnaire comprenant des éléments relatif au trafic se révèle être peu performante lorsque le trafic est peu présent en activant des bases \textit{trafic} pour simuler d'autres sources sonores et plus efficace lorsque les valeurs du $TIR$ sont positives. La NMF SEM, à l'inverse, est très efficace pour des $TIR$ négatifs, mais échoue \ml{cela veut dire qu'il y a un objectif, lequel ?} lorsque le trafic devient la source sonore principale. L'ajout du dictionnaire libre $\mathbf{W_r}$ est alors un atout ou un inconvénient selon la prédominance du trafic. Finalement, la NMF IS se trouve être l'approche qui minimise le mieux l'erreur sur l'ensemble du corpus. Elle réalise un compromis entre les deux méthodes : elle offre suffisamment de liberté par la mise à jour de $\mathbf{W_0}$ pour s'adapter aux différentes ambiances et sources sonores tout en étant contrainte par le seuillage à ne conserver que les éléments les moins divergents.\\
 
-Ce premier corpus avait pour objectif de mieux comprendre est visualiser le comportement de la NMF face à ces scènes sonores. À présent, ces techniques sont confrontées à un corpus de scènes plus réalistes, le corpus d'évaluation SOUR, afin de simuler l'erreur que génère ces méthodes sur des scènes assimilables à des enregistrements sonores urbains.
+Ce premier corpus avait pour objectif de mieux comprendre et de visualiser le comportement de la NMF face à ces scènes sonores.
+
+\ml{mettre dans la suite : }
+À présent, ces techniques sont confrontées à un corpus de scènes plus réalistes, le corpus d'évaluation SOUR, afin de simuler l'erreur que génère ces méthodes sur des scènes assimilables à des enregistrements sonores urbains.
 
 
 
