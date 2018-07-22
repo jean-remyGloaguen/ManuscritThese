@@ -1,6 +1,12 @@
 
 \chapter{\'Etude du corpus d'évaluation \textit{ambiance}}
 \label{chap:ambiance}
+
+\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
+{\small La NMF est appliqué sur le corpus d'évaluation \textit{Ambiance} afin de visualiser le comportement de cette méthode sur de telles mixtures sonores. Les trois méthodes retenues (NMF Supervisée, Semi-supervisée et Initialisée Seuillée) sont testé pour de multiples configurations selon la composition du dictionnaire et de la $\beta$-divergence. Les résultats obtenues permettent de constater des performances variables des méthodes selon la prédominance du trafic. Lorsque celui-ci est faible la NMF semi-supervisée se révèle l'approche la plus performante alors que la NMF supervisée génère de plus faibles erreurs lorsque le trafic est la source sonore principale. La NMF IS est alors la méthode qui offre le meilleur compromis dans son fonctionnement grâce à la mise à jour de son dictionnaire mais dont la dérive est limitée par un seuillage dur.}}
+
+\vspace{2cm}
+
 Dans ce chapitre, on étudie le comportement des différentes versions de la NMF, présentées dans le chapitre \ref{chap:NMF},  avec le premier corpus élémentaire \textit{Ambiance}. \ml{rappeler pourquoi ce corpus, quelles questions cherchent on a repondre ?}
 Dans un premier temps un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais) sont exposés. Puis les étapes menant à l'apprentissage du dictionnaire et l'ensemble des facteurs expérimentaux sont détaillées. Enfin les résultats des calculs menés sont présentés et discutés.
 
@@ -57,7 +63,7 @@ Cet estimateur consiste à représenter une mixture $M_i$ sous la forme d'un spe
 
 Les fréquences de coupure choisies sont $f_c = \lbrace 100, 500, 1k, 2k, 5k, 10k, 20k \rbrace$ Hz. Le cas où $f_c = 20$ kHz correspond finalement au cas où aucun traitement du signal n'est réalisé sur les fichiers audio et où toutes les sources présentes sont assimilées au trafic, ce qui correspond à l'utilisation actuellement faite des mesures pour la correction de cartes de bruits issues de modèles prédictifs.
 
-\ml{je viens de lire sur la mesure d'impact des éoliennes, et ils utilisent des termes comme "niveau ambient, résiduel ou d’émergence", ce serait peut etre approprié des les utiliser.}
+%\ml{je viens de lire sur la mesure d'impact des éoliennes, et ils utilisent des termes comme niveau ambient, résiduel ou d'émergence, ce serait peut etre approprié des les utiliser.}
 
 \section{Estimateur basé sur la NMF}
 Le second estimateur est celui basé sur la NMF, présentée dans le chapitre \ref{chap:NMF}. Pour rappel, cette méthode consiste à approximer le spectrogramme $\mathbf{V}$ d'un signal audio par le produit de deux matrices, $\mathbf{W}$, un dictionnaire de spectres sonores, et $\mathbf{H}$, une matrice d'activation temporelle. La Figure \ref{fig:nmf_ambiance} rappelle les différentes étapes présentes dans cet estimateur.
@@ -113,7 +119,7 @@ Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires i
 \item les valeurs des différents seuils respectifs ($t_h$ pour le seuillage dur et $t_{f,1/2}$, les deux valeurs seuils pour le seuillage \textit{firm}). Des études préliminaires ont permis de réduire la plage des valeurs de ces seuils à $t_h \in \lbrace 0,30~0,70 \rbrace$, $t_{f,1} \in \lbrace 0,20~0,55 \rbrace$ et $t_{f,2} \in \lbrace 0,35,~0,70 \rbrace$, chacun étant défini avec un pas de 0,01. Rappelons que pour le seuillage \textit{firm}, $t_{f,1} \leq t_{f,2}$.
 \end{itemize}
 
-Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la taille des matrices $\mathbf{W}$ et $\mathbf{V}$ reste importante en raison du nombre de trames fréquentielles ($F$ = 2049). En conséquence, ces deux matrices sont exprimées en bandes de tiers-d'octaves ce qui réduit les dimensions des matrices ($F_{1/3} = 29$). La manipulation des matrices est alors plus rapide qu'avec les bandes fines et permet donc un gain en temps de calcul. Cette représentation a également d'autres intérêts :
+Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la taille des matrices $\mathbf{W}$ et $\mathbf{V}$ reste importante en raison du nombre de trames fréquentielles ($F$ = 2049). En conséquence, ces deux matrices sont exprimées en bandes de tiers-d'octaves ce qui réduit les dimensions des matrices ($F_{1/3} = 29$). L'allure d'un spectre du passage d'une voiture en bandes fines et en tiers d'octaves est représenté en Figure \ref{fig:tiers_octaves}. La manipulation des matrices est alors plus rapide qu'avec les bandes fines et permet donc un gain en temps de calcul. Cette représentation a également d'autres intérêts :
 
 \begin{itemize}
 \item par son échelle logarithmique, elle décompose mieux les basses fréquences que les hautes fréquences ce qui permet de mieux focaliser la reconstruction du signal vers les bandes de fréquences d'intérêt.
@@ -124,9 +130,10 @@ Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la tail
 \centering
 \includegraphics[width=0.5\linewidth]{./figures/NMF/bande_fine_tiers.pdf}
 \caption{Spectre en fréquence du passage d'une voiture en bandes fines (2049 points) et en bandes de tiers d'octave (29 bandes).}
+\label{fig:tiers_octaves}
 \end{figure}
 
-Enfin, le nombre d'itération est fixé à 100 \ml{pour toutes les version de la NMF étudiées}.
+Enfin, le nombre d'itération est fixé à 100 pour toutes les version de la NMF étudiées.
 
 \subsection{Résumé des facteurs expérimentaux}
 
