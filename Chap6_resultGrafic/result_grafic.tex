@@ -3,7 +3,7 @@
 \label{chap:grafic}
 
 \noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-{\small Ce dernier chapitre résume les performances de la NMF appliquée sur le corpus d'évaluation \textit{SOUR}. La combinaison de paramètre obtenue peut alors être appliqué pour des mesures faites en ville pour estimer le niveau sonore du trafic routier. La meilleure combinaison obtenue est celle constituée par la NMF Initialisée seuillée pour la distance euclidienne avec 300 éléments dans le dictionnaire, une trame temporelle $w_t$ = 1 seconde et un seuil dur $t_h$ = 0,35. Plusieurs pistes sont enfin explorés faisant intervenir des contraintes de régularité temporelle et de parcimonie ainsi que l'adaptation du seuil de la NMF IS en fonction de l'environnement sonore.}}
+{\small Ce dernier chapitre résume les performances de la NMF appliquée sur le corpus d'évaluation \textit{SOUR} assimilable à des enregistrements sonores urbains. La combinaison de paramètres obtenue peut alors être considérée sur des mesures faites en ville afin d'estimer le niveau sonore du trafic routier. La meilleure combinaison obtenue est celle constituée par la NMF Initialisée seuillée pour la distance euclidienne avec 300 éléments dans le dictionnaire, une trame temporelle $w_t$ = 1 seconde et un seuil dur $t_h$ = 0,35. Plusieurs pistes sont enfin explorées afin d'améliorer ces performances faisant intervenir des contraintes de régularité temporelle et de parcimonie ainsi que l'adaptation du seuil de la NMF IS en fonction de l'environnement sonore.}}
 
 \vspace{2cm}
 
@@ -372,9 +372,9 @@ méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & K & $t_h$ & $\alpha$ & $MAE_{60}$ \\ 
  & - & 1 & 0,5 & 300 & - & 0,5 &  1,84 ($\pm$ 0,34) \\
  & - & 2 & 2 & 300 & - & 5e-3 & 2,19 ($\pm$ 0,61) \\ \midrule
 \multirow{3}{*}{NMF IS}  & - & 2 & 1 & 300 & 0,35 & - & 1,16 ($\pm$ 0,86) \\
- & - & 0 & 1 & 25 & 0,34 &  & ($\pm$) \\
- & - & 1 & 1 & 200 & 0,35 &  & ($\pm$) \\
- & - & 2 & 1 & 300 & 0,35 &  & ($\pm$) \\
+ & - & 0 & 50 & 0 & 1 & 0,44 & 1,66 ($\pm$ 1,14) \\
+ & - & 1 & 1 & 200 & 0,35 & 0,36 & 1,37 ($\pm$ 0,76) \\
+ & - & 2 & 1 & 300 & 0,35 & 0,34 & 1,48 ($\pm$ 0,90) \\
  \bottomrule
 \end{tabular}}
 \end{table}
@@ -426,9 +426,9 @@ méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & K & $t_h$ & $\alpha$ & $MAE_{60}$ \\ 
  & - & 1 & 0,5 & 100 & - & 0,05 &  1,50 ($\pm$ 0,89) \\
  & - & 2 &  &  & - &  & ($\pm$) \\ \midrule
 \multirow{3}{*}{NMF IS}  & - & 2 & 1 & 300 & 0,35 & - & 1,16 ($\pm$ 0,86) \\
- & - & 0 & 1 & 25 & 0,34 &  & ($\pm$) \\
- & - & 1 & 1 & 200 & 0,35 &  & ($\pm$) \\
- & - & 2 & 1 & 300 & 0,35 &  & ($\pm$) \\
+ & - & 0 &  &  &  &  & ($\pm$) \\
+ & - & 1 &  &  &  &  & ($\pm$) \\
+ & - & 2 &  &  &  &  & ($\pm$) \\
  \bottomrule
 \end{tabular}
 \end{table}

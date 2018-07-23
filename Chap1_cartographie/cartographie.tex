@@ -35,7 +35,7 @@ Les sources $s_j(t)$ expriment les différentes sources sonores présentes en vi
 
 \begin{subequations}
 \begin{align}
-S_{tr}(t) &= \sum_{j = 1}^M S_{v_j}(t),\\
+S_{tr.}(t) &= \sum_{j = 1}^M S_{v_j}(t),\\
  & = \sum_{j = 1}^M s_{v_j}(t-\tau_j) \ast \delta_{j}(t),
 \end{align}
 \end{subequations}
@@ -44,11 +44,15 @@ où $s_{v_j}(t)$ correspond à l'émission sonore globale du véhicule $j$. La v
 L'ESU peut ainsi s'exprimer comme
 
 \begin{equation}
-M_i(t) = S_{tr}(t)+\sum_{j = 1}^{N-M}S_j(t),
+M_i(t) = S_{tr.}(t)+S_{int.}(t)
 \end{equation}
 \\
 
-où $S_j(t)$ résume les autres sources sonores qui n'appartiennent pas à la classe \textit{trafic}. L'ESU $M_i(t)$ est alors un ensemble de sources variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore propre, et qui sont émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
+où $S_{int.}(t)$ résume les autres sources sonores, appelées sources \textit{interférantes}, qui n'appartiennent pas à la classe \textit{trafic}. 
+
+Cette description peut également s'exprimer dans le domaine fréquentielle à l'aide d'une transformée de Fourier, tels que l'équation 
+
+L'ESU $M_i(t)$ est alors un ensemble de sources variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore propre, et qui sont émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
 
 \begin{itemize}
 \item \textbf{Comment caractériser les ESU ? Quels sont les moyens disponibles pour cela ?}
