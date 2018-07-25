@@ -1,8 +1,11 @@
 \chapter{Connaitre l'environnement sonore urbain : modèles de prédiction et mesures}\label{chap:modele}
 \thispagestyle{empty}
 
+\section*{\centering Résumé}
+\addcontentsline{toc}{section}{Résumé}
 
-\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}{\small La description des ESU est à l'heure actuel réalisé par plusieurs outils. Les plus répandus sont les modèles prédictifs de bruits basé sur des modèles de sources et de propagation. Ces modèles sont notamment utilisé pour la cartographie de bruit de trafic. Ces modèles possèdent des limites bloquantes. Une autre approches qui se développe est l'utilisation de mesures et d'enregistrements sonores en ville à travers des réseaux de capteurs fixes et des mesures mobiles. Cette approche permet de considérer l'ESU dans son intégralité. Toutefois l'une des limites à résoudre est l'extraction des sources sonores afin de connaitre la contribution de chacune des sources.}}
+\noindent{\small \textbf{La description des ESU est à l'heure actuel réalisé par plusieurs outils. Les plus répandus sont les modèles prédictifs de bruits basé sur des modèles de sources et de propagation. Ces modèles sont notamment utilisé pour la cartographie de bruit de trafic. Ces modèles possèdent des limites bloquantes. Une autre approches qui se développe est l'utilisation de mesures et d'enregistrements sonores en ville à travers des réseaux de capteurs fixes et des mesures mobiles. Cette approche permet de considérer l'ESU dans son intégralité. Toutefois l'une des limites à résoudre est l'extraction des sources sonores afin de connaitre la contribution de chacune des sources.}}
+
 
 \vspace{2cm}
 
@@ -43,38 +46,39 @@ S_{tr.}(t) &= \sum_{j = 1}^M S_{v_j}(t),\\
 où $s_{v_j}(t)$ correspond à l'émission sonore globale du véhicule $j$. La variable $s_{v_j}(t)$ a plusieurs origines : bruit du moteur thermique, aérodynamique et de roulement. Ici, puisque les citadins ne réalisent pas cette séparation mais considèrent l'ensemble de ces sources comme un tout, on résume la source \textit{voiture} $s_{v_j}(t)$ comme l'ensemble de ses bruits. Précisons que le son émis par le klaxon du véhicule n'est pas considéré dans la source \textit{voiture} car il appartient à la catégorie des avertisseurs sonores.
 L'ESU peut ainsi s'exprimer comme
 
-\begin{equation}
+\begin{equation}\label{eq:esu-somme}
 M_i(t) = S_{tr.}(t)+S_{int.}(t)
 \end{equation}
-\\
 
-où $S_{int.}(t)$ résume les autres sources sonores, appelées sources \textit{interférantes}, qui n'appartiennent pas à la classe \textit{trafic}. 
+où $S_{int.}(t)$ est la somme des autres sources sonores, appelées sources \textit{interférantes}, qui n'appartiennent pas à la classe \textit{trafic}. 
+La description des émission sonores des sources s'exprime également dans le domaine fréquentiel à l'aide d'une transformée de Fourier, telle que la source $S_j(t)$ s'exprime sous la forme : 
 
-Cette description peut également s'exprimer dans le domaine fréquentielle à l'aide d'une transformée de Fourier, tels que l'équation 
+\begin{subequations}
+\begin{align}
+TF\left[S_j(t)\right] & = TF\left[s_j(t-\tau_j) \ast \delta_{ij}(t) \right],\\
+ & = \hat{s}_j(f)\hat{\delta}_{ij}(f)e^{-j2\pi f \tau_j},\\
+ & = \hat{S}_j(f)
+\end{align}
+\end{subequations}
 
-L'ESU $M_i(t)$ est alors un ensemble de sources variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore propre, et qui sont émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
+avec la transformée de Fourier d'un signal $x(t)$ : $TF\left[x(t)\right] = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty} x(t)e^{j2\pi t} dt$ où $f$ est la fréquence en Hz. $\hat{s}_j(f)$ exprime l'émission de la source sonore à la fréquence $f$, $\hat{\delta}_{ij}(f)$, la transformée de Fourier de la réponse impulsionnelle qui se traduit par un filtre de propagation, le déphasage $\tau$ s'exprime sous la forme d'une exponentielle et est lié à la fréquence du signal. L'ESU s'exprime dans le domaine fréquentiel de la même façon que dans le domaine temporel (équation \ref{eq:esu-somme}) : 
+
+\begin{equation}
+\hat{M}_i(f) = \hat{S}_{tr.}(f)+\hat{S}_{int.}(f).
+\end{equation}
+
+avec $\hat{S}_{tr.}(f) = TF\left[ S_{tr.}(t)\right]$ et $\hat{S}_{int.}(f) = TF\left[ S_{int.}(t)\right]$. $\hat{M}_i(f)$ équivaut alors à la contribution de chaque source sonore à la fréquence $f$.\\
+
+L'ESU $M_i(t)$ (et respectivement $\hat{M}_i(f)$) est donc le résultat de la somme d'un ensemble de sources sonores variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore propre qui leurs sont propres, émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
 
 \begin{itemize}
 \item \textbf{Comment caractériser les ESU ? Quels sont les moyens disponibles pour cela ?}
 \item \textbf{Comment estimer la présence et le niveau sonore du trafic routier ? Peut-on déterminer la contribution des autres sources sonores ?}\\
 \end{itemize}
 
-%Avant de répondre à ces questions, il est nécessaire, dans un premier temps, d'en présenter les motivations.
-
-%\section{De l'intérêt d'étudier les environnements sonores urbains}
-%
-%Au sein de l'Union Européenne, 70 $\%$ de la population, soit quasiment 340 millions d'habitants, vivent dans des zones urbaines \cite{europ-commission_data_2017}. 486 villes concentrent, chacune, plus de 100 000 habitants. En France, selon l'INSEE, c'est même plus de 84 $\%$ de la population qui vit dans une zone urbaine, soit plus de 55 millions d'habitants. Cette concentration soulève de grandes questions autour de l'organisation de l'espace urbain afin d'offrir une qualité de vie acceptable aux citadins. En effet, avec de telles densités (environ 3000 habitants/km$^2$ et jusqu'à plus de 21 000  habitants/km$^2$ pour la ville de Paris, la plus dense de l'Union Européenne (UE)), plusieurs formes de pollutions viennent dégrader l'environnement urbain. Des sources de désagrément perçues par le citadin, le bruit est le phénomène qui provoque le plus de gêne après la pollution de l'air. Ce bruit est le fruit des activités humaines, provenant essentiellement du transport qu'il soit routier, ferroviaire ou aérien \cite{zannin_characterization_2013}.\\
-%
-%%\ml{je suis pas trop pour la mise en capitale pour introduire les acronymes}
-%
-%Selon un rapport de l'Organisation mondiale de la Santé (OMS) \cite{who_burden_2017}, en Europe, près de 200 millions de personnes sont exposées quotidiennement à des niveaux sonores équivalent supérieurs à 55 dB($A$), soit 40$\%$ de la population. Près de 20 $\%$ atteignent même plus de 65 dB($A$) en journée et plus de 30 $\%$ sont touchées par un niveau sonore excédant 55 dB($A$) la nuit. En France, selon un rapport de l'ADEME \cite{europeens2016analyse}, ce sont 52 millions de personnes qui se disent affectées par le bruit et principalement le bruit issu du trafic routier. Plus de 7 millions d'individus sont exposés à des niveaux supérieurs à 65 dB($A$) au quotidien et à plus de 55 dB($A$) la nuit.
-%Cette exposition quotidienne, à de tels niveaux, n'est pas sans conséquence pour l'être humain. L'impact sur l'organisme humain dû à l'exposition du bruit est observé et étudié depuis de nombreuses années \cite{ising1980health}. Parmi les effets possibles, les plus couramment relevés sont des troubles du sommeil \cite{pirrera2010nocturnal}, de la vigilance et de la concentration, l'augmentation du stress, de la pression artérielle et du rythme cardiaque \cite{babisch2005traffic, babisch2008road}. Selon le rapport de l'OMS, ce sont près de 8 millions de personnes en Europe qui sont affectées par des troubles du sommeil mais aussi 900 000 touchées par de l'hypertension. On estime aussi que 43 000 hospitalisations sont imputables au bruit dues à des pertes de vigilance et de concentration et jusqu'à 10 000 cas de morts prématurées par an. Cet impact sur la santé a également un coût financier pour la société : en France, ce coût est estimé à plus de 11,5 milliard d'euros par an dont une grande partie (89 $\%$) est imputable au bruit du trafic routier \cite{europeens2016analyse}. De plus, si le bruit en ville impacte la vie des citadins, celui-ci se fait également ressentir auprès de la faune sauvage \cite{dutilleux_anthropogenic_2012, francis2009noise} leur causant également du stress ou en compliquant la communication entre les individus et leur reproduction.\\
-%
-%Une trop grande exposition au bruit a ainsi un impact négatif sur les individus et sur leur environnement. Enjeu de société dont les français ont pleinement conscience \cite{JNA2016etude}, il est nécessaire et utile de caractériser les environnements sonores urbains (ESU) afin d'estimer les sources sonores présentes, leurs niveaux sonores, leurs répartitions et ainsi réduire et limiter leurs impacts sur les populations urbaines.
-
 \section{Utilisation de modèles prédictifs}
 
-L'une des premières pistes pour évaluer les ESU est l'utilisation de modèles prédictifs de bruits de trafic. L'objectif est alors de générer des lois d'émissions sonores afin de déterminer les sources $s_j$ et des lois de propagation $\delta_{ij}(t)$. De nombreux modèles d'émission existent afin de prédire les niveaux sonores émis par le trafic routier \cite{quartieri2009review}, ferroviaire \cite{van2000railway} et aérien \cite{zaporozhets1998aircraft}. Le trafic routier étant la source sonore la plus présente et la plus gênante, ce sont ces modèles qui sont ici présentés.
+L'une des premières pistes pour évaluer les ESU est l'utilisation de modèles prédictifs de bruits de trafic. L'objectif est alors de générer des lois d'émissions sonores en fréquences afin de déterminer les sources $\hat{s}_j(f)$ et des lois de propagation $\hat{\delta}_{ij}(f)$. De nombreux modèles d'émission existent afin de prédire les niveaux sonores émis par le trafic routier \cite{quartieri2009review}, ferroviaire \cite{van2000railway} et aérien \cite{zaporozhets1998aircraft}. Le trafic routier étant la source sonore la plus présente et la plus gênante, ce sont ces modèles qui sont ici présentés.
 
 Plusieurs modèles visant à estimer la puissance acoustique, $L_w$, émise par les véhicules et la propagation des ondes sonores dans le milieu urbain ont été développés depuis plus de 30 ans. Plusieurs pays ayant alors leur propre modèle (RLS-90 en Allemagne, CNR en Italie, NMPB-Routes en France, CoRTN au Royaume-Uni, Nord 2000 pour les pays Scandinaves). On se propose tout d'abord de décrire succinctement 3 modèles selon plusieurs paramètres relatifs aux modèles d'émission et de propagation :
 
@@ -164,8 +168,8 @@ Dans un premier temps, plusieurs indicateurs en données d'entrée des modèles 
 \label{fig:carto_nantes}
 \end{figure}
 
-Puis à partir d'un modèle d'émission sonore et de ces données d'entrée, il est possible d'établir la puissance émise par chaque véhicule, $s_{v}(f)$.
-Enfin, l'influence de l'environnement $\delta(t)$ sur la répartition des niveaux sonores dans la ville est calculé à l'aide d'un logiciel numérique (Mithra, Immi, CadnAa \dots). Les logiciels accompagnés d'un Système d'Information Géographique (SIG) sont ceux qui offrent actuellement le plus de possibilités. Un SIG est un outil informatique conçu pour stocker, analyser et manipuler plusieurs types de données spatiales et géographiques comme l'architecture des villes ou le nombre d'habitants présents.
+Puis à partir d'un modèle d'émission sonore et de ces données d'entrée, il est possible d'établir la puissance émise par chaque véhicule pour chaque fréquence, $\hat{s}_{v}(f)$.
+Enfin, l'influence de l'environnement $\hat{\delta}(f)$ sur la répartition des niveaux sonores dans la ville est calculé à l'aide d'un logiciel numérique (Mithra, Immi, CadnAa \dots). Les logiciels accompagnés d'un Système d'Information Géographique (SIG) sont ceux qui offrent actuellement le plus de possibilités. Un SIG est un outil informatique conçu pour stocker, analyser et manipuler plusieurs types de données spatiales et géographiques comme l'architecture des villes ou le nombre d'habitants présents.
 Son utilisation permet alors de connaitre plus facilement le nombre de citadins exposés à des forts niveaux sonores.
 Par exemple, le logiciel OrbisGIS\footnote{\url{http://orbisgis.org/}}, destiné à représenter de données spatiales, permet la réalisation de cartes de bruit à l'aide de l'ajout d'un plugin, \textit{NoiseModelling}, développé par \cite{fortin}. \\
 
@@ -437,7 +441,7 @@ MAE = \frac{\sum_{i = 1}^{M} \vert L_{eq, trafic, \delta t}^i - \tilde{L}_{eq, t
 
 où $M$ est le nombre de niveaux sonores calculés.
 Contrairement à l'erreur $RMSE$, qui revient à la racine carrée de la moyenne du carré des différences entre les données observées et réelles, qui pénalise plus les valeurs qui dévient fortement, l'erreur $MAE$ présente l'intérêt de considérer un poids identique entre chaque différence et ainsi d'être moins sensibles aux valeurs aberrantes. 
-Le choix de confronter des grandeurs logarithmiques (les niveaux sonores en dB) à un opérateur arithmétique (l'opérateur moyenne) peut paraitre critiquable. En effet, exprimé en dB, une erreur de 10 dB sur une scène et une erreur de 2 dB sur une autre donnerait une erreur $MAE$ de 6 dB, ce qui d'un point de vue énergétique, cette erreur serait alors de XXX dB. Mais ce choix est justifié par la stabilité qu'il possède contrairement aux erreurs $RMSE$ ou $MAPE$ qui sont plus sensibles aux anomalies et qui peuvent alors générer de fortes erreurs en cas de présence d'une valeur abérrante. De plus, l'usage d'opérateurs statistiques sur des grandeurs logarithmiques est courant dans la communauté d'acoustique environnementale \cite{aumond2018kriging,morillas2014uncertainty}.
+Le choix de confronter des grandeurs logarithmiques (les niveaux sonores en dB) à un opérateur arithmétique (l'opérateur moyenne) peut paraitre critiquable. En effet, exprimé en dB, une erreur de 10 dB sur une scène et une erreur de 2 dB sur une autre donnerait une erreur $MAE$ de 6,00 dB, alors que par une moyenne énergétique, cette erreur serait de 7,63 dB. Mais ce choix est justifié par la stabilité qu'il possède contrairement aux erreurs $RMSE$ ou $MAPE$ qui sont plus sensibles aux anomalies et qui peuvent alors générer de fortes erreurs en cas de présence d'une valeur abérrante. De plus, l'usage d'opérateurs statistiques sur des grandeurs logarithmiques est courant dans la communauté d'acoustique environnementale \cite{aumond2018kriging,morillas2014uncertainty}.
 Par la réalisation de moyennes arithmétiques simples sur des grandeurs en dB, l'erreur $MAE$ présente l'avantage de comparer équitablement les performances des estimateurs dans des cas variés. En effet, pour un estimateur qui estime le niveau sonore du trafic moitié moins, que le niveau soit fort (94 dB) ou faible (54 dB), l'erreur, dans les deux cas, sera de 3 dB. Dans un cas linéaire, cette erreur s'exprime à partir des valeurs efficaces de la pression, 
 
 \begin{equation}
@@ -449,6 +453,11 @@ En outre, l'opérateur logarithmique présent dans l'expression \ref{eq:Lp} est 
 
 Toutefois, dans un soucis de rigueur, la valeur fournie par l'erreur $MAE$ ne doit plus être considérée comme une erreur s'exprimant en dB acoustique mais comme un indice de performance sans dimension.\\
 
+Les environnements sonores urbains sont ainsi des milieux complexes qu'il est nécessaire de savoir caractériser afin de mieux connaitre les zones où les niveaux sont élevés et ceux où ils sont faibles. 
+Les outils les plus utilisés sont, à l'heure actuelle, basés sur des modèles d'émissions et de propagations sonores qui permettent de prédire les niveaux sonores de sources spécifiques (bruit de trafic routier, ferroviaire et aérien et des ICPE). Ces modèles limitent toutefois la connaissance des ESU dans leur globalité en se focalisant uniquement sur des sources de bruit. De plus, ils présentent des limites lié à la réduction du nombre de catégories de voiture ou de revêtement, aux limites des modèles de propagation ou à la modélisation numérique.  
+Ainsi le déploiement de réseaux de capteurs en ville et l'émergence des mesures participatives sont des pistes intéressantes en vue d'obtenir une caractérisation plus fine de ces environnements. Ces approche s'affranchissent des difficultés techniques rencontrées lors des simulations et permettent de prendre en compte l'intégralité de l'ESU.  Seulement pour estimer la contribution des sources sonores de l'ESU, il est nécessaire de disposer d'outils du traitement du signal adaptés à ces environnements et à ces sources. 
+Encore peu d'études se sont focalisées sur cette question. C'est pourquoi les travaux de cette thèse s'attache à générer un outil basé sur la séparation de sources en vue d'estimer le niveau sonore du trafic routier, source de bruit principal en ville et la plus gênante auprès des citadins.\\
+
 À partir de cette proposition, il reste maintenant à :
 \begin{itemize}
 \item \textbf{déterminer quelle méthode de séparation de sources choisir comme estimateur, }
@@ -456,18 +465,3 @@ Toutefois, dans un soucis de rigueur, la valeur fournie par l'erreur $MAE$ ne do
 \end{itemize}
 
 
-
-%
-%%\bibliographystyle{unsrt}
-%%\bibliography{../bibliographie}
-%%
-%%\end{document}
-
-%
-%Dans le domaine fréquentiel, le produit de convolution s'exprime sous la forme :
-%
-%\begin{equation}
-%\hat{M}_{i}(f) = \hat{s}_j(f)\hat{\delta}_{ij}(f)e^{i2\pi f \tau_{ij}}
-%\end{equation}
-%
-%avec $\hat{g}(f)$, la transformée de Fourier de la fonction $g(t)$, $\hat{g}(f) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}g(t)e^{-i2\pi ft} dt$. $\hat{\delta}_{ij}(f)$ s'apparente alors à un filtre de propagation.

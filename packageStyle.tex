@@ -27,6 +27,7 @@
 	\renewcommand{\footrulewidth}{0.4pt} 
 }
 
+
 \fancypagestyle{couvertureAbstract}{%
     \fancyhead{}	
     \fancyfoot{} 
@@ -61,7 +62,7 @@
   \fontfamily{phv}\selectfont % Select Helvetica font
   \pagestyle{empty} % No page number
 }{
-  \addtocounter{page}{-1}
+  \addtocounter{page}{0}
   \cleardoublepage
 }
 
@@ -93,7 +94,7 @@
 \usepackage{lmodern}	% pour les guillemets
 \usepackage{gensymb}	% pour les degrés
 \usepackage{enumitem}	% pour changer le symbole de l'item (\begin{itemize}[label=$\bullet$])
-\newlist{longenum}{enumerate}{6}
+\newlist{longenum}{enumerate}{7}
 \setlist[longenum,1]{label=\roman*)}
 \setlist[longenum,2]{label=\roman*)}
 \setlist[longenum,3]{label=\roman*)}

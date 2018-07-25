@@ -1,11 +1,14 @@
 
-\chapter{\'Etude du corpus d'évaluation \textit{ambiance}}
+\chapter{\'Etude du comportement de la NMF sur le corpus d'évaluation \textit{ambiance}}
 \label{chap:ambiance}
 
-%\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-%{\small La NMF est appliqué sur le corpus d'évaluation \textit{Ambiance} afin de visualiser le comportement de cette méthode sur de telles mixtures sonores. Les trois méthodes retenues (NMF Supervisée, Semi-supervisée et Initialisée Seuillée) sont testé pour de multiples configurations selon la composition du dictionnaire et de la $\beta$-divergence. Les résultats obtenues permettent de constater des performances variables des méthodes selon la prédominance du trafic. Lorsque celui-ci est faible la NMF semi-supervisée se révèle l'approche la plus performante alors que la NMF supervisée génère de plus faibles erreurs lorsque le trafic est la source sonore principale. La NMF IS est alors la méthode qui offre le meilleur compromis dans son fonctionnement grâce à la mise à jour de son dictionnaire mais dont la dérive est limitée par un seuillage dur.}}
-%
-%\vspace{2cm}
+\section*{\centering Résumé}
+\addcontentsline{toc}{section}{Résumé}
+
+\noindent{\small \textbf{
+La NMF est appliqué sur le corpus d'évaluation \textit{Ambiance} afin de visualiser le comportement de cette méthode sur de telles mixtures sonores. Les trois méthodes retenues (NMF supervisée, semi-supervisée et initialisée seuillée) sont testé pour de multiples configurations selon la composition du dictionnaire et de la $\beta$-divergence. Les résultats obtenues permettent de constater des performances variables des méthodes selon la prédominance du trafic. Lorsque celui-ci est faible la NMF semi-supervisée se révèle l'approche la plus performante alors que la NMF supervisée génère de plus faibles erreurs lorsque le trafic est la source sonore principale. La NMF IS est alors la méthode qui offre le meilleur compromis dans son fonctionnement grâce à la mise à jour de son dictionnaire mais dont la dérive est limitée par un seuillage dur.}}
+
+\vspace{2cm}
 
 Dans ce chapitre, on étudie le comportement des différentes versions de la NMF, présentées dans le chapitre \ref{chap:NMF},  avec le premier corpus élémentaire \textit{Ambiance}. Ce corpus présente l'intérêt d'être construit en mixant des classes de sons spécifiques dont la source sonore \textit{trafic} est calibré à différents niveaux sonores. Cet aspect permet d'étudier le fonctionnement des différentes versions de la NMF en fonction de la prédominance du trafic et de la nature des classes de sons ainsi que de déterminer les approches les plus efficaces et les plus adaptés à ces environnements.
 Dans un premier temps un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais) sont exposés. Puis les étapes menant à l'apprentissage du dictionnaire et l'ensemble des facteurs expérimentaux sont détaillées. Enfin les résultats des calculs menés sont présentés et discutés.
@@ -96,7 +99,8 @@ Dans chacune, la valeur efficace \textit{rms} sur chaque trame fréquentielle es
 \end{itemize}
 
 En plus de ces étapes, on ajoute un cas où la valeur \textit{rms} est calculée sur l'ensemble des spectrogrammes ($w_t = all$). Des 53 fichiers audio du corpus d'apprentissage, 53 spectres sont générés. Cette opération permet de baser la construction du dictionnaire sur les enveloppes spectrales des fichiers audio \textit{trafic} et moins sur une description fine des spectres. Ces 53 spectres sont également soumis à l'algorithme de clustering mais avec cette fois, $K_{w_t = all} \in \lbrace 25,~ 50 \rbrace$.
-L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dans le Tableau \ref{tab:experimental_factorsNMF_ambiance}. L'intérêt de ces paramètres est de multiplier le nombre de format que peut prendre le dictionnaire pour ainsi estimer l'influence de la forme des composantes et sur leur nombre dans l'estimation du niveau sonore du trafic selon les différentes NMF.  
+L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dans le Tableau \ref{tab:experimental_factorsNMF_ambiance}. L'intérêt de ces paramètres est de multiplier le nombre de format que peut prendre le dictionnaire pour ainsi estimer l'influence de la forme des composantes et sur leur nombre dans l'estimation du niveau sonore du trafic selon les différentes NMF. Enfin, chaque élément du dictionnaire $\mathbf{w}$, pour toutes les combinaisons testées, est normalisé selon la norme $\ell_1$ telle que 
+$\Vert \mathbf{w} \Vert_1 = \sum_{f = 1}^{F} w_f =  1$.
 
 \begin{figure}[hbtp]
 \centering
@@ -109,10 +113,10 @@ L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dan
 
 Chaque version du dictionnaire $\mathbf{W}$ est utilisé par l'estimateur du niveau de traffic. Cet estimateur est lui-même basé sur plusieurs versions de la NMF décrites précédemment (voir chapitre \ref{chap:NMF})  : la NMF supervisée (NMF SUP), semi-supervisée (NMF SEM) et initialisée-seuillée (NMF IS). Pour chaque NMF, 3 $\beta$-divergences sont utilisées : la distance Euclidienne ($\beta = 2$) (voir partie \ref{part:dist_EUC}, la divergence de Kullback-Leibler ($\beta = 1$) (partie \ref{part:div_KL}), et la divergence d'Itakura-Saïto ($\beta = 0$) (partie \ref{part:div_IS}). La NMF SUP dépend seulement des différentes versions du dictionnaire apprises et des valeurs de $\beta$. Le signal trafic est estimé selon l'équation \ref{eq:WH_trafic} à partir de la matrice $\mathbf{H}$ obtenue.
 Dans le cas de la NMF SEM, le dictionnaire appris compose la partie fixe $\mathbf{W_s}$. Le nombre d'éléments du dictionnaire libre $\mathbf{W_r}$ est alors fixé à 2 ($J = 2$). Le signal \textit{trafic} est ensuite déterminé par le relation \ref{eq:WSHs_trafic}.
-Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
+Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. À chaque itération, les éléments du dictionnaire sont également tous normalisés. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
 
 \begin{itemize}
-\item la représentation de la distance entre les dictionnaires initiaux et finaux $D_{\theta}(\mathbf{W_0}\Vert \mathbf{W'})$ (linéaire ou bien exprimé au travers d'une fonction sigmoïde ($\lambda = 2$)),
+\item la représentation de la distance entre les dictionnaires initiaux et finaux $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$ (linéaire ou bien exprimé au travers d'une fonction sigmoïde ($\lambda = 2$)),
 \item le type de seuillage appliqué (dur ou \textit{firm}),
 \item les valeurs des différents seuils respectifs ($t_h$ pour le seuillage dur et $t_{f,1/2}$, les deux valeurs seuils pour le seuillage \textit{firm}). Des études préliminaires ont permis de réduire la plage des valeurs de ces seuils à $t_h \in \lbrace 0,30~0,70 \rbrace$, $t_{f,1} \in \lbrace 0,20~0,55 \rbrace$ et $t_{f,2} \in \lbrace 0,35,~0,70 \rbrace$, chacun étant défini avec un pas de 0,01. Rappelons que pour le seuillage \textit{firm}, $t_{f,1} \leq t_{f,2}$.
 \end{itemize}
@@ -307,7 +311,7 @@ La NMF IS étant une forme de NMF proposée pour ces travaux, plusieurs pistes s
 
 \begin{table}[h]
 \centering
-\caption{Erreurs $MAE_g$ de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon la représentation linéaire ou sigmoïde de la distance $D_{\theta}(\mathbf{W_0}\Vert \mathbf{W})$.}
+\caption{Erreurs $MAE_g$ de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon la représentation linéaire ou sigmoïde de la distance $D_{\theta}$.}
 \label{tab:erreur_ambiance_IS}
 \begin{tabular}{C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{1.2cm}C{2.5cm}}
 \toprule

@@ -1,8 +1,11 @@
 \chapter{Création de corpus de mixtures sonores urbaines}
 \label{chap:corpusSonore}
 
-\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-{\small Les étapes menant à la création des corpus de son sur lesquelles la NMF est appliquée sont présentés. Après avoir exposées différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene} est présenté. La formation de la base de données de sons et les enregistrements audio de passage de véhicules sont ensuite détaillé. Le premier corpus créé, appelé corpus d'évalualtion \textit{Ambiance} est présenté, celui-ci a pour objectif de permettre d'étudier le fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes) est ensuite présenté, basé sur des annotations d'enregistrements audio. Le rendu de ce corpus est testé par un test perceptif visant à évaluer son rendu réaliste.}}
+\section*{\centering Résumé}
+\addcontentsline{toc}{section}{Résumé}
+
+\noindent{\small \textbf{
+Les étapes menant à la création des corpus de son sur lesquelles la NMF est appliquée sont présentés. Après avoir exposées différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene} est présenté. La formation de la base de données de sons et les enregistrements audio de passage de véhicules sont ensuite détaillé. Le premier corpus créé, appelé corpus d'évaluation \textit{Ambiance} est présenté, celui-ci a pour objectif de permettre d'étudier le fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes) est ensuite présenté, basé sur des annotations d'enregistrements audio. Le rendu de ce corpus est testé par un test perceptif visant à évaluer son rendu réaliste.}}
 
 \vspace{2cm}
 
@@ -145,8 +148,6 @@ M_i = S_{tr.,i}+S_{int.,i}.
 \end{figure}
 
 
-
-
 \begin{table}[h]
 \centering
 \caption{Résumé des classes de sons inclues dans les classes interférantes, seules les classes \textit{alerte} et \textit{transport} ne contiennent pas de bruit de fond.}
@@ -271,7 +272,7 @@ La composition des environnements sonores diffère entre eux : dans \textit{parc
 Notons que dans \textit{rue calme}, \textit{animée} et dans \textit{parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très animée} où un flot de véhicules peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la fois comme bruit de fond et évènements sonore.
 Sans étude perceptive sur le débit de véhicule à partir duquel les passages de véhicules deviennent un flux, une moyenne de 1 véhicule par seconde est alors considérée comme raisonnable. Un contrôle à l'écoute permet de vérifier que le rendu est satisfaisant. Le rapport nombre d'évènement/min renseigné dans le Tableau \ref{tab:obsScene} est donc soumis à une forte incertitude mais reste cependant cohérent avec les indications du débit moyen fournis dans \cite{aumond2017modeling} ($\approx$ 2000 véhicules/heure). \\
 
-\subsection{Reproduction des enregistrements audio}
+\subsection{Reproduction des enregistrements audio}\label{section:reproductionScene}
 
 Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonores est la plus proche possible d'une structure temporelle écologiquement valide. Les durées cumulées par ambiance sonore sont résumées dans la Tableau \ref{tab:resume_sour}. Avec un nombre de scènes plus importante, \textit{rue calme} est naturellement l'ambiance dont la durée cumulée est la plus longue, l'ambiance \textit{parc} étant alors la plus courte.
 
@@ -340,7 +341,7 @@ JK &= BR, \label{eq:BIE_cond2}\\
 
 avec $\left[J, B, K, R, \lambda\right] \in \mathbb{N}$.\\
 
-La dénomination \og incomplète \fg{} provient du fait que les juges n'évaluent pas tous les produits testés (condition \ref{eq:BIE_cond1}). La dénomination \og équilibré \fg{}, quant à elle, provient de la constance de $\lambda$ pour les différents couples de $B$. \\
+La dénomination \og incomplète \fg{} provient du fait que les juges n'évaluent pas tous les produits testés (condition \ref{eq:BIE_cond1}). La dénomination \og équilibré \fg{}, quant à elle, provient du fait que chaque juge évalue un même nombre de produits ($K$), que ces produits sont évalués un même nombre de fois ($R$) et que toute paire de produits est évaluée un même nombre de fois ($\lambda$). \\
 
 Plusieurs paramètres ont été choisis et justifiés au début de la partie : le nombre d'extraits sonores testé a été établi à 40 ($B = 40$) pour un nombre d'extraits audio évalué par auditeur fixé à 20, ($K = 20$). La principale difficulté reste à obtenir la participation de $J$ personnes pour ce test. Ce nombre est alors fixé à $J = 50$ en cela que ce nombre est suffisant et facilement atteignable en un temps raisonnable. À partir des variables $J$, $B$ et $K$, le nombre $R$ de réplication est fixé à 25. Toutefois, ces valeurs impliquent que la condition \ref{eq:BIE_cond3} n'est pas validée ($\lambda = 9,69 \notin \mathbb{N}$) et donc que les contraintes que l'on s'impose ne permettent pas d'obtenir un plan équilibré. Deux solutions sont alors possibles : la première serait de modifier certains paramètres pour trouver l'équilibre. Or le nombre d'auditeur, $J = 50$, parait un nombre maximal raisonnable à atteindre tout comme le nombre de fichiers audio à tester $K$. Avec ces 2 contraintes fixées, il n'est pas possible d'obtenir un plan d'écoute adéquat. La deuxième solution, qui semble alors la plus adaptée, est de réaliser un plan optimal \cite{pages_blocs_2007}. Dans ce cas, pour une configuration $\left[J, K, B\right]$ donnée, un algorithme d'échange détermine un \og plan optimal \fg{} qui satisfait le plus possible son équilibre (sans toutefois l'atteindre parfaitement). En d'autres termes, cet algorithme permet de déterminer la suite de produits testés par chaque juge qui permettra de respecter au mieux les conditions \ref{BIE_cond}.
 Le plan optimal $X_{opt}$ en fonction des conditions $J$, $K$ et $R$ est réalisé sous le logiciel \textit{R} à l'aide la fonction \textit{optimaldesign} fourni par le package \textit{SensoMineR} \cite{le_sensominer_2008}.
@@ -423,13 +424,31 @@ La statistique $t$ avec le nombre de degrés de libertés (correction de Welch) 
 \item si $p > \alpha$, l'hypothèse $H_0$ est acceptée, les distributions d'où sont issues les évaluations sont considérées identiques.\\
 \end{itemize}
 
-Par soucis de concision, seul l'ensemble des 20 valeurs $t$ calculées et les boites à moustaches de chaque scène sont résumés dans les Figures \ref{fig:test-student} et \ref{fig:boxplot_scene}.
+Par soucis de concision, seul l'ensemble des 20 valeurs $p$ calculées et les boites à moustaches de chaque scène sont résumés dans les Figures \ref{tab:test-student} et \ref{fig:boxplot_scene}.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/t-value-student.pdf}
-\caption{Résumé des valeurs $p$ calculés pour chaque scène entre les notes issues du type \textit{enregistré} et du type \textit{répliqué}.}\label{fig:test-student}
-\end{figure}
+\begin{table}[h!]
+\caption{DDL, valeurs $t$ et valeurs $p$ pour chaque test de Student mené entre les scènes enregistrées et répliquées; en gras, les valeur $p$ supérieures au seuil de signification de 5 $\%$.}
+\label{tab:test-student}
+\begin{tabular}{L{1.5cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}
+\toprule
+scène & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+\toprule
+DDL & 48 & 51 & 51 & 51 & 51 & 57 & 57 & 60 & 60 & 60 \\
+\rowcolor[HTML]{C0C0C0}
+valeur $t$ & 1,03 & 0,21 & 0,44 & 1,02 & 2,13 & 1,30 & 1,54 & 0,45 & 0,85 & 1,01 \\
+valeur $p$ & \textbf{0,15} & \textbf{0,42} & \textbf{0,33} & \textbf{0,16} & 0,02 &\textbf{0,10} & \textbf{0,06} & \textbf{0,32} & \textbf{0,20} & \textbf{0,16} \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{L{1.5cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}
+\toprule
+scène & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 \\
+\toprule
+DDL & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 \\
+\rowcolor[HTML]{C0C0C0}
+valeur $t$ & 0,29 & 0,39 & 1,15 & 0,30 & 0,84 & 0,32 & 0,82 & 2,20 & 0,24 & 0,45 \\
+valeur $p$ & \textbf{0,38} & \textbf{0,35} & \textbf{0,13} & \textbf{0,38} & \textbf{0,20} & \textbf{0,37} & \textbf{0,21} & 0,01 & \textbf{0,40} & \textbf{0,33}\\ \bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[ht]
 \centering
@@ -443,11 +462,12 @@ Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & &
 \end{tabular}
 
 \caption{Boites à moustaches pour les scènes enregistrées  \subref{fig:boxplotEnreg} et pour les scènes répliquées \subref{fig:boxplotRepli} classées selon leur ambiance sonore.}
-
 \label{fig:boxplot_scene}
 \end{figure}
 
-L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ supérieures au seuil de signification $\alpha$ de 5 $\%$. L'hypothèse $H_0$ n'est donc pas rejetée sur l'ensemble des scènes : le réalisme perçu des scènes testées du type \textit{répliquée} n'est pas significativement différent de celui des scènes \textit{enregistrées}. D'autres tests statistiques sont, en complément, ajoutés en Annexe \ref{annexe:anova} où l'influence de l'évaluation des juges et l'influence de l'ambiance sonore sur le réalisme perçu sont observés.
+L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ inférieures au seuil de signification $\alpha$ de 5 $\%$ pour seulement 2 scènes (scène 5 et 18). Ces résultats sont à mettre en parallèle avec la distribution des notes de ces scènes en Figure \ref{fig:boxplot_scene}. Dans le cas de la scène 5, on observe que la distribution des notes pour la scène enregistrée (Figure \ref{fig:boxplotEnreg}) est plus large que pour la scène répliquée. Au regard de ces distributions la scène 5 répliquée serait donc plus réaliste que celle enregistrée. À l'écoute, la scène 5 issue de l'enregistrement est une scène calme avec peu d'évènements émergents avec un bruit de fond, lui aussi, très calme. Il peut être supposé que sans identification clair d'évènements sonores, les auditeurs ont jugé le réalisme de la scène enregistrée moins bien que sa version répliquée qui, elle, si elle possède aussi peu d'évènement, par son aspect simulé, parait toutefois plus identifiable.
+Enfin, pour la scène 18, les deux distributions sont toutes deux situées vers des notes élevées. Mais dans le cas de sa version enregistrée (Figure \ref{fig:boxplotRepli}), la distribution également plus large que la scène répliquée génère une valeur $p$ sous le seuil de signification. Ainsi, malgré un test de Student qui validerait l'hypothèse $H_1$, on peut toute de même considérer que le réalisme des scènes répliquées 5 et 18 est satisfaisant au regarde de la distribution de leur notes.
+Sur les 18 autres scènes , l'hypothèse $H_0$ n'est donc pas rejetée : le réalisme perçu des scènes testées du type \textit{répliquée} n'est pas significativement différent de celui des scènes \textit{enregistrées}. D'autres tests statistiques sont, en complément, ajoutés en Annexe \ref{annexe:anova} où l'influence de l'évaluation des juges et l'influence de l'ambiance sonore sur le réalisme perçu sont observés.
 
 En conclusion, sur l'ensemble du corpus testé, il y a une similarité du réalisme perçu par l'ensemble des participants entre les scènes enregistrées et répliquées. Même s'il y a des disparités entre les distributions des notes selon les ambiances sonores, l'évaluation du réalisme selon les types de scènes et les ambiances restent similaires (les notes restent comprises entre 4 et 6). 
 Certains sons dans les scènes répliquées sembleraient toutefois mal calibrés, ce qui, sur certaines scènes, impacte leur note. Mais on retrouve également ce phénomène dans les scènes réelles, ce qui viendrait à relativiser cette mauvaise calibration.

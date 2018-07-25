@@ -5,9 +5,9 @@ Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011},
 \section{Cas de la distance Euclidienne}
 \begin{align}
 C(\mathbf{H}) &= D_2(\mathbf{V} \Vert \mathbf{WH}) + \alpha C_{MM}(\mathbf{H})\\
- &= \frac{1}{2}\sum_n(\mathbf{v}_n-\mathbf{Wh}_n)^2+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
+ &= \frac{1}{2}\sum_n(\mathbf{v}_n-\mathbf{Wh}_n)^2+\alpha\lambda L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
 \end{align}
-On définit $\mathbf{h}$, la valeur de $\mathbf{h}$ à déterminer à l'itération $i+1$, $\mathbf{\tilde{h}}$, sa valeur à l'itération $i$ et $\mathbf{\tilde{v}}_f = \left[W\tilde{h}\right]$.
+On définit $\mathbf{h}$, la valeur de $\mathbf{h}$ à déterminer à l'itération $i+1$, $\mathbf{\tilde{h}}$, sa valeur à l'itération $i$ et $\mathbf{\tilde{v}}_f = \left[\mathbf{W}\tilde{\textbf{h}}\right]$.
 En suivant la méthode de \textit{majorisation-minimisation}, une fonction auxiliaire $G_{SM}(\mathbf{h}_{k}\vert \mathbf{\tilde{h}}_{k})$ est définie : 
 
 \begin{equation}
@@ -33,19 +33,19 @@ où $\lambda_k = \Vert w_k \Vert$, la terme de normalisation des matrices $\math
  \end{split}\\
 \begin{split}
  ={}& \sum_{f} \sum_{k} \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}} {\tilde{h}_{kn}}\right)h_{kn} \\
- & - \left(w_{fk} v_{fn} + \alpha  \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
+ & - \left(w_{fk} v_{fn} + \alpha_t  \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
 \end{split}\label{eq:smooth_1}
 \end{align}
 
 \begin{align}
-\nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
+\nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha_t \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
 \begin{split}
-    ={}& \sum_{f} \sum_{k} \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}}{\tilde{h}_{kn}}\right)h_{kn} \\
-    & - \left(w_{fk} v_{fn} + \alpha \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
+    ={}& \sum_{f} \sum_{k} \left( 2\alpha_t \lambda_k^2 + \frac{w_{fk} v_{fn}}{\tilde{h}_{kn}}\right)h_{kn} \\
+    & - \left(w_{fk} v_{fn} + \alpha_t \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
     \end{split}\label{eq:smooth_2}\\
 \begin{split}
     ={}& \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_{fn} + 2 w_{fk} v_{fn} \frac{h_{kn}}{\tilde{h}_{kn}} \\
-    & + \alpha \lambda_k^2 \left( 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right)
+    & + \alpha_t \lambda_k^2 \left( 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right)
 \end{split}
 \end{align}
 
@@ -55,20 +55,20 @@ L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expressio
 
 \begin{equation}\label{eq:smooth_beta2}
 \fbox{$
-h_{kn} = \frac{w_{fk} v_{fn}+\alpha  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
+h_{kn} = \frac{w_{fk} v_{fn}+\alpha_t  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
 \end{equation}
-pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient ; 
+pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha_t$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient ; 
 
 \begin{equation}
-h_{k1} = \frac{w_{fk} v_{f1}+\alpha \lambda_k^2 h_{k2}^{(i)})}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{h_{k1}^{(i)}}}.
+h_{k1} = \frac{w_{fk} v_{f1}+\alpha_t \lambda_k^2 h_{k2}^{(i)})}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{h_{k1}^{(i)}}}.
 \end{equation}
 
 Et pour $n = N$, l'équation \ref{eq:smooth_beta2} devient 
 \begin{equation}
-h_{kN} = \frac{w_{fk} v_{fN}+\alpha  \lambda_k^2 h_{kN}^{(i)}}{2\alpha \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {h_{kN}^{(i)}}}.
+h_{kN} = \frac{w_{fk} v_{fN}+\alpha_t  \lambda_k^2 h_{kN}^{(i)}}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {h_{kN}^{(i)}}}.
 \end{equation}
 
-On illustre en Figure \ref{fig:smooth_2} l'impact de cet contrainte sur un cas simple d'une scène sonore constitué successivement du passage d'une voiture et de sifflement d'oiseaux : 
+Pour illustrer l'impact de la pondération, une scène de 30 secondes est générée comprenant un passage de voiture suivi de sifflements d'oiseaux. Le dictionnaire $\mathbf{W}$ est composé de 5 éléments \textit{trafic} et 5 éléments \textit{oiseaux} construit à partir de 5 échantillons pour chaque classe de son et avec $w_t = all$. La NMF supervisée est appliquée sur cette scène afin d'en déduire le niveau sonore du trafic. On illustre en Figure \ref{fig:smooth_2} l'impact de cette contrainte pour $\alpha_t = \lbrace 0,~2\rbrace$. 
 
 \begin{figure}[h]
 \centering
@@ -82,8 +82,8 @@ On illustre en Figure \ref{fig:smooth_2} l'impact de cet contrainte sur un cas s
 Dans le cas d'une divergence I-S, le problème est similaire avec
 
 \begin{align}
-C(\mathbf{H}) &= D_0(\mathbf{V} \Vert \mathbf{WH}) + \alpha C_{MM}(\mathbf{H})\\
- &= \sum_k\frac{\mathbf{v}_n}{\mathbf{Wh}_n}-\log \frac{\mathbf{v}_n}{\mathbf{Wh}_n}-1+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
+C(\mathbf{H}) &= D_0(\mathbf{V} \Vert \mathbf{WH}) + \alpha_t C_{MM}(\mathbf{H})\\
+ &= \sum_k\frac{\mathbf{v}_n}{\mathbf{Wh}_n}-\log \frac{\mathbf{v}_n}{\mathbf{Wh}_n}-1+\alpha_t L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
 \end{align}
 
 La fonction auxiliaire $G_0(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ n'est toutefois pas la même : 
@@ -93,23 +93,23 @@ G_0(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) = \sum_f \sum_k \left[  \frac{w_{fk}
 \end{equation}
 
 \begin{align}
-\nabla_{h_{k}} G_{SM}(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) &= \nabla_{h_{k}} G_0(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
+\nabla_{h_{k}} G_{SM}(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) &= \nabla_{h_{k}} G_0(\mathbf{h}_n\vert \mathbf{\tilde{h}}_n) + \alpha_t \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
 \begin{split}
 =&{} \sum_f \sum_k -w_{fk}\frac{\tilde{h}_{kn}^2}{h_{kn}^2} \frac{v_{fn}}{\tilde{v}_{fn}^2}+\frac{w_{fk}}{\tilde{v}_{fn}}\\
-&  + \alpha \lambda_k^2 \left[ 2 h_{kn} - \left(h_{k(n+1)}+h_{k(n-1)}\right) \right]
+&  + \alpha_t \lambda_k^2 \left[ 2 h_{kn} - \left(h_{k(n+1)}+h_{k(n-1)}\right) \right]
 \end{split}\\
 \begin{split}
- =&{} \sum_f \sum_k 2\alpha_\lambda^2h_{kn}^3+\left[\frac{w_{fk}}{\tilde{v}_{fn}} - \alpha \lambda_k^2\left( h_{k(n+1)}+h_{k(n-1)}\right) \right]h_{kn}^2\\
+ =&{} \alpha_t\lambda^2 \sum_f \sum_k 2h_{kn}^3+\left[\frac{w_{fk}}{\tilde{v}_{fn}} - \alpha_t \lambda_k^2\left( h_{k(n+1)}+h_{k(n-1)}\right) \right]h_{kn}^2\\
  & - w_{fk}\frac{v_{fn}}{\tilde{v}_{fn}^2}\tilde{h}_{kn}^2 
  \end{split}\label{eq:eq_mimiser_smooth}
 \end{align}
 
-On obtient un problème de type équation du 3ème ordre : $ax^3+bx^2+cx+d = 0$ avec 
+On obtient un problème de type équation du 3\ieme{} ordre : $ax^3+bx^2+cx+d = 0$ avec 
 \begin{itemize}
-\item $a = 2\alpha_\lambda^2$, 
-\item $b = \frac{w_{fk}}{\tilde{v}_f} - \alpha \lambda_k^2\left(h_{k(n+1)}+h_{k(n-1}\right)$, 
+\item $a = 2\alpha_t\lambda^2$, 
+\item $b = \frac{w_{fk}}{\tilde{v}_f} - \alpha_t \lambda_k^2\left(h_{k(n+1)}+h_{k(n-1)}\right)$, 
 \item $c = 0$, 
-\item $d = -w_{fk}\frac{v_{fn}}{\tilde{v}_{fn}}\tilde{h}_{kn}^2$
+\item $d = -w_{fk}\frac{v_{fn}}{\tilde{v}_{fn}}\tilde{h}_{kn}^2$.
 \end{itemize}
 
 Cette polynôme d'ordre 3 se résout à l'aide de la méthode de Cardan \cite{nickalls1993new}, qui dans le cas présent, s'exprime sous la forme : 
@@ -127,7 +127,7 @@ X^3+pX+q = 0
 avec $p = -\frac{b^2}{3a^2}$ et $q = \frac{2b^3}{27a^3}+\frac{d}{a}$. La variable $X$ est alors décomposée en deux variables complexes : $X = u+v$. L'équation \ref{eq:cardan} devient alors : 
 
 \begin{equation}\label{eq:u_v}
-u^3+v^3+(3uv+p)(u+v)+q = 0
+u^3+v^3+(3uv+p)(u+v)+q = 0.
 \end{equation}
 
 L'équation \ref{eq:u_v}, pour être résolue, implique alors deux conditions  : 
@@ -159,7 +159,7 @@ V^2+qV-\frac{p^3}{27} &= 0.
 Le système \ref{eq:polyUV} se résout classiquement : 
 
 \begin{equation}
-\Delta_U = \Delta_V = \Delta = q^2-4\frac{p^3}{27}
+\Delta_U = \Delta_V = \Delta = q^2-4\frac{p^3}{27}.
 \end{equation}
 
 Les équations \ref{eq:polyUV} ont alors les deux mêmes solutions. Les valeurs de $X$ et solutions de l'équation \ref{eq:cardan} dépendent alors du signe de $\Delta$ : 
@@ -169,8 +169,8 @@ Les équations \ref{eq:polyUV} ont alors les deux mêmes solutions. Les valeurs 
 
 \begin{subequations}
 \begin{align}
-X_1 &= \sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}\\
-X_2 &= j\sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+j^2\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}\\
+X_1 &= \sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}},\\
+X_2 &= j\sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+j^2\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}},\\
 X_3 &= j^2\sqrt[3]{\frac{-q+\sqrt{\Delta}}{2}}+j\sqrt[3]{\frac{-q-\sqrt{\Delta}}{2}}
 \end{align}
 \end{subequations}
@@ -184,16 +184,16 @@ X_{z} = 2\sqrt{\frac{-p}{3}} \cos \left(\frac{1}{3} \arccos\left(\frac{-q}{2}\sq
 avec $z \in \left\lbrace 1,2,3 \right\rbrace$.
 
 
-\item pour $\Delta = 0$, parmi les 3 solutions possibles, 1 seule solution est réelle : 
+\item Pour $\Delta = 0$, parmi les 3 solutions possibles, 1 seule solution est réelle : 
 
 \begin{subequations}
 \begin{align}
 X_1 &= \frac{3q}{p},\\
-X_2 &= X_3 = \frac{-3q}{2p}
+X_2 &= X_3 = \frac{-3q}{2p}.
 \end{align}
 \end{subequations}
 
-\item pour $\Delta < 0$, les équations \ref{eq:polyUV} ont pour solutions 
+\item Pour $\Delta < 0$, les équations \ref{eq:polyUV} ont pour solutions 
 \begin{align}
 S_1 &= \frac{-q+i\sqrt{\vert\Delta \vert}}{2},\\
 S_2 &= \frac{-q-i\sqrt{\vert \Delta \vert}}{2}. 
@@ -210,7 +210,7 @@ X_3 &= j^2\sqrt[3]{S_1}+j\sqrt[3]{S_2}.
 \end{subequations}
 \end{itemize}
 
-La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui est réelle et positive parmis les trois solutions possibles, définie selon le signe de $\Delta$ : 
+La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui est réelle et positive parmi les trois solutions possibles, et définie selon le signe de $\Delta$ : 
 
 \begin{equation}
 \fbox{$
@@ -218,7 +218,7 @@ h_{kn} = X_{z}^+-\frac{b}{3a}.
 $}
 \end{equation}
 
-Le même exemple illustratif que pour $\beta$ = 2 est repris ici en Figure \ref{fig:smooth_0}.
+Le même exemple illustratif que pour $\beta$ = 2 est repris ici en Figure \ref{fig:smooth_0}. On relève que la valeur $\alpha_t$ bien plus élevée pour la divergence IS ($\alpha_t = 10^7$) que pour la distance EUC en raison de la valeur $d$ et du rapport $\frac{w_{fk}}{\tilde{v}_f}$ de $b$, dans l'équation du 3\ieme{} ordre, qui prennent des valeurs élevés.
 
 \begin{figure}[h]
 \centering

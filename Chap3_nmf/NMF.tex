@@ -1,8 +1,11 @@
 \chapter{La factorisation en matrices non-négatives}
 \label{chap:NMF}
 
-\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-{\small Le fonctionnement de la NMF est présenté dans ce chapitre. Cette méthode consiste à approximer le spectrogramme en amplitude d'un signal audio par le produit de deux matrices positives : $\mathbf{W}$, un dictionnaire composés de spectres audio, et $\mathbf{H}$, la matrice d'activation. Les différents aspects de son fonctionnement sont décrit : famille de divergences, algorithmes de mise à jour des matrices, méthode d'apprentissage du dictionnaire. Une forme de NMF est également proposé par la NMF \textit{Seuillée Initialisée} où un dictionnaire appris sur la sources d'intérêt est mis à jour et dont les éléments relatifs à cette source sont ensuite sélectionné par une technique de seuillage. Enfin les différentes contraintes qui peuvent être apposé sur les matrices de la NMF sont évoquée notamment la contrainte de régularité temporelle et de parcimonie.}}
+\section*{\centering Résumé}
+\addcontentsline{toc}{section}{Abstract}
+
+\noindent{\small \textbf{
+Le fonctionnement de la NMF est présenté dans ce chapitre. Cette méthode consiste à approximer le spectrogramme en amplitude d'un signal audio par le produit de deux matrices positives : $\mathbf{W}$, un dictionnaire composés de spectres audio, et $\mathbf{H}$, la matrice d'activation. Les différents aspects de son fonctionnement sont décrit : famille de divergences, algorithmes de mise à jour des matrices, méthode d'apprentissage du dictionnaire. Une forme de NMF est également proposé par la NMF \textit{seuillée initialisée} où un dictionnaire appris sur la sources d'intérêt est mis à jour et dont les éléments relatifs à cette source sont ensuite sélectionné par une technique de seuillage. Enfin les différentes contraintes qui peuvent être apposé sur les matrices de la NMF sont évoquée notamment la contrainte de régularité temporelle et de parcimonie.}}
 
 \vspace{2cm}
 
@@ -415,7 +418,7 @@ L'utilisation de la NMF nécessite deux étapes : une phase d'apprentissage du d
 \end{figure}
 
 \subsection{Apprentissage supervisé et non-supervisé}
-Lorsque les classes de sons du corpus d'apprentissage sont inconnues ou que les échantillons audio sont composés d'un mélange de plusieurs sources, il n'est pas possible de connaitre la classe de son de chaque élément qui constitue $\mathbf{W}$. Toutefois, pour réaliser une séparation de sources, il est nécessaire de classifier les différents éléments entre eux. Une étape de \textit{clustering}, à l'aide d'un algorithme des $k$NN ($k$ plus proche voisins) par exemple, est alors nécessaire pour classer ces éléments selon un nombre de catégories défini par l'utilisateur. Ce cas correspond à une \textit{NMF non-supervisée}.
+Lorsque les classes de sons du corpus d'apprentissage sont inconnues ou que les échantillons audio sont composés d'un mélange de plusieurs sources, il n'est pas possible de connaitre la classe de son de chaque élément qui constitue $\mathbf{W}$. Toutefois, pour réaliser une séparation de sources, il est nécessaire de classifier les différents éléments entre eux. Une étape de \textit{clustering}, à l'aide d'un algorithme des $k$-NN ($k$ plus proche voisins) par exemple, est alors nécessaire pour classer ces éléments selon un nombre de catégories défini par l'utilisateur. Ce cas correspond à une \textit{NMF non-supervisée}.
 À l'inverse, lorsque le jeu de données peut être étiqueté, chaque élément défini dans $\mathbf{W}$ est connu. Ce cas, le plus favorable et le plus simple, correspond à une \textit{NMF supervisée}.
 En connaissant la classe des éléments de $\mathbf{W}$, la séparation de sources est réalisable. Pour cela, les éléments relatifs à la source d'intérêt $i$ sont extraits soit directement de $\mathbf{W}$ et de $\mathbf{H}$,
 
@@ -467,26 +470,26 @@ Plusieurs applications de cette méthode ont été proposées pour des tâche de
 
 \section{NMF initialisée seuillée}\label{sec:NMF_TI}
 
-Afin de répondre au problème de généralisation de $\mathbf{W}$, une nouvelle approche est proposée : la \textit{NMF initialisée seuillée} (NMF-IS). Un dictionnaire initial, $\mathbf{W_0}$, est appris sur la source sonore cible (le trafic routier), puis est mis à jour avec $\mathbf{H}$ lors de la phase de test.
+Afin de répondre au problème de généralisation de $\mathbf{W}$, une autre approche est proposée : la \textit{NMF initialisée seuillée} (NMF-IS). Un dictionnaire initial, $\mathbf{W_0}$, est appris sur la source sonore cible (le trafic routier), puis est mis à jour avec $\mathbf{H}$ lors de la phase de test.
 Cette technique permet d'orienter les mises à jour de $\mathbf{W_0}$ vers la sources d'intérêt et ainsi de considérer les connaissances connues \textit{a priori} sur la source tout en adaptant le dictionnaire à la scène sonore testée. Après $N$ itérations, un dictionnaire $\mathbf{W'}$ est obtenu, unique à chaque scène. Pour estimer le signal \textit{trafic}, chaque élément $k$ du dictionnaire, $\mathbf{w'}$, est comparé à son spectre d'origine, $\mathbf{w_0}$, afin de déterminer s'il est encore assimilable à un spectre \textit{trafic}. La comparaison des 2 éléments est réalisée à travers le calcul de leur similarité cosinus :
 
 \begin{equation}\label{eq:similarite_cosinus}
  D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = \frac{\mathbf{W_0}.\mathbf{W'}}{\Vert\mathbf{W_0}  \Vert. \Vert\mathbf{W'} \vert \vert}
 \end{equation}
 
-qui détermine le cosinus de l'angle $\theta$ formé entre les vecteurs $\mathbf{w_0}$ et $\mathbf{w'}$ par le rapport entre leur produit scalaire et leur norme. Cette métrique est invariante d'échelle et est normée entre -1 et 1 :
+qui détermine le cosinus de l'angle $\theta$ formé entre les vecteurs $\mathbf{w_0}$ et $\mathbf{w'}$ par le rapport entre leur produit scalaire et leur norme. Dans la suite du document, on se référera à cette distance sous l'abréviation $D_{\theta}$. Cette métrique est invariante d'échelle et est normée entre -1 et 1 :
 
 \begin{itemize}
-\item si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = 1$, les deux vecteurs sont strictement identiques, $\mathbf{W'}$ est alors considéré comme un élément \textit{trafic},
-\item si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = 0$, les deux vecteurs sont orthogonaux, $\mathbf{W'}$ n'est pas une élément \textit{trafic} et est donc rejeté,
-\item si $D_{\theta}(\mathbf{W_0}\Vert\mathbf{W'}) = -1$, les deux vecteurs sont opposés. Ce cas n'est toutefois pas possible en raison de la contrainte de non-négativité.\\
+\item si $D_{\theta} = 1$, les deux vecteurs sont strictement identiques, $\mathbf{W'}$ est alors considéré comme un élément \textit{trafic},
+\item si $D_{\theta} = 0$, les deux vecteurs sont orthogonaux, $\mathbf{W'}$ n'est pas une élément \textit{trafic} et est donc rejeté,
+\item si $D_{\theta} = -1$, les deux vecteurs sont opposés. Ce cas n'est toutefois pas possible en raison de la contrainte de non-négativité.\\
 \end{itemize}
 
 La similarité entre $\mathbf{W_0}$ et $\mathbf{W'}$ correspond alors à une suite de valeurs comprises entre 0 et 1 puis représentées à travers 2 fonctions (Figure \ref{fig:resume_simil}) :
 
 \begin{itemize}
-\item une fonction linéaire, $f_{LIN}(k) = D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$,
-\item une fonction sigmoïde, $f_{SIG}(k) = \sfrac{1}{\left(1+\exp({-\lambda D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$ avec $\lambda$ le paramètre d'inflexion de la fonction. Cet opérateur réduit la fenêtre de variation de la distance $D_{\theta}$, en diminuant les valeurs élevées et en augmentant les valeurs proches de 0.\\
+\item une fonction linéaire, $f_{LIN}(k) = D_{\theta}$,
+\item une fonction sigmoïde, $f_{SIG}(k) = \sfrac{1}{\left(1+\exp({-\lambda D_{\theta}}\right)}$ avec $\lambda$ le paramètre d'inflexion de la fonction. Cet opérateur réduit la fenêtre de variation de la distance $D_{\theta}$, en diminuant les valeurs élevées et en augmentant les valeurs proches de 0.\\
 \end{itemize}
 
 \begin{figure}
@@ -588,7 +591,7 @@ Cette pénalisation peut facilement être prise en compte dans les algorithmes d
 \underset{\textbf{h > 0}}{\text{min}}~C(\mathbf{h}) = D(\mathbf{v} \vert\vert \mathbf{Wh}) + \alpha_{sp} C_{sp}(\mathbf{h}).
 \end{equation}
 
-La fonction auxiliaire pénalisée $G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ devient alors
+avec $\alpha_{sp}$, la pondération respective à la contrainte de parcimonie. La fonction auxiliaire pénalisée $G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ devient alors
 
 \begin{equation}
 G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = G(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})+ \alpha_{sp}C_{sp}(\mathbf{h}^{(i+1)})
@@ -597,29 +600,38 @@ G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = G(\mathbf{h}^{(i+1)}\vert \mathb
 et a pour dérivée selon $h_k$
 
 \begin{equation}\label{eq:derivé-fonc-auxiliaireSparse}
-\nabla_{h_k} G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f w_{fk}\left[\breve{d}'\left(v_f\vert v_f^{(i)}\frac{h_k^{(i+1)}}{h_k^{(i)}}\right) + \textit{\textroundcap{d}}'(v_f\vert v_f^{(i)})\right]+\lambda.
+\nabla_{h_k} G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)}) = \sum_f w_{fk}\left[\breve{d}'\left(v_f\vert v_f^{(i)}\frac{h_k^{(i+1)}}{h_k^{(i)}}\right) + \textit{\textroundcap{d}}'(v_f\vert v_f^{(i)})\right]+\alpha_{sp}.
 \end{equation}
 
 L'algorithme de mise à jour de $\mathbf{H}$ devient alors
 
 \begin{subequations}\label{eq:h_sparsity}
 \begin{numcases}{h_k^{(i+1)} =}
-    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}+\lambda}\right)^{\gamma(\beta)}, & $\beta < 2$,\label{eq:h_sparsity_1}\\
-    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}-\lambda}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}}\right)^{\gamma(\beta)}, & $\beta \geq 2$.\label{eq:h_sparsity_2}
+    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}+\alpha_{sp}}\right)^{\gamma(\beta)}, & $\beta < 2$,\label{eq:h_sparsity_1}\\
+    h_k^{(i)}\left(\frac{\sum_f w_{fk} v_f \tilde{v}_f^{(\beta-2)}-\alpha_{sp}}{\sum_f w_{fk} \tilde{v_f}^{(\beta-1)}}\right)^{\gamma(\beta)}, & $\beta \geq 2$.\label{eq:h_sparsity_2}
 \end{numcases}
 \end{subequations}
 
-Dans le cas où $\beta \geq 2$, la contrainte apparait au numérateur et est soustractive. Ce comportement peut être problématique dans le cadre de la non-négativité suivant la value de $\alpha_{sp}$ \cite{fevotte_algorithms_2011}.
+Dans le cas où $\beta \geq 2$, la contrainte apparait au numérateur et est soustractive. Ce comportement peut être problématique dans le cadre de la non-négativité suivant la value de $\alpha_{sp}$ \cite{fevotte_algorithms_2011}. En Figure \ref{fig:sparsity_example}, un exemple de l'effet de la parcimonie sur l'allure d'un élément $j$ de la matrice $\mathbf{H}$ pour 3 valeurs de parcimonie. Avec l'augmentation de sa valeur certaines activations présentes lorsque la contrainte est absente mais de faibles amplitudes deviennent nulles. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\linewidth]{./figures/resultats/sparsity_example.pdf}
+\caption{Exemple de l'effet de la parcimonie pour une scène du corpus \textit{alerte} pour $\alpha_{sp} \in \lbrace
+0,~0,5,~5\rbrace$.}
+\label{fig:sparsity_example}
+\end{figure}
+
 
 \subsection{Contrainte de régularité temporelle ou \textit{smooth} NMF}\label{part:smoothness}
 
 La mise à jour de la matrice d'activation $\mathbf{H}$ se fait par défaut trame par trame sans considérer de liens entre les trames $n$ et les précédentes. Néanmoins, la plupart des sons réels ont une évolution temporelle lente. Prendre en compte l'évolution des trames temporelles adjacentes peut permettre que la forme des activateurs soit plus réaliste et propose un outil plus robuste dans la reconstruction du signal. Cet outil trouve son intérêt dans la musique (\cite{virtanen_sound_2003, fevotte_majorization-minimization_2011}) où les instruments (à l'exception des instruments percussifs) peuvent jouer des notes durant, au moins, plusieurs centaines de milli-secondes. Mais c'est aussi le cas au sein d'environnements sonores urbains où les sons (notamment le trafic routier) ont des variations lentes, de plusieurs secondes. L'une des approches les plus citées est celle de Virtanen \cite{virtanen_monaural_2007} qui fut ensuite généralisée sous la forme d'un algorithme générique dans \cite{fevotte2017single} avec l'ajout d'une contrainte $C_t(\mathbf{H})$ :
 
 \begin{equation}\label{eq:smoothnessVirtanen}
-C_t(\mathbf{H}) = \sum_{n=1}^K \alpha_k\sum_{n=2}^N \left(h_{kn} - h_{k(n-1)}\right)^2,
+C_t(\mathbf{H}) = \sum_{n=1}^K \sum_{n=2}^N \left(h_{kn} - h_{k(n-1)}\right)^2,
 \end{equation}
 
-où $\alpha_k$ est la pondération de la contrainte. Celle-ci peut être variable suivant $k$ ou bien constante sur tout les éléments ($\alpha_k = \alpha$). Par l'ajout de cette contrainte, les fortes variations d'un vecteur d'activation entre l'indice $n$ et $n-1$ sont donc pénalisées par la mise au \textit{carré} de leur distance. La mise à jour de $\mathbf{H}$ privilégie alors les variations plus lentes pour réduire le poids de la contrainte $C_t(\mathbf{H})$. L'algorithme de mise à jour devient :
+avec $\alpha_t$, la pondération de cette contrainte. Celle-ci peut être constante sur tous les éléments ou bien variable suivant $k$ ($\alpha_{t,k})$ et doit donc être placée dans la somme. Par l'ajout de cette contrainte, les fortes variations d'un vecteur d'activation entre l'indice $n$ et $n-1$ sont pénalisées par la mise au \textit{carré} de leur distance. La mise à jour de $\mathbf{H}$ privilégie alors les variations plus lentes pour réduire le poids de la contrainte $C_t(\mathbf{H})$. L'algorithme de mise à jour devient :
 
 \begin{equation}
 \textbf{H}^{(i+1)} \leftarrow \textbf{H}^{(i)} \otimes\left(\frac{\textbf{W}^T \left[\left(\textbf{WH}^{(i)} \right)^{(\beta-2)} \otimes \textbf{V} \right] + 2 A \otimes \left(\overrightarrow{\mathbf{H}}^{(i)} + \overleftarrow{\mathbf{H}}^{(i)} \right)}{\textbf{W}^T \left[\textbf{WH}^{(i)} \right]^{(\beta-1)} + 2 A \otimes \left(\mathbf{H}^{(i)} + \overleftrightarrow{\mathbf{H}}^{(i)} \right)}\right)^{\gamma(\beta)}\label{eq:HupdateSmooth}
@@ -691,87 +703,11 @@ On peut citer une contrainte sur l'\textbf{harmonicité} des éléments de $\mat
 
 La \textbf{NMF locale} a été proposée par \cite{li2001learning} qui contraint la fonction de coût avec trois pénalités : i) le nombre de bases $K$ doit être minimisé, ii) les bases doivent être le plus orthogonales que possible, iii) seules les bases qui donnent le plus d'informations sont conservées. Son application à la classification d'instruments de musique dans \cite{benetos2006musical} est toutefois peu efficace.
 
-Dans le cadre de la NMF-SS, une contrainte est proposée dans \cite{yagi2012music}, puis étendue dans \cite{kitamura2014music} pour toute valeur de $\beta$, dans le cadre de la séparation de signaux musicaux afin de \textbf{maximiser la distance} (ou la divergence) entre le dictionnaire appris $\mathbf{W_s}$ et le dictionnaire libre $\mathbf{W_r}$ afin de s'assurer qu'un minimum d'information d'intérêt y soit intégré. Dans \cite{wang2016semi}, c'est une contrainte de propagation qui est considérée où un nouveau dictionnaire $\mathbf{W}$ est construit dans lequel les éléments similaires dans $\mathbf{W_r}$ à ceux appris et étiquetés sont pondérés. Dans \cite{lefevre2012semi}, la contrainte ajoutée consiste à pondérer le poids des éléments appris dans la reconstruction de $\mathbf{V}$ afin de donner une prépondérance différente des éléments non-appris.\\
+Dans le cadre de la NMF semi-supervisée, une contrainte est proposée dans \cite{yagi2012music}, puis étendue dans \cite{kitamura2014music} pour toute valeur de $\beta$, dans le cadre de la séparation de signaux musicaux afin de \textbf{maximiser la distance} (ou la divergence) entre le dictionnaire appris $\mathbf{W_s}$ et le dictionnaire libre $\mathbf{W_r}$ afin de s'assurer qu'un minimum d'information d'intérêt y soit intégré. Dans \cite{wang2016semi}, c'est une contrainte de propagation qui est considérée où un nouveau dictionnaire $\mathbf{W}$ est construit dans lequel les éléments similaires dans $\mathbf{W_r}$ à ceux appris et étiquetés sont pondérés. Dans \cite{lefevre2012semi}, la contrainte ajoutée consiste à pondérer le poids des éléments appris dans la reconstruction de $\mathbf{V}$ afin de donner une prépondérance différente des éléments non-appris.\\
 
-En conclusion, parmi ces différentes formes de NMF proposées qui diffèrent selon les techniques d'apprentissage de leur dictionnaire (non-supervisée, supervisée et semi-supervisée) ou des contraintes qui y sont appliquées (parcimonie, régularité temporelle), plusieurs sont implémentés dans le cas de ces travaux et testés en vue de déduire, sur des corpus de sons présentés dans le chapitre suivant, le niveau sonore du trafic routier.
-La \textbf{NMF supervisée}, \textbf{semi-supervisée} et celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observés pour un des corpus de sons. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
+En conclusion, la Factorisation en Matrices Non-négative est une méthode qui, dans le domaine de l'audio, permet l'approximation d'un spectrogramme en amplitude (ou en puissance) d'un audio par le produit de deux matrices : $\mathbf{W}$, le dictionnaire composé de spectres sonores, et $\mathbf{H}$, la matrice d'activation. Différentes formes de NMF ont été proposées qui diffèrent selon les techniques d'apprentissage de leur dictionnaire (non-supervisée, supervisée et semi-supervisée) ou des contraintes qui y sont appliquées (parcimonie, régularité temporelle). Plusieurs sont implémentés dans le cas de ces travaux et testés en vue de déduire, sur des corpus de sons présentés dans le chapitre suivant, le niveau sonore du trafic routier.
+La \textbf{NMF supervisée}, \textbf{semi-supervisée} et celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observés pour un des corpus de sons dans le chapitre \ref{chap:grafic}. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
 
-
-%\appendix
-%\chapter{Démonstration de la relation entre la distribution de Tweedie et les $\beta$-divergences}\label{annexe:tweedie}
-%
-%Pour déterminer la similarité de deux probabilités de distributions $x$ et $y$, l'approche statistique est considérée et notamment celle basée sur les modèles de dispersion exponenentielle définit par Jorgensen \cite{jorgensen_exponential_1987},
-%
-%\begin{equation} \label{eq:Annexe_modele_disp_exp}
-%p\left(x\vert \theta,\varphi\right) = h(x,\theta) \exp\left[\lambda^{-1}\left(\theta x-\psi(\theta) \right)\right],
-%\end{equation}
-%
-%avec $h(x,\theta) $, la mesure de base, $\theta$, le paramètre normal (ou canonique), $\lambda$, celui de la dispersion et $\psi$ celui de la normalisation. .
-%La moyenne (ou espérance) est dénommée $\mu$ et est liée à $\theta$ par les relations~\ref{eq:mu1} et \ref{eq:mu2}.
-%
-%\begin{equation}\label{eq:eq:Annexe_mu1}
-%\mu(\theta) = \frac{d\varphi(\theta)}{d\theta}
-%\end{equation}
-%\begin{equation}\label{eq:eq:Annexe_mu2}
-%\theta(\mu) = \frac{d\phi(\mu)}{d\mu}
-%\end{equation}
-%
-%On observe que $\phi(\mu)$ est le conjugué dual de $\varphi(\theta)$ tout comme $\theta$ et $\mu$. \cite{Jorgensen} donne une relation directe liant ces deux dernières grandeurs,
-%
-%\begin{equation}\label{eq:eq:Annexe_theta}
-%\frac{d\theta}{d\mu} = \upsilon(\mu)^{-1},
-%\end{equation}
-%
-%avec $\upsilon$ la fonction variance, elle même lié à la variance de la distribution par le paramètre de dispersion :
-%
-%\begin{equation}
-%Var(x) = \lambda \upsilon(\mu).
-%\end{equation}
-%
-%La distribution de Tweedie est alors définit comme un cas particulier des Modèles de Dispersion Exponentielles lorsque la variance est liée à la moyenne par la puissance $n$ (\ref{eq:Tweedie})
-%\begin{equation}\label{eq:eq:Annexe_Tweedie}
-%\upsilon(\mu) = \mu^n \quad \text{avec $n \in \mathbb{N}$.}
-%\end{equation}
-%
-%Le choix de la puissance $n$ influe sur celui de la distribution des données (voir Tableau~\ref{tab:puissance_p} pour les distributions les plus couramment utilisées). Par exemple, dans le cas d'une loi normale ($n = 0$), l'expression de la distribution de probabilité \ref{eq:modele_disp_exp} s'exprime par
-%
-%\begin{equation}\label{eq:eq:Annexe_distributionProbabilité}
-%p(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(\sfrac{\left(x-\mu \right)^2}{2\sigma^2} \right)
-%\end{equation}
-%
-%qui s'exprime sous la forme d'une distribution de Tweedie
-%
-%\begin{equation}
-%p(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left(\frac{-x^2}{2\sigma^2} \right)
-%\exp\left(\frac{\left(x\mu-\sfrac{\mu^2}{2} \right)}{\sigma^2}\right)
-%\end{equation}
-%
-%avec $\mu = \theta$, $\psi(\theta) = \dfrac{\mu^2}{2}$, $\lambda = \sigma^2$ où $\sigma$ est l'écart-type et $h(x,\lambda) = \sqrt{\dfrac{1}{\lambda 2\pi}}e^{\sfrac{-x^2}{2}}$.\\
-%
-%\begin{table}[H]
-%\centering
-%	\begin{tabular}{cccc}
-% 		\hline
-%   		$n$ & 0 & 1 & 2 \\
-%   		\hline
-%   		distribution & Gaussienne & Poisson & Gamma\\
-%   		\hline
-% 	\end{tabular}
-%\caption{relation entre plusieurs valeurs de la puissance $p$ et la distribution de données}
-%\label{tab:eq:Annexe_puissance_p}
-%\end{table}
-%
-%Des relations \ref{eq:mu2}, \ref{eq:theta},  \ref{eq:Tweedie} et d'un changement de variable, $\beta = 2-p$, l'expression de la fonction cumulante dual $\phi_{\beta}(\mu)$ est déterminée :
-%
-%\begin{subequations}\label{eq:eq:Annexe_gamma_beta}
-%\begin{numcases}{\phi_{\beta}(\mu)=}
-%    \frac{\mu^{\beta}}{\beta(\beta-1)}-\frac{\mu}{\beta-1}+\frac{1}{\beta}, & $\beta \in \mathbb{R} \backslash \lbrace 0,1\rbrace$,\label{eq:eq:Annexe_phi}\\
-%    -\log \mu + \mu - 1, & $\beta = 0$,\label{eq:eq:Annexe_phiIs}\\
-%    \mu\log \mu - \mu + 1, & $\beta = 1$.\label{eq:eq:Annexe_phiKL}
-%\end{numcases}
-%\end{subequations}
-%Les cas \ref{eq:phiIs} et \ref{eq:phiKL} correspondent au cas limite de \ref{eq:phi}. Ces fonctions sont continues pour $\mu \in \left[0 +\infty \right[$, deux fois dérivables au voisinage de $\mu = 1$ ($\phi(1) = \phi'(1) = 0$ et $\phi''(1) = 1$) définissant un ensemble de fonctions convexes satisfaisant les conditions pour être utilisables au sein des divergences de Bregman.\\
-%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\bibliographystyle{unsrt}

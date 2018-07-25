@@ -2,8 +2,11 @@
 \label{chap:methode_separation_source}
 
 
-\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-{\small Les méthodes de séparation de sources sont des outils visant à extraire les différentes composantes sonores d'un enregistrement audio. Différentes approches existent et sont décrites pour ensuite être comparées. Parmi ces méthodes, la Factorisation en Matrices Non-négatives est se révèle être la plus adaptée aux travaux de cette thèse en cela quelle intègre naturellement dans son fonctionnement le recouvrement temporel entre différentes sources sonores et est adapté aux enregistrements audio monophoniques.}}
+\section*{\centering Résumé}
+\addcontentsline{toc}{section}{Abstract}
+
+\noindent{\small \textbf{ 
+Les méthodes de séparation de sources sont des outils visant à extraire les différentes composantes sonores d'un enregistrement audio. Différentes approches existent et sont décrites pour ensuite être comparées. Parmi ces méthodes, la Factorisation en Matrices Non-négatives est se révèle être la plus adaptée aux travaux de cette thèse en cela quelle intègre naturellement dans son fonctionnement le recouvrement temporel entre différentes sources sonores et est adapté aux enregistrements audio monophoniques.}}
 
 \vspace{2cm}
 
@@ -93,18 +96,19 @@ Le rapport des amplitudes des signaux permet d'exprimer les rapports d'amplitude
 \end{align}
 \end{subequations}
 
+avec $\phase{\sfrac{a}{b}}$, la phase du rapport des nombres complexes $a$ et $b$.
 L'ensemble des valeurs obtenues est ensuite exprimé au sein d'un histogramme à 2 dimensions ($\tilde{a}$ et $\tilde{\delta}$) (voir Figure \ref{fig:DUET_hist}).
 Les différents pics émergeant associés à un couple particulier de $\tilde{a}$ et $\tilde{\delta}$ permettent alors de générer un masque binaire en temps-fréquence afin d'extraire la source sonore qui y est associée.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width = 0.6\linewidth]{./figures/autres/DUET_histogram.png}
-\caption{Histogramme 2D pour un signal sonore composé de 6 sources sonores, générant 6 pics \cite{yilmaz2004blind}.}
+\caption{Histogramme 2D pour un signal sonore composé de 6 sources sonores, générant 6 pics \cite{rickard2007duet}.}
 \label{fig:DUET_hist}
 \end{figure}
 
 Une implémentation de cet algorithme, pour une utilisation en temps réel, est proposée \cite{rickard2001real}.
-Afin de s'extraire des conditions strictes imposées par la méthode et de s'approcher d'applications plus réelles, \cite{rickard2007duet} propose de considérer l'ajout d'un terme de bruit à l'équation \ref{eq:algo-DUET} et de déterminer l'\textit{atténuation symétrique} $\alpha_j$ et le \textit{déphasage symétrique} $\delta_j$ de chaque source :
+Afin de s'extraire des conditions strictes imposées par la méthode et de s'approcher d'applications plus réelles, \cite{rickard2007duet} propose de considérer l'ajout d'un terme de bruit à l'équation \ref{eq:algo-DUET} et de déterminer l'\textit{atténuation symétrique} $\alpha_j$ et le \textit{déphasage relatif} $\delta_j$ de chaque source :
 
 \begin{equation}
 \alpha_j = \frac{\iint_{(\omega,\tau)} \vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q \alpha(\omega,\tau) d\omega d\tau}{\iint_{(\omega,\tau)}\vert X_1(\omega,\tau) X_2(\omega,\tau)\vert ^p \omega^q d\omega d\tau},
