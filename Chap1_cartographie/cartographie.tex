@@ -219,7 +219,7 @@ Dans un premier temps, ce choix a été laissé libre par la directive européen
 Une comparaison exhaustive de 8 modèles (FHWA, CoRTN, RLS-90, ASJ, \bsc{Harmonoise}/Imagine, Son Road, Nord 2000 et NMPB-Routes-2008) a également été réalisée par Garg et Maji \cite{garg_critical_2014} selon un plus grand nombre de critères (modélisation des sources sonores, vitesse des véhicules (constantes, accélération/décélération, intersection\dots), modèle de propagation, modélisation des effets de sol, effets météorologiques \dots). À travers leur comparaison, les auteurs relèvent ainsi les nombreuses différences notamment entre les modèles de propagation du son. Les auteurs de l'étude précisent tout de même qu'il est difficile de déterminer un \og meilleur \fg{} modèle par rapport aux autres, chacun ayant une approche différente.
 Afin de résoudre ces problèmes, la méthode \bsc{Cnossos-Eu} \cite{CNOSSOS,kephalopoulos} a ainsi été développée, basée sur les méthodes déjà existantes en vue d'harmoniser la construction des cartes de bruit des villes à l'échelle européenne permettant plus facilement leur comparaison.
 
-Toutefois, quelque soit le modèle choisi, la confrontation des niveaux sonores prédits face à des mesures faites en villes reste  à réaliser. L'ensemble de ces modèles d'émission et de propagation a été développé et validé à partir de mesures faites dans des conditions optimales. Toutefois, la comparaison entre les niveaux sonores calculés et mesurés reste délicate. Premièrement, les mesures présentent l'inconvénient d'être soumises à d'autres sources sonores qui ne sont pas liées au trafic et qui viennent donc fausser les estimations des niveaux sonores. De plus, il faut s'assurer, lors des mesures, que les données d'entrée des modèles correspondent bien aux conditions expérimentales, ce qui n'est pas facile.
+Toutefois, quelque soit le modèle choisi, la confrontation des niveaux sonores prédits face à des mesures faites en ville reste à réaliser même si l'ensemble de ces modèles d'émission et de propagation a été développé et validé à partir de mesures faites dans des conditions optimales. Mais, la comparaison entre les niveaux sonores calculés et mesurés reste délicate. Premièrement, les mesures présentent l'inconvénient d'être soumises à d'autres sources sonores qui ne sont pas liées au trafic et qui viennent donc fausser les estimations des niveaux sonores. De plus, il faut s'assurer, lors des mesures, que les données d'entrée des modèles correspondent bien aux conditions expérimentales, ce qui n'est pas facile.
 
 Enfin, ces modèles dépendent des données d'entrée relevées \textit{in situ} s'exprimant sous la forme de moyennes et qui induisent donc des écarts-types qui se propagent dans les étapes suivantes du calcul. \cite{van_leeuwen_noise_2015} proposent un résumé et un schéma détaillé de la propagation de ces erreurs sur l'ensemble du modèle. La propagation de ces écarts-types a été étudiée dans \cite{probst2005uncertainties}, l'auteur y concède qu'estimer une incertitude $\sigma$ à un niveau sonore à un point donné est un processus long et difficile.
 
@@ -317,7 +317,7 @@ Enfin, les mesures mobiles peuvent servir à des études plus ponctuelles par ex
         \centering
         \includegraphics[width=0.9\textwidth]{./figures/autres/noiseCapture2.png}
     \end{minipage}
-    \caption{Captures d'écran de l'application \textit{NoiseCapture}}
+    \caption{Captures d'écran de l'application \textit{NoiseCapture}.}
     \label{fig:noiseCaptureScreen}
 \end{center}
 \end{figure}
@@ -336,7 +336,7 @@ En outre, un des intérêts de ces applications, en plus de sensibiliser le cita
 \label{fig:carte_noiseModelling}
 \end{figure}
 
-\subsection{Intérêts et limites des mesures faites en villes}
+\subsection{Intérêts et limites des mesures faites en ville}
 
 L'ensemble de ces dispositifs permet d'aborder l'ESU par une nouvelle approche en s'affranchissant des limitation liées à la modélisation des sources et de leur propagation dans l'environnement urbain. 
 Si les mesures participatives permettent d'estimer des niveaux sonores toutes sources confondues, les réseaux de capteurs et les mesures mobiles permettent une meilleure description dynamique et spatiale des ESU qui sont impossibles à obtenir avec les modèles prédictifs. Leurs utilisations offrent donc une représentation globale des ESU et ouvrent donc la voie vers de nombreuses applications :
@@ -369,7 +369,7 @@ Développer de tels outils serait pourtant nécessaire et utile, pour l'amélior
 \label{fig:sourceUrbain}
 \end{figure}
 
-Il est donc nécessaire de générer un outil adapté à l'ESU afin de pouvoir extraire les contributions et les niveaux sonores des sources présentes en villes à partir de mesures et d'enregistrements. En conséquence, les travaux de cette thèse cherchent à répondre à ces questions :
+Il est donc nécessaire de générer un outil adapté à l'ESU afin de pouvoir extraire les contributions et les niveaux sonores des sources présentes en ville à partir de mesures et d'enregistrements. En conséquence, les travaux de cette thèse cherchent à répondre à ces questions :
 
 \begin{itemize}
 \item \textbf{Comment déterminer le niveau sonore du trafic routier en ville ? est-il possible de déterminer d'autres sources sonores ?}
@@ -392,7 +392,7 @@ L'objectif est donc de construire cet estimateur et un protocole expérimental a
 Parmi les travaux qui s'intéressent au trafic routier à partir d'enregistrements sonores d'ESU,  des outils de reconnaissance du bruit \cite{defreville_automatic_2006}, d'estimation du débit véhicule \cite{torija2012using}, de détection d'accidents de la route \cite{harlow2001automated} ou bien d'estimation des trajectoires  basé sur l'antennerie de microphones \cite{leiba2017large} ont déjà été développés.
 La détermination du niveau sonore du trafic routier en tenant compte des autres sources sonores présentes parmi ces enregistrements a pour l'instant été très peu étudiée. On peut citer les travaux réalisés récemment au sein du projet DYNAMAP \cite{socoro2017anomalous}. Leur approche consiste à entrainer une méthode de détection en vue d'estimer les trames temporelles où la classe de son \textit{trafic} n'est pas présente afin de les rejeter lors de l'estimation des niveaux sonores. Une limite de cette approche est la possibilité de considérer des faux-positifs et de ne pas répondre à la question du recouvrement avec les autres sources sonores.
 
-\section{Méthode proposée}
+\section{Méthode proposée}\label{sect:methode}
 
 Ici, l'approche choisie est différente : l'estimateur du niveau sonore du trafic routier s'appuie sur une méthode de séparation de sources (voir chapitre \ref{chap:methode_separation_source}) afin d'extraire l'intégralité de la composante \textit{trafic} des enregistrements audio parmi les autres sources sonores présentes (voir Figure \ref{fig:separation_source}). L'un des intérêts est notamment la prise en compte naturelle du phénomène de recouvrement temporel. 
 Cette méthode, en isolant la contribution \textit{trafic} d'une mixture sonore permet de déterminer plusieurs de ses caractéristiques dont le niveau sonore. Cette estimation dépend de deux grandeurs : son unité et sa durée d'acquisition $\delta_t$.

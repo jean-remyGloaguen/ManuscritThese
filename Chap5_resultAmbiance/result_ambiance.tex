@@ -39,7 +39,7 @@ TIR = L_{eq,tr.} - L_{eq,int.}
 
 avec 5 valeurs $TIR \in \lbrace -12,~-6,~0,~6,~12 \rbrace$ dB. Ce corpus permet de tester les performances de la NMF et son comportement face à différentes sources sonores avec une prédominance variable du trafic routier. En tout, le corpus est composé de 750 scènes (6 sous-corpus $\times$ 5 $TIR$ $\times$ 25 scènes) pour une durée totale de 6h30.
 
-Pour chaque TIR et chaque sous-corpus, les 25 scènes $i$ sont soumises à un estimateur qui détermine le niveau sonore \textit{trafic} de l'intégralité de la scène en dB,  $\tilde{L}_{eq,tr., i}$. Les 25 niveaux sonores sont ensuite comparés aux niveaux sonores exacts respectifs, $L_{eq,tr., i}$ au travers de la métrique $MAE$ (équation \ref{eq:mae}), définie dans la partie \ref{part:cahier_charges}). Il est ensuite possible de déterminer les performances d'un estimateur sur l'ensemble des 6 sous-corpus pour chaque TIR en calculant sa moyenne :
+Pour chaque $TIR$ et chaque sous-corpus, les 25 scènes $i$ sont soumises à un estimateur qui détermine le niveau sonore \textit{trafic} de l'intégralité de la scène en dB,  $\tilde{L}_{eq,tr., i}$. Les 25 niveaux sonores sont ensuite comparés aux niveaux sonores exacts respectifs, $L_{eq,tr., i}$ au travers de la métrique $MAE$ (équation \ref{eq:mae}), définie dans la partie \ref{sect:methode}. Il est ensuite possible de déterminer les performances d'un estimateur sur l'ensemble des 6 sous-corpus pour chaque $TIR$ en calculant sa moyenne :
 
 \begin{equation}\label{eq:mae_tir}
 MAE_{TIR} = \frac{\sum_{i = 1}^6 MAE_{i}}{6}.
@@ -228,7 +228,7 @@ Les résultats issus de l'estimateur \textit{baseline} sont d'abord présentés.
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccccc}
 \toprule
-$f_c$ (Hz) & $MAE_g$ & $MAE_{-12}$ & $MAE_{-6}$ & $MAE_{0}$ & $MAE_{6}$ & $MAE_{12}$ \\
+$\mathbf{f_c}$ (Hz) & $\mathbf{MAE_g}$ & $\mathbf{MAE_{-12}}$ & $\mathbf{MAE_{-6}}$ & $\mathbf{MAE_{0}}$ & $\mathbf{MAE_{6}}$ & $\mathbf{MAE_{12}}$ \\
 \midrule
  100 & 3,21 ($\pm$ 1,06) & \textbf{4,55 ($\pm$ 1,55)} & \textbf{2,92 ($\pm$ 0,42)} & 2,36 ($\pm$ 0,71) & 2,97 ($\pm$ 0,41) & 3,25 ($\pm$ 0,32)\\
  \rowcolor[HTML]{C0C0C0}
@@ -263,7 +263,7 @@ Avec l'augmentation du $TIR$, lorsque le trafic devient prédominant, l'erreur d
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.7\linewidth]{./figures/resultats/amb_filtre_20k_bar.pdf}
-\caption{Erreurs $MAE$ pour chaque sous-corpus et chaque TIR pour l'estimateur filtre passe-bas à la fréquence de coupure $f_c$ = 20 kHz.}
+\caption{Erreurs $MAE$ pour chaque sous-corpus et chaque $TIR$ pour l'estimateur filtre passe-bas à la fréquence de coupure $f_c$ = 20 kHz.}
 \label{fig:filtre_amb_tir_20k}
 \end{figure}
 
@@ -287,7 +287,7 @@ Le nombre de combinaisons de modalités entre les différentes facteurs expérim
 \centering
 \begin{tabular}{L{2.2cm}C{1.7cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
 \toprule
- & $f_c$ (kHz) & $\beta$ & $w_t$ (s) & $K$ & $MAE_g$ \\ \toprule
+ & $\mathbf{f_c}$ (kHz) & $\mathbf{\beta}$ & $\mathbf{w_t}$ (s) & $\mathbf{K}$ & $\mathbf{MAE_g}$ \\ \toprule
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & 4,69 ($\pm$ 4,52) \\
  & 0,5 & - & - & - & 2,89 ($\pm$ 2,84) \\
  \midrule
@@ -315,7 +315,7 @@ La NMF IS étant une forme de NMF proposée pour ces travaux, plusieurs pistes s
 \label{tab:erreur_ambiance_IS}
 \begin{tabular}{C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{1.2cm}C{2.5cm}}
 \toprule
-\multicolumn{1}{c}{$\beta$} & $w_t$ & $K$ & représentation & $t_h$ & $MAE_g$ \\ \toprule
+\multicolumn{1}{c}{$\mathbf{\beta}$} & $\mathbf{w_t}$ & $\mathbf{K}$ & \textbf{représentation} & $\mathbf{t_h}$ & $\mathbf{MAE_g}$ \\ \toprule
 \multirow{2}{*}{0} & 500 & 200 & linéaire & 0,47 & 2,26 ($\pm$ 2,15) \\
  & 500 & 200 & sigmoïde & 0,61 & 2,25 ($\pm$ 2,37) \\ \midrule
 \multirow{2}{*}{\textbf{1}} & \textbf{500} & \textbf{200} & \textbf{linéaire} & \textbf{0,41} & \textbf{\textcolor{red}{2,14 ($\pm$ 2,10)}} \\
@@ -347,7 +347,7 @@ L'allure moyenne de $D_{\theta}$ pour chaque valeur du $TIR$ avec $w_t$ = 0,5 s,
 \label{tab:erreur_ambiance_IS_seuil}
 \begin{tabular}{C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
 \toprule
-\multicolumn{1}{l}{$\beta$} & $w_t$ & $K$ & $t_h$ & $t_{f,1}$ & $t_{f_2}$ & $MAE$ \\ \toprule
+$\mathbf{\beta}$ & $\mathbf{w_t}$ & $\mathbf{K}$ & $\mathbf{t_h}$ & $\mathbf{t_{f,1}}$ & $\mathbf{t_{f_2}}$ & $\mathbf{MAE}$ \\ \toprule
 \multirow{2}{*}{0} & 500 & 200 & 0,47 & - & - & 2,26 ($\pm$ 2,15) \\
  & 500 & 200 & - & 0,44 & 0,50 & 2,25 ($\pm$ 2,14)  \\ \midrule
 \multirow{2}{*}{\textbf{1}} & 500 & 200 & 0,41 & - & - & 2,14 ($\pm$ 2,10) \\
@@ -406,7 +406,7 @@ Le principe de la NMF IS est d'apprendre un dictionnaire $\mathbf{W_0}$ composé
 \label{tab:erreur_ambiance_IS_initialisation}
 \begin{tabular}{C{3.5cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
 \toprule
-initialisation & $\beta$ & $w_t$ & $K$ & $t_h$ & $MAE_g$ \\ \toprule
+\textbf{initialisation} & $\mathbf{\beta}$ & $\mathbf{w_t}$ & $\mathbf{K}$ & $\mathbf{t_h}$ & $\mathbf{MAE_g}$ \\ \toprule
 $\mathbf{W_0}$ & 1 & 500 & 200 & 0,41 & 2,14 ($\pm$ 2,10) \\
  \rowcolor[HTML]{C0C0C0}
 valeurs aléatoire & 1 & 500 & 200 & 0,41 & 5,21 ($\pm$ 1,31) \\
@@ -455,7 +455,7 @@ De ces 3 estimateurs, leurs erreurs $MAE_{TIR}$ sont exprimées dans le Tableau 
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{4cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & -12 & -6 & 0 & 6 & 12 \\ \toprule
+\textbf{méthode} & \textbf{-12} & \textbf{-6} & \textbf{0} & \textbf{6} & \textbf{12} \\ \toprule
 filtre PB, $f_c$ = 20 kHz & 12,25 ($\pm$ 0,05) & 6,96 ($\pm$ 0,05) & 3,00 ($\pm$ 0,03) & 0,97 ($\pm$ 0,01) & \textbf{\textcolor{red}{0,26 ($\pm$ 0,00)}}\\
 filtre PB, $f_c$ = 0,5 kHz & 7,39 ($\pm$ 3,00) & 3,44 ($\pm$ 1,65) & \textbf{\textcolor{red}{1,17 ($\pm$ 0,24)}} & 1,03 ($\pm$ 0,26) & 1,45 ($\pm$ 0,13) \\ \midrule
 NMF SUP & 8,08 ($\pm$ 2,44) & 3,84 ($\pm$ 1,58) & 1,15 ($\pm$ 0,62) & \textbf{\textcolor{red}{0,35 ($\pm$ 0,20)}} & \textbf{0,77 ($\pm$ 0,07) } \\
@@ -527,10 +527,10 @@ On illustre le comportement de la NMF dans le cas d'une scène de l'ambiance \te
 \label{fig:Y_ambiance}
 \end{figure}
 
-La NMF SEM (Figure \ref{fig:TIR_class_semi}) présente un comportement différent de la NMF SUP : les erreurs sont plus faibles lorsque les valeurs du $TIR$ sont négatives, hormis pour les sous-corpus \textit{climat}  et \textit{mécanique}. L'ajout de $\mathbf{W_r}$ dans le dictionnaire est donc déterminant puisque c'est cet élément qui différencie les deux méthodes. Cependant, lorsque le TIR devient positif et le trafic dominant, l'erreur augmente systématiquement.
+La NMF SEM (Figure \ref{fig:TIR_class_semi}) présente un comportement différent de la NMF SUP : les erreurs sont plus faibles lorsque les valeurs du $TIR$ sont négatives, hormis pour les sous-corpus \textit{climat}  et \textit{mécanique}. L'ajout de $\mathbf{W_r}$ dans le dictionnaire est donc déterminant puisque c'est cet élément qui différencie les deux méthodes. Cependant, lorsque le $TIR$ devient positif et le trafic dominant, l'erreur augmente systématiquement.
 On compare dans les Figures \ref{fig:Y_ambiance} la somme des deux éléments de $\mathbf{W_r}$ obtenue pour une scène \textit{alerte} et \textit{climat} avec les spectres des signaux trafic et interférant à $TIR$ = $\lbrace -12, 12 \rbrace$ dB. Dans les cas où $TIR$ = -12 dB, la somme des éléments libres $\mathbf{W_r}$ correspond bien au spectre de la classe \textit{interférante} et modélise donc bien cette classe, laissant la partie \textit{trafic} au dictionnaire $\mathbf{W_s}$. À l'opposée, pour $TIR$ = 12 dB, l'allure de $\mathbf{W_r}$ diverge de celle de la classe \textit{interférante}. Certaines parties des spectres participent alors à la modélisation de la composante \textit{trafic}, ce qui réduit la justesse de son estimation du niveau sonore. Les degrés de liberté de la NMF SEM sont donc un avantage lorsque le trafic est peu présent car ils permettent bien d'intégrer la classe de son \textit{interférante}. Mais cette liberté joue en sa défaveur lorsque le trafic devient la classe de son prédominante et où ses composantes sont incluses dans $\mathbf{W_r}$.\\
 
-Enfin, la NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les TIR négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
+Enfin, la NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les $TIR$ négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
 Dans les Figures \ref{fig:TIR_mae}, l'évolution de l'erreur $MAE$ est tracée en fonction du seuil $t_h$ pour chaque sous-corpus et pour 3 valeurs de $TIR$.
 \begin{itemize}
 \item Pour $TIR$ = -12 dB, l'erreur $MAE$ minimale diffèrent selon les sous-corpus.

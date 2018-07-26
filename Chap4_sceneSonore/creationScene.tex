@@ -5,7 +5,7 @@
 \addcontentsline{toc}{section}{Résumé}
 
 \noindent{\small \textbf{
-Les étapes menant à la création des corpus de son sur lesquelles la NMF est appliquée sont présentés. Après avoir exposées différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene} est présenté. La formation de la base de données de sons et les enregistrements audio de passage de véhicules sont ensuite détaillé. Le premier corpus créé, appelé corpus d'évaluation \textit{Ambiance} est présenté, celui-ci a pour objectif de permettre d'étudier le fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes) est ensuite présenté, basé sur des annotations d'enregistrements audio. Le rendu de ce corpus est testé par un test perceptif visant à évaluer son rendu réaliste.}}
+Les étapes menant à la création des corpus de sons sur lesquelles la NMF est appliquée sont présentés. Après avoir exposées différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene} est présenté. La formation de la base de données de sons et les enregistrements audio de passage de véhicules sont ensuite détaillé. Le premier corpus créé, appelé corpus d'évaluation \textit{Ambiance} est présenté, celui-ci a pour objectif de permettre d'étudier le fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes) est ensuite présenté, basé sur des annotations d'enregistrements audio. Le rendu de ce corpus est testé par un test perceptif visant à évaluer son rendu réaliste.}}
 
 \vspace{2cm}
 
@@ -39,7 +39,7 @@ Pour cela, on réalise la convolution entre la réponse impulsionnelle d'une rue
 \end{itemize}
 
 \cite{stienen2015auralization} résument ces différents aspects, les questions soulevées et les champs d'applications que permet l'auralisation des environnements sonore urbains.
-Si cette tâche reste complexe, il existe tout de même quelques outils comme le logiciel \textit{MithraSON} du CSTB qui propose de générer des ESU \footnote{extrait sonore \url{https://www.youtube.com/watch?v=ACCV2mi81j8}}. À partir d'un quartier modélisé, les sources sonores liées au trafic sont générés en temps réel à partir d'une synthèse granulaire et à l'aide d'un modèle dynamique de trafic. L'ensemble des autres sources sonores (voix, oiseaux, cloche \dots) est basé sur des enregistrements audio qui sont ensuite intégré à l'ESU. La propagation des signaux est générée à l'aide d'une méthode de tirs de rayons.
+Si cette tâche reste complexe, il existe tout de même quelques outils comme le logiciel \textit{MithraSON} du CSTB qui propose de générer des ESU \footnote{extrait sonore \url{https://www.youtube.com/watch?v=ACCV2mi81j8}}. À partir d'un quartier modélisé, les sources sonores liées au trafic sont générés en temps réel  à l'aide d'une synthèse granulaire et d'un modèle dynamique de trafic. L'ensemble des autres sources sonores (voix, oiseaux, cloche \dots) est basé sur des enregistrements audio qui sont ensuite intégré à l'ESU. La propagation des signaux est générée à l'aide d'une méthode de tirs de rayons.
 Même si les résultats permettent une forte immersion, grâce à la spatialisation du son par l'écoute binaurale, cette méthode reste complexe à implémenter et nécessite des ressources numériques importantes.
 
 \subsection{Simulateur de scènes sonores}
@@ -202,17 +202,17 @@ où $TIR_{init,i} = L_{eq,trafic,init,i}-L_{eq,interferant,i}$. Les étapes sont
 \end{figure}
 
 
-En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 TIR) pour une durée totale du corpus de 6h30. Les scènes de ce corpus ne peuvent pas être assimilable à des enregistrements sonores réalisés en ville, mais permettront d'étudier le comportement des estimateurs. 
+En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 $TIR$) pour une durée totale du corpus de 6h30. Les scènes de ce corpus ne peuvent pas être assimilable à des enregistrements sonores réalisés en ville, mais permettront d'étudier le comportement des estimateurs. 
 
 \section{Corpus d'évaluation de scènes sonores urbaines réalistes}
 \label{part:corpus_grafic}
 
-Un second corpus est généré, basé sur des enregistrements sonores réalisés en ville. Ce corpus d'évaluation de Scènes sOnores Urbaines Réalistes (corpus SOUR) a pour vocation de tester les performances de la NMF sur des scènes similaires à des enregistrements sonore faits en ville. Pour cela, un corpus de référence constitué d'enregistrements audio est obtenu pour ensuite être écouté et annoté. Ces annotations permettent alors de reproduire ces enregistrements en scènes simulées (dit \textit{répliquées}) qui forment alors le corpus d'évaluation SOUR. L'ensemble des étapes est résumé sous forme de bloc dans la Figure \ref{fig:bloc_diagram_annotation}.
+Un second corpus est généré, basé sur des enregistrements sonores réalisés en ville. Ce corpus d'évaluation de Scènes sOnores Urbaines Réalistes (corpus \textit{SOUR}) a pour vocation de tester les performances de la NMF sur des scènes similaires à des enregistrements sonore faits en ville. Pour cela, un corpus de référence constitué d'enregistrements audio est obtenu pour ensuite être écouté et annoté. Ces annotations permettent alors de reproduire ces enregistrements en scènes simulées (dit \textit{répliquées}) qui forment alors le corpus d'évaluation \textit{SOUR}. L'ensemble des étapes est résumé sous forme de bloc dans la Figure \ref{fig:bloc_diagram_annotation}.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.7\textwidth]{./figures/autres/bloc_diagram_annotation.pdf}
-\caption{Diagramme en blocs résumant la création du corpus d'évaluation de scènes sonores urbaines réalistes SOUR.}
+\caption{Diagramme en blocs résumant la création du corpus d'évaluation de scènes sonores urbaines réalistes \textit{SOUR}.}
 \label{fig:bloc_diagram_annotation}
 \end{figure}
 
@@ -248,7 +248,8 @@ L'annotation des 74 enregistrements est ensuite réalisée consistant à écoute
 \caption{Exemple d'un fichier d'annotation pour la scène 1-EW-07.}
 \centering
 \begin{tabular}{lll}
-\textbf{évènements}    & $\mathbf{t_{init}}$ \textbf{(s)} & $\mathbf{t_{fin}}$ \textbf{(s)} \\ \toprule
+\toprule
+\textbf{évènements}    & $\mathbf{t_{init}}$ \textbf{(s)} & $\mathbf{t_{fin}}$ \textbf{(s)} \\ \midrule
 bruit rue     & 0,00            & 8,50           \\
 \rowcolor[HTML]{C0C0C0}
 voix          & 0,00            & 44,00          \\
@@ -277,10 +278,11 @@ Sans étude perceptive sur le débit de véhicule à partir duquel les passages 
 Afin d'obtenir des scènes les plus réalistes possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonores est la plus proche possible d'une structure temporelle écologiquement valide. Les durées cumulées par ambiance sonore sont résumées dans la Tableau \ref{tab:resume_sour}. Avec un nombre de scènes plus importante, \textit{rue calme} est naturellement l'ambiance dont la durée cumulée est la plus longue, l'ambiance \textit{parc} étant alors la plus courte.
 
 \begin{table}[h!]
-\caption{Durées cumulées par ambiance du corpus SOUR.}
+\caption{Durées cumulées par ambiance du corpus \textit{SOUR}.}
 \label{tab:resume_sour}
 \centering
 \begin{tabular}{L{3cm}C{2cm}C{2cm}}
+\toprule
 \textbf{ambiance sonore}  & \textbf{N} & \textbf{durée (s)}  \\ \toprule
 parc & 8 & 960 \\
 rue calme & 35 & 4636 \\
@@ -295,7 +297,7 @@ La difficulté dans la génération des scènes sonores réside surtout dans l'e
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\linewidth]{./figures/grafic/TIR_grafic.pdf}
-\caption{Valeurs du $TIR$ par scène et moyennés par ambiance sonore pour le corpus SOUR.}
+\caption{Valeurs du $TIR$ par scène et moyennés par ambiance sonore pour le corpus \textit{SOUR}.}
 \label{fig:tir_grafic}
 \end{figure}
 
@@ -305,7 +307,7 @@ Cet étape n'influe en rien sur la suite de l'étude car les scènes sont constr
 Dans la suite du document, les scènes issues du mode \textit{replicate} de \textit{SimScene} seront appelées \og scènes répliquées \fg{} en raison du processus de duplication. Les scènes originelles sont quant à elle nommées \og scènes enregistrées \fg{}. L'ensemble des ces scènes répliquées forment le \textit{corpus d'évaluation SOUR}. L'annexe \ref{annexe:correspondanceNameSour} résume la correspondance entre le nom des scènes enregistrées, nommées en fonction du jour, du sens du trajet et du point d'enregistrement, et le nom des scènes répliquées (par exemple 1-EW-01), nommées en fonction de l'ambiance sonore auxquelles elles appartiennent et d'un numéro d'identification (par exemple \textit{parc-01}). \\
 
 
-\section{Validation du réalisme du corpus d'évaluation SOUR par un test perceptif}\label{sec:test}
+\section{Validation du réalisme du corpus d'évaluation \textit{SOUR} par un test perceptif}\label{sec:test}
 
 Afin de vérifier que le rendu global des scènes répliquées est suffisamment réaliste pour qu'elles puissent être assimilables à des enregistrements faits en ville, celles-ci sont soumises à un test perceptif.
 
@@ -433,10 +435,10 @@ Par soucis de concision, seul l'ensemble des 20 valeurs $p$ calculées et les bo
 \toprule
 scène & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
 \toprule
-DDL & 48 & 51 & 51 & 51 & 51 & 57 & 57 & 60 & 60 & 60 \\
+\textbf{DDL} & 48 & 51 & 51 & 51 & 51 & 57 & 57 & 60 & 60 & 60 \\
 \rowcolor[HTML]{C0C0C0}
-valeur $t$ & 1,03 & 0,21 & 0,44 & 1,02 & 2,13 & 1,30 & 1,54 & 0,45 & 0,85 & 1,01 \\
-valeur $p$ & \textbf{0,15} & \textbf{0,42} & \textbf{0,33} & \textbf{0,16} & 0,02 &\textbf{0,10} & \textbf{0,06} & \textbf{0,32} & \textbf{0,20} & \textbf{0,16} \\
+\textbf{valeur} $\mathbf{t}$ & 1,03 & 0,21 & 0,44 & 1,02 & 2,13 & 1,30 & 1,54 & 0,45 & 0,85 & 1,01 \\
+\textbf{valeur} $\mathbf{p}$ & \textbf{0,15} & \textbf{0,42} & \textbf{0,33} & \textbf{0,16} & 0,02 &\textbf{0,10} & \textbf{0,06} & \textbf{0,32} & \textbf{0,20} & \textbf{0,16} \\
 \bottomrule
 \end{tabular}
 \begin{tabular}{L{1.5cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}

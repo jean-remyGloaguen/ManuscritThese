@@ -12,7 +12,7 @@ Ce dernier chapitre résume les performances de la NMF appliquée sur le corpus 
 
 \vspace{2cm}
 
-Au chapitre précédent, les aptitudes de la NMF à déterminer le niveau sonore du trafic routier au sein de mixtures sonores urbaines ont été étudiées avec l'aide du corpus élémentaire \textit{Ambiance}. Si cette partie a permis de démontrer l'intérêt de la NMF IS sur de tels environnements sonores, les performances et les combinaisons obtenues ne correspondent toutefois pas à celles qui proviendraient d'enregistrements sonores urbains. En effet, ce corpus présente une artificialité (classe de son interférante spécifique, calibration des niveaux sonores du trafic) qui n'est pas représentative de l'ESU. Ainsi, dans ce chapitre, la NMF est appliquée sur un second corpus, le corpus d'évaluation \textit{SOUR}, assimilables à des enregistrements faits en villes. L'approche qui obtient les erreurs les plus faibles pourra alors être retenue pour des applications sur des cas réels. Dans un premier temps, un rappel du corpus, des facteurs expérimentaux, de leur modalités respectives et du calcul de métrique est réalisé. Puis les erreurs générées par l'estimateur \textit{baseline} et par la NMF sont présentées. Des pistes visant à améliorer ces estimations sont ensuite étudiées et proposées.
+Au chapitre précédent, les aptitudes de la NMF à déterminer le niveau sonore du trafic routier au sein de mixtures sonores urbaines ont été étudiées avec l'aide du corpus élémentaire \textit{Ambiance}. Si cette partie a permis de démontrer l'intérêt de la NMF IS sur de tels environnements sonores, les performances et les combinaisons obtenues ne correspondent toutefois pas à celles qui proviendraient d'enregistrements sonores urbains. En effet, ce corpus présente une artificialité (classe de son interférante spécifique, calibration des niveaux sonores du trafic) qui n'est pas représentative de l'ESU. Ainsi, dans ce chapitre, la NMF est appliquée sur un second corpus, le corpus d'évaluation \textit{SOUR}, assimilables à des enregistrements faits en ville. L'approche qui obtient les erreurs les plus faibles pourra alors être retenue pour des applications sur des cas réels. Dans un premier temps, un rappel du corpus, des facteurs expérimentaux, de leur modalités respectives et du calcul de métrique est réalisé. Puis les erreurs générées par l'estimateur \textit{baseline} et par la NMF sont présentées. Des pistes visant à améliorer ces estimations sont ensuite étudiées et proposées.
 
 \section{Rappel de l'expérience menée}\label{part:rappelExp}
  
@@ -113,10 +113,10 @@ Le nombre d'erreurs calculées par ambiance est donc différent du nombre de sc�
 \centering
 \begin{tabular}{L{3cm}C{2cm}C{2cm}C{2cm}C{2cm}C{2cm}}
 \toprule
-Ambiance sonore & Parc & Calme & Bruyant & Très Bruyant & Total\\ \midrule
-$N$ & 8 & 35 & 23 & 8 & 74 \\
-durées (s) & 960 & 4636 & 3366 & 1285 & 10247 \\
-$N_{60}$ & 16 & 78 & 57 & 22 & 173 \\ \bottomrule
+\textbf{Ambiance sonore} & \textbf{Parc} & \textbf{Calme} & \textbf{Bruyant} & \textbf{Très Bruyant} & \textbf{Total}\\ \midrule
+$\mathbf{N}$ & 8 & 35 & 23 & 8 & 74 \\
+\textbf{durées (s)} & 960 & 4636 & 3366 & 1285 & 10247 \\
+$\mathbf{N_{60}}$ & 16 & 78 & 57 & 22 & 173 \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -176,7 +176,7 @@ Les erreurs générées par l'estimateur NMF selon les multiples associations de
 \label{tab:erreur_mae60}
 \begin{tabular}{L{2cm}C{1.5cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & K & $t_h$ & $MAE_{60}$ \\ \toprule
+\textbf{méthode} & $\mathbf{f_c}$ (kHz) & $\mathbf{\beta}$ & $\mathbf{w_t}$ & $\mathbf{K}$ & $\mathbf{t_h}$ & $\mathbf{MAE_{60}}$ \\ \toprule
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & - &  3,62 ($\pm$ 3,93) \\
  & 0,5 & - & - & - & - & 1,99 ($\pm$ 1,37) \\ \midrule
 \multirow{3}{*}{NMF SUP} & - & 0 & 0,5 & 200 & - & 3,13 ($\pm$ 3,33) \\
@@ -203,14 +203,14 @@ La NMF IS avec $\beta$ = 2, $K$ = 300, $w_t$ = 1 s et $t_h$ = 0,35 est donc l'ap
 
 \begin{figure}[h!]
 \centering
-\subfigure[Fonction de coût moyen pour le corpus élémentaire \textit{SOUR} selon les 3 NMF optimales retenues.]{%
+\subfigure[Fonction de coût moyen selon les 3 NMF optimales retenues.]{%
 \label{fig:cost_grafic}%
 \includegraphics[width=.45\linewidth]{./figures/resultats/grafic_cost.pdf}}%
 \qquad
 \subfigure[Évolution de l'erreur $MAE_g$ pour les 3 NMF optimales retenues.]{%
 \label{fig:mae_grafic}%
 \includegraphics[width=.45\linewidth]{./figures/resultats/mae_grafic.pdf}}%
-\caption{Influence de la forme du dictionnaire pour les 3 NMF retenues.}
+\caption{Influence de la forme du dictionnaire pour les 3 NMF retenues pour le corpus élémentaire \textit{SOUR}.}
 \label{fig:evolution_mae}
 \end{figure}
 
@@ -237,7 +237,7 @@ Les erreurs générées par l'estimateur \textit{baseline} à $f_c$ = 500 Hz et 
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{4cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & Parc & Rue Calme & Rue Bruyante & Rue très bruyante & temps de calcul/min (s)\\ \midrule
+\textbf{méthode} & \textbf{Parc} & \textbf{Rue Calme} & \textbf{Rue Bruyante} & \textbf{Rue très bruyante} & \textbf{temps de calcul/min (s)}\\ \midrule
 filtre PB, $f_c$ = 20 kHz & 9,14 ($\pm$ 5,31) & 3,68 ($\pm$ 3,20) & 1,21 ($\pm$ 1,14) & 0,44 ($\pm$ 0,67) &  0,03 ($\pm$ 0,01) \\
 filtre PB, $f_c$ = 500 Hz & 3,87 ($\pm$ 5,08) & 2,14 ($\pm$ 2,25) & 1,03 ($\pm$ 0,53) & 0,93 ($\pm$ 0,38) &  0,03 ($\pm$ 0,01) \\ \midrule
 NMF SUP & 5,31 ($\pm$ 5,06)  & 2,02 ($\pm$ 2,22) & \textbf{0,62 ($\pm$ 0,56)} & \textbf{0,57 ($\pm$ 0,33)} & 0,09 ($\pm$ 0,03)\\
@@ -266,8 +266,8 @@ Le comportement de la NMF SUP reste similaire à celui observé dans le chapitre
 La NMF SEM est finalement, sur ce corpus et sur les 3 NMF comparées, celle qui offre les résultats les moins bons. Si l'erreur obtenue dans l'ambiance \textit{Parc} reste limitée, avec l'augmentation de la présence de trafic, les erreurs ne diminuent pas suffisamment. Cette décroissance limitée a été observée également dans le chapitre précédent et provient de la partie mobile du dictionnaire $\mathbf{W_r}$ qui, dans ces mises à jour, est libre d'intégrer des composantes du trafic routier. Ce corpus étant composé d'une plus grande part de scènes où le $TIR$ est positif, cette méthode est alors mise en défaut. 
 
 Enfin, puisque l'objectif est d'estimer des niveaux sonores du trafic notamment à travers des mesures réalisées par des réseaux de capteurs fixes, le temps de calcul nécessaire à l'estimation de ce niveau est relevé. La dernière colonne du Tableau \ref{tab:erreur_mae60_amb} exprime le temps nécessaire à l'estimateur pour extraire la composante \textit{trafic} d'un signal audio de 1 minute. Dans le cas du filtre, ce temps est quasiment instantané puisque l'opération est simple et n'est appliquée qu'une seule fois sur le signal.
-Pour la NMF, ce temps est plus important puisqu'une minimisation de la distance entre $\mathbf{V}$ et $\mathbf{WH}$ durant 200 itérations est réalisée. C'est en toute logique la NMF SUP qui est la plus rapide car une seule matrice est mise à jour et le rang des matrices est faible ($K$ = 25).
-La NMF IS est, quant à elle, la plus longue puisque les deux matrices $\mathbf{W}$ et $\mathbf{H}$ sont mises à jour et sont de tailles importantes ($K$ = 300). Cette méthode nécessite alors plus de 2 secondes pour traiter 1 minute de signal audio. L'influence du nombre d'éléments $K$ dans $\mathbf{W_0}$ sur l'erreur $MAE_g$ ainsi que le temps de calcul nécessaire à la NMF IS pour traiter 1 minute de signal sont résumées en Figure \ref{fig:errorTime}. Si un plus grand nombre d'éléments dans le dictionnaire implique une description plus fine de la source \textit{trafic}, il implique aussi une augmentation du temps de calcul. Les algorithmes de mises à jour étant multiplicatif (voir équation \ref{eq:eq:WHupdateMM}), le nombre d'opérations réalisés, et donc le temps de calcul, augmente alors avec la taille des matrices. Si entre $K$ = 25 et $K$ = 200, l'erreur chute significativement, à partir de $K$= 300, la variation d'erreur devient faible au regard de la variation du temps de calcul. 
+Pour la NMF, ce temps est plus important puisqu'une minimisation de la distance entre $\mathbf{V}$ et $\mathbf{WH}$ nécessite de réaliser 20  itérations et de mettre à jour une ou deux matrices. C'est en toute logique la NMF SUP qui est la plus rapide car une seule matrice est mise à jour et le rang des matrices est faible ($K$ = 25).
+La NMF IS est, quant à elle, la plus longue puisque les deux matrices $\mathbf{W}$ et $\mathbf{H}$ sont mises à jour et sont de tailles importantes ($K$ = 300). Cette méthode nécessite alors plus de 2 secondes pour traiter 1 minute de signal audio. L'influence du nombre d'éléments $K$ dans $\mathbf{W_0}$ sur l'erreur $MAE_g$ ainsi que le temps de calcul nécessaire à la NMF IS pour traiter 1 minute de signal sont résumées en Figure \ref{fig:errorTime}. Si un plus grand nombre d'éléments dans le dictionnaire implique une description plus fine de la source \textit{trafic}, il implique aussi une augmentation du temps de calcul. Les algorithmes de mises à jour étant multiplicatif (voir équation \ref{eq:WHupdateMM}), le nombre d'opérations réalisés, et donc le temps de calcul, augmente nécessairement avec la taille des matrices. Si entre $K$ = 25 et $K$ = 200, l'erreur chute significativement, à partir de $K$= 300, la variation d'erreur devient faible au regard de la variation du temps de calcul. 
 
 \begin{figure}
 \centering
@@ -276,7 +276,7 @@ La NMF IS est, quant à elle, la plus longue puisque les deux matrices $\mathbf{
 \label{fig:errorTime}
 \end{figure}
 
-La durée du temps de calcul pour $K$ = 300 reste cependant faible au regard des utilisations qui peuvent être faites de cette outil : en effet pour la réalisation de cartes de bruit ou la prédiction du bruit de trafic en milieu urbain, connaitre avec une grande précision, c'est-à-dire à la seconde par exemple, le niveau du trafic, n'a pas d'intérêt puisque les environnements sont habituellements caractérisés à des échelles temporelles grandes. \cite{broccoline} montre par exemple que 15 minutes sont nécessaires pour capturer les effets perceptifs d'un ESU. Dans le cas de la cartographie, leurs mises à jour dynamiques sont souvent réalisés toutes les heures \cite{bellucci_life_2017} ou les quarts d'heure \cite{wei2016dynamic}. De plus, dans le cas où la mesure a pour but d'améliorer les cartes de bruits via des méthodes d'assimilations de données, ces dernières génèrent un temps de calcul plus élevé qui rend donc la durée de l'estimation du niveau sonore \textit{trafic} par la NMF IS satisfaisante et adéquate.
+La durée du temps de calcul pour $K$ = 300 reste cependant faible au regard des utilisations qui peuvent être faites de cette outil : en effet pour la réalisation de cartes de bruit ou la prédiction du bruit de trafic en milieu urbain, connaitre avec une grande précision, c'est-à-dire à la seconde par exemple, le niveau du trafic, n'a pas d'intérêt puisque les environnements sont habituellements caractérisés à des échelles temporelles grandes. \cite{brocolini2013measurements} montre par exemple que 15 minutes sont nécessaires pour capturer les effets perceptifs d'un ESU. Dans le cas de la cartographie, leurs mises à jour dynamiques sont souvent réalisés toutes les heures \cite{bellucci_life_2017} ou les quarts d'heure \cite{wei_dynamic_2016}. De plus, dans le cas où la mesure a pour but d'améliorer les cartes de bruits via des méthodes d'assimilations de données, ces dernières génèrent un temps de calcul plus élevé qui rend donc la durée de l'estimation du niveau sonore \textit{trafic} par la NMF IS satisfaisante et adéquate.
 
 \section{Comparaison des niveaux sonores $L_{eq,tr.,1s}$ pour plusieurs scènes sonores.}
 
@@ -355,12 +355,12 @@ La pondération $\alpha$ est définie pour plusieurs valeurs : $\alpha_t \in \lb
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{2cm}C{1.5cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & K & $t_h$ & $\alpha_t$ & $MAE_{60}$ \\ \toprule
+\textbf{méthode} & $\mathbf{f_c}$ (kHz) & $\mathbf{\beta}$ & $\mathbf{w_t}$ & $\mathbf{K}$ & $\mathbf{t_h}$ & $\mathbf{\alpha_t}$ & $\mathbf{MAE_{60}}$ \\ \toprule
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & - & - & 3,62 ($\pm$ 3,93) \\
  & 0,5 & - & - & - & - & - & 1,99 ($\pm$ 1,37) \\ \midrule
 \multirow{4}{*}{NMF SUP}  & - & 2 & 0,5 & 25 & - & - & 2,13 ($\pm$ 2,22) \\ 
- & - & 0 & 0,5 & 200 & - & 2 & 3,54 ($\pm$ 3,75) \\
- & - & 1 & 0,5 & 200 & - & 3 & 2,56 ($\pm$ 2,58) \\
+ & - & 0 & 2 & 100 & - & 3 & 3,54 ($\pm$ 3,75) \\
+ & - & 1 & 2 & 25 & - & 3 & 2,56 ($\pm$ 2,58) \\
  & - & 2 & 0,5 & 25 & - & 0,01 & 2,12 ($\pm$ 2,14) \\ \midrule
 \multirow{4}{*}{NMF SEM}  & - & 1 & 0,5 & 300 & - & - &  1,93 ($\pm$ 0,42) \\
  & - & 0 & 2 & 300 & - & 0,5 & 1,53 ($\pm$ 0,81) \\
@@ -374,10 +374,10 @@ méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & K & $t_h$ & $\alpha_t$ & $MAE_{60}$ \
 \end{tabular}}
 \end{table}
 
-Les erreurs $MAE_g$ minimales obtenues avec la NMF SUP, SEM et IS pour chaque valeur de $\beta$ en fonction de la valeur de la pondération sont résumées dans le Tableau \ref{tab:erreur_smooth}. En plus de cela, les erreurs minimales obtenues par chaque méthode dans la partie \ref{chap:grafic_nmf} sont également adjointes pour servir de référence.
-L'ajout de la contrainte de \textit{smoothness} a un impact positif sur la NMF SUP pour $\beta \in \lbrace 1,~2 \rbrace$. Dans le cas de la divergence KL, cette contrainte génère un changement dans la composition du dictionnaire avec un faible nombre d'éléments. Dans le cas de la distance EUC, l'influence de la contrainte est trop faible pour pouvoir être considérée.
+Les erreurs $MAE_g$ minimales obtenues avec la NMF SUP, SEM et IS pour chaque valeur de $\beta$ sont résumées dans le Tableau \ref{tab:erreur_smooth}. En plus de cela, les erreurs minimales obtenues par chaque méthode dans la partie \ref{chap:grafic_nmf} sont également adjointes en tant que références.
+L'ajout de la contrainte de \textit{smoothness} a un faible impact sur la NMF SUP pour $\beta \in \lbrace 1,~2 \rbrace$. Dans le cas de la divergence KL, cette contrainte génère un changement dans la composition du dictionnaire avec un faible nombre d'éléments ($K$ = 25). Dans le cas de la distance EUC, l'influence de la contrainte est trop faible pour pouvoir être considérée.
 
-Dans le cas de la NMF SEM, l'influence de la pondération est positif pour la divergence KL et la divergence IS. Dans ce dernier cas, pour un dictionnaire de même taille (avec une fenêtre $w_t$ toutefois différente), la diminution est importante avec une erreur $MAE_g = 1,53$. 
+Dans le cas de la NMF SEM, l'influence de la pondération est positif pour la divergence KL et la divergence IS. Dans ce dernier cas, pour un dictionnaire de même taille (avec une fenêtre $w_t$ toutefois différente), la diminution est importante avec une erreur $MAE_g = 1,53$ alors qu'elle était de 2,02 sans contrainte. 
 Dans la Figure \ref{fig:smoothMAE60}, les erreurs $MAE_{60}$ de la méthode optimale sans pondération ($\beta$ = 1, $K$ = 300, $w_t$ = 0,5 s) et la NMF IS, pour $\beta$ = 0, $K$ = 50, $w_t$ = \textit{all} sans et avec pondération, sont comparées. 
 
 \begin{figure}[h!]
@@ -387,22 +387,35 @@ Dans la Figure \ref{fig:smoothMAE60}, les erreurs $MAE_{60}$ de la méthode opti
 \label{fig:smoothMAE60}
 \end{figure}
 
-La NMF basée sur la divergence IS, sans pondération, génère des erreurs différentes notamment dans l'ambiance \textit{parc} où l'erreur est beaucoup plus faible ($MAE_g$ = 1.09) mais avec l'augmentation de la prédominance du trafic cette méthode échoue à obtenir des estimation correcte. L'ajout de la contrainte de \textit{smoothness}, si elle détériore les performances dans l'ambiance \textit{Parc}, permet une meilleure estimation du signal \textit{trafic} pour les 3 autres ambiances sonores.
+Les erreurs $MAE_{60}$ basés sur la NMF avec la divergence IS évolue différemment par rapport aux autres NMF vues jusqu'à présent. Sans pondération, elle génère dans l'ambiance \textit{parc} une erreur beaucoup plus faible que dans les autres ambiances sonores ($MAE_g$ = 1,09). Mais avec l'augmentation de la présence du trafic, cette méthode échoue à obtenir des estimations du niveau sonore du trafic correctes. L'ajout de la contrainte de \textit{smoothness}, si elle détériore les performances dans l'ambiance \textit{Parc}, permet une meilleure estimation du signal \textit{trafic} pour les 3 autres ambiances sonores.
+
+L'impact de cette contrainte peut être observé sur le dictionnaire libre $\mathbf{W_r}$ de la NMF SEM avec $\beta$ = 0, $K$ = 50 et $w_t$ = \textit{all} dans deux scènes : une extraite de l'ambiance \textit{Parc} (Figure \ref{fig:grafic_sm_park}) et l'autre dans l'ambiance \textit{Rue très bruyante} (Figure \ref{fig:grafic_sm_vn}). Pour chacune on ajoute également le spectr du signal interférant. Dans les deux cas, l'ajout de la contrainte a un impact sur la forme de $\mathbf{W_r}$. Pour la scène \textit{Parc}, la présence de trafic étant plus réduite et la partie fixe du dictionnaire étant contrainte dans son fonctionnement, le dictionnaire $\mathbf{W_r}$ vient en complément afin de minimiser la distance entre $\mathbf{V}$ et $\mathbf{WH}$. Cette apport se traduit alors par une plus grande présence de composantes dans les basses fréquences dans $\mathbf{W_r}$ avec la pondération. Cet ajustement détériore donc l'estimation du niveau sonore du trafic. Pour la scène \textit{Rue très bruyante}, l'ajout de la contrainte a un aspect positif : étant la source principale, la contrainte peut alors être perçu comme moins \og difficile \fg{} ce qui permet ainsi de limiter l'intégration de composantes \textit{trafic} dans $\mathbf{W_r}$  et donc de réduire les erreurs $MAE_{60}$.
+
+\begin{figure}[h!]
+\centering
+\subfigure[]{%
+\label{fig:grafic_sm_park}%
+\includegraphics[width=0.45\linewidth]{./figures/resultats/example_park_SM.pdf}}%
+\qquad
+\subfigure[]{%
+\label{fig:grafic_sm_vn}%
+\includegraphics[width=0.45\linewidth]{./figures/resultats/example_veryNoisyStreet_SM.pdf}}%
+\caption{Comparaisons des spectres de la classe \textit{interférante} avec la somme des 2 éléments de $\mathbf{W_r}$ pour le cas sans pondération ($\alpha_{t}= 0$) et avec ($\alpha_t = 0,05$) pour la scène 2 de l'ambiance \textit{Park} \subref{fig:grafic_sm_park} et la scène 7 de \textit{Rue très bruyante} \subref{fig:grafic_sm_vn}.}
+\label{fig:grafic_sm}
+\end{figure}
 
 Enfin, l'impact de la contrainte sur la distance $D(\mathbf{V}\Vert \mathbf{WH})$ est observé. Cette contrainte augmente les valeurs de la fonction de coût et converge également plus lentement que sans la contrainte. Après 400 itérations, celle-ci reste supérieure à celle sans pondération obtenue après 200 itérations. Sous la contrainte de régularité temporelle, la reconstruction globale du signal semble donc moins bonne. 
-En conclusion, la NMF SEM si elle permet, grâce aux degrés de liberté apporté par son dictionnaire mobile $\mathbf{W_r}$, une plus grande adaptation, gagne ici à être contraint afin de mieux se focaliser sur la source sonore \textit{trafic}.
-
-Voir l'impact sur Y avec et sans pondération pour une scène
+En conclusion, la NMF SEM, si elle permet une plus grande capacité de s'adapter aux différentes scènes sonores grâce aux degrés de liberté apportés par son dictionnaire mobile $\mathbf{W_r}$, gagne à être contraint afin de mieux se focaliser sur la source sonore \textit{trafic} et de limiter cette liberté. Si dans les scènes où le trafic est peu présent, celle-ci peut se relever être un désavantage, dans le cas où le trafic devient prépondérant, cette contrainte permet non pas de mieux modéliser la composante interférante dans $\mathbf{W_r}$ mais surtout de limiter la présence de celle du trafic.
  
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\linewidth]{./figures/resultats/grafic_smooth_cost_beta0.pdf}
-\caption{Influence de la régularité temporelle sur la fonction de coût pour la NMF SEM avec $\beta$ = 0, $w_t$ = 2 s et $K$ = 300.}
+\caption{Influence de la régularité temporelle sur la fonction de coût pour la NMF SEM avec $\beta$ = 0, $w_t$ = \textit{all} s et $K$ = 50.}
 \end{figure}
 
-Finalement, c'est pour la NMF IS que la pondération a le moins d'impact puisque les erreurs minimales obtenues sont supérieurs aux cas sans pondération. 
+Finalement, c'est pour la NMF IS que la pondération a le moins d'impact puisque les erreurs minimales obtenues sont supérieurs aux cas sans pondération quelque soit la valeur de $\beta$. 
 
-\subsection{Contrainte par parcimonie}
+\subsection{Contrainte par parcimonie}\label{part:smoothSEM}
 
 Une autre contrainte est maintenant considérée : la contrainte de parcimonie (ou \textit{sparsness}). Appliquée sur la matrice $\mathbf{H}$, celle-ci a pour but de réduire le nombre de base activée à chaque trame. De la même façon, cette contrainte se traduit par l'ajout d'un second terme dans l'expression de la fonction de coût : 
 
@@ -410,7 +423,7 @@ Une autre contrainte est maintenant considérée : la contrainte de parcimonie (
 \underset{\textbf{W},\textbf{H}}{\text{min}}~D\left(\textbf{V} \vert\vert \textbf{WH}\right) + \alpha_{sp} C_{sp}(\mathbf{H}).
 \end{equation}
 
-avec $C_{sp}(\mathbf{H})$, la contrainte exprimée dans l'équation \ref{eq:sparsness} et $\alpha_{sp}$ la pondération. De même que pour la contrainte de \textit{smoothness}, la parcimonie est appliqué sur les matrices $\mathbf{H}$ de la NMF SUP et IS. Pour la NMF SEM, cette contrainte est appliquée non pas sur $\mathbf{H_s}$ mais sur $\mathbf{H_r}$ afin de mieux inclure les évènements ponctuels dans $\mathbf{W_r}$ et moins les composantes \textit{trafic}. La parcimonie est testée pour plusieurs valeurs de pondération : $\alpha_{sp} \in \left[0,05,~ 0,1,~ 0,2,~ 0,5,~ 1\right]$. 400 itérations sont également réalisées sur l'ensemble des combinaisons testées. Le Tableau \ref{tab:erreur_sparse} résume les erreurs $MAE_g$.
+avec $C_{sp}(\mathbf{H})$, la contrainte exprimée dans l'équation \ref{eq:sparsness} et $\alpha_{sp}$ la pondération. De même que pour la contrainte de \textit{smoothness}, la parcimonie est appliquée sur les matrices $\mathbf{H}$ de la NMF SUP et IS. Pour la NMF SEM, cette contrainte est appliquée non pas sur $\mathbf{H_s}$ mais sur $\mathbf{H_r}$ afin de mieux inclure des évènements ponctuels dans $\mathbf{W_r}$ et moins les composantes \textit{trafic}. La parcimonie est testée pour plusieurs valeurs de pondération : $\alpha_{sp} \in \lbrace0,05,~ 0,1,~ 0,2,~ 0,5,~ 1\rbrace$. 400 itérations sont également réalisées sur l'ensemble des combinaisons testées. Le Tableau \ref{tab:erreur_sparse} résume les erreurs $MAE_g$.
 
 \begin{table}[h!]
 \centering
@@ -419,13 +432,13 @@ avec $C_{sp}(\mathbf{H})$, la contrainte exprimée dans l'équation \ref{eq:spar
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{2cm}C{1.5cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & $K$ & $t_h$ & $\alpha_{sp}$ & $MAE_{60}$ \\ \toprule
+\textbf{méthode} & $\mathbf{f_c}$ (kHz) & $\mathbf{\beta}$ & $\mathbf{w_t}$ & $\mathbf{K}$ & $\mathbf{t_h}$ & $\mathbf{\alpha_{sp}}$ & $\mathbf{MAE_{60}}$
 \multirow{2}{*}{filtre PB} & 20 & - & - & - & - & - & 3,62 ($\pm$ 3,93) \\
  & 0,5 & - & - & - & - & - & 1,99 ($\pm$ 1,37) \\ \midrule
 \multirow{4}{*}{NMF SUP}  & - & 2 & 0,5 & 25 & - & - & 2,13 ($\pm$ 2,22) \\ 
  & - & 0 & 0,5 & 200 & - & 0,5 & 3,73 ($\pm$ 4,01) \\
  & - & 1 & 0,5 & 50 & - & 0,05 & 2,50 ($\pm$ 1,90) \\
- & - & 2 &  &  & - &  & ($\pm$) \\ \midrule
+ & - & 2 & 0,5 & 25 & - & 5e-3 & 2,60 ($\pm$ 2,56) \\ \midrule
 \multirow{4}{*}{NMF SEM}  & - & 1 & 0,5 & 300 & - & - &  1,93 ($\pm$ 0,42) \\
  & - & 0 & 2 & 300 & - & 0,50 & 1,99 ($\pm$ 0,70) \\
  & - & 1 & 0,5 & 100 & - & 0,05 &  1,50 ($\pm$ 0,89) \\
@@ -433,19 +446,33 @@ méthode & $f_c$ (kHz) & $\beta$ & $w_t$ & $K$ & $t_h$ & $\alpha_{sp}$ & $MAE_{6
 \multirow{4}{*}{NMF IS}  & - & 2 & 1 & 300 & 0,35 & - & 1,16 ($\pm$ 0,86) \\
  & - & 0 & \textit{all} & 50 & 0,10 & 0,44 & 1,62 ($\pm$ 1,02) \\
  & - & 1 & 1 & 200 & 0,05 & 0,40 & 1,60 ($\pm$ 0,72) \\
- & - & 2 &  &  &  &  & ($\pm$) \\
+ & - & 2 & 2 & 100 & 5e-4 & 0,26 & 3,50 ($\pm$ 1,40) \\
  \bottomrule
 \end{tabular}}
 \end{table}
 
-La contrainte de parcimonie a un impact diverse selon la nmf et les valeurs de $\beta$. Dans le cas de la NMF SUP, l'ajout de la contrainte de parcimonie est positif dans le cas de la divergence KL mais moins pour la divergence IS. 
-Dans le cas de la NMF IS, c'est là aussi un impact qui n'est pas favorable puisque toute les erreurs sont plus élevées.
-Une fois encore, l'influence de la contrainte est surtout notable pour la NMF SEM. Si cet impact est faible pour la NMF IS, pour la NMF KL, le gain est significatif avec une erreur $MAE_g$ de 1,50. Cette fois-ci la contrainte était appliquée sur la partie libre du dictionnaire $\mathbf{H_r}$. Celle-ci perd donc faculté à inclure librement dans $W_r$ les éléments nécessaire à la minimisation de $D\left(\textbf{V} \vert\vert \textbf{WH}\right)$. En contraignant $\mathbf{H_r}$ à n'être activée que de façon plus ponctuelle, la contrainte favorise l'apparition dans $\mathbf{W_r}$ d'éléments qui sont moins relatif à la classe \textit{trafic}.
+La contrainte de parcimonie a un impact diverse selon la version de la NMF et les valeurs de $\beta$. Dans le cas de la NMF SUP, l'ajout de la contrainte de parcimonie n'a qu'un faible impact sur les erreurs $MAE_g$ pour la divergence KL.  Dans le cas de la NMF IS, cette contrainte ne permet pas, là encore, d'améliorer les résultats. Cette approche n'est donc pas adaptée à l'ajout de contraintes et est plus performante sans.
+Une fois encore, l'influence de la contrainte est surtout notable pour la NMF SEM. Si cet impact est faible pour la divergence IS, pour la divergence KL, le gain est significatif avec une erreur $MAE_g$ de 1,50. On observe dans la Figure  \ref{fig:erreurSparseDetails} les erreurs $MAE_{60}$ pour la NMF SEM ($\beta$ = 1, $K$ = 100 et $w_t$ = 0,5 s) avec et sans pondération. On observe un comportement similaire de la méthode soumise à la parcimonie à celui obtenu avec la contrainte de régularité temporelle : une augmentation des erreurs dans \textit{Parc} pour ensuite, avec l'augmentation de la présence de trafic, diminuer de plus en plus. Cette évolution peut être illustrée, là encore, avec le comportement de $\mathbf{W_r}$ en Figure \ref{fig:grafic_sp}. Ici c'est $\mathbf{H_r}$ qui est contraint. Dans le cas de l'ambiance \textit{Parc}, la partie libre de la NMF SEM n'est donc plus en mesure de se comporter aussi librement que sans pondération. On peut alors supposer que certains éléments \textit{trafic}, non utilisés lorsque la pondération est nulle, seront utilisés sur des sources interférantes en vue de minimiser la distance $D(\mathbf{V}\Vert \mathbf{WH})$, ce qui dégrade l'estimation du trafic.
+\`A l'inverse, en présence de trafic, étant contraint d'avoir une parcimonie dans $\mathbf{H_r}$, il est moins aisé pour la NMF SEM d'inclure des composantes \textit{trafic}, les éléments de $\mathbf{W_s}$ sont alors mieux mis à contribution que dans le cas où la pondération est nulle, ce qui permet alors d'améliorer l'estimation du signal trafic.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\linewidth]{./figures/resultats/bar_sparse.pdf}
 \caption{Influence de la parcimonie sur l'erreur $MAE_{60}$ selon la NMF SEM optimale avec et sans pondération.}
+\label{fig:erreurSparseDetails}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subfigure[]{%
+\label{fig:grafic_sp_park}%
+\includegraphics[width=0.45\linewidth]{./figures/resultats/example_park_SP.pdf}}%
+\qquad
+\subfigure[]{%
+\label{fig:grafic_sp_vn}%
+\includegraphics[width=0.45\linewidth]{./figures/resultats/example_veryNoisyStreet_SP.pdf}}%
+\caption{Comparaisons des spectres de la classe \textit{interférante} avec la somme des 2 éléments de $\mathbf{W_r}$ pour le cas sans pondération ($\alpha_{sp}= 0$) et avec ($\alpha_{sp} = 0,05$) pour la scène 2 de l'ambiance \textit{Park} \subref{fig:grafic_sm_park} et la scène 7 de \textit{Rue très bruyante} \subref{fig:grafic_sm_vn}.}
+\label{fig:grafic_sp}
 \end{figure}
 
 
@@ -463,7 +490,7 @@ En considérant la NMF IS optimale avec $\beta$ = 2, $K$ = 300 et $w_t$ = 1 s, l
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{4cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
- & Parc & Rue Calme & Rue Bruyante & Rue très bruyante & $MAE_{60}$ \\
+\textbf{ambiance} & \textbf{Parc} & \textbf{Rue Calme} & \textbf{Rue Bruyante} & \textbf{Rue très bruyante} & $\mathbf{MAE_{60}}$ \\
 \midrule
 seuil fixe $t_h$ & 0,35 & 0,35 & 0,35 & 0,35 & 0,35 \\
 erreur $MAE_{60}$ & 2,13 ($\pm$ 3,84) & 1,62 ($\pm$ 1,85) & 0,57 ($\pm$ 0,54) &  0,32 ($\pm$ 0,20) & 1,16 ($\pm$ 0,86) \\

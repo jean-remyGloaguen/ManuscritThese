@@ -547,7 +547,7 @@ On résume les différentes étapes de la NMF-IS au travers de l'algorithme \ref
 	\STATE mise à jour de $\mathbf{W_0}$
 	\STATE mise à jour de $\mathbf{H}$
 \ENDFOR
-\STATE Calcul de la similarité cosinus $D_{k}(\mathbf{W_0} \Vert \mathbf{W'})$
+\STATE Calcul de la similarité cosinus $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$
 \IF{représentation sigmoïde}
 	\STATE $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'}) = \sfrac{1}{\left(1+\exp({-\lambda D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})}\right)}$
 \ENDIF
@@ -588,7 +588,7 @@ C_{sp}(\mathbf{h}) = \sum_k h_{kn}.
 Cette pénalisation peut facilement être prise en compte dans les algorithmes de \textit{majorisation-minimisation} :
 
 \begin{equation}
-\underset{\textbf{h > 0}}{\text{min}}~C(\mathbf{h}) = D(\mathbf{v} \vert\vert \mathbf{Wh}) + \alpha_{sp} C_{sp}(\mathbf{h}).
+\underset{\textbf{h > 0}}{\text{min}}~C(\mathbf{h}) = D(\mathbf{v} \vert\vert \mathbf{Wh}) + \alpha_{sp} C_{sp}(\mathbf{h})
 \end{equation}
 
 avec $\alpha_{sp}$, la pondération respective à la contrainte de parcimonie. La fonction auxiliaire pénalisée $G_p(\mathbf{h}^{(i+1)}\vert \mathbf{h}^{(i)})$ devient alors
@@ -681,7 +681,7 @@ $A$ résume les valeurs des contraintes selon $k$, $\overrightarrow{\mathbf{H}}$
 \label{fig:smoothnessExample}
 \end{figure}
 
-D'autre approches ont également été étudiées. Dans, \cite{fevotte2011majorization}, dans le cas de la séparation de sources audio et la transcription d'un morceau de musique, une contrainte de régularité est proposée pour la divergence I-S. La particularité de la contrainte apposée est qu'elle se base elle-même sur la divergence I-S : $C_{I-S}(\mathbf{H}) = \sum_{k = 1}^{K} \sum_{n = 2}^{N}d_0(h_{k(n-1)} \vert h_{kn})$. L'algorithme de mise à jour est déduit à partir de l'algorithme de \textit{majorisation-minimisation} (voir partie \ref{part:majorisation-minimisation}). Dans \cite{essid2013smooth}, une contrainte, similaire à l'équation \ref{eq:smoothnessVirtanen} ($C_{MM}(\mathbf{H}) = \frac{1}{2}\sum_{k = 1}^{K} \sum_{n = 2}^{N}\left(h_{kn}-h_{k(n-1)}\right)^2$), est proposée dans le cas de la structuration de documents audiovisuels pour une divergence K-L avec, là encore, l'utilisation d'un algorithme de \textit{majorisation-minimisation}. Cette approche a été, durant la thèse, développée pour la divergence I-S et la distance EUC. Les détails des calculs se situent en annexe \ref{annex:smoothNMF}.
+D'autre approches ont également été étudiées. Dans, \cite{fevotte2011majorization}, dans le cas de la séparation de sources audio et la transcription d'un morceau de musique, une contrainte de régularité est proposée pour la divergence I-S. La particularité de la contrainte apposée est qu'elle se base elle-même sur la divergence I-S : $C_{I-S}(\mathbf{H}) = \sum_{k = 1}^{K} \sum_{n = 2}^{N}d_0(h_{k(n-1)} \vert h_{kn})$. L'algorithme de mise à jour est déduit à partir de l'algorithme de \textit{majorisation-minimisation} (voir partie \ref{part:majorisation-minimisation}). Dans \cite{essid2013smooth}, une contrainte, similaire à l'équation \ref{eq:smoothnessVirtanen} ($C_{MM}(\mathbf{H}) = \frac{1}{2}\sum_{k = 1}^{K} \sum_{n = 2}^{N}\left(h_{kn}-h_{k(n-1)}\right)^2$), est proposée dans le cas de la structuration de documents audiovisuels pour une divergence K-L avec, là encore, l'utilisation d'un algorithme de \textit{majorisation-minimisation}. Cette approche a été, durant la thèse, développée pour la divergence I-S et la distance EUC mais non implémenté pour ces travaux. Les détails des calculs se situent en annexe \ref{annex:smoothNMF}.
 Enfin on peut citer \cite{pascual2006nonsmooth} où une contrainte de \og non-smoothness \fg{} est considérée. L'idée est alors d'imposer de l'adoucissement dans la NMF sur une des deux matrices pour générer, en réaction inverse, de la parcimonie dans l'autre matrice. Le problème est ainsi posé :
 
 \begin{equation}
@@ -706,7 +706,7 @@ La \textbf{NMF locale} a été proposée par \cite{li2001learning} qui contraint
 Dans le cadre de la NMF semi-supervisée, une contrainte est proposée dans \cite{yagi2012music}, puis étendue dans \cite{kitamura2014music} pour toute valeur de $\beta$, dans le cadre de la séparation de signaux musicaux afin de \textbf{maximiser la distance} (ou la divergence) entre le dictionnaire appris $\mathbf{W_s}$ et le dictionnaire libre $\mathbf{W_r}$ afin de s'assurer qu'un minimum d'information d'intérêt y soit intégré. Dans \cite{wang2016semi}, c'est une contrainte de propagation qui est considérée où un nouveau dictionnaire $\mathbf{W}$ est construit dans lequel les éléments similaires dans $\mathbf{W_r}$ à ceux appris et étiquetés sont pondérés. Dans \cite{lefevre2012semi}, la contrainte ajoutée consiste à pondérer le poids des éléments appris dans la reconstruction de $\mathbf{V}$ afin de donner une prépondérance différente des éléments non-appris.\\
 
 En conclusion, la Factorisation en Matrices Non-négative est une méthode qui, dans le domaine de l'audio, permet l'approximation d'un spectrogramme en amplitude (ou en puissance) d'un audio par le produit de deux matrices : $\mathbf{W}$, le dictionnaire composé de spectres sonores, et $\mathbf{H}$, la matrice d'activation. Différentes formes de NMF ont été proposées qui diffèrent selon les techniques d'apprentissage de leur dictionnaire (non-supervisée, supervisée et semi-supervisée) ou des contraintes qui y sont appliquées (parcimonie, régularité temporelle). Plusieurs sont implémentés dans le cas de ces travaux et testés en vue de déduire, sur des corpus de sons présentés dans le chapitre suivant, le niveau sonore du trafic routier.
-La \textbf{NMF supervisée}, \textbf{semi-supervisée} et celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observés pour un des corpus de sons dans le chapitre \ref{chap:grafic}. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
+La \textbf{NMF supervisée}, \textbf{semi-supervisée} et, celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$ et de \textbf{parcimonie} $C_{sp}(\mathbf{H})$ seront également observées pour un des corpus de sons dans le chapitre \ref{chap:grafic}. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

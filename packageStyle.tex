@@ -143,7 +143,10 @@
 %\usepackage{natbib}
 \usepackage{bibunits}	% pour liste de publications
 \usepackage{bibentry}
-\nobibliography*
+
+
+\providecommand{\enquote}[1]{``#1''}
+\global\def\bibAnnoteFile{}
 
 %%%%% APPENDICES %%%%%%%
 \usepackage[toc,page]{appendix}

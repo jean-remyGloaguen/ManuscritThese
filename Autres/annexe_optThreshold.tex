@@ -12,7 +12,7 @@ Cependant, une étude a été réalisée en vue de, non plus définir un seuil f
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{4cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
- & Parc & Rue Calme & Rue Bruyante & Rue très bruyante & $MAE_{60}$ \\
+\textbf{ambiance} & \textbf{Parc} & \textbf{Rue Calme} & \textbf{Rue Bruyante} & \textbf{Rue très bruyante} & $\mathbf{MAE_{60}}$ \\
 \midrule
 seuil fixe $t_h$ & 0,35 & 0,35 & 0,35 & 0,35 & 0,35 \\
 erreur $MAE_{60}$ & 2,13 ($\pm$ 3,84) & 1,62 ($\pm$ 1,85) & 0,57 ($\pm$ 0,54) &  0,32 ($\pm$ 0,20) & 1,16 ($\pm$ 0,86) \\
@@ -89,11 +89,11 @@ Toutefois, si l'indicateur $\Delta_{L_x-L_y}$ de la scène excède les valeurs l
 \centering
 \caption{Influence de l'indicateur d'optimisation dans l'estimation de l'erreur $MAE_{g}$.}
 \label{tab:result_opt}
-\begin{tabular}{L{3cm}C{2.5cm}}
+\begin{tabular}{L{4cm}C{2.5cm}}
 \toprule
- & $MAE_g$    \\
+ & $\mathbf{MAE_g}$    \\
  \midrule
-seuil fixe & 1,16 ($\pm$ 0,86)  \\
+seuil fixe $t_h$ & 1,16 ($\pm$ 0,86)  \\
 \rowcolor[HTML]{C0C0C0}
 seuil optimisé $t_{h,opt}$ & 1,12 ($\pm$ 0,83) \\
 \midrule
@@ -115,7 +115,7 @@ $\Delta_{L_{500}-L_{2k}}$ & 1,37 ($\pm$ 1,16)\\
 \end{table}
 
 Les erreurs $MAE_g$ obtenues sur le corpus sont résumées dans le Tableau \ref{tab:result_opt}.
-Les erreurs $MAE_g$ obtenues par interpolation à partir des indicateurs $\Delta_{L_{1k}-L_{5k}}$ et $\Delta_{L_{2k}-L_{5k}}$ sont plus faibles que les approches basées sur le seuil fixe et sur les seuils optimisés. Ces deux indicateurs  sont ceux ayant les plus fortes corrélations $R$ avec l'évolution des seuils $t_{h,opt}$.
+Les erreurs $MAE_g$ obtenues par interpolation avec les indicateurs $\Delta_{L_{1k}-L_{5k}}$ et $\Delta_{L_{2k}-L_{5k}}$ sont plus faibles que les approches basées sur le seuil fixe et sur les seuils optimisés. Ces deux indicateurs  sont ceux ayant les plus fortes corrélations $R$ avec l'évolution des seuils $t_{h,opt}$.
 La fonction d'interpolation pour $\Delta_{L_{1k}-L_{5k}}$ est alors sur l'intervalle $\Delta_{L_{1k}-L_{5k}} \in\left[1,22;~ 15,84 \right]$: 
 
 \begin{equation}
