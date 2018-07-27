@@ -2,10 +2,9 @@
 \label{chap:corpusSonore}
 
 \section*{\centering Résumé}
-\addcontentsline{toc}{section}{Résumé}
 
 \noindent{\small \textbf{
-Les étapes menant à la création des corpus de sons sur lesquelles la NMF est appliquée sont présentés. Après avoir exposées différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene} est présenté. La formation de la base de données de sons et les enregistrements audio de passage de véhicules sont ensuite détaillé. Le premier corpus créé, appelé corpus d'évaluation \textit{Ambiance} est présenté, celui-ci a pour objectif de permettre d'étudier le fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes) est ensuite présenté, basé sur des annotations d'enregistrements audio. Le rendu de ce corpus est testé par un test perceptif visant à évaluer son rendu réaliste.}}
+Les étapes menant à la création des corpus de sons sur lesquelles la NMF est appliquée sont présentées. Après avoir exposé différentes méthodes pour générer un ESU, l'outil retenu pour ces travaux, le logiciel \textit{SimScene}, est décrit. La formation de la base de données de sons et les enregistrements audio de passages de véhicules sont ensuite détaillés. Le premier corpus créé, appelé corpus d'évaluation \textit{Ambiance} est présenté, celui-ci a pour objectif l'étude du fonctionnement de la NMF. Le second corpus \textit{SOUR} (Scènes sOnores Urbaines Réalistes), dont la construction est basée sur des annotations d'enregistrements audio, est ensuite exposé. Le rendu de ce corpus est évalué par un test perceptif visant à déterminer le réalisme de son rendu.}}
 
 \vspace{2cm}
 
@@ -153,6 +152,7 @@ M_i = S_{tr.,i}+S_{int.,i}.
 \caption{Résumé des classes de sons inclues dans les classes interférantes, seules les classes \textit{alerte} et \textit{transport} ne contiennent pas de bruit de fond.}
 \label{tab:class_inter}
 \begin{tabular}{lll}
+\toprule
 \textbf{Classe interférante}  & \multicolumn{1}{c}{\textbf{\'Evènement}}                                                & \multicolumn{1}{c}{\textbf{Bruit de fond}}  \\
           \toprule
 alerte    & \begin{tabular}[c]{@{}l@{}}- Klaxon\\ - Sirène\end{tabular}                  & \multicolumn{1}{c}{-}                                                       \\ \hline
@@ -356,8 +356,8 @@ Le plan optimal $X_{opt}$ en fonction des conditions $J$, $K$ et $R$ est réalis
 \label{fig:repartitionScene}
 \end{figure}
 
-Le plan obtenu correspond alors à l'ordre d'écoutes des scènes audio pour chaque juge. Avec ce plan, chaque juge écoute un mélange de scènes enregistrées et répliquées qui n'est pas nécessairement identique. Si la plupart des auditeurs écoutent un même nombre de scènes enregistrées et répliquées. D'autres sont susceptibles d'écouter plus de scènes d'un type que d'un autre. Au maximum, certain juges ont écouté 8 scènes d'un type et 12 scènes d'un autre (Figure \ref{fig:repartitionScene}). 
-De ce mélange, les auditeurs, durant le test d'écoutes, n'évalue donc pas nécessairement une scène enregistrée et sa version répliquée. 
+Le plan obtenu correspond alors à l'ordre d'écoutes des scènes audio pour chaque juge. Avec ce plan, chaque juge écoute un mélange de scènes enregistrées et répliquées qui n'est pas nécessairement identique. Si la plupart des auditeurs écoutent un même nombre de scènes enregistrées et répliquées, d'autres sont susceptibles d'écouter plus de scènes d'un type que d'un autre. Au maximum, certain juges ont écouté 8 scènes d'un type et 12 scènes d'un autre (Figure \ref{fig:repartitionScene}). 
+De ce mélange, les auditeurs, durant le test d'écoute, n'évaluent donc pas nécessairement une scène enregistrée et sa version répliquée. 
 L'optimisation du plan ne permet également pas d'avoir un nombre de réplication $R$ constant sur l'ensemble des scènes testés mais variable évoluant dans l'intervalle $\left[20-30 \right]$ (Figure~\ref{fig:replication}). \\
 
 
@@ -419,10 +419,10 @@ où $\bar{X}_i$, $s_i$ et $N_i$ sont, respectivement, la moyenne de l'échantill
 DDL = \frac{\left(\frac{s_1^2}{N_1}+\frac{s_2^2}{N_2} \right)^2}{\frac{s_1^4}{N_1^2(N_1-1)}+\frac{s_2^4}{N_2^2(N_2-1)}}.
 \end{equation}
 
-La statistique $t$ avec le nombre de degrés de libertés (correction de Welch) sont alors utilisées avec une loi de Student pour déterminer la valeur de la probabilité $p$ (valeur $p$) qui permet de rejeter (ou non) l'hypothèse $H_0$ selon une valeur seuil de référence $\alpha$ (défini à 5 $\%$) :
+La statistique $t$ avec le nombre de degrés de libertés (correction de Welch) sont alors utilisés avec une loi de Student pour déterminer la valeur de la probabilité $p$ (valeur $p$) qui permet de rejeter (ou non) l'hypothèse $H_0$ selon une valeur seuil de référence $\alpha$ (défini à 5 $\%$) :
 
 \begin{itemize}
-\item si $p < \alpha$, les distributions sont différentes, l'hypothèse $H_0$ est rejetée et $H_1$ est acceptée,
+\item si $p < \alpha$, les distributions considérées sont différentes, l'hypothèse $H_0$ est rejetée et $H_1$ est acceptée,
 \item si $p > \alpha$, l'hypothèse $H_0$ est acceptée, les distributions d'où sont issues les évaluations sont considérées identiques.\\
 \end{itemize}
 
@@ -467,226 +467,24 @@ Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & &
 \label{fig:boxplot_scene}
 \end{figure}
 
-L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ inférieures au seuil de signification $\alpha$ de 5 $\%$ pour seulement 2 scènes (scène 5 et 18). Ces résultats sont à mettre en parallèle avec la distribution des notes de ces scènes en Figure \ref{fig:boxplot_scene}. Dans le cas de la scène 5, on observe que la distribution des notes pour la scène enregistrée (Figure \ref{fig:boxplotEnreg}) est plus large que pour la scène répliquée. Au regard de ces distributions la scène 5 répliquée serait donc plus réaliste que celle enregistrée. À l'écoute, la scène 5 issue de l'enregistrement est une scène calme avec peu d'évènements émergents avec un bruit de fond, lui aussi, très calme. Il peut être supposé que sans identification clair d'évènements sonores, les auditeurs ont jugé le réalisme de la scène enregistrée moins bien que sa version répliquée qui, elle, si elle possède aussi peu d'évènement, par son aspect simulé, parait toutefois plus identifiable.
-Enfin, pour la scène 18, les deux distributions sont toutes deux situées vers des notes élevées. Mais dans le cas de sa version enregistrée (Figure \ref{fig:boxplotRepli}), la distribution également plus large que la scène répliquée génère une valeur $p$ sous le seuil de signification. Ainsi, malgré un test de Student qui validerait l'hypothèse $H_1$, on peut toute de même considérer que le réalisme des scènes répliquées 5 et 18 est satisfaisant au regarde de la distribution de leur notes.
-Sur les 18 autres scènes , l'hypothèse $H_0$ n'est donc pas rejetée : le réalisme perçu des scènes testées du type \textit{répliquée} n'est pas significativement différent de celui des scènes \textit{enregistrées}. D'autres tests statistiques sont, en complément, ajoutés en Annexe \ref{annexe:anova} où l'influence de l'évaluation des juges et l'influence de l'ambiance sonore sur le réalisme perçu sont observés.
+L'ensemble des tests de Student mené sur les 20 couples de scènes révèlent des valeurs $p$ inférieures au seuil de signification $\alpha$ de 5 $\%$ pour seulement 2 scènes (scène 5 et 18). Ces résultats sont à mettre en parallèle avec la distribution des notes de ces scènes en Figure \ref{fig:boxplot_scene}. Dans le cas de la scène 5, on observe que le réalisme moyen de la scène répliquée est plus important que celui de la scène enregistrée (Figure \ref{fig:boxplotEnreg}. À l'écoute, la scène 5 issue de l'enregistrement est une scène calme avec peu d'évènements émergents avec un bruit de fond, lui aussi, très calme. Il peut être supposé que sans identification clair d'évènements sonores, les auditeurs ont jugé le réalisme de la scène enregistrée moins correctement que sa version répliquée qui, elle, si elle possède aussi peu d'évènements, par son aspect simulé, parait toutefois plus identifiable.
+Enfin, pour la scène 18, les deux distributions sont toutes deux situées vers des notes élevées. Mais dans le cas de sa version enregistrée (Figure \ref{fig:boxplotRepli}), la distribution également plus large que la scène répliquée génère une valeur $p$ sous le seuil de signification. Ainsi, malgré un test de Student qui validerait l'hypothèse $H_1$, on peut toute de même considérer que le réalisme des scènes répliquées 5 et 18 est satisfaisant au regard de la distribution de leur notes.
+Sur les 18 autres scènes , l'hypothèse $H_0$ n'est donc pas rejetée : le réalisme perçu des scènes testées du type \textit{répliquée} n'est pas significativement différent de celui des scènes \textit{enregistrées}. L'influence de l'évaluation des juges et l'influence de l'ambiance sonore sur le réalisme perçu sont observés, en complément, en Annexe \ref{annexe:anova} à travers des analyses de variances (ANOVA).
 
-En conclusion, sur l'ensemble du corpus testé, il y a une similarité du réalisme perçu par l'ensemble des participants entre les scènes enregistrées et répliquées. Même s'il y a des disparités entre les distributions des notes selon les ambiances sonores, l'évaluation du réalisme selon les types de scènes et les ambiances restent similaires (les notes restent comprises entre 4 et 6). 
-Certains sons dans les scènes répliquées sembleraient toutefois mal calibrés, ce qui, sur certaines scènes, impacte leur note. Mais on retrouve également ce phénomène dans les scènes réelles, ce qui viendrait à relativiser cette mauvaise calibration.
+Enfin, il est intéressant d'étudier les commentaires laissés par les auditeurs sur plusieurs scènes. Ces derniers relèvent notamment des sons trop forts ou qui s'inscrivent mal dans les scènes (par exemple oiseaux trop fort dans la scène 21, bruit de pas trop fort dans la scène 24). Enfin certains extraits de voix ne sont pas suffisamment réalistes. En effet, lors de la phase d'écoutes des enregistrement, on remarque que les voix perçues, en dehors d'un brouhaha de foule, sont le plus souvent des bribes de conversations de personnes entre elles ou au téléphone. Malheureusement, il n'a pas été possible de trouver des bases de données libres de conversation suffisamment réalistes pour être inclus dans les scènes. De nombreuses bases de données se concentrent, par exemple, sur la lecture de textes récités \cite{el2011survey, kominek2004cmu, barker2015third} ce qui ne permet pas d'atteindre le réalisme souhaité. Les extraits de voix présents dans le corpus élémentaire sont des sons trouvés par défauts, brefs ("hello", "how are you ?") et qui diffèrent beaucoup des voix entendues en ville.
+Certains commentaires ont toutefois été laissé sur des scènes enregistrées : pour la scène 4, un auditeur trouve le sifflement des oiseaux trop fort \og artificiel \fg ou dans la scène 8, un auditeur déclare que le trop grand nombre d'évènements sonores nuit au réalisme de la scène. 
+
+En conclusion, sur l'ensemble du corpus testé, il y a une similarité du réalisme perçu par l'ensemble des participants entre les scènes enregistrées et répliquées. Même s'il y a des disparités entre les distributions des notes, l'évaluation du réalisme selon les types de scènes et les ambiances restent similaires (les notes restent comprises entre 4 et 6). 
+Certains sons dans les scènes répliquées sembleraient toutefois mal calibrés, ce qui, sur certaines scènes, impactent leur note (la scène 24 par exemple, voir Figure \ref{fig:boxplotRepli}). Mais on retrouve également ce phénomène dans les scènes réelles, ce qui viendrait à relativiser cette mauvaise calibration.
 En conséquence, le réalisme perçu des scènes répliquées est considéré comme similaire à celles des scènes réalistes. 
 De ces résultats, comme l'ensemble des scènes répliquées est réalisés avec le même dispositif, on généralise ce résultat à l'ensemble du corpus élémentaire \textit{SOUR}.\\
 
-Durant ce chapitre, deux corpus de scènes sonores urbaines ont été construits :
-\begin{itemize}
-\item le corpus d'évaluation \textit{Ambiance} où le trafic est mêlé à une classe de son générique et où le niveau sonore du trafic est calibré.  Ce corpus a pour objectif de tester le comportement de la NMF,
-\item le corpus d'évaluation \textit{SOUR} qui est la transcription d'enregistrement sonore urbain en scènes simulées. La réalisation de ces scènes simulées a été soumis à un test perceptif qui a révélé que les scènes simulées étaient perçues de façon similaire à des enregistrements audio. Les conclusions de ce test sont alors étendu à l'ensemble du corpus construit. Ce corpus réaliste a pour vocation à servir l'ensemble des communautés scientifiques développant des outils de reconnaissance, de détection ou de séparation de sources dans un milieu urbain. \\
-\end{itemize}
+\section{Conclusion du chapitre}
+Le logiciel de simulation de scènes audio \textit{SimScene} a été utilisé afin de constituer deux corpus de scènes sonores urbaines. Cette élaboration a nécessité la construction d'un corpus élémentaire qui contient des évènements sonores isolés (sifflement d'oiseaux, aboiement de chien, klaxon\dots{}) ainsi que des bruits de fonds (bruit de trafic routier continu, brouhaha de voix\dots{}). Puisque le trafic routier est la source sonore d'intérêt, des passages de voitures ont été enregistrés sur pistes afin d'obtenir des échantillons audio de qualité suffisante.
+De cette base de données, un premier corpus a été élaboré : le corpus d'évaluation \textit{Ambiance}. Il comprend en tout 750 scènes de 30 secondes et se divise en 6 sous-corpus qui sont caractérisés par une classe de son générique (\textit{alerte}, \textit{animaux}, \textit{climat}, \textit{humains}, \textit{transport} et \textit{mécanique}. Chaque sous-corpus est composé de 25 scènes mixant un signal audio trafic avec un signal audio de la classe de son générique, appelée classe de son \textit{interférante}. Chaque scène est alors dupliquée 5 fois où le niveau sonore du trafic est calibré selon celui de la classe de son interférante.
+Ce corpus a pour objectif de tester le comportement de la NMF suivant les classes de sons interférantes et des contributions du trafic différentes.
+Un second corpus a ensuite été élaboré, le corpus d'évaluation de Scènes Sonores Urbaines Réalistes\textit{SOUR}, qui est la transcription d'enregistrements sonores urbains en scènes simulées. Afin de d'estimer la qualité de ces scènes et notamment leur réalisme, une partie de ce corpus a été soumise à un test perceptif qui a révélé que les scènes simulées étaient perçues de façon similaire à des enregistrements audio. Les conclusions de ce test sont alors étendu à l'ensemble du corpus construit. L'intérêt de ce réalisme est de pouvoir assimiler ces scènes à des enregistrements audio et ainsi d'estimer les erreurs que générerait la NMF sur de telles mixtures. Ce corpus a aussi pour vocation à servir l'ensemble des communautés scientifiques développant des outils de reconnaissance, de détection ou de séparation de sources dans un milieu urbain. 
 
-Ces deux corpus sont alors soumis à la NMF afin dans un premier temps, sur le corpus \textit{Ambiance}, d'étudier son comportement face à de tels mixtures sonores, puis, cette méthode est appliquée sur le corpus \textit{SOUR} afin de déterminer quels sont les paramètres qui permettent d'estimer les niveaux sonores \textit{trafic} avec les plus faibles erreurs.
-
-
-%Les scènes sont alors créées par un processus en deux parties :
-%
-%\begin{itemize}
-%\item un analyse de phase où des évènements sinusoïdaux, transitoires et le bruit de fond sont séparés d'un enregistrement audio. Les évènements sinusoïdaux sont sélectionnés à partir d'une représentation temps-fréquence du signal. En fixant des fréquences limites et une amplitude seuil, les évènements sont extraits du signal; les régimes transitoires sont extraits à partir des variations d'énergies brusques du signal dans le domaine temporel. Enfin le bruit de fond est le signal résiduel restant après l'extraction des évènements sonores.
-%\item Une phase de synthèse où chaque signal extrait est modifié. Pour les sons sinusoïdaux, ces modifications peuvent être fréquentielles, en multipliant les fréquences des spectres par un facteur, ou bien temporelles en changeant sa durée (allongement, troncature...). Les signaux en régime transitoire peuvent être aussi modifiés en hauteur et en durée à l'aide d'un vocoder de phase. Quant au bruit de fond, le choix est fait de générer un nouvel audio similaire à un des audio extraits, à partir d'un algorithme d'apprentissage en arbres d'ondelettes.
-%\end{itemize}
-
-%%Ce test statistique considère plusieurs statistiques : un nombre de facteur $F$ comprenant chacun un nombre $N$ de niveaux où $M_n$ observations sont réalisées dans chaque niveau. Le modèle s'exprime alors :
-%%
-%%\begin{equation}
-%%y_{in} = \alpha_i + \beta_j + \gamma_{ij}+\epsilon_{ijk}
-%%\end{equation}
-%%
-%%où $\alpha_i$ et $\beta_j$ sont respectivement les effets des niveaux $i$ et $j$ du 1\er et 2\nd facteur, $\gamma_{ij}$ est l'interaction produite par ces deux facteurs et $\epsilon_{ijk}$ est l'erreur aléatoire qui suit une loi Normale $\mathbb{N}(0,\sigma^2)$.
-%%
-%%Deux hypothèses sont alors émises sur les distributions :
-%%
-%%\begin{itemize}
-%%\item les distributions des niveaux $n$ et $m$ sont semblables (hypothèse \textit{nulle} $H_0$),
-%%\item les deux distributions sont différentes, (hypothèse \textit{alternative} $H_1$).\\
-%%\end{itemize}
-%%
-%%Le test statistique de Fischer détermine alors si l'hypothèse $H_0$ est vraie ou fausse (et donc si l'hypothèse $H_1$ est vérifiée). Ce test consiste à établir le rapport $\mathbf{F}$ de deux variances,
-%%
-%%\begin{equation}
-%%\mathbf{F} = \frac{var_1}{var_2}.
-%%\end{equation}
-%%
-%%Le problème étant à 1 dimension, la variance totale $var_{tot}$ s'exprime comme la somme de la variance du modèle $var_{mod}$ (appelé variabilité inter-niveau) et celui d'un résidu $var_{res}$ (ou variabilité intra-niveau) :
-%%
-%%\begin{equation}
-%%var_{tot} = var_{mod} + var_{res}.
-%%\end{equation}
-%%
-%%En considérant un nombre d'observation total $M = \sum_{k = 1}^{K} M_k$, chacune de ces variances s'exprime comme
-%%
-%%
-%%\begin{equation}
-%%var_{mod} = \frac{SCE_{mod}}{DDL_{mod}},
-%%\end{equation}
-%%
-%%\begin{equation}
-%%var_{res} = \frac{SCE_{res}}{DDL_{res}}
-%%\end{equation}
-%%
-%%avec
-%%
-%%\begin{itemize}
-%%\item la somme des carrés des écarts du modèle, $SCE_{mod} = \sum_{n=1}^{N} m_n (\bar{y}_{in} - \bar{y})^2$,
-%%\item la somme des carrés des écarts du résidu, $SCE_{res} = \sum_{i=1}^{M_n} \sum_{n=1}^{N} (y_{in} - \bar{y}_n)^2$,
-%%\item le degré de liberté du modèle, $DDL_{mod} = F-1$,
-%%\item le degré de liberté du résidu, $DDL_{res} = M-F$,
-%%\item $\bar{y} = $
-%%\end{itemize}
-%%
-%%
-%%Le rapport $\mathbf{F}$ s'exprime alors :
-%%\begin{align}
-%%\mathbf{F} & = \frac{var_{mod}}{var_{res}}\\
-%%& = \frac{\nicefrac{SCE_{mod}}{DDL_{mod}}}{\nicefrac{SCE_{res}}{DDL_{res}}}\\
-%%& = \frac{M-F}{F-1}\frac{\sum_{n=1}^{N} m_n (\bar{y}_{in} - \bar{y})^2}{\sum_{i=1}^{M_n} \sum_{n=1}^{N} (y_{in} - \bar{y}_k)^2}.
-%%\end{align}
-%%
-%%Des degrés de libertés et de la valeur $\mathbf{F}$, on peut déterminer la \textit{p-valeur} (à l'aide des tables de Fischer ou à l'aide de logiciels comme \textit{R} ou Matlab) qui établit la probabilité d'obtenir une valeur limite du test si $H_0$ est vraie. Cette valeur est comparée a une seuil de signification $\alpha = 0.05$.
-%
-%
-%
-%\subsubsection{Par type de scènes}
-%
-%Dans le cas du test perceptif, on considère un seul facteur ($F = 1$), le réalisme de la scènes, qui comprend deux niveaux \textit{réelles} et \textit{simulées} ($N = 2$), chaque niveaux ayant un nombre d'observation $M_n$ correspondant à l'ensemble des notes du panel appartenant à l'un des deux niveaux et un nombre totale d'individu $M = J \times K = 1000$. Une ANOVA est réalisée sous le logiciel Matlab et les résultats sont résumés dans le tableau \ref{tab:anova}.\\
-%
-%\begin{table}[ht]
-%\centering
-%\begin{tabular}{lccccc}
-%\hline
-%\textbf{Source}     & \textbf{SCE} & \textbf{DDL} & \textbf{variance} & \textbf{F} & \textbf{p-valeur} \\
-%\hline
-%\textbf{réalisme} & 4.62         & 1            & 4.62              & 1.79       & 0.18              \\
-%\hline
-%\textbf{erreur}      & 2567.40      & 997          & 2.57              &            &                   \\
-%\hline
-%\textbf{total}      & 2572.00         & 998          &                   &            &       \\
-%\hline
-%\end{tabular}
-%\caption{Résultat de l'ANOVA calculé}
-%\label{tab:anova}
-%\end{table}
-%
-%
-%La \textit{p-valeur} est supérieure au seuil de signification $\alpha$ et est supérieur à 0.1. Il n'y a donc pas de présomption contre l'hypothèse $H_0$. On peut alors considéré qu'il n'y a pas de distinction possible entre les scènes simulées et réelles faites par le panel. \\
-%
-%En plus des résultats textuels, une représentation graphique sous forme de diagramme en boîte à moustache est faite selon le type de scènes (figure \ref{fig:ANOVA_scene}). Cette représentation graphique permet de comparer plusieurs distributions en résumant pour chaque boîte la médiane (trait plein rouge), les valeurs du  premier quartile au troisième quartile (boîte en bleue), la valeur maximale et minimale de la distribution (respectivement trait supérieur et inférieur en noir). \`A cela est également ajoutée la moyenne.\\
-%
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/testPerceptif_boxplotType_FR.png}
-%\caption{Représentation en diagramme en boîte à moustache entre les scènes réelles et simulées}\label{fig:ANOVA_scene}
-%\end{figure}
-%
-%La répartition des notes pour les deux type de scènes, quelque soit l'expérience de l'auditeur, est similaire. Chaque type présente des valeurs identiques (médiane, valeurs extrêmes, quantiles). Seule la note moyenne permet de différencier les deux ensembles : $m_{Re} = 4.93 \pm 1.64$ et $m_{Si} = 5.06 \pm 1.56$. Les deux valeurs sont quasiment similaires confirmant que les deux distributions sont donc bien identiques et que les scènes simulées ont un rendu similaire aux enregistrements réels. \\
-%
-%\subsubsection{Par expérience et par type de scènes}
-%Il est possible de déterminer l'influence de l'expérience de l'auditeur dans les écoutes d'ambiances urbaines dans l'évaluation des scènes par un ANOVA (tableau~\ref{tab:anova_exp}, figure~\ref{fig:ANOVA_exp}). Il y a donc ici 2 facteurs $F$, le type de scènes et l'expérience, qui ont 2 niveaux $N$ chacun (respectivement Re/Si et expérience/sans expérience).
-%
-%\begin{table}[ht]
-%\centering
-%\begin{tabular}{lccccc}
-%\hline
-%\textbf{Source}     & \textbf{SCE} & \textbf{DDL} & \textbf{variance} & \textbf{F} & \textbf{p-valeur} \\
-%\hline
-%\textbf{réalisme} & 4.62         & 1            & 4.62              & 1.79       & 0.18              \\
-%\hline
-%\textbf{expérience}    & 4.85         & 1            & 4.85              & 1.89       & 0.16              \\
-%\hline
-%\textbf{erreur}      & 2562.52      & 997          & 2.57              &            &                   \\
-%\hline
-%\textbf{total}      & 2572.00         & 999          &                   &            &       \\
-%\hline
-%\end{tabular}
-%\caption{Résultat de l'ANOVA calculé}
-%\label{tab:anova_exp}
-%\end{table}
-%
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = 0.8\textwidth]{./figures/test_perceptif/testPerceptif_boxplotExperience_EN.pdf}
-%\caption{Distribution des notes selon le type de scène et l'expérience dans l'écoute des scènes sonores urbaines}\label{fig:ANOVA_exp}
-%\end{figure}
-%
-%
-%\begin{table}[]
-%\centering
-%\begin{tabular}{p{3cm} C{3cm} C{3cm}}
-%\cline{2-3}
-% & \multicolumn{2}{c}{\textbf{type}} \\
-%\cline{2-3}
-% & \textbf{réelle} &  \textbf{simulée} \\ \hline
-%\textbf{avec expérience} &  $5.13 \pm 1.60$ & $5.06 \pm 1.70 $ \\ \hline
-%\textbf{sans expérience} &  $4.83 \pm 1.65$ & $5.07 \pm 1.49$ \\ \hline
-%\end{tabular}
-%\caption{Moyennes obtenue selon l'expérience et le type de scènes}
-%\label{my-label}
-%\end{table}
-%
-%Si on différencie les auditeurs selon leur expérience dans l'écoute d'ambiances sonores urbaines, on constate que les auditeurs expérimentés évalue mieux les scènes réelles que les scènes simulées à l'inverse des auditeurs sans expériences. De plus, si les moyennes pour les scènes simulées sont fortement similaires quelque soit l'expérience, la notation des scènes réelles est différente. Des retours et remarques faites par plusieurs panéliste permette de supposer que les auditeurs plus expérimentés sont plus susceptibles de faire attention aux détails de la scènes (composition des évènements sonores, connaissance sur la panel de sons pouvant être présents, différence de réverbération entre les sources sonores..) rendant les scènes simulées plus identifiables. À l'opposé, les auditeurs non expérimentés vont plus s'attarder à évaluer l'ensemble de la scène. Or comme les scènes simulées sont constitué de sons qui sons isolés initialement, il est plus facile pour l'auditeur de les reconnaitre dans la scène qu'il écoute et donc de se \og  projeter \fg{} dans le milieu urbain. Dans certaines scènes réelles, les sources sonores étant moins discernables la perception du réalisme est réduite.\\
-%
-%Toutefois, malgré ces faibles différences, les moyennes et les distributions restent, là encore, similaires et permettent de conclure que même avec de l'expérience dans l'écoute de scènes urbaine, la qualité des audio simulées est satisfaisante.\\
-%
-%\subsubsection{Par ambiance et par scène}
-%
-%On regroupe, dans la figure~\ref{fig:boxplot_ambiance}, les scènes par ambiances sonores (\textit{parc}, rue \textit{calme}, rue \textit{animée}, rue \textit{très animée}).\\
-%
-%\begin{figure}[hbtp]
-%\centering
-%\includegraphics[width=0.7\textwidth]{./figures/test_perceptif/testPerceptif_boxplotAmbianceCOLOR_EN.pdf}
-%
-%\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%\end{tabular}
-%
-%\caption{Distribution en fonction de l'ambiance sonore pour les scènes réelles (en haut) et les scènes simulées (en bas)}
-%\label{fig:boxplot_ambiance}
-%\end{figure}
-%
-%
-%Cette représentation permet de constater que les ambiances sonores \textit{animée} et \textit{très animée}, dans les deux types de scènes, sont évaluées comme les plus réalistes : la médiane et la moyenne sont élevées avec une distribution peu dispersée. \`A l'inverse, les ambiances plus calmes (\textit{parc} et \textit{calme}) sont plus dispersés et ont une note moyenne plus faible. C'est donc les ambiances constituées en majorité du trafic qui sont les mieux évalués. Les scènes dans les parcs et rues calmes, constituées de moins de trafic et plus de sons urbains divers (voix, bruit de pas, oiseaux), sont moins bien évaluées aussi bien pour les scènes issus d'enregistrements que celles créer.\\
-%
-%Enfin, pour chaque scène, la distribution des notes est établie et sont mis en relation avec les commentaires laissés par les auditeurs (figure~\ref{fig:ANOVA_scene}).\\
-%
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=.9\textwidth]{./figures/test_perceptif/testPerceptif_meanPerSceneCOLOR.pdf}
-%
-%\begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
-%\hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-%\end{tabular}
-%
-%\caption{Distribution par scène pour les scènes réelles (de 1 à 20) et les scènes simulées (de 21 à 40)}
-%\label{fig:moyParScene}
-%\end{figure}
-%
-%
-%Plusieurs observations peuvent être émises :
-%\begin{itemize}
-%\item La meilleure moyenne est obtenue pour 2 scènes ex-æquo : la scène 2 (6.0 $\pm$ 1.0) et 23 (6.0 $\pm$ 1.1).
-%\item La plus mauvaise moyenne est réalisée pour la scène 6 (3.6 $\pm$ 1.6). C'est donc une scène issu d'un enregistrement qui a été jugé la moins réaliste. Celle-ci a la particularité de n'avoir aucun évènement sonore discernable.
-%\item Parmi les 20 scènes simulées, on peut observé 4 scènes dont les moyennes sont plus faibles que les autres (scènes 22, 24, 26 et 27). Dans les scènes 24 et 26, les auditeurs ont remarqué que la présence des bruits de pas paraissent trop fort cassant le réalisme du reste de la scène. La scène 22 est, quant à elle, évaluée plus faiblement en raison d'un bruit de portail également trop fort au début de l'extrait. Ces trois scènes appartiennent à l'ambiance \textit{Parc}. La scène 27 enfin n'a pas reçu de commentaire mais sa note moyenne plus faible peut s'expliquer par un bruit de fond composé d'un nombre d'oiseaux peut être trop grand et qui parait peu réaliste dans un milieu urbain.\\
-%\end{itemize}
-%
-%L'ensemble de cette étude met en évidence les performances de l'outil de simulation qui permet de reconstruire des mixtures sonores urbaines perçues comme suffisamment réalistes. Pour ce test, la réalisation des scènes aux ambiances rue \textit{animée} et \textit{très animée} est très correcte. Les ambiances \textit{parc} et rue \textit{calme} restent bien évalué sur leur réalisme mais sont perfectibles notamment sur certains évènements sonores, non reliés au trafic, qui détériore l'aspect réaliste des scènes. A noter, que les passages de voitures isolés ou la reconstitution du trafic n'ont pas fait l'objet de commentaire.
-
-%Cette méthode établit dans un premier temps, le nombre de combinaison total possible ($J \times B$) puis un premier plan des combinaisons possibles (appelé $X$ de dimension $J \times K$) est élaboré de façon aléatoire. Celui-ci est ensuite mis à jour itérativement en remplaçant chaque combinaison possible $\tau_{j,k}$ par une autre combinaison $\tau^{*}_{j,b}$ extrait de la matrice de combinaison totale, de telle façon à minimiser le produit matriciel \ref{eq:mini_det_BIE}. Ce procédé est le principe de l'algorithme d'échange.
-
-%\begin{equation}\label{eq:mini_det_BIE}
-%\underset{\tau_{j,b}}{\text{min}} \det(X'X)^{-1}.
-%\end{equation}
-%
-%Cet algorithme est dit $D$-optimal car il fait intervenir l'opérateur \textit{Déterminant} mais il peut être $A$-optimal en faisant appel à l'opérateur \textit{Trace} à la place. Le résultat est alors un plan $X_{opt}$ de dimensions $J \times K$ résumant l'ordre d'écoutes des fichiers audio pour chaque juge. La Figure \ref{fig:replication} résume le nombre de réplication de chaque scène dans le plan obtenu.\\
 
 %\bibliographystyle{unsrt}
 %\bibliography{../bibliographie}

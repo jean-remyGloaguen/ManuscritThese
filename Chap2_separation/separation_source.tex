@@ -3,10 +3,9 @@
 
 
 \section*{\centering Résumé}
-\addcontentsline{toc}{section}{Abstract}
 
 \noindent{\small \textbf{ 
-Les méthodes de séparation de sources sont des outils visant à extraire les différentes composantes sonores d'un enregistrement audio. Différentes approches existent et sont décrites pour ensuite être comparées. Parmi ces méthodes, la Factorisation en Matrices Non-négatives est se révèle être la plus adaptée aux travaux de cette thèse en cela quelle intègre naturellement dans son fonctionnement le recouvrement temporel entre différentes sources sonores et est adapté aux enregistrements audio monophoniques.}}
+Les méthodes de séparation de sources sont des outils visant à extraire les différentes composantes sonores d'un enregistrement audio. Différentes approches existent et sont décrites pour ensuite être comparées. Parmi ces méthodes, la Factorisation en Matrices Non-négatives se révèle être la plus adaptée pour mener les travaux de cette thèse en cela qu'elle intègre naturellement dans son fonctionnement le recouvrement temporel entre différentes sources sonores et est adaptée aux enregistrements audio monophoniques.}}
 
 \vspace{2cm}
 
@@ -236,4 +235,7 @@ DESA  & ++ & - & ++ & \\
 \end{tabular}
 \end{table}
 
-En conclusion, la méthode CASA et l'algorithme DUET sont des méthodes qui sont peu adaptées au cas d'étude présent, car elles sont développées notamment pour des sons harmoniques et qui nécessitent au minimum deux microphones pour chaque point de mesure. Pour la même raison, l'ACI n'est pas une méthode adaptée à la mise en place de réseaux de capteurs monophoniques. De plus l'\textit{ambiguïté d'échelle} est un frein pour estimer correctement le niveau sonore du trafic. L'outil DESA répond à une grande partie des besoins, mais, comparé à la NMF, ne gère pas aussi bien le problème du recouvrement temporel. Or dans certain cas, le recouvrement peut être très important et s'étendre dans la durée. Cette approche étant susceptible de mettre de coté trop d'échantillons, c'est donc, la NMF qui par son fonctionnement (reconstruire le spectrogramme d'un signal audio à l'aide d'un dictionnaire), paraît être la méthode la plus adaptée à ces travaux.
+
+\section{Conclusion du chapitre}
+Plusieurs méthodes de séparation de sources ont été abordées et décrites. Celles-ci ont été évaluées au regard des contraintes posés en chapitre \ref{chap:modele} : la méthode choisie doit être adaptée aux environnements sonores urbains, être compatible avec des capteurs microphoniques et prendre en compte le mieux possible le phénomène de recouvrement des sources.
+La méthode CASA et l'algorithme DUET sont des méthodes qui sont peu adaptées au cas d'étude présent, car elles sont développées notamment pour des sons harmoniques et qui nécessitent au minimum deux microphones pour chaque point de mesure. Pour la même raison, l'ACI n'est pas une méthode adaptée à la mise en place de réseaux de capteurs monophoniques. De plus l'\textit{ambiguïté d'échelle} est un frein pour estimer correctement le niveau sonore du trafic. L'outil DESA répond à une grande partie des besoins, mais, comparé à la NMF, ne gère pas aussi bien le problème du recouvrement temporel. Or dans certain cas, celui-ci peut être très important et s'étendre dans la durée. Cette approche étant susceptible de mettre de coté trop d'échantillons, c'est donc, la NMF qui par son fonctionnement (reconstruire le spectrogramme d'un signal audio à l'aide d'un dictionnaire), paraît être la méthode la plus adaptée à ces travaux et qui est donc celle retenue.

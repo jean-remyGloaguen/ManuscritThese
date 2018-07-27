@@ -2,16 +2,15 @@
 \thispagestyle{empty}
 
 \section*{\centering Résumé}
-\addcontentsline{toc}{section}{Résumé}
 
-\noindent{\small \textbf{La description des ESU est à l'heure actuel réalisé par plusieurs outils. Les plus répandus sont les modèles prédictifs de bruits basé sur des modèles de sources et de propagation. Ces modèles sont notamment utilisé pour la cartographie de bruit de trafic. Ces modèles possèdent des limites bloquantes. Une autre approches qui se développe est l'utilisation de mesures et d'enregistrements sonores en ville à travers des réseaux de capteurs fixes et des mesures mobiles. Cette approche permet de considérer l'ESU dans son intégralité. Toutefois l'une des limites à résoudre est l'extraction des sources sonores afin de connaitre la contribution de chacune des sources.}}
+\noindent{\small \textbf{La description des environnements sonores urbains (ESU) est, à l'heure actuelle, réalisée par plusieurs outils dont les plus répandus sont basés sur des modèles d'émissions sonores et de propagation, notamment utilisés pour la cartographie de bruit de trafic. Ces outils possèdent plusieurs limites comme la limitation du nombre de sources considérées ou les approximations générés par ces modèles. Afin d'obtenir une meilleure description des environnements sonores, l'utilisation de mesures et d'enregistrements sonores faits en ville, à travers des réseaux de capteurs fixes et des mesures mobiles, est de plus en plus envisagée. Cette approche permet de considérer l'ESU dans son intégralité en prenant en compte l'ensemble des sources et les effets de l'environnement urbain sur leur propagation. Toutefois, pour utiliser pleinement ces mesures, il reste à savoir estimer les contributions des différentes sources présentes notamment le trafic routier. La méthode et le protocole expérimental mis en place pour ces travaux sont alors exposés.}}
 
 
 \vspace{2cm}
 
 Dans ce chapitre, une présentation des méthodes utilisées pour caractériser l'environnement sonore urbain est réalisée. Dans une première partie, le problème général est posé formellement, puis l'utilisation de modèles prédictifs et les éléments de cartographie de bruit en ville sont exposés et enfin la réalisation de mesures en milieu urbain est présentée. Enfin, la problématique générale est énoncée et une solution est proposée.
 
-\section{Définition formelle du problème}
+\section{Définition formelle du problème}\label{part:problème}
 
 Soit $M_{i}(t)$, un environnement sonore urbain (abrégé ESU) défini dans un espace $\Omega$, capté en un point donné $i_{\in \Omega}$, reçu à un instant $t$. L'ESU se décompose alors comme la somme de $N$ différentes contributions sonores $S_j(t)$ reçues à ce point $i$. Chacune de ces contributions est le résultat de l'émission sonore d'une source acoustique $s_j$, de puissance sonore $L_{w,j}$, située à la position $j_{\in \Omega}$ et émise à un instant $t-\tau_j$,  qui s'est propagée dans l'environnement urbain le long de $k$ chemins. L'ESU s'exprime alors, mathématiquement, dans le domaine temporel comme :
 
@@ -61,15 +60,23 @@ TF\left[S_j(t)\right] & = TF\left[s_j(t-\tau_j) \ast \delta_{ij}(t) \right],\\
 \end{align}
 \end{subequations}
 
-avec la transformée de Fourier d'un signal $x(t)$ : $TF\left[x(t)\right] = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty} x(t)e^{j2\pi t} dt$ où $f$ est la fréquence en Hz. $\hat{s}_j(f)$ exprime l'émission de la source sonore à la fréquence $f$, $\hat{\delta}_{ij}(f)$, la transformée de Fourier de la réponse impulsionnelle qui se traduit par un filtre de propagation, le déphasage $\tau$ s'exprime sous la forme d'une exponentielle et est lié à la fréquence du signal. L'ESU s'exprime dans le domaine fréquentiel de la même façon que dans le domaine temporel (équation \ref{eq:esu-somme}) : 
+avec la transformée de Fourier d'un signal $x(t)$ : 
+\begin{subequations}
+\begin{align}
+TF\left[x(t)\right] & = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty} x(t)e^{j2\pi t} dt, \\
+ & = \hat{x}(f)
+\end{align}
+\end{subequations}
+
+où $f$ est la fréquence en Hz. $\hat{s}_j(f)$ exprime l'émission de la source sonore à la fréquence $f$, $\hat{\delta}_{ij}(f)$, la transformée de Fourier de la réponse impulsionnelle qui se traduit par un filtre de propagation, le déphasage $\tau$ s'exprime sous la forme d'une exponentielle et est lié à la fréquence du signal. L'ESU s'exprime dans le domaine fréquentiel de la même façon que dans le domaine temporel (équation \ref{eq:esu-somme}) : 
 
 \begin{equation}
 \hat{M}_i(f) = \hat{S}_{tr.}(f)+\hat{S}_{int.}(f).
 \end{equation}
 
-avec $\hat{S}_{tr.}(f) = TF\left[ S_{tr.}(t)\right]$ et $\hat{S}_{int.}(f) = TF\left[ S_{int.}(t)\right]$. $\hat{M}_i(f)$ équivaut alors à la contribution de chaque source sonore à la fréquence $f$.\\
+avec $\hat{S}_{tr.}(f) = TF\left[ S_{tr.}(t)\right]$ et $\hat{S}_{int.}(f) = TF\left[ S_{int.}(t)\right]$. $\hat{M}_i(f)$ équivaut alors à la contribution de chaque source sonore à la fréquence $f$ au point $i$.\\
 
-L'ESU $M_i(t)$ (et respectivement $\hat{M}_i(f)$) est donc le résultat de la somme d'un ensemble de sources sonores variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore propre qui leurs sont propres, émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
+L'ESU $M_i(t)$ (et respectivement $\hat{M}_i(f)$) est donc le résultat de la somme d'un ensemble de sources sonores variées, ayant une allure temporelle, fréquentielle ainsi qu'un niveau sonore qui leurs sont propres, émises dans un environnement où des phénomènes de propagation complexes ont lieu. Les questions soulevées sont alors :
 
 \begin{itemize}
 \item \textbf{Comment caractériser les ESU ? Quels sont les moyens disponibles pour cela ?}
@@ -140,17 +147,17 @@ Là encore, les modèles de propagation diffèrent selon les méthodes choisies.
 	\item de connaitre et de délimiter les zones bruyantes et les zones calmes.\\
 \end{itemize}
 
-Cette directive se traduit notamment par la production de cartes de bruits stratégiques, pour chacune des ces 4 sources sonores, afin de déterminer les endroits où les niveaux sonores sont élevés. Un résumé des étapes permettant la réalisation des cartes de bruit du trafic routier est présenté en Figure \ref{fig:cartographie}.\\
+Cette directive se traduit notamment par la production de cartes de bruits stratégiques, pour chacune de ces 4 sources sonores, afin de déterminer les endroits où les niveaux sonores sont élevés. Un résumé des étapes permettant la réalisation des cartes de bruit du trafic routier est présenté en Figure \ref{fig:cartographie}.\\
 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.85\linewidth]{./figures/cartographie/cartographie.pdf}
-\caption{Résumé des étapes menant aux cartes de bruit de trafic routier.}
+\caption{Résumé des étapes menant aux cartes de bruit du trafic routier.}
 \label{fig:cartographie}
 \end{figure}
 
-Dans un premier temps, plusieurs indicateurs en données d'entrée des modèles sont relevés \textit{in situ} :
+Dans un premier temps, plusieurs indicateurs en données d'entrée sont relevés \textit{in situ} :
 
 \begin{itemize}
 \item vitesses moyennes des véhicules sur les portions de routes principales,
@@ -170,8 +177,8 @@ Dans un premier temps, plusieurs indicateurs en données d'entrée des modèles 
 
 Puis à partir d'un modèle d'émission sonore et de ces données d'entrée, il est possible d'établir la puissance émise par chaque véhicule pour chaque fréquence, $\hat{s}_{v}(f)$.
 Enfin, l'influence de l'environnement $\hat{\delta}(f)$ sur la répartition des niveaux sonores dans la ville est calculé à l'aide d'un logiciel numérique (Mithra, Immi, CadnAa \dots). Les logiciels accompagnés d'un Système d'Information Géographique (SIG) sont ceux qui offrent actuellement le plus de possibilités. Un SIG est un outil informatique conçu pour stocker, analyser et manipuler plusieurs types de données spatiales et géographiques comme l'architecture des villes ou le nombre d'habitants présents.
-Son utilisation permet alors de connaitre plus facilement le nombre de citadins exposés à des forts niveaux sonores.
-Par exemple, le logiciel OrbisGIS\footnote{\url{http://orbisgis.org/}}, destiné à représenter de données spatiales, permet la réalisation de cartes de bruit à l'aide de l'ajout d'un plugin, \textit{NoiseModelling}, développé par \cite{fortin}. \\
+Son utilisation permet de connaitre plus facilement le nombre de citadins exposés à des forts niveaux sonores.
+Par exemple, le logiciel OrbisGIS\footnote{\url{http://orbisgis.org/}}, destiné à représenter des données spatiales, permet la réalisation de cartes de bruit à l'aide de l'ajout d'un plugin, \textit{NoiseModelling}, développé par \cite{fortin}. \\
 
 Les cartes de bruits produites résument les niveaux sonores équivalent pondérés $A$ sur 24h ($L_{DEN}$ pour \textit{Day-Evening-Night} (\textit{Jour-Soir-Nuit} en français)) et durant la nuit ($L_N$) :
 
@@ -190,7 +197,7 @@ L_N &= 10\times\log_{10}\left(\frac{1}{T} \sum_{t = 1}^{T}10^{\frac{L_{N_t}}{10}
 \end{subequations}
 
 avec $L_{X_t}$, le niveau sonore dans la tranche horaire $t$. Les niveaux $L_E$ et $L_N$ sont majorés respectivement de 5 dB($A$) et de 10 dB($A$) afin de pénaliser les plages horaires où la gêne occasionnée par le trafic est plus importante. La Figure \ref{fig:carto_nantes} résume, par exemple, le $L_{DEN}$ et le $L_N$ pour le bruit du trafic routier dans un quartier de la ville de Nantes.
-La réalisation de ces cartes permet alors d'estimer le nombre  de personnes touchées par ces niveaux sonores élevés et facilite ainsi la mise en oeuvre de travaux d'aménagement (construction de mur anti-bruit, changement de revêtement, diminution des vitesses \dots) si les niveaux sonores estimés sont trop élevés selon la réglementation en vigueur. L'utilisation de modèles prédictifs présente alors l'intérêt de pouvoir simuler l'effet de ces dispositifs sur les niveaux sonores émis et d'en mesurer l'impact \cite{murphy2011scenario,guedes2011influence}. Les cartes produites doivent ensuite être mises à jour tous les 5 ans.
+La réalisation de ces cartes permet ensuite d'estimer le nombre  de personnes touchées par des niveaux sonores élevés et facilite ainsi la mise en oeuvre de travaux d'aménagement (construction de mur anti-bruit, changement de revêtement, diminution des vitesses\dots) si les niveaux sonores estimés sont trop élevés selon la réglementation en vigueur. L'utilisation de modèles prédictifs présente alors l'intérêt de pouvoir simuler l'effet de ces dispositifs sur les niveaux sonores émis et d'en mesurer l'impact \cite{murphy2011scenario,guedes2011influence}. Les cartes produites doivent ensuite être mises à jour tous les 5 ans.
 
 
 \subsection{Vers la modélisation d'autres sources sonores ?}
@@ -453,6 +460,7 @@ En outre, l'opérateur logarithmique présent dans l'expression \ref{eq:Lp} est 
 
 Toutefois, dans un soucis de rigueur, la valeur fournie par l'erreur $MAE$ ne doit plus être considérée comme une erreur s'exprimant en dB acoustique mais comme un indice de performance sans dimension.\\
 
+\section{Conclusion du chapitre}
 Les environnements sonores urbains sont ainsi des milieux complexes qu'il est nécessaire de savoir caractériser afin de mieux connaitre les zones où les niveaux sont élevés et ceux où ils sont faibles. 
 Les outils les plus utilisés sont, à l'heure actuelle, basés sur des modèles d'émissions et de propagations sonores qui permettent de prédire les niveaux sonores de sources spécifiques (bruit de trafic routier, ferroviaire et aérien et des ICPE). Ces modèles limitent toutefois la connaissance des ESU dans leur globalité en se focalisant uniquement sur des sources de bruit. De plus, ils présentent des limites lié à la réduction du nombre de catégories de voiture ou de revêtement, aux limites des modèles de propagation ou à la modélisation numérique.  
 Ainsi le déploiement de réseaux de capteurs en ville et l'émergence des mesures participatives sont des pistes intéressantes en vue d'obtenir une caractérisation plus fine de ces environnements. Ces approche s'affranchissent des difficultés techniques rencontrées lors des simulations et permettent de prendre en compte l'intégralité de l'ESU.  Seulement pour estimer la contribution des sources sonores de l'ESU, il est nécessaire de disposer d'outils du traitement du signal adaptés à ces environnements et à ces sources. 
