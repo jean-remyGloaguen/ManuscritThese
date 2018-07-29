@@ -1,17 +1,19 @@
-\chapter{Développement de la smooth-NMF pour $\beta = 0$ et $\beta = 2$}\label{annex:smoothNMF}
+\chapter{Développement de la contrainte de régularité temporelle pour $\beta = 0$ et $\beta = 2$}\label{annex:smoothNMF}
 
-Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, un algorithme de \textit{smooth NMF} est développé, basé sur l'approche de \textit{majorisation-minimisation}. D'abord développé pour la divergence K-L, elle est étendue au cas de la distance EUC et de la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
+Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, les algorithmes de mise à jour de la NMF avec une contrainte de régularité temporelle sont développés. initialement développé pour la divergence K-L, elle est étendue au cas de la distance EUC et de la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
 
 \section{Cas de la distance Euclidienne}
+On pose le calcul de la fonction de coût pour la NMF avec une distance EUC et la contrainte :
+
 \begin{align}
-C(\mathbf{H}) &= D_2(\mathbf{V} \Vert \mathbf{WH}) + \alpha C_{MM}(\mathbf{H})\\
+C(\mathbf{H}) &= D_2(\mathbf{V} \Vert \mathbf{WH}) + \alpha_t C_{MM}(\mathbf{H})\\
  &= \frac{1}{2}\sum_n(\mathbf{v}_n-\mathbf{Wh}_n)^2+\alpha\lambda L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) 
 \end{align}
-On définit $\mathbf{h}$, la valeur de $\mathbf{h}$ à déterminer à l'itération $i+1$, $\mathbf{\tilde{h}}$, sa valeur à l'itération $i$ et $\mathbf{\tilde{v}}_f = \left[\mathbf{W}\tilde{\textbf{h}}\right]$.
+avec $\lambda = \Vert w \Vert$, la terme de normalisation des matrices $\mathbf{W}$ et $\alpha$ la pondération de la contrainte. On définit $\mathbf{h}$, la valeur de $\mathbf{h}$ à déterminer à l'itération $i+1$, $\mathbf{\tilde{h}}$, sa valeur à l'itération $i$ et $\mathbf{\tilde{v}}_f = \left[\mathbf{W}\tilde{\textbf{h}}\right]$.
 En suivant la méthode de \textit{majorisation-minimisation}, une fonction auxiliaire $G_{SM}(\mathbf{h}_{k}\vert \mathbf{\tilde{h}}_{k})$ est définie : 
 
 \begin{equation}
-G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) = G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})+\alpha L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})
+G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) = G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})+\alpha_t L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})
 \end{equation}
 
 
@@ -19,53 +21,39 @@ G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) = G_{2}(\mathbf{h}_{n}\vert \
 G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \frac{1}{2}\sum_{f} \sum_k \frac{w_{fk} \tilde{h}_{kn} v_{fn}^2}{\tilde{v}_{fn}}-2 w_{fk} h_{kn} v_{fn}+w_{fk}\frac{h_{k}^2}{\tilde{h}_{k}}\tilde{v}_{fn}
 \\
 L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)}) &= \frac{1}{2}\sum_{k}\lambda_k^2 \left[ \left(h_{k(n+1)}-h_{kn}\right)^2+\left(h_{kn}-h_{k(n-1)}\right)^2 \right]\\
-&= \sum_k \lambda_k^2 \left[ h_{kn}^2- h_{kn}\left(h_{k(n+1)}+h_{k(n-1)}\right)+\frac{1}{2} \left(h_{k(n+1)}^2+h_{k(n-1)}^2\right) \right]
+&= \sum_k \lambda_k^2 \left[ h_{kn}^2- h_{kn}\left(h_{k(n+1)}+h_{k(n-1)}\right)+\frac{1}{2} \left(h_{k(n+1)}^2+h_{k(n-1)}^2\right) \right].
 \end{align}
  
-où $\lambda_k = \Vert w_k \Vert$, la terme de normalisation des matrices $\mathbf{W}$. La minimisation de la fonction $G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ est alors déterminée en trouvant les zéros de son gradient $\nabla_{h_k} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ :
-
-
-\begin{align}
-\nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) ={}& \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
-\begin{split}
- ={}& \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_{fn} + 2 w_{fk} v_{fn} \frac{h_{kn}}{\tilde{h}_{kn}} \\
- & + \alpha \lambda_k^2 \left[ 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right]
- \end{split}\\
-\begin{split}
- ={}& \sum_{f} \sum_{k} \left( 2\alpha \lambda_k^2 + \frac{w_{fk} v_{fn}} {\tilde{h}_{kn}}\right)h_{kn} \\
- & - \left(w_{fk} v_{fn} + \alpha_t  \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
-\end{split}\label{eq:smooth_1}
-\end{align}
+La minimisation de la fonction $G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ est alors déterminée en trouvant les zéros de son gradient $\nabla_{h_k} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n})$ :
 
 \begin{align}
 \nabla_{h_{k}} G_{SM}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) &= \nabla_{h_{k}} G_{2}(\mathbf{h}_{n}\vert \mathbf{\tilde{h}}_{n}) + \alpha_t \nabla_{h_{k}} L(\mathbf{h}_{n}; \mathbf{h}_{(n+1)}, \mathbf{h}_{(n-1)})\\
 \begin{split}
     ={}& \sum_{f} \sum_{k} \left( 2\alpha_t \lambda_k^2 + \frac{w_{fk} v_{fn}}{\tilde{h}_{kn}}\right)h_{kn} \\
     & - \left(w_{fk} v_{fn} + \alpha_t \lambda_k^2 \left(h_{k(n+1)}+h_{k(n-1)}\right)\right) 
-    \end{split}\label{eq:smooth_2}\\
+    \end{split}\\
 \begin{split}
     ={}& \frac{1}{2}\sum_{f} \sum_{k} -2 w_{fk} v_{fn} + 2 w_{fk} v_{fn} \frac{h_{kn}}{\tilde{h}_{kn}} \\
-    & + \alpha_t \lambda_k^2 \left( 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right)
+    & + \alpha_t \lambda_k^2 \left( 2 h_{kn}- (h_{k(n+1)}+h_{k(n-1)}) \right)\label{eq:smooth_2}
 \end{split}
 \end{align}
-
 
 
 L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expression des mises à jour de $h_{kn}$ : 
 
 \begin{equation}\label{eq:smooth_beta2}
 \fbox{$
-h_{kn} = \frac{w_{fk} v_{fn}+\alpha_t  \lambda_k^2 \left(h_{k(n+1)}^{(i)}+h_{k(n-1)}^{(i)})\right)}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {h_{kn}^{(i)}}}$}
+h_{kn} = \frac{w_{fk} v_{fn}+\alpha_t  \lambda_k^2 \left(\tilde{h}_{k(n+1)}+\tilde{h}_{k(n-1)})\right)}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {\tilde{h}_{kn}}}$}
 \end{equation}
 pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha_t$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient ; 
 
 \begin{equation}
-h_{k1} = \frac{w_{fk} v_{f1}+\alpha_t \lambda_k^2 h_{k2}^{(i)})}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{h_{k1}^{(i)}}}.
+h_{k1} = \frac{w_{fk} v_{f1}+\alpha_t \lambda_k^2 \tilde{h}_{k2})}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{\tilde{h}_{k1}}}.
 \end{equation}
 
 Et pour $n = N$, l'équation \ref{eq:smooth_beta2} devient 
 \begin{equation}
-h_{kN} = \frac{w_{fk} v_{fN}+\alpha_t  \lambda_k^2 h_{kN}^{(i)}}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {h_{kN}^{(i)}}}.
+h_{kN} = \frac{w_{fk} v_{fN}+\alpha_t  \lambda_k^2 \tilde{h}_{kN}}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {\tilde{h}_{kN}}}.
 \end{equation}
 
 Pour illustrer l'impact de la pondération, une scène de 30 secondes est générée comprenant un passage de voiture suivi de sifflements d'oiseaux. Le dictionnaire $\mathbf{W}$ est composé de 5 éléments \textit{trafic} et 5 éléments \textit{oiseaux} construit à partir de 5 échantillons pour chaque classe de son et avec $w_t = all$. La NMF supervisée est appliquée sur cette scène afin d'en déduire le niveau sonore du trafic. On illustre en Figure \ref{fig:smooth_2} l'impact de cette contrainte pour $\alpha_t = \lbrace 0,~2\rbrace$. 
@@ -210,7 +198,7 @@ X_3 &= j^2\sqrt[3]{S_1}+j\sqrt[3]{S_2}.
 \end{subequations}
 \end{itemize}
 
-La solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui est réelle et positive parmi les trois solutions possibles, et définie selon le signe de $\Delta$ : 
+Ainsi, la solution du problème \ref{eq:eq_mimiser_smooth} est donc la valeur $X_z$ qui est réelle et positive parmi les trois solutions possibles et définie selon le signe de $\Delta$ : 
 
 \begin{equation}
 \fbox{$
@@ -218,7 +206,7 @@ h_{kn} = X_{z}^+-\frac{b}{3a}.
 $}
 \end{equation}
 
-Le même exemple illustratif que pour $\beta$ = 2 est repris ici en Figure \ref{fig:smooth_0}. On relève que la valeur $\alpha_t$ bien plus élevée pour la divergence IS ($\alpha_t = 10^7$) que pour la distance EUC en raison de la valeur $d$ et du rapport $\frac{w_{fk}}{\tilde{v}_f}$ de $b$, dans l'équation du 3\ieme{} ordre, qui prennent des valeurs élevés.
+Le même exemple illustratif que pour $\beta$ = 2 est repris ici en Figure \ref{fig:smooth_0}. On relève que la valeur $\alpha_t$ est bien plus élevée pour la divergence IS ($\alpha_t = 10^7$) que pour la distance EUC en raison de la valeur $d$ et du rapport $\frac{w_{fk}}{\tilde{v}_f}$ de $b$, dans l'équation du 3\ieme{} ordre, qui prennent des valeurs élevés.
 
 \begin{figure}[h]
 \centering
