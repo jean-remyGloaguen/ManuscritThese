@@ -1,13 +1,15 @@
 
-\chapter{\'Etude du corpus d'évaluation \textit{ambiance}}
+\chapter{\'Etude du comportement de la NMF sur le corpus d'évaluation \textit{ambiance}}
 \label{chap:ambiance}
 
-%\noindent\fbox{\parbox{\linewidth-2\fboxrule-2\fboxsep}
-%{\small La NMF est appliqué sur le corpus d'évaluation \textit{Ambiance} afin de visualiser le comportement de cette méthode sur de telles mixtures sonores. Les trois méthodes retenues (NMF Supervisée, Semi-supervisée et Initialisée Seuillée) sont testé pour de multiples configurations selon la composition du dictionnaire et de la $\beta$-divergence. Les résultats obtenues permettent de constater des performances variables des méthodes selon la prédominance du trafic. Lorsque celui-ci est faible la NMF semi-supervisée se révèle l'approche la plus performante alors que la NMF supervisée génère de plus faibles erreurs lorsque le trafic est la source sonore principale. La NMF IS est alors la méthode qui offre le meilleur compromis dans son fonctionnement grâce à la mise à jour de son dictionnaire mais dont la dérive est limitée par un seuillage dur.}}
-%
-%\vspace{2cm}
+\section*{\centering Résumé}
 
-Dans ce chapitre, on étudie le comportement des différentes versions de la NMF, présentées dans le chapitre \ref{chap:NMF},  avec le premier corpus élémentaire \textit{Ambiance}. Ce corpus présente l'intérêt d'être construit en mixant des classes de sons spécifiques dont la source sonore \textit{trafic} est calibré à différents niveaux sonores. Cet aspect permet d'étudier le fonctionnement des différentes versions de la NMF en fonction de la prédominance du trafic et de la nature des classes de sons ainsi que de déterminer les approches les plus efficaces et les plus adaptés à ces environnements.
+\noindent{\small \textbf{
+La NMF est appliquée sur le corpus d'évaluation \textit{Ambiance} afin de visualiser le comportement de cette méthode sur de telles mixtures sonores. Les trois méthodes retenues (NMF supervisée, semi-supervisée et initialisée seuillée) sont testées pour de multiples configurations selon la composition du dictionnaire et de la $\beta$-divergence. Les résultats obtenus permettent de constater des performances variables des méthodes selon la prédominance du trafic. Lorsque celui-ci est faible, la NMF semi-supervisée se révèle l'approche la plus performante alors que la NMF supervisée génère de plus faibles erreurs quand le trafic est la source sonore principale. La NMF IS est alors la méthode qui offre le meilleur compromis dans son fonctionnement grâce à la mise à jour de son dictionnaire et à l'estimation du signal \textit{trafic} par une méthode de seuillage dur.}}
+
+\vspace{2cm}
+
+Dans ce chapitre, on étudie le comportement des différentes versions de la NMF, présentées dans le chapitre \ref{chap:NMF},  avec le premier corpus élémentaire \textit{Ambiance}. Ce corpus présente l'intérêt d'être construit en mixant des classes de sons spécifiques dont la source sonore \textit{trafic} est calibrée à différents niveaux sonores. Cet aspect permet d'étudier le fonctionnement des différentes versions de la NMF en fonction de la prédominance du trafic et de la nature des classes de sons, ainsi que de déterminer les approches les plus efficaces et les plus adaptées à ces environnements.
 Dans un premier temps un rappel du corpus, des méthodes choisies et une présentation de la méthode de référence (ou \textit{baseline} en anglais) sont exposés. Puis les étapes menant à l'apprentissage du dictionnaire et l'ensemble des facteurs expérimentaux sont détaillées. Enfin les résultats des calculs menés sont présentés et discutés.
 
 
@@ -18,11 +20,11 @@ Les étapes impliquées dans l'estimation du niveau sonore du trafic à partir d
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\linewidth]{./figures/NMF/Bloc_diagram_estimateur_FR.pdf}
-\caption{Diagramme en blocs de l'estimation du niveau sonore du bruit de trafic.}
+\caption{Schéma-bloc de l'estimation du niveau sonore du bruit de trafic.}
 \label{fig:rappel_estimateur}
 \end{figure}
 
-Le corpus de scènes sonores a été présenté dans \ref{part:corpus_ambiance} et est composé, pour rappel, de 6 sous-corpus : \textit{alerte}, \textit{animaux}, \textit{climat}, \textit{humain}, \textit{transport}, \textit{mécanique} (abrégés respectivement \textit{al.}, \textit{an.}, \textit{cl.}, \textit{hu.}, \textit{tr.} \textit{me.}). Chaque sous-corpus est lui-même divisé en 5 sous-ensembles qui comprennent, chacun, 25 mixtures sonores $M_i$ de 30 secondes, comprenant une classe de son \textit{trafic} (qui inclut le bruit de fond routier ainsi que les évènements sonores \textit{passages de voitures}), $S_{tr.}$, et une classe de son \textit{interférante} (qui regroupe tous les autres sources sonores), $S_{int.}$ :
+Le corpus de scènes sonores, présenté dans \ref{part:corpus_ambiance}, est composé, pour rappel, de 6 sous-corpus : \textit{alerte}, \textit{animaux}, \textit{climat}, \textit{humain}, \textit{transport}, \textit{mécanique} (abrégés respectivement \textit{al.}, \textit{an.}, \textit{cl.}, \textit{hu.}, \textit{tr.} \textit{me.}). Chaque sous-corpus est lui-même divisé en 5 sous-ensembles qui comprennent, chacun, 25 mixtures sonores $M_i$ de 30 secondes, comprenant une classe de son \textit{trafic} (qui inclut le bruit de fond routier ainsi que les évènements sonores \textit{passages de voitures}), $S_{tr.}$, et une classe de son \textit{interférante} (qui regroupe tous les autres sources sonores), $S_{int.}$ :
 
 \begin{equation}
 M_i = S_{tr.,i}+S_{int.,i}.
@@ -36,7 +38,7 @@ TIR = L_{eq,tr.} - L_{eq,int.}
 
 avec 5 valeurs $TIR \in \lbrace -12,~-6,~0,~6,~12 \rbrace$ dB. Ce corpus permet de tester les performances de la NMF et son comportement face à différentes sources sonores avec une prédominance variable du trafic routier. En tout, le corpus est composé de 750 scènes (6 sous-corpus $\times$ 5 $TIR$ $\times$ 25 scènes) pour une durée totale de 6h30.
 
-Pour chaque TIR et chaque sous-corpus, les 25 scènes $i$ sont soumises à un estimateur qui détermine le niveau sonore \textit{trafic} de l'intégralité de la scène en dB,  $\tilde{L}_{eq,tr., i}$. Les 25 niveaux sonores sont ensuite comparés aux niveaux sonores exacts respectifs, $L_{eq,tr., i}$ au travers de la métrique $MAE$ (équation \ref{eq:mae}), définie dans la partie \ref{part:cahier_charges}). Il est ensuite possible de déterminer les performances d'un estimateur sur l'ensemble des 6 sous-corpus pour chaque TIR en calculant sa moyenne :
+Pour chaque $TIR$ et chaque sous-corpus, les 25 scènes $i$ sont soumises à un estimateur qui détermine le niveau sonore \textit{trafic} de l'intégralité de la scène en dB,  $\tilde{L}_{eq,tr., i}$. Les 25 niveaux sonores sont ensuite comparés aux niveaux sonores exacts respectifs, $L_{eq,tr., i}$ au travers de la métrique $MAE$ (équation \ref{eq:mae}), définie dans la partie \ref{sect:methode}. Il est ensuite possible de déterminer les performances d'un estimateur sur l'ensemble des 6 sous-corpus pour chaque $TIR$ en calculant sa moyenne :
 
 \begin{equation}\label{eq:mae_tir}
 MAE_{TIR} = \frac{\sum_{i = 1}^6 MAE_{i}}{6}.
@@ -51,7 +53,7 @@ MAE_{g} = \frac{\sum_{i = 1}^6 \sum_{j = 1}^5 MAE_{i,j}}{6 \times 5}.
 L'erreur $MAE_g$ traduit l'erreur moyenne de l'estimateur faite sur l'intégralité du corpus d'évaluation et donc celle qui serait faite si aucune connaissance \textit{a priori} sur l'environnement sonore n'était disponible.
 
 \section{Estimateur baseline}
-Dans un premier temps, un estimateur de référence (ou \textit{baseline} en anglais) est nécessaire afin de comparer les performances de la NMF. La baseline choisie est un filtre en fréquence passe-bas de fréquence de coupure $f_c$. L'hypothèse faite est que l'énergie située dans la bande passante est assimilable au signal \textit{trafic}, $\tilde{L}_{eq,trafic}$. Le choix de cet outil est justifié par la présence de composantes basses-fréquences (principalement en dessous de 1000 Hz) dans les signaux trafic. Supprimer l'énergie au-delà parait donc une première approche envisageable. %De plus, c'est une méthode qui pourrait être choisie par défaut.
+Dans un premier temps, un estimateur de référence (ou \textit{baseline} en anglais) est nécessaire afin de comparer les performances de la NMF. La baseline choisie est un filtre passe-bas de fréquence de coupure $f_c$. L'hypothèse faite est que l'énergie située dans la bande passante est assimilable au signal \textit{trafic}, $\tilde{L}_{eq,trafic}$. Le choix de cet outil est justifié par la présence de composantes basses-fréquences (principalement en dessous de 1000 Hz) dans les signaux trafic. Supprimer l'énergie au-delà parait donc une première approche envisageable. %De plus, c'est une méthode qui pourrait être choisie par défaut.
 Cet estimateur consiste à représenter une mixture $M_i$ sous la forme d'un spectrogramme puis à rejeter toutes les trames fréquentielles supérieures à $f_c$. La Figure \ref{fig:baseline} résume les étapes intervenant pour cet estimateur.
 
 \begin{figure}[hbtp]
@@ -61,7 +63,7 @@ Cet estimateur consiste à représenter une mixture $M_i$ sous la forme d'un spe
 \label{fig:baseline}
 \end{figure}
 
-Les fréquences de coupure choisies sont $f_c = \lbrace 100, 500, 1k, 2k, 5k, 10k, 20k \rbrace$ Hz. Le cas où $f_c = 20$ kHz correspond finalement au cas où aucun traitement du signal n'est réalisé sur les fichiers audio et où toutes les sources présentes sont assimilées au trafic, ce qui correspond à l'utilisation actuellement faite des mesures pour la correction de cartes de bruits issues de modèles prédictifs.
+Les fréquences de coupure choisies sont $f_c \in \lbrace 100, 500, 1k, 2k, 5k, 10k, 20k \rbrace$ Hz. Le cas où $f_c = 20$ kHz correspond finalement au cas où aucun traitement du signal n'est réalisé sur les fichiers audio et où toutes les sources présentes sont assimilées au trafic, ce qui correspond à l'utilisation actuellement faite des mesures pour la correction de cartes de bruits issues de modèles prédictifs.
 
 %\ml{je viens de lire sur la mesure d'impact des éoliennes, et ils utilisent des termes comme niveau ambient, résiduel ou d'émergence, ce serait peut etre approprié des les utiliser.}
 
@@ -89,14 +91,15 @@ Dans un premier temps, le dictionnaire $\mathbf{W}$ est construit, à partir d'u
 
 La constitution du dictionnaire est réalisée en trois étapes, résumées dans le diagramme en blocs montré Figure \ref{fig:creation_W} :
 \begin{itemize}
-\item chaque fichier audio est représenté au travers d'un spectrogramme, obtenu par une STFT (nombre de point $w = 2^{12}$ avec 50 $\%$ de recouvrement). Cette première étape permet d'obtenir pour chaque échantillon audio, de durée différente, le même nombre de points en fréquences.
-\item Chaque spectrogramme est ensuite découpé en plusieurs fenêtre temporelles de durée $w_t \in \lbrace 0,5,~ 1,~ 2\rbrace$ seconde(s). 
-Dans chacune, la valeur efficace \textit{rms} sur chaque trame fréquentielle est calculée. Ce procédé, qui équivaut à un sous échantillonnage, a pour but d'obtenir différentes représentations des spectrogrammes initiaux avec une description du contenu spectral plus ou moins fine. Dans le cas où $w_t = 0,5$ s, les spectres sonores contiennent plus de détails que dans le cas où $w_t = 2$ s. Les étapes de ce processus sont résumées en Figure \ref{fig:decoupe_W} sur un extrait de 3 secondes.
-\item Enfin, l'opération précédente générant un grand nombre de d'éléments (2218 pour $w_t$ = 0,5 s, 505 pour $w_t$ = 2 s), une quantification vectorielle est opérée grâce à un algorithme de clustering $K$-means est appliqué en vue de réduire ce nombre à $K = \lbrace 25,~50,~100,~200 \rbrace$ et d'éviter la présence d'informations redondantes. Les $K$ centroïdes obtenus par cet algorithme sont alors les éléments qui composent le dictionnaire $\mathbf{W}$.
+\item chaque fichier audio est représenté au travers d'un spectrogramme, obtenu par une Transformée de Fourier à Court Terme (nombre de point $w = 2^{12}$ avec 50 $\%$ de recouvrement). Cette première étape permet d'obtenir pour chaque échantillon audio, de durée différente, le même nombre de points en fréquences.
+\item Chaque spectrogramme est ensuite découpé en plusieurs fenêtre temporelles de durée $w_t \in \lbrace 0.5,~ 1,~ 2\rbrace$ seconde(s). 
+Dans chacune des fenêtres, la valeur efficace \textit{rms} sur chaque trame fréquentielle est calculée. Ce procédé, qui équivaut à un sous échantillonnage, a pour but d'obtenir différentes représentations des spectrogrammes initiaux avec une description du contenu spectral plus ou moins fine. Dans le cas où $w_t = 0,5$ s, les spectres sonores contiennent plus de détails que dans le cas où $w_t = 2$ s. Les étapes de ce processus sont résumées en Figure \ref{fig:decoupe_W} sur un extrait de 3 secondes.
+\item Enfin, l'opération précédente générant un grand nombre d'éléments (2218 pour $w_t$ = 0,5 s, 505 pour $w_t$ = 2 s), une quantification vectorielle, opérée grâce à un algorithme de clustering $K$-means, est appliquée en vue de réduire ce nombre à $K = \lbrace 25,~50,~100,~200 \rbrace$ et d'éviter la présence d'informations redondantes. Les $K$ centroïdes obtenus par cet algorithme sont alors les éléments qui composent le dictionnaire $\mathbf{W}$.
 \end{itemize}
 
 En plus de ces étapes, on ajoute un cas où la valeur \textit{rms} est calculée sur l'ensemble des spectrogrammes ($w_t = all$). Des 53 fichiers audio du corpus d'apprentissage, 53 spectres sont générés. Cette opération permet de baser la construction du dictionnaire sur les enveloppes spectrales des fichiers audio \textit{trafic} et moins sur une description fine des spectres. Ces 53 spectres sont également soumis à l'algorithme de clustering mais avec cette fois, $K_{w_t = all} \in \lbrace 25,~ 50 \rbrace$.
-L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dans le Tableau \ref{tab:experimental_factorsNMF_ambiance}. L'intérêt de ces paramètres est de multiplier le nombre de format que peut prendre le dictionnaire pour ainsi estimer l'influence de la forme des composantes et sur leur nombre dans l'estimation du niveau sonore du trafic selon les différentes NMF.  
+L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dans le Tableau \ref{tab:experimental_factorsNMF_ambiance}. L'intérêt de ces paramètres est de multiplier le nombre de format que peut prendre le dictionnaire pour ainsi estimer l'influence de la forme des composantes et leur nombre dans l'estimation du niveau sonore du trafic selon les différentes NMF. Enfin, chaque élément du dictionnaire $\mathbf{w}$, pour toutes les combinaisons testées, est normalisé selon la norme $\ell_1$ telle que 
+$\Vert \mathbf{w} \Vert_1 = \sum_{f = 1}^{F} w_f =  1$.
 
 \begin{figure}[hbtp]
 \centering
@@ -109,12 +112,12 @@ L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dan
 
 Chaque version du dictionnaire $\mathbf{W}$ est utilisé par l'estimateur du niveau de traffic. Cet estimateur est lui-même basé sur plusieurs versions de la NMF décrites précédemment (voir chapitre \ref{chap:NMF})  : la NMF supervisée (NMF SUP), semi-supervisée (NMF SEM) et initialisée-seuillée (NMF IS). Pour chaque NMF, 3 $\beta$-divergences sont utilisées : la distance Euclidienne ($\beta = 2$) (voir partie \ref{part:dist_EUC}, la divergence de Kullback-Leibler ($\beta = 1$) (partie \ref{part:div_KL}), et la divergence d'Itakura-Saïto ($\beta = 0$) (partie \ref{part:div_IS}). La NMF SUP dépend seulement des différentes versions du dictionnaire apprises et des valeurs de $\beta$. Le signal trafic est estimé selon l'équation \ref{eq:WH_trafic} à partir de la matrice $\mathbf{H}$ obtenue.
 Dans le cas de la NMF SEM, le dictionnaire appris compose la partie fixe $\mathbf{W_s}$. Le nombre d'éléments du dictionnaire libre $\mathbf{W_r}$ est alors fixé à 2 ($J = 2$). Le signal \textit{trafic} est ensuite déterminé par le relation \ref{eq:WSHs_trafic}.
-Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
+Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. À chaque itération, les éléments du dictionnaire sont également tous normalisés. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
 
 \begin{itemize}
-\item la représentation de la distance entre les dictionnaires initiaux et finaux $D_{\theta}(\mathbf{W_0}\Vert \mathbf{W'})$ (linéaire ou bien exprimé au travers d'une fonction sigmoïde ($\lambda = 2$)),
+\item la représentation de la distance entre les dictionnaires initiaux et finaux $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$ (linéaire ou bien exprimé au travers d'une fonction sigmoïde ($\lambda = 2$)),
 \item le type de seuillage appliqué (dur ou \textit{firm}),
-\item les valeurs des différents seuils respectifs ($t_h$ pour le seuillage dur et $t_{f,1/2}$, les deux valeurs seuils pour le seuillage \textit{firm}). Des études préliminaires ont permis de réduire la plage des valeurs de ces seuils à $t_h \in \lbrace 0,30~0,70 \rbrace$, $t_{f,1} \in \lbrace 0,20~0,55 \rbrace$ et $t_{f,2} \in \lbrace 0,35,~0,70 \rbrace$, chacun étant défini avec un pas de 0,01. Rappelons que pour le seuillage \textit{firm}, $t_{f,1} \leq t_{f,2}$.
+\item les valeurs des différents seuils respectifs ($t_h$ pour le seuillage dur et $t_{f,1/2}$, les deux valeurs seuils pour le seuillage \textit{firm}). Des études préliminaires ont permis de réduire la plage des valeurs de ces seuils à $t_h \in \left[ 0,30~0,70 \right]$, $t_{f,1} \in \left[ 0,20~0,55 \right]$ et $t_{f,2} \in \left[ 0,35,~0,70 \right]$, chacun étant défini avec un pas de 0,01. Rappelons que pour le seuillage \textit{firm}, $t_{f,1} \leq t_{f,2}$.
 \end{itemize}
 
 Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la taille des matrices $\mathbf{W}$ et $\mathbf{V}$ reste importante en raison du nombre de trames fréquentielles ($F$ = 2049). En conséquence, ces deux matrices sont exprimées en bandes de tiers-d'octaves ce qui réduit les dimensions des matrices ($F_{1/3} = 29$). L'allure d'un spectre du passage d'une voiture en bandes fines et en tiers d'octaves est représenté en Figure \ref{fig:tiers_octaves}. La manipulation des matrices est alors plus rapide qu'avec les bandes fines et permet donc un gain en temps de calcul. Cette représentation a également d'autres intérêts :
@@ -131,7 +134,7 @@ Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la tail
 \label{fig:tiers_octaves}
 \end{figure}
 
-Enfin, le nombre d'itération est fixé à 100 pour toutes les version de la NMF étudiées.
+Enfin, le nombre d'itérations est fixé à 100 pour toutes les versions de la NMF étudiées.
 
 \subsection{Résumé des facteurs expérimentaux}
 
@@ -165,22 +168,22 @@ De nombreux facteurs expérimentaux sont donc présents dans cette expérience, 
   \textbf{estimateur} & filtre passe bas & NMF SUP & NMF SEM & NMF IS & 4\\
 \end{tabularx}
 
-\begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{1.7cm}@{}@{}C{1.7cm}@{}@{}C{1.7cm}@{}@{}C{1.7cm}@{}@{}C{1.7cm}@{}@{}C{1.7cm}@{}@{}C{1.78cm}@{}C{2cm}@{}}
+\begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}@{}C{1.71cm}@{}C{2cm}@{}}
 \rowcolor[HTML]{C0C0C0}
-   $\mathbf{f_c}$ (kHz) & 0,1 & 0,5 & 1 & 2 &  5 & 10 & 20 & 7\\
+   $f_c$ (kHz) & 0,1 & 0,5 & 1 & 2 &  5 & 10 & 20 & 7\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
-    $\mathbf{w_t}$ (s)& 0,5 & 1 & 2 & \textit{all} & 4\\
+    $w_t$ (s)& 0,5 & 1 & 2 & \textit{all} & 4\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
 	\rowcolor[HTML]{C0C0C0}
-    $\mathbf{K}$ & 25 & 50 & 100 & 200 & 4\\
+    $K$ & 25 & 50 & 100 & 200 & 4\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{4cm}@{}@{}C{4cm}@{}@{}C{4cm}@{}C{2cm}@{}}
-   $\mathbf{\beta}$ & 0 & 1 & 2 & 3\\
+   $\beta$ & 0 & 1 & 2 & 3\\
 \end{tabularx}
 
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{6cm}@{}@{}C{6cm}@{}C{2cm}@{}}
@@ -209,9 +212,9 @@ De nombreux facteurs expérimentaux sont donc présents dans cette expérience, 
 \label{tab:experimental_factorsNMF_ambiance}
 \end{table*}
 
-Pour l'estimateur filtre, c'est donc 210 combinaisons qui sont réalisées (6 sous-corpus $\times$ 5 $TIR$ $\times$ 7 $f_c$). Dans le cas de la NMF SUP et SEM, ce sont respectivement 1260 combinaisons qui sont évaluées (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$). Dans le cas de la NMF IS, ce nombre est beaucoup plus élevé (2 789 640) en raison des nombreuses valeurs seuils (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$ 2 représentation $\times$ (31 + 1076)).
+Pour l'estimateur filtre, c'est donc 210 combinaisons qui sont réalisées (6 sous-corpus $\times$ 5 $TIR$ $\times$ 7 $f_c$). Dans le cas de la NMF SUP et SEM, ce sont respectivement 1260 combinaisons qui sont évaluées (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$). Dans le cas de la NMF IS, ce nombre est beaucoup plus élevé (2 789 640) en raison des nombreuses valeurs seuils (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$ $\times$ 2 représentation $\times$ (31 + 1076)).
 
-Les calculs sont réalisés avec l'environnement logiciel Matlab à l'aide de l'outil expLanes\footnote{\url{http://mathieulagrange.github.io/expLanes}} qui permet la réalisation d'expériences numérique, de gérer la distribution des nombreux facteurs expérimentaux et leur modalités et de collecter les nombreux résultats générés. %L'ordinateur menant les calculs est équipé d'un processeur Intel Core i7 (CPU 2,40 GHz).
+Les calculs exhaustifs de toutes les combinaisons expérimentales sont réalisés avec le logiciel Matlab à l'aide de l'outil expLanes\footnote{\url{http://mathieulagrange.github.io/expLanes}} qui permet la réalisation d'expériences numériques, de gérer la distribution des nombreux facteurs expérimentaux et leur modalités et de collecter les nombreux résultats générés. %L'ordinateur menant les calculs est équipé d'un processeur Intel Core i7 (CPU 2,40 GHz).
 
 \section{Performances de l'estimateur \textit{baseline}}
 
@@ -259,7 +262,7 @@ Avec l'augmentation du $TIR$, lorsque le trafic devient prédominant, l'erreur d
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.7\linewidth]{./figures/resultats/amb_filtre_20k_bar.pdf}
-\caption{Erreurs $MAE$ pour chaque sous-corpus et chaque TIR pour l'estimateur filtre passe-bas à la fréquence de coupure $f_c$ = 20 kHz.}
+\caption{Erreurs $MAE$ pour chaque sous-corpus et chaque $TIR$ pour l'estimateur filtre passe-bas à la fréquence de coupure $f_c$ = 20 kHz.}
 \label{fig:filtre_amb_tir_20k}
 \end{figure}
 
@@ -275,10 +278,10 @@ On résume les erreurs produites par les différentes versions de la NMF d'abord
 
 \subsection{Erreurs $MAE_g$}
 
-Le nombre de combinaisons de modalités entre les différentes facteurs expérimentaux étant important, on résume, dans un premier temps, dans le Tableau \ref{tab:erreur_ambiance_SUP_SEM}, les erreurs $MAE_g$ les plus faibles produites par la NMF SUP et SEM selon chaque valeur de $\beta$ avec les modalités correspondantes. Puis, dans le cas de la NMF IS, l'influence de la représentation de la distance et du type de seuil sont observées dans les Tableaux \ref{tab:erreur_ambiance_IS} et \ref{tab:erreur_ambiance_IS_seuil}.
+Le nombre de combinaisons de modalités entre les différents facteurs expérimentaux étant important, on résume, dans un premier temps, dans le Tableau \ref{tab:erreur_ambiance_SUP_SEM}, les erreurs $MAE_g$ les plus faibles produites par la NMF SUP et SEM selon chaque valeur de $\beta$ avec les modalités correspondantes. Puis, dans le cas de la NMF IS, l'influence de la représentation de la distance et du type de seuil sont observées dans les Tableaux \ref{tab:erreur_ambiance_IS} et \ref{tab:erreur_ambiance_IS_seuil}.
 
 \begin{table}[h]
-\caption{Erreurs $MAE_g$ de la NMF SUP et NMF SEM pour le corpus d'évaluation \textit{Ambiance}, en gras-rouge, l'erreur la plus faible.}
+\caption{Erreurs $MAE_g$ les plus faibles de la NMF SUP et NMF SEM pour le corpus d'évaluation \textit{Ambiance}, en gras-rouge, l'erreur globale la plus faible.}
 \label{tab:erreur_ambiance_SUP_SEM}
 \centering
 \begin{tabular}{L{2.2cm}C{1.7cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
@@ -307,11 +310,11 @@ La NMF IS étant une forme de NMF proposée pour ces travaux, plusieurs pistes s
 
 \begin{table}[h]
 \centering
-\caption{Erreurs $MAE_g$ de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon la représentation linéaire ou sigmoïde de la distance $D_{\theta}(\mathbf{W_0}\Vert \mathbf{W})$.}
+\caption{Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon la représentation linéaire ou sigmoïde de la distance $D_{\theta}$.}
 \label{tab:erreur_ambiance_IS}
 \begin{tabular}{C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}C{1.2cm}C{2.5cm}}
 \toprule
-\multicolumn{1}{c}{$\beta$} & $w_t$ & $K$ & représentation & $t_h$ & $MAE_g$ \\ \toprule
+$\beta$ & $w_t$ & $K$ & \textbf{représentation} & $t_h$ & $MAE_g$ \\ \toprule
 \multirow{2}{*}{0} & 500 & 200 & linéaire & 0,47 & 2,26 ($\pm$ 2,15) \\
  & 500 & 200 & sigmoïde & 0,61 & 2,25 ($\pm$ 2,37) \\ \midrule
 \multirow{2}{*}{\textbf{1}} & \textbf{500} & \textbf{200} & \textbf{linéaire} & \textbf{0,41} & \textbf{\textcolor{red}{2,14 ($\pm$ 2,10)}} \\
@@ -323,7 +326,7 @@ La NMF IS étant une forme de NMF proposée pour ces travaux, plusieurs pistes s
 \end{table}
 
 Dans un premier temps, on remarque, comme pour la NMF SEM, que la méthode privilégie un nombre d'éléments dans le dictionnaire important ($K$ = 200). De plus, le choix de la représentation de $D_{\theta}$ n'influe pas sur la formation du dictionnaire puisque $w_t$ et $K$ restent constants.
-L'erreur $MAE_g$ selon la représentation de $D_{\theta}$ est très peu influencée : les erreurs restent équivalentes, seuls les seuils doivent être adaptés. La fonction sigmoïde déformant $D_{\theta}$, les valeurs des seuils doivent être réhaussées. L'impact de cette fonction sur l'erreur $MAE_g$ étant nulle par rapport à la représentation linéaire, c'est cette dernière qui est donc choisie pour la suite.
+L'erreur $MAE_g$ selon la représentation de $D_{\theta}$ est très peu influencée : les erreurs restent équivalentes, seuls les seuils doivent être adaptés. La fonction sigmoïde déformant $D_{\theta}$, les valeurs des seuils doivent être réhaussées. L'impact de cette fonction sur l'erreur $MAE_g$ étant très faible par rapport à la représentation linéaire, c'est cette dernière qui est donc choisie pour la suite.
 
 L'allure moyenne de $D_{\theta}$ pour chaque valeur du $TIR$ avec $w_t$ = 0,5 s, $K$ = 200 et $\beta$ = 1 avec une représentation linéaire est alors résumée en Figure \ref{fig:dist_TIR}. Pour un seuil fixé à $t_h$ = 0,41, le nombre d'éléments considéré dans $\mathbf{W}_{trafic}$ est donc variable. Pour les $TIR$ négatifs, les distance $D_{\theta}$ sont plus faibles, traduisant la déviation des spectres initiaux pour des spectres liés aux classes \textit{interférantes}. À $TIR$ = -12 dB, c'est 106 éléments en moyenne qui sont considérés comme appartenant à la classe \textit{trafic}. Plus le $TIR$ augmente et plus ces distances augmentent, puisque le trafic devient la classe de son prédominante. À $TIR$ = 12 dB, c'est alors 181 éléments qui sont inclus dans le dictionnaire \textit{trafic}.
 
@@ -339,11 +342,11 @@ L'allure moyenne de $D_{\theta}$ pour chaque valeur du $TIR$ avec $w_t$ = 0,5 s,
 
 \begin{table}[h]
 \centering
-\caption{Erreurs $MAE_g$ de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon un seuillage dur ou \textit{firm}.}
+\caption{Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon un seuillage dur ou \textit{firm}.}
 \label{tab:erreur_ambiance_IS_seuil}
 \begin{tabular}{C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
 \toprule
-\multicolumn{1}{l}{$\beta$} & $w_t$ & $K$ & $t_h$ & $t_{f,1}$ & $t_{f_2}$ & $MAE$ \\ \toprule
+$\beta$ & $w_t$ & $K$ & $t_h$ & $t_{f,1}$ & $t_{f_2}$ & $MAE$ \\ \toprule
 \multirow{2}{*}{0} & 500 & 200 & 0,47 & - & - & 2,26 ($\pm$ 2,15) \\
  & 500 & 200 & - & 0,44 & 0,50 & 2,25 ($\pm$ 2,14)  \\ \midrule
 \multirow{2}{*}{\textbf{1}} & 500 & 200 & 0,41 & - & - & 2,14 ($\pm$ 2,10) \\
@@ -384,8 +387,7 @@ Avant d'observer leur erreurs $MAE_{TIR}$ et $MAE$, l'influence de la forme du d
 
 
 Si le choix de la méthode et de la valeur de $\beta$ sont des facteurs expérimentaux prédominant dans les erreurs produites, l'influence de la forme du dictionnaire est à connaitre également. Pour cela, selon les 3 formes de NMF retenues, l'influence de la taille de la fenêtre de découpage $w_t$ est observé en Figure \ref{fig:influence_wt}. Pour la NMF SUP, ayant un faible nombre d'éléments dans $\mathbf{W}$ le cas où $w_t$ = \textit{all} peut être observé, alors que pour la NMF SEM et IS, il n'est pas possible de l'observer puisque le nombre d'éléments ($K$ = 200) est plus élevé que le nombre de fichiers audio disponibles.
-L'influence du facteur $w_t$ est faible sur l'erreur de reconstruction du signal \textit{trafic}. Selon le choix de NMF cette influence est toutefois différente. Pour la NMF SEM, l'erreur tend à diminuer avec l'augmentation de la fenêtre $w_t$ alors que pour la NMF IS, l'erreur décroit avec la réduction de sa taille. Ici son influence est d'autant plus faible que par la mise à jour du dictionnaire son influence est voué à être réduit puisque le dictionnaire s'adapte à la scène.
-
+L'influence du facteur $w_t$ est très faible sur l'erreur de reconstruction du signal \textit{trafic} notamment pour $w_t \in \lbrace 0.5,~1,~2\rbrace$, pour le 3 formes de NMF. Pour la NMF IS, son influence est vouée à être réduite puisque le dictionnaire est mis à jour. On ne constate qu'un impact réel que pour le cas de la NMF SUP avec $w_t = all$ qui correspond au cas où les enveloppes des spectres \textit{trafic} sont considérées dans le dictionnaire. L'utilisation de l'algorithme $K$-means et la représentation en bandes de tiers d'octave dans la construction du dictionnaire peut avoir réduit l'impact de ce facteur expérimental.
 La Figure \ref{fig:influence_K} montre de manière synthétique l'évolution des erreurs $MAE_g$ selon le nombre d'éléments $K$ contenu dans le dictionnaire.
 Pour les 3 NMF, ce facteur est un paramètre plus influant que $w_t$.
 La NMF SUP privilégie un dictionnaire composé d'un faible nombre d'éléments. Ce comportement se justifie par le fonctionnement de la NMF SUP en elle même : contrainte avec un seul dictionnaire fixe à s'adapter à l'ensemble des cas rencontrés, cette méthode privilégie les dictionnaires composé d'une quantité d'information réduite, plus générique afin d'être le plus généralisable possible.
@@ -398,11 +400,11 @@ Le principe de la NMF IS est d'apprendre un dictionnaire $\mathbf{W_0}$ composé
 
 \begin{table}[h]
 \centering
-\caption{Erreurs $MAE_g$ de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon l'initialisation du dictionnaire.}
+\caption{Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'évaluation \textit{Ambiance} selon l'initialisation du dictionnaire. En ligne 1 et 3, le seuil est celui permettant d'obtenir l'erreur la plus faible, en ligne 2, le seuil correspond à celui obtenu avec une initialisation par $\mathbf{W_0}$ mais sur une NMF IS initialisée par des valeurs aléatoires.}
 \label{tab:erreur_ambiance_IS_initialisation}
 \begin{tabular}{C{3.5cm}C{1.2cm}C{1.2cm}C{1.2cm}C{1.2cm}C{2.5cm}}
 \toprule
-initialisation & $\beta$ & $w_t$ & $K$ & $t_h$ & $MAE_g$ \\ \toprule
+\textbf{initialisation} & $\beta$ & $w_t$ & $K$ & $t_h$ & $MAE_g$ \\ \toprule
 $\mathbf{W_0}$ & 1 & 500 & 200 & 0,41 & 2,14 ($\pm$ 2,10) \\
  \rowcolor[HTML]{C0C0C0}
 valeurs aléatoire & 1 & 500 & 200 & 0,41 & 5,21 ($\pm$ 1,31) \\
@@ -437,21 +439,21 @@ Les valeurs de $D_{\theta}$ sont plus faibles traduisant une disparité plus for
 \label{fig:amb_cost_mae}
 \end{figure}
 
-La NMF est réalisée en cherchant à minimiser la fonction de coût $D(\mathbf{V}\Vert \mathbf{WH})$ et se base donc sur la qualité de la reconstruction du signal global dans laquelle la composante \textit{trafic} est présente. En conséquence, la NMF réduit la distance entre $\mathbf{V}$ et $\mathbf{WH}$ sans pour autant assurer que la restitution des différentes composantes présentes dans le signal audio soit bonne.
-Il est donc utile de mettre en parallèle l'évolution de cette fonction de coût avec celle ces erreurs $MAE_g$. 
+La NMF est réalisée en cherchant à minimiser la fonction de coût $D(\mathbf{V}\Vert \mathbf{WH})$ et se base donc sur la qualité de la reconstruction du signal global dans lequel la composante \textit{trafic} est présente. En conséquence, la NMF réduit la distance entre $\mathbf{V}$ et $\mathbf{WH}$ sans pour autant assurer que la restitution des différentes composantes présentes dans le signal audio soit bonne.
+Il est donc utile de mettre en parallèle l'évolution de cette fonction de coût avec celle des erreurs $MAE_g$. 
 Pour cela, la Figure \ref{fig:amb_cost_mae} résume l'évolution de la fonction de coût $D(\mathbf{V}\Vert \mathbf{WH})$ moyennée sur l'intégralité du corpus et des erreurs $MAE_g$ pour chacune de ces méthodes. 
-La convergence de la NMF IS est meilleure que les deux autres NMF, ce qui est cohérent puisque la matrice $\mathbf{W}$ est mise à jour, ce qui facilite la décroissance de $D(\mathbf{V}\Vert \mathbf{WH})$ et ainsi améliore la rapidité de convergence. La NMF SEM est, quant à elle, celle dont la fonction de coût est la plus importante. Pour la NMF SUP, les valeurs de la fonction de coût sont faibles et convergent rapidement. N'ayant qu'une matrice à mettre à jour à partir du dictionnaire fixe, la matrice $\mathbf{H}$ trouve rapidement une forme optimale qui minimise la fonction de coût. À l'inverse pour la NMF SEM et IS où plusieurs matrices sont à mettre à jour, respectivement $\mathbf{W_r}$, $\mathbf{H_r}$, $\mathbf{H_r}$ et $\mathbf{W'}$ et $\mathbf{H}$. On constate que la fonction de coût pour la NMF IS, bien que plus faible, n'a pas convergé vers une valeur fixe au bout de 100 itérations. Il semble donc possible d'améliorer la similarité entre $\mathbf{V}$ et $\mathbf{WH}$. Toutefois, ce comportement est à mettre en parallèle avec l'évolution de l'erreur $MAE_g$ en Figure \ref{fig:amb_mae}. On constate qu'au bout de 100 itérations, la valeur de l'erreur moyenne pour la NMF IS est quasi constante : entre l'erreur à l'itération 90 et 100, on réalise améliore l'erreur de 0,2 $\%$. En conséquence, même si la fonction de coût n'a pas convergé à une valeur fixe, l'erreur relatif au signal \textit{trafic} devient constante à 100 itérations.\\
+La convergence de la NMF IS est meilleure que les deux autres NMF, ce qui est cohérent puisque la matrice $\mathbf{W}$ est mise à jour, ce qui facilite la décroissance de $D(\mathbf{V}\Vert \mathbf{WH})$ et ainsi améliore la rapidité de convergence. La NMF SEM est, quant à elle, celle dont la fonction de coût est la plus importante. Pour la NMF SUP, les valeurs de la fonction de coût sont faibles et convergent rapidement. N'ayant qu'une matrice à mettre à jour à partir du dictionnaire fixe, la matrice $\mathbf{H}$ trouve rapidement une forme optimale qui minimise la fonction de coût. À l'inverse pour la NMF SEM et IS où plusieurs matrices sont à mettre à jour, respectivement $\mathbf{W_r}$, $\mathbf{H_r}$, $\mathbf{H_r}$ et $\mathbf{W'}$ et $\mathbf{H}$. On constate que la fonction de coût pour la NMF IS, bien que plus faible, n'a pas convergé vers une valeur fixe au bout de 100 itérations. Il semble donc possible d'améliorer la similarité entre $\mathbf{V}$ et $\mathbf{WH}$. Toutefois, ce comportement est à mettre en parallèle avec l'évolution de l'erreur $MAE_g$ en Figure \ref{fig:amb_mae}. On constate qu'au bout de 100 itérations, la valeur de l'erreur moyenne pour la NMF IS est quasi constante : entre l'erreur à l'itération 90 et 100, on améliore l'erreur de 0,2 $\%$. En conséquence, même si la fonction de coût n'a pas convergé à une valeur fixe, l'erreur relative au signal \textit{trafic} devient quasiment constante après 100 itérations.\\
 
 De ces 3 estimateurs, leurs erreurs $MAE_{TIR}$ sont exprimées dans le Tableau \ref{tab:mae_tir_ambiance}. À ces résultats sont ajoutés ceux des estimateurs \textit{baseline} pour $f_c$ = 500 Hz et $f_c$ = 20 kHz. En gras-rouge, les erreurs $MAE_{TIR}$ les plus faibles, en gras-noir les erreurs obtenues par les NMF qui sont inférieures à l'erreur de la baseline $f_c$ = 500 Hz.\\
 
 \begin{table}[h]
 \centering
-\caption{Erreurs $MAE_{TIR}$ selon les combinaisons optimales de la NMF SUP, SEM et IS.}
+\caption{Erreurs $MAE_{TIR}$ selon les combinaisons optimales de la NMF SUP, SEM et IS avec l'estimateur \textit{baseline} $f_c$ = 500 Hz et les erreurs pour le filtre passe-bas $f_c$ = 20 kHz.}
 \label{tab:mae_tir_ambiance}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{L{4cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
-méthode & -12 & -6 & 0 & 6 & 12 \\ \toprule
+\textbf{méthode} & \textbf{-12} & \textbf{-6} & \textbf{0} & \textbf{6} & \textbf{12} \\ \toprule
 filtre PB, $f_c$ = 20 kHz & 12,25 ($\pm$ 0,05) & 6,96 ($\pm$ 0,05) & 3,00 ($\pm$ 0,03) & 0,97 ($\pm$ 0,01) & \textbf{\textcolor{red}{0,26 ($\pm$ 0,00)}}\\
 filtre PB, $f_c$ = 0,5 kHz & 7,39 ($\pm$ 3,00) & 3,44 ($\pm$ 1,65) & \textbf{\textcolor{red}{1,17 ($\pm$ 0,24)}} & 1,03 ($\pm$ 0,26) & 1,45 ($\pm$ 0,13) \\ \midrule
 NMF SUP & 8,08 ($\pm$ 2,44) & 3,84 ($\pm$ 1,58) & 1,15 ($\pm$ 0,62) & \textbf{\textcolor{red}{0,35 ($\pm$ 0,20)}} & \textbf{0,77 ($\pm$ 0,07) } \\
@@ -477,8 +479,9 @@ NMF IS & \textbf{5,22 ($\pm$ 2,62)} & \textbf{2,72 ($\pm$ 1,24)} & 1,26 ($\pm$ 0
 \label{fig:TIR_bar}
 \end{figure}
 
-De la même manière que pour l'estimateur filtre dans le Tableau \ref{tab:resuls_ambiance_filtre}, la méthode la plus efficace sur l'ensemble du corpus n'est pas forcément la méthode la plus efficace pour chaque $TIR$. Ici, même si elle est pour quatre valeurs du $TIR$ inférieure à la baseline, la NMF IS n'est jamais la méthode qui propose l'erreur la plus faible. Pour $TIR \in \lbrace -12, -6 \rbrace$ dB, la NMF SEM est la plus performante, alors que pour $TIR\in \lbrace 6, 12 \rbrace$ dB, la NMF SUP supplante les deux autres méthodes.
-Le cas où $TIR$ = 0 dB est un cas unique où aucune NMF n'améliore les résultats de la baseline. Pour $TIR$ = 12 dB c'est finalement le filtre $f_c$ = 20 kHz, qui se trouve être la méthode la plus performante. Toutefois, la NMF IS est la seule méthode à être systématiquement inférieure à la baseline (hormis à $TIR = 0$ dB) et même si elle n'est pas systématiquement la plus performante, elle est celle qui s'adapte le mieux aux différentes valeurs du $TIR$. Les raisons du comportement des 3 NMF seront étudiés dans la partie suivante. \\
+De la même manière que pour l'estimateur filtre dans le Tableau \ref{tab:resuls_ambiance_filtre}, la méthode la plus efficace en moyenne sur l'ensemble du corpus n'est pas forcément la méthode la plus efficace pour chaque $TIR$. Ici, même si elle est pour quatre valeurs du $TIR$ inférieure à la baseline, la NMF IS n'est jamais la méthode qui propose l'erreur la plus faible. Pour $TIR \in \lbrace -12, -6 \rbrace$ dB, la NMF SEM est la plus performante, alors que pour $TIR\in \lbrace 6, 12 \rbrace$ dB, la NMF SUP supplante les deux autres méthodes.
+Le cas où $TIR$ = 0 dB est un cas unique où aucune NMF n'améliore les résultats de la baseline. Pour $TIR$ = 12 dB c'est finalement le filtre $f_c$ = 20 kHz (c'est-à-dire l'absence de filtrage), qui se trouve être la méthode la plus performante. Lorsque, le niveau du trafic est très important, sa meilleur estimation est le niveau global de la mixture. Il vaut donc mieux ne rien faire sur le signal de mixture que d'appliquer la NMF. Ce résultats peut paraître décevant mais le problème est que, sur un problème concret, on ne connait pas le niveau à priori du trafic. 
+Toutefois, la NMF IS est la seule méthode à être systématiquement inférieure à la baseline (hormis à $TIR = 0$ dB) et même si elle n'est pas systématiquement la plus performante, elle est celle qui s'adapte le mieux aux différentes valeurs du $TIR$. Les raisons du comportement des 3 NMF seront étudiés dans la partie suivante. \\
 
 
 \subsection{Erreurs $MAE$ pour chaque ambiance et $TIR$}
@@ -487,7 +490,7 @@ Après avoir observé l'erreur globale $MAE_g$, pour déterminer les combinaison
 Dans les Figures \ref{fig:TIR_bar}, les erreurs $MAE$ des 3 méthodes NMF optimales pour chaque $TIR$ et chaque ambiance sont exposées. La Figure \ref{fig:TIR_class_sup} permet de visualiser les performances très variables de la NMF SUP. Dans le cas où $TIR$ = $\lbrace -12, -6 \rbrace$ dB, et cela pour les 6 sous-corpus, la NMF SUP obtient de fortes erreurs $MAE$. Les plus fortes erreurs sont obtenues pour les sous corpus \textit{climat}, \textit{humains}, \textit{transport} et \textit{mécanique} car on y trouve les classes de son interférantes dont les allures spectrales sont les plus similaires à celles du trafic.
 Même pour les sous-corpus \textit{alerte} et \textit{animaux}, la méthode échoue à obtenir des faibles erreurs. Ces performances sont toutefois contre-balancées par des erreurs beaucoup plus faibles dans les $TIR$ positifs, notamment à $TIR$ = 6 dB. La présence exclusive d'élément \textit{trafic} dans le dictionnaire sur des scènes où cette classe de son est prépondérante rend la NMF plus performante quel que soit le sous-corpus.
 
-On illustre le comportement de la NMF dans le cas d'une scène de l'ambiance \textit{alerte} pour $TIR$ = -12 dB et $TIR$ = 12 dB dans la Figure \ref{fig:Lp_alert} où les évolutions des niveaux sonores équivalent 1 seconde des signaux \textit{trafic} exact, \textit{trafic} estimé par la NMF SUP optimale et \textit{interférant} sont tracées. Dans le cas où le $TIR$ est négatif, lorsque le signal \textit{interférant} est émergent, on observe que le signal \textit{trafic} estimé inclut ce signal. N'étant composé que d'éléments \textit{trafic} dans le dictionnaire c'est donc que les bases \textit{trafic} de $\mathbf{W}$ sont activées pour modéliser un signal qui ne l'est pourtant pas. Ce comportement disparait toutefois pour $TIR$ = 12 dB où le signal \textit{trafic} est correctement modélisé dans être impacté par la classe de son interférante.
+On illustre le comportement de la NMF SUP dans le cas d'une scène de l'ambiance \textit{alerte} pour $TIR$ = -12 dB et $TIR$ = 12 dB dans la Figure \ref{fig:Lp_alert} où les évolutions du $L_{eq,1s}$ des signaux \textit{trafic} exact, \textit{trafic} estimé par la NMF SUP optimale et du signal \textit{interférant} sont tracées. Dans le cas où le $TIR$ est négatif, lorsque le signal \textit{interférant} est émergent, on observe que le signal \textit{trafic} estimé inclut ce signal. N'étant composé que d'éléments \textit{trafic} dans le dictionnaire c'est donc que les bases \textit{trafic} de $\mathbf{W}$ sont activées pour modéliser un signal qui ne l'est pourtant pas. Ce comportement disparait toutefois pour $TIR$ = 12 dB où le signal \textit{trafic} est correctement modélisé sans être impacté par la classe de son interférante.
 
 \begin{figure}[h!]%
 \centering
@@ -523,18 +526,18 @@ On illustre le comportement de la NMF dans le cas d'une scène de l'ambiance \te
 \label{fig:Y_ambiance}
 \end{figure}
 
-La NMF SEM (Figure \ref{fig:TIR_class_semi}) présente un comportement différent de la NMF SUP : les erreurs sont plus faibles lorsque les valeurs du $TIR$ sont négatives, hormis pour les sous-corpus \textit{climat}  et \textit{mécanique}. L'ajout de $\mathbf{W_r}$ dans le dictionnaire est donc déterminant puisque c'est cet élément qui différencie les deux méthodes. Cependant, lorsque le TIR devient positif et le trafic dominant, l'erreur augmente systématiquement.
-On compare dans les Figures \ref{fig:Y_ambiance} la somme des deux éléments de $\mathbf{W_r}$ obtenue pour une scène \textit{alerte} et \textit{climat} avec les spectres des signaux trafic et interférant à $TIR$ = $\lbrace -12, 12 \rbrace$ dB. Dans les cas où $TIR$ = -12 dB, la somme des éléments libres $\mathbf{W_r}$ correspond bien au spectre de la classe \textit{interférante} et modélise donc bien cette classe, laissant la partie \textit{trafic} au dictionnaire $\mathbf{W_s}$. À l'opposée, pour $TIR$ = 12 dB, l'allure de $\mathbf{W_r}$ diverge de celle de la classe \textit{interférante}. Certaines parties des spectres participent alors à la modélisation de la composante \textit{trafic}, ce qui réduit la justesse de son estimation du niveau sonore. Les degrés de liberté de la NMF SEM sont donc un avantage lorsque le trafic est peu présent car ils permettent bien d'intégrer la classe de son \textit{interférante}. Mais cette liberté joue en sa défaveur lorsque le trafic devient la classe de son prédominante et où ses composantes sont incluses dans $\mathbf{W_r}$.\\
+La NMF SEM (Figure \ref{fig:TIR_class_semi}) présente un comportement différent de la NMF SUP : les erreurs sont plus faibles lorsque les valeurs du $TIR$ sont négatives, hormis pour les sous-corpus \textit{climat}  et \textit{mécanique}. L'ajout de $\mathbf{W_r}$ dans le dictionnaire est donc déterminant puisque c'est cet élément qui différencie les deux méthodes. Cependant, lorsque le $TIR$ devient positif et le trafic dominant, l'erreur augmente systématiquement.
+On compare dans les Figures \ref{fig:Y_ambiance} la somme des deux éléments de $\mathbf{W_r}$ obtenue pour une scène \textit{alerte} et \textit{climat} avec les spectres des signaux trafic et interférant à $TIR \in \lbrace -12, 12 \rbrace$ dB. Dans les cas où $TIR$ = -12 dB, la somme des éléments libres $\mathbf{W_r}$ correspond bien au spectre de la classe \textit{interférante} et modélise donc bien cette classe, laissant la partie \textit{trafic} au dictionnaire $\mathbf{W_s}$. À l'opposée, pour $TIR$ = 12 dB, l'allure de $\mathbf{W_r}$ diverge de celle de la classe \textit{interférante}. Certaines parties des spectres participent alors à la modélisation de la composante \textit{trafic}, ce qui réduit la justesse de son estimation du niveau sonore. Les degrés de liberté de la NMF SEM sont donc un avantage lorsque le trafic est peu présent car ils permettent bien d'intégrer la classe de son \textit{interférante}. Mais cette liberté joue en sa défaveur lorsque le trafic devient la classe de son prédominante et où ses composantes sont incluses dans $\mathbf{W_r}$.\\
 
-Enfin, la NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les TIR négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
+Enfin, la NMF IS présente une allure similaire à celle de la NMF SUP (erreurs plus fortes pour les $TIR$ négatifs que dans les $TIR$ positifs), mais avec des erreurs moindres notamment pour les $TIR$ négatifs. Toutefois les erreurs pour les sous-corpus \textit{climat}, \textit{transport} et \textit{mécanique} restent élevées en raison de la proximité de leur spectre avec ceux du trafic. Pour $TIR \geq 0$, les erreurs restent faibles ($< 1,7$ dB). La valeur seuil de 0,41 est la valeur optimale permettant une erreur minimale sur l'intégralité du corpus, mais selon le sous-corpus ou le $TIR$ ce seuil est susceptible de varier.
 Dans les Figures \ref{fig:TIR_mae}, l'évolution de l'erreur $MAE$ est tracée en fonction du seuil $t_h$ pour chaque sous-corpus et pour 3 valeurs de $TIR$.
 \begin{itemize}
-\item Pour $TIR$ = -12 dB, l'erreur $MAE$ minimale diffèrent selon les sous-corpus.
-Pour les classes de son \textit{transport} et \textit{humains}, leur seuil optimale correspondant à l'erreur minimale est situé vers 0,50. Dans le cas du \textit{climat} et de \textit{mécanique}, ce seuil se situe même au delà de la plage de donnée testée.  Pour ces 4 sources, dont les erreurs à ces $TIR$ sont les plus fortes, leur spectre étant similaire à celui du \textit{trafic}, il y a intérêt à augmenter la valeur du seuil $t_h$ pour restreindre le nombre d'éléments dans $\mathbf{W}_{trafic}$. À l'inverse pour  les classes \textit{animaux} et \textit{alerte}, dont l'allure spectrale est différente de celle du trafic, le seuil optimal peut être diminué.
+\item Pour $TIR$ = -12 dB, l'erreur $MAE$ minimale diffère selon les sous-corpus.
+Pour les classes de son \textit{transport} et \textit{humains}, leur seuil optimal correspondant à l'erreur minimale est situé vers 0,50. Dans le cas du \textit{climat} et de \textit{mécanique}, ce seuil semble se situer au delà de la plage de variation testée.  Pour ces 4 sources, dont les erreurs à ces $TIR$ sont les plus fortes, leur spectre étant similaire à celui du \textit{trafic}, il y a intérêt à augmenter la valeur du seuil $t_h$ pour restreindre le nombre d'éléments dans $\mathbf{W}_{trafic}$. À l'inverse pour  les classes \textit{animaux} et \textit{alerte}, dont l'allure spectrale est différente de celle du trafic, le seuil optimal peut être diminué.
 Ainsi, la valeur seuil optimale pour $TIR$ = -12 dB peut être relevée à $t_h = 0,49$, sur l'ensemble des sous-corpus pour une erreur $MAE_{-12}$ = 4,61 ($\pm$ 1,91) avec alors un nombre moyen d'éléments $K$ = 79 ($\pm$ 22).
 \item Lorsque $TIR$ = 0 dB, le trafic devenant prédominant, le dictionnaire $\mathbf{W'}$ mis à jour contient plus d'éléments trafic. En diminuant le seuil $t_h$, plus d'éléments relatif à cette source sonore sont intégrés dans $\mathbf{W'}$.
 Les classes de sons \textit{climat} et de \textit{mécanique} restent encore en marge avec un seuil optimal élevé situé entre 0,45 et 0,50.
-\item Enfin, pour $TIR$ = 12 dB, pour un seuil optimal $t_h$ = 0,31, un plus grand nombre d'éléments du dictionnaire est considéré ($K_{moyen}$ = 142 ($\pm$ 22)), l'erreur $MAE_{+12}$ diminue alors à 0,20 ($\pm$ 0,08), soit même une erreur inférieure au filtre passe-bas à 20 kHz.\\
+\item Enfin, pour $TIR$ = 12 dB, pour un seuil optimal $t_h$ = 0,31, un plus grand nombre d'éléments du dictionnaire est considéré ($K_{moyen}$ = 142 ($\pm$ 22)), l'erreur $MAE_{+12}$ diminue alors à 0,20 ($\pm$ 0,08), soit même une erreur inférieure au filtre passe-bas à 20 kHz (correspondant à la mixture sonore complète).\\
 \end{itemize}
 
 \begin{figure}[h!]%
@@ -554,8 +557,9 @@ Les classes de sons \textit{climat} et de \textit{mécanique} restent encore en 
 \label{fig:TIR_mae}
 \end{figure}
 
-Cette étude à partir de ce premier corpus a permis d'établir certaines connaissances du fonctionnement des algorithmes basés NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante selon les différentes sources sonores interférantes ou la présence variable du trafic.
-La NMF SUP, composée d'un dictionnaire comprenant des éléments relatif au trafic, se révèle être peu performante lorsque le trafic est peu présent en activant des bases \textit{trafic} pour simuler d'autres sources sonores et plus efficace lorsque les valeurs du $TIR$ sont positives. La NMF SEM, à l'inverse, est très efficace pour des $TIR$ négatifs, mais échoue à définir correctement le signal \textit{trafic} lorsque cette source sonore devient prédominante. L'ajout du dictionnaire libre $\mathbf{W_r}$ est alors un atout ou un inconvénient selon la prédominance du trafic. Finalement, la NMF IS se trouve être l'approche qui minimise le mieux l'erreur sur l'ensemble du corpus. Elle réalise un compromis entre les deux méthodes : elle offre suffisamment de liberté par la mise à jour de $\mathbf{W_0}$ pour s'adapter aux différentes ambiances et sources sonores tout en étant contrainte par le seuillage à ne conserver que les éléments les moins divergents.\\
+\section{Conclusion du chapitre}
+Cette première étude, à partir du corpus élémentaire \textit{Ambiance}, a permis d'établir le fonctionnement de plusieurs formes de NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante quelque soient les différentes sources sonores interférantes ou la présence variable du trafic.
+La NMF SUP, composée d'un dictionnaire comprenant des éléments relatifs au trafic, se révèle être peu performante lorsque le trafic est peu présent en activant des bases \textit{trafic} pour simuler d'autres sources sonores mais est plus efficace lorsque les valeurs du $TIR$ sont positives. La NMF SEM, à l'inverse, est très efficace pour des $TIR$ négatifs, mais échoue à définir correctement le signal \textit{trafic} lorsque cette source sonore devient prédominante. L'ajout du dictionnaire libre $\mathbf{W_r}$ est alors un atout ou un inconvénient selon la prédominance du trafic : dans le premier cas $\mathbf{W_r}$ modélise convenablement la classe de son \textit{interférante} ce qui permet une bonne estimation du niveau sonore du trafic, mais dans le second cas, cet élément du dictionnaire inclut des composantes \textit{trafic} ce qui détériore son estimation. Finalement, la NMF IS se trouve être l'approche qui minimise le mieux l'erreur sur l'ensemble du corpus. Elle réalise un compromis entre les deux méthodes : elle offre suffisamment de liberté par la mise à jour de $\mathbf{W_0}$ pour s'adapter aux différentes ambiances et sources sonores tout en étant contrainte par le seuillage à ne conserver que les éléments les moins divergents. Les différentes pistes étudiées ont permis d'établir que la simple estimation de la distance $D_{\theta}(\mathbf{V}\Vert\mathbf{WH})$ avec l'extraction de la composante \textit{trafic} par seuillage dur est l'approche la plus efficace. \`A la différence des deux autres méthodes, la NMF IS présente l'avantage de modéliser la composante trafic telle qu'elle est capté par le capteur et donc de prendre en compte l'impact de l'environnement. Si on se réfère au problème posé au chapitre \ref{chap:modele} dans la partie \ref{part:problème}, la NMF IS revient à estimer directement le signal $S(t)$ où la composante \textit{trafic}, $S_{tr.}(t)$, est ensuite extraite par la méthode de seuillage dur. La NMF SUP et SEM, quant à elles, tente de déterminer $S_{tr.}(t)$ à partir des connaissances apprises sur la source trafic et donc $s_{tr.}(t)$. La NMF IS présente dont l'intérêt de mieux considérer l'impact de l'environnement sur la source sonore que les deux autres méthodes.\\
 
 
 
