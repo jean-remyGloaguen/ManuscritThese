@@ -98,7 +98,7 @@ Plusieurs modèles visant à estimer la puissance acoustique, $L_w$, émise par 
 
 \subsection{Modèle d'émission du trafic routier}\label{part:modele_emission}
 
-Dans ces trois modèles, la puissance émise par une portion de route, $L_w$, est liée à la puissance acoustique émise par un véhicule $L_{w,veh}$ et au débit des véhicules $Q$:
+Dans ces trois modèles, la puissance émise par une portion de route, $L_w$ exprimée en dB, est liée à la puissance acoustique émise par un véhicule $L_{w,veh}$ et au débit des véhicules $Q$ (nombre de véhicule/heure) :
 
 \begin{equation}
 L_w = L_{w,veh} + f(Q).
@@ -231,7 +231,7 @@ Enfin, ces modèles dépendent des données d'entrée relevées \textit{in situ}
 
 La réalisation de cartes de bruit est une opération qui peut être très lourde en coût et en temps de calculs (de quelques heures à plusieurs jours).
 Dans le cas de la cartographie de bruit de trafic, les modèles de sources $s_j(t)$ et de propagation $\delta_{ij}(t)$ sont implémentés dans des logiciels numériques pour déterminer, sur l'ensemble d'une ville ou d'un quartier, leurs niveaux sonores. Cette numérisation implique alors la discrétisation de l'environnement urbain qui consiste à décrire l'espace urbain $\Omega$ en un ensemble de points qui forme un maillage. L'environnement urbain est alors réduit en un espace discret $\Omega_m$. Le plus souvent, c'est un maillage régulier de 10 mètres par 10 mètres qui est choisi. À l'échelle d'une ville, c'est ainsi plusieurs millions de points qui peuvent être définis. Chaque source est alors rattachée à un point du maillage ($s_{j}(t)$ pour $j\in\Omega_m$). Le calcul consiste ensuite à estimer la propagation acoustique entre les sources et les points de ce maillage, selon les différents chemins de propagation possibles ($\delta_{ij,\Omega_m}$), pour chaque bande de fréquences. Plus le nombre de points dans $\Omega_{m}$ est élevé, plus le temps nécessaire pour calculer le niveau sonore augmente.  
-Également, le nombre de chemin de propagation d'une onde acoustique est également une variable que contrôle l'utilisateur. D'une valeur théorique infinie, celle-ci se réduit à un nombre $K$ qui influe alors directement sur la quantité d'énergie finale présente en un point $i$. L'équation \ref{eq:propagation} devient alors : 
+Également, le nombre de chemins de propagation d'une onde acoustique est également une variable que contrôle l'utilisateur. D'une valeur théorique infinie, celle-ci se réduit à un nombre $K$ qui influe alors directement sur la quantité d'énergie finale présente en un point $i$. L'équation \ref{eq:propagation} devient alors : 
 
 \begin{equation}
  M_{i,\Omega_m}(t)= \sum_{j = 1}^{N} \sum_{k = 1}^{K} s_{j}(t-\tau_{ijk}) \delta_{ijk}
@@ -428,8 +428,8 @@ Le choix est donc fait d'utiliser non pas des enregistrements audio mais des sc�
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\linewidth]{./figures/NMF/bloc_diagramme_principe.pdf.pdf}
-\caption{Diagramme en blocs du protocole expérimental.}
+\includegraphics[width=0.8\linewidth]{./figures/autres/bloc_diagramme_principe.pdf}
+\caption{Schéma-bloc du protocole expérimental.}
 \label{fig:diagramBlocProtocol}
 \end{figure}
 

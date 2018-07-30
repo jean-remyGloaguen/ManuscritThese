@@ -1,0 +1,37 @@
+\select@language {french}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Param\IeC {\`e}tres d'estimation de la puissance acoustique selon 3 mod\IeC {\`e}les d'\IeC {\'e}mission sonore.}}{10}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Comparaison des 4 m\IeC {\'e}thodes de s\IeC {\'e}paration de sources et de la m\IeC {\'e}thode DESA en vue d'estimer le niveau sonore du trafic routier \IeC {\`a} partir d'enregistrements monophoniques (\FB@og - \FB@fg {} : pas adapt\IeC {\'e}, \FB@og + \FB@fg {} : adapt\IeC {\'e}, \FB@og ++ \FB@fg {} : tr\IeC {\`e}s adapt\IeC {\'e}).}}{37}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Fonctions concaves, convexes et constantes selon $\beta $.}}{48}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Facteurs exp\IeC {\'e}rimentaux et leurs modalit\IeC {\'e}s utilis\IeC {\'e}s pour le corpus d'\IeC {\'e}valuation \textit {Ambiance}.}}{69}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Erreurs $MAE_g$ de l'estimateur \textit {baseline} selon $f_c$ sur l'ensemble du corpus \textit {Ambiance} et pour chaque $TIR$. En gras-rouge l'erreur $MAE_g$ la plus faible, en gras-noir, les erreurs $MAE_{TIR}$ les plus faibles selon les fr\IeC {\'e}quences $f_c$.}}{70}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Erreurs $MAE_g$ les plus faibles de la NMF SUP et NMF SEM pour le corpus d'\IeC {\'e}valuation \textit {Ambiance}, en gras-rouge, l'erreur globale la plus faible.}}{73}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'\IeC {\'e}valuation \textit {Ambiance} selon la repr\IeC {\'e}sentation lin\IeC {\'e}aire ou sigmo\IeC {\"\i }de de la distance $D_{\theta }(\mathbf {W_0}\delimiter "026B30D \mathbf {W'})$.}}{74}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'\IeC {\'e}valuation \textit {Ambiance} selon un seuillage dur ou \textit {firm}.}}{75}
+\contentsline {table}{\numberline {4.6}{\ignorespaces Erreurs $MAE_g$ les plus faibles de la NMF IS pour le corpus d'\IeC {\'e}valuation \textit {Ambiance} selon l'initialisation du dictionnaire. En ligne 1 et 3, le seuil est celui permettant d'obtenir l'erreur la plus faible, en ligne 2, le seuil correspond \IeC {\`a} celui obtenu avec une initialisation par $\mathbf {W_0}$ mais sur une NMF IS initialis\IeC {\'e}e par des valeurs al\IeC {\'e}atoires.}}{77}
+\contentsline {table}{\numberline {4.7}{\ignorespaces Erreurs $MAE_{TIR}$ selon les combinaisons optimales de la NMF SUP, SEM et IS avec l'estimateur \textit {baseline} $f_c$ = 500 Hz et les erreurs pour le filtre passe-bas $f_c$ = 20 kHz.}}{80}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Facteurs exp\IeC {\'e}rimentaux et leurs modalit\IeC {\'e}s utilis\IeC {\'e}s pour le corpus \textit {SOUR}.}}{87}
+\contentsline {table}{\numberline {5.2}{\ignorespaces Corpus d'\IeC {\'e}valuation \textit {SOUR} par ambiance sonore selon le nombre de sc\IeC {\`e}nes $N$, leur dur\IeC {\'e}e totale et le nombre de niveaux sonores calcul\IeC {\'e}es $N_{60}$.}}{88}
+\contentsline {table}{\numberline {5.3}{\ignorespaces Erreurs moyennes $MAE_{g}$ et $MAE_{60}$ pour l'estimateur \textit {baseline} pour le corpus d'\IeC {\'e}valuation \textit {SOUR}, en gras-rouge la plus faible erreur $MAE_g$, en gras-noir les erreurs $MAE_{60}$ les plus faibles.}}{89}
+\contentsline {table}{\numberline {5.4}{\ignorespaces Erreurs $MAE_{60}$ les plus faibles pour les combinaisons optimales de modalit\IeC {\'e}s des estimateurs pour le corpus d'\IeC {\'e}valuation \textit {SOUR}.}}{90}
+\contentsline {table}{\numberline {5.5}{\ignorespaces Erreurs $MAE_{60}$ les plus faibles selon les estimateurs NMF pour chaque m\IeC {\'e}thode dans sa combinaison optimale de modalit\IeC {\'e}s avec les estimateurs \textit {baseline} \IeC {\`a} 500 Hz et 20 kHz. En gras-rouge, les erreurs globales les plus faibles, en gras-noir, les erreurs de la NMF inf\IeC {\'e}rieures \IeC {\`a} l'estimateur \textit {baseline} $f_c$ = 500 Hz.}}{92}
+\contentsline {table}{\numberline {5.6}{\ignorespaces Erreurs $MAE_{60}$ les plus faibles pour les combinaisons optimales de modalit\IeC {\'e}s des estimateurs pour le corpus d'\IeC {\'e}valuation \textit {SOUR} en pr\IeC {\'e}sence d'une pond\IeC {\'e}ration de r\IeC {\'e}gularit\IeC {\'e} temporelle.}}{98}
+\contentsline {table}{\numberline {5.7}{\ignorespaces Erreurs $MAE_{60}$ minimales selon le seuil optimal $t_{h,opt}$ par ambiance sonore, en gras les erreurs minimales.}}{101}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {B.1}{\ignorespaces R\IeC {\'e}sultats de l'ANOVA avec interaction avec les facteurs \textit {type} et \textit {auditeur}.}}{122}
+\contentsline {table}{\numberline {B.2}{\ignorespaces R\IeC {\'e}sultats de l'ANOVA avec interaction avec les facteurs \textit {type} et \textit {ambiance}.}}{122}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {C.1}{\ignorespaces Erreurs $MAE_{60}$ minimales selon le seuil fixe $t_h$ et optimal $t_{h,opt}$ par ambiance sonore.}}{125}
+\contentsline {table}{\numberline {C.2}{\ignorespaces Influence de l'indicateur d'optimisation dans l'estimation de l'erreur $MAE_{g}$.}}{130}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {D.1}{\ignorespaces Erreurs $MAE_{60}$ les plus faibles pour les combinaisons optimales des modalit\IeC {\'e}s des estimateurs pour le corpus d'\IeC {\'e}valuation \textit {SOUR} en pr\IeC {\'e}sence d'une pond\IeC {\'e}ration de parcimonie.}}{132}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {E.1}{\ignorespaces Correspondances des noms des sc\IeC {\`e}nes enregistr\IeC {\'e}es et r\IeC {\'e}pliqu\IeC {\'e}es pour l'ambiance \textit {Parc}.}}{135}
+\contentsline {table}{\numberline {E.2}{\ignorespaces Correspondances des noms des sc\IeC {\`e}nes enregistr\IeC {\'e}es et r\IeC {\'e}pliqu\IeC {\'e}es pour l'ambiance \textit {Rue Calme}.}}{136}
+\contentsline {table}{\numberline {E.3}{\ignorespaces Correspondances des noms des sc\IeC {\`e}nes enregistr\IeC {\'e}es et r\IeC {\'e}pliqu\IeC {\'e}es pour l'ambiance \textit {Rue Bruyante}.}}{137}
+\contentsline {table}{\numberline {E.4}{\ignorespaces Correspondances des noms des sc\IeC {\`e}nes enregistr\IeC {\'e}es et r\IeC {\'e}pliqu\IeC {\'e}es pour l'ambiance \textit {Rue Tr\IeC {\`e}s Bruyante}.}}{137}

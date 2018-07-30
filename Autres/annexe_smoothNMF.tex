@@ -1,6 +1,6 @@
 \chapter{Développement de la contrainte de régularité temporelle pour $\beta = 0$ et $\beta = 2$}\label{annex:smoothNMF}
 
-Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, les algorithmes de mise à jour de la NMF avec une contrainte de régularité temporelle sont développés. initialement développé pour la divergence K-L, elle est étendue au cas de la distance EUC et de la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
+Inspiré par l'article \cite{essid2013smooth} et \cite{fevotte_algorithms_2011}, les algorithmes de mise à jour de la NMF avec une contrainte de régularité temporelle sont développés. Initialement développée pour la divergence K-L, ils sont étendus au cas de la distance EUC et de la divergence I-S. Les détails des calculs menant aux algorithmes sont présentés ici. Ils n'ont pas été implémentés et utilisés dans le cadre des travaux de la thèse.
 
 \section{Cas de la distance Euclidienne}
 On pose le calcul de la fonction de coût pour la NMF avec une distance EUC et la contrainte :
@@ -45,7 +45,7 @@ L'équation \ref{eq:smooth_2} est alors résolue et permet d'obtenir l'expressio
 \fbox{$
 h_{kn} = \frac{w_{fk} v_{fn}+\alpha_t  \lambda_k^2 \left(\tilde{h}_{k(n+1)}+\tilde{h}_{k(n-1)})\right)}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fn}} {\tilde{h}_{kn}}}$}
 \end{equation}
-pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha_t$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient ; 
+pour $n \in \lbrace 2, N-1 \rbrace$. Dans le cas où $\alpha_t$ = 0, on retrouve bien l' algorithme \ref{eq:update_hk}. Pour $n = 1$, on obtient :  
 
 \begin{equation}
 h_{k1} = \frac{w_{fk} v_{f1}+\alpha_t \lambda_k^2 \tilde{h}_{k2})}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{f1}}{\tilde{h}_{k1}}}.
@@ -56,7 +56,7 @@ Et pour $n = N$, l'équation \ref{eq:smooth_beta2} devient
 h_{kN} = \frac{w_{fk} v_{fN}+\alpha_t  \lambda_k^2 \tilde{h}_{kN}}{2\alpha_t \lambda_k^2 + \cfrac{w_{fk} v_{fN}} {\tilde{h}_{kN}}}.
 \end{equation}
 
-Pour illustrer l'impact de la pondération, une scène de 30 secondes est générée comprenant un passage de voiture suivi de sifflements d'oiseaux. Le dictionnaire $\mathbf{W}$ est composé de 5 éléments \textit{trafic} et 5 éléments \textit{oiseaux} construit à partir de 5 échantillons pour chaque classe de son et avec $w_t = all$. La NMF supervisée est appliquée sur cette scène afin d'en déduire le niveau sonore du trafic. On illustre en Figure \ref{fig:smooth_2} l'impact de cette contrainte pour $\alpha_t = \lbrace 0,~2\rbrace$. 
+Pour illustrer l'impact de la pondération, une scène de 30 secondes est générée comprenant un passage de voiture dans l'intervalle temporelle $\left[0,~16 \right]$ secondes suivi de sifflements d'oiseaux dans l'intervalle temporelle $\left[16,~30 \right]$ secondes. Les deux classes de sons ne présentent pas de recouvrement. Le dictionnaire $\mathbf{W}$ est composé de 5 éléments \textit{trafic} et 5 éléments \textit{oiseaux} construit à partir de 5 échantillons pour chaque classe de son et avec $w_t = all$. La NMF supervisée ($\beta$ = 2, $w_t$ = \textit{all} et $K$ = 10) est appliquée sur cette scène. On illustre en Figure \ref{fig:smooth_2} l'impact de cette contrainte pour $\alpha_t = \lbrace 0,~2\rbrace$ sur l'évolution du niveau sonores. Le signal trafic estimé doit, en théorie, ne pas être activé lorsque les oiseaux chantent. Or, on observe que dans le cas où la contrainte n'est pas présente, que cette activation est forte. La présence de la contrainte permet de réduire cette activation. Durant le signal \textit{trafic}, l'effet de la contrainte s'observe en lissant l'évolution du signal \textit{trafic}. La régularité temporelle permet d'estimer plus une enveloppe temporelle qu'une estimation très précise (comme dans le cas où $\alpha_t$ = 0).
 
 \begin{figure}[h]
 \centering

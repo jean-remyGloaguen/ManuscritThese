@@ -415,7 +415,7 @@ L'utilisation de la NMF nécessite deux étapes : une phase d'apprentissage du d
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\linewidth]{./figures/NMF/NMF_apprentissage.pdf}
-\caption{Diagramme en blocs des étapes de la NMF.}
+\caption{Schéma-bloc des étapes de la NMF.}
 \label{fig:supervised_learning}
 \end{figure}
 
@@ -449,7 +449,7 @@ avec $\mathbf{W} = \left[ \mathbf{W_s} \mathbf{W_r} \right]$ et respectivement $
 \begin{figure}[t]
 \centering
 \includegraphics[width=.85\linewidth]{./figures/NMF/NMF_semi-supervised.pdf}
-\caption{Diagramme en blocs des étapes de la NMF semi-supervisée.}
+\caption{Schéma-bloc des étapes de la NMF semi-supervisée.}
 \label{fig:semi-supervised_learning}
 \end{figure}
 
@@ -532,7 +532,7 @@ avec $\alpha = \left[\alpha_1, \alpha_2 \dots \alpha_K \right]$ qui est défini 
 avec $\Vert f(k)\Vert = \frac{f(k)-\min(f(k))}{\max(f(k))-\min(f(k))}$
 \end{itemize}
 
-L'allure des pondérations $\alpha$ pour le seuillage dur et \textit{firm} est résumé en Figure \ref{fig:seuillage}.
+L'allure des pondérations $\alpha$ pour le seuillage dur et \textit{firm} est résumée en Figure \ref{fig:seuillage}.
 
 \begin{figure}
 \centering
@@ -566,7 +566,7 @@ On résume les différentes étapes de la NMF IS au travers de l'algorithme \ref
 \label{alg:NMF-IS}
 \end{algorithm}
 
-L'intérêt de cette approche est qu'elle permet, par la mise à jour du dictionnaire $\mathbf{W_0}$ de modéliser directement la source sonore \textit{trafic} avec les effets de la propagation de l'environnement sur la propagation sonore. En effet, la NMF supervisée et semi-supervisée possède un dictionnaire fixe (ou dans une grande partie fixe pour la semi-supervisée) avec lequel elles doivent modéliser l'ensemble de cette source. Par rapport au problème posé dans la partie \ref{part:problème}, elles  contiennent dans $\mathbf{W}$, la source $\hat{s}_{v_j}(f)$. La NMF IS en calculant $\mathbf{W'}$ permet une approximation de $M_i$ dont les composantes dans $\mathbf{W'}$ incluent les effets de propagation de l'environnement urbain. L'extraction du signal \textit{trafic} de $W'H$ permet alors de déterminer $\hat{S}_{tr.}(f)$, ce qui permet une plus grande généralisation de la méthode. Toutefois, en mettant à jour la forme de chaque élément, on perd la supervision du dictionnaire. La méthode de seuillage pour déterminer les composante \textit{trafic} génère alors le risque de considérer des éléments de la classe \textit{interférante} si le(s) seuil(s) $t_h$ (ou $t_{f,1,2}$) sont trop faibles ou bien pas assez d'éléments si ils sont trop élevés.
+L'intérêt de cette approche est qu'elle permet, par la mise à jour du dictionnaire $\mathbf{W_0}$ de modéliser directement la source sonore \textit{trafic} avec les effets de l'environnement sur la propagation sonore. En effet, la NMF supervisée et semi-supervisée possède un dictionnaire fixe (ou dans une grande partie fixe pour la semi-supervisée) avec lequel elles doivent modéliser l'ensemble de cette source. Par rapport au problème posé dans la partie \ref{part:problème}, elles  contiennent dans $\mathbf{W}$, la source $\hat{s}_{v_j}(f)$. La NMF IS, en calculant $\mathbf{W'}$, contient dans son dictionnaire l'ensemble des sources présentes filtrées par l'environnement urbain. L'extraction du signal \textit{trafic} de $\mathbf{W'H}$ permet alors de déterminer $\hat{S}_{tr.}(f)$, ce qui permet une plus grande généralisation de la méthode. Toutefois, en mettant à jour la forme de chaque élément, on perd la supervision du dictionnaire puisque certains spectres de $\mathbf{W_0}$ appartenant initialement à la source \textit{trafic} peuvent être déviés en une autre source. La méthode de seuillage pour déterminer les composantes \textit{trafic} permet de conserver les éléments qui dévient le moins. Mais cette technique génère un risque de considérer des éléments de la classe \textit{interférante} si le seuil $t_h$ (ou $t_{f,1/2}$) est trop faible ou bien pas assez d'éléments si il est trop élevé.
 
 \section{NMF avec contraintes}\label{part:NMF_contrainte}
 Les différentes variantes de la NMF présentées ne sont soumises, jusqu'ici, qu'à la contrainte de non-négativité avec pour objectif la minimisation de l'équation \ref{eq:D(V-WH)}. Toutefois, l'ajout de contraintes sur l'apprentissage du dictionnaire ou sur l'allure de la matrice d'activation est possible suivant les connaissances que l'on a \textit{a priori} de ces éléments. Ces contraintes sont alors prises en compte dans la fonction de coût \ref{eq:D(V-WH)} par l'ajout d'un second terme pondéré $C(\mathbf{W},\mathbf{H})$. Le problème devient alors :
@@ -713,7 +713,7 @@ Dans le cadre de la NMF semi-supervisée, une contrainte est proposée dans \cit
 \section{Conlusion du chapitre}
 
 La Factorisation en Matrices Non-négative est une méthode qui permet l'approximation d'un spectrogramme en amplitude (ou en puissance) d'un enregistrement audio par le produit de deux matrices : $\mathbf{W}$, le dictionnaire composé de spectres sonores, et $\mathbf{H}$, la matrice d'activation. Différentes formes de NMF ont été proposées qui diffèrent selon les techniques d'apprentissage de leur dictionnaire (non-supervisée, supervisée et semi-supervisée) ou des contraintes qui y sont appliquées (parcimonie, régularité temporelle). Plusieurs de ces NMF sont implémentées dans le cas de ces travaux et testées en vue de déduire, sur des corpus de sons présentés dans le chapitre suivant, le niveau sonore du trafic routier.
-La \textbf{NMF supervisée}, \textbf{semi-supervisée} et, celle proposée, \textbf{initialisée-seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$  est  également observée pour un des corpus de sons dans le chapitre \ref{chap:grafic}. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
+La \textbf{NMF supervisée}, \textbf{semi-supervisée} et, celle proposée, \textbf{initialisée seuillée} sont les trois approches retenues. L'influence de la contrainte de \textbf{régularité temporelle} $C_t(\mathbf{H})$  est  également observée pour un des corpus de sons dans le chapitre \ref{chap:grafic}. Les 3 $\beta$-divergences détaillées (\textbf{distance EUC} ($\beta = 2$), \textbf{divergence K-L} ($\beta = 1$) et \textbf{I-S} ($\beta = 0$)) seront celles utilisées sur chaque corpus.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

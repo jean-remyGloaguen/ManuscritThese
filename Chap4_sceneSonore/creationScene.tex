@@ -111,7 +111,7 @@ Afin d'obtenir des échantillons de qualité suffisante, la présence d'oiseaux 
 \begin{figure}[t]
 \centering
 \includegraphics[width=.9\textwidth]{./figures/autres/filtrageMedian_VL1_R3_40_FR.pdf}
-\caption{Zoom du spectrogramme (nombre de point $w = 2^{12}$ avec 50 $\%$ de recouvrement) dans la bande de fréquence $\left[1500-7500 \right]$ Hz d'un enregistrement de passage de véhicule (véhicule Renault, rapport 3, 40 km/h). \`A gauche, l'enregistrement original, à droite l'enregistrement filtré par le filtre médian.}
+\caption{Zoom du spectrogramme (nombre de points $w = 2^{12}$ avec 50 $\%$ de recouvrement) dans la bande de fréquence $\left[1500-7500 \right]$ Hz d'un enregistrement de passage de véhicule (véhicule Renault, rapport 3, 40 km/h). \`A gauche, l'enregistrement original, à droite l'enregistrement filtré par le filtre médian.}
 \label{fig:filtre_median}
 \end{figure}
 
@@ -182,7 +182,7 @@ Dans le cas des sous-corpus \textit{alerte} et \textit{animaux}, les allures des
 Chaque scène $i$ générée possède alors un niveau sonore trafic initial $L_{eq,tr.,init.,i}$ et un niveau sonore \textit{interférant}, $L_{eq,int.,i}$. Elles sont ensuite, chacune, dupliquées 5 fois où le niveau sonore du trafic y est calibré tel que, pour une scène $i$, 
 
 \begin{equation}
-TIR = L_{eq,tr., tir, i} - L_{eq,interferant, i}
+TIR = L_{eq,tr., tir, i} - L_{eq,int., i}
 \end{equation}
 
 avec $TIR$ le Rapport des niveaux sonores du trafic et de la classe interférante (\textit{Traffic Interfering Ratio} en anglais) où $TIR \in \lbrace$-12, -6, 0, 6, 12$\rbrace$ dB. Ce $TIR$ s'assimile au rapport \textit{source-interférence} défini dans \cite{vincent2006performance}. Pour cela, les fichiers audio relatifs au trafic sont pondérés par un coefficient $\alpha$ afin d'obtenir le niveau sonore souhaité selon le $TIR$ avec
@@ -237,7 +237,7 @@ La première étape a consisté à réaliser une classification à l'écoute (Ta
 
 \input{tab/tab_classification_scene_sonore}
 
-Une majorité de scènes appartiennent à l'ambiance sonore \textit{rue calme} (35 scènes), 23 scènes appartiennent à l'ambiance \textit{rue animée}, 8 scènes à l'ambiance \textit{parc} et 8 scènes à l'ambiance \textit{rue très animée}. Plus de la moitié des points de mesures possèdent la même ambiance sur les 4 trajets. À l'exception du point 10, tous les points de mesures possèdent deux ambiances sonores voisines. Ces variations proviennent de l'évolution des activités dans la journée (matin ou l'après-midi). Enfin, les points 3 et 19 du parcours 1-WE ne sont pas exploitables : le point 3 est pollué par un camion balayeur et le point 19 n'a pas été correctement enregistré. Au final, c'est 74 fichiers audio qui sont disponibles et utilisés pour créer des scènes sonores. Ces 74 enregistrements forment le \textit{corpus de référence}.
+Une majorité de scènes appartiennent à l'ambiance sonore \textit{rue calme} (35 scènes), 23 scènes appartiennent à l'ambiance \textit{rue bruyante}, 8 scènes à l'ambiance \textit{parc} et 8 scènes à l'ambiance \textit{rue très bruyante}. Plus de la moitié des points de mesures possèdent la même ambiance sur les 4 trajets. À l'exception du point 10, tous les points de mesures possèdent deux ambiances sonores voisines. Ces variations proviennent de l'évolution des activités dans la journée (matin ou l'après-midi). Enfin, les points 3 et 19 du parcours 1-WE ne sont pas exploitables : le point 3 est pollué par un camion balayeur et le point 19 n'a pas été correctement enregistré. Au final, c'est 74 fichiers audio qui sont disponibles et utilisés pour créer des scènes sonores. Ces 74 enregistrements forment le \textit{corpus de référence}.
 
 \subsection{Annotation des enregistrements sonores}\label{part:scene_annotation}
 
@@ -269,7 +269,7 @@ De ces annotations, il est possible d'estimer, par ambiance sonore, les sources 
 Sur l'ensemble des scènes sonores, 11 classes de sons sont identifiées en tant qu'évènement sonore  (\textit{trafic routier, voix, sifflements d'oiseaux, bruit de rue, bruit de pas, porte de maison, porte de voiture, chantier, klaxon, sonnette, sirène}) et 3 classes de sons sont présentes en tant que bruit de fond sonore (\textit{brouhaha de foule, sifflements d'oiseaux, trafic routier continu}).
 Les sources sonores les plus communes sont \textit{voiture}, \textit{voix} et \textit{bruit rue}. En outre, en plus des classes de sons résumées dans le Tableau \ref{tab:obsScene}, de nombreuses autres classes de sons (\textit{aboiement de chien}, \textit{bruit de balais}, \textit{toussotement}, \textit{passage d'avion}, \textit{roulement de valise}) entendues interviennent plus sporadiquement (nombre d'évènement/min < 0,1) et sont susceptibles d'être présentes dans les quatre ambiances sonores.
 La composition des environnements sonores diffère naturellement selon les différentes ambiances sonores : dans \textit{Parc} la voix et les oiseaux sont les bruits de fond sonores principaux permettant d'établir l'ambiance sonore adéquate, les sons les plus émergeant sont alors ceux relié à la présence humaine et aux oiseaux. Puis, plus les ambiances sonores sont dominées par la classe \textit{trafic}, moins les émergences sonores sont élevées en raison du fort niveau du bruit de fond sonore \textit{trafic}. Les classes de sons \og naturel \fg{} (\textit{oiseaux)} disparaissent alors progressivement au profit de celles liés aux activités humaines. Dans le cas de l'ambiance sonore \textit{Rue calme}, les émergences sont plus élevées en raison d'un bruit de fond plus faible.
-Notons que dans \textit{Rue calme}, \textit{bruyante} et dans \textit{Parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très animée} où un flot de véhicules peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la fois comme bruit de fond et évènements sonore.
+Notons que dans \textit{Rue calme}, \textit{bruyante} et dans \textit{Parc}, le décompte des voitures est assez aisé. Il l'est beaucoup moins dans \textit{rue très bruyante} où un flot de véhicules peut être présent, le comptage y est alors très délicat car les véhicules peuvent être considérés à la fois comme bruit de fond et évènements sonore.
 Sans étude perceptive sur le débit de véhicules à partir duquel les passages de véhicules deviennent un flux, une moyenne de 1 véhicule par seconde est alors considérée comme raisonnable. Un contrôle à l'écoute permet de vérifier que le rendu est satisfaisant. Le rapport nombre d'évènement/min renseigné dans le Tableau \ref{tab:obsScene} est donc soumis à une forte incertitude mais reste cependant cohérent avec les indications du débit moyen fournis dans \cite{aumond2017modeling} ($\approx$ 2000 véhicules/heure). \\
 
 \subsection{Reproduction des enregistrements audio}\label{section:reproductionScene}
@@ -314,7 +314,7 @@ Afin de vérifier que le rendu global des scènes répliquées est suffisamment 
 
 Ce test consiste à faire écouter à un panel d'auditeurs un ensemble de scènes sonores comprenant autant d'enregistrements sonores que de scènes reconstituées. Pour chaque scène, l'auditeur doit alors évaluer, sur une échelle de Likert à 7 points allant de \og très peu réaliste \fg{} à \og extrêmement réaliste \fg{}, le réalisme de la scène qu'il vient d'entendre. L'hypothèse que nous souhaitons confirmer est que l'ensemble des scènes répliquées sont perçues de façon similaire aux scènes réalistes.
 Sur l'ensemble des 148 scènes (74 enregistrées, 74 répliquées), un ensemble de 40 scènes sont testés.
-Cet ensemble est composé dans une première moitié de scènes enregistrées choisies aléatoirement parmi les 74 enregistrements tout en prenant soin d'avoir une répartition équitable entre les ambiances sonores afin d'avoir suffisamment de diversité sonore. On extrait alors 5 scènes issues de l'ambiance \textit{Parc}, 6 issues de \textit{Rue calme}, 4 de \textit{Rue bruyante} et 5 de \textit{Rue très bruyante. Pour chaque audio, 30 secondes sont ensuite sélectionnés aléatoirement.
+Cet ensemble est composé dans une première moitié de scènes enregistrées choisies aléatoirement parmi les 74 enregistrements tout en prenant soin d'avoir une répartition équitable entre les ambiances sonores afin d'avoir suffisamment de diversité sonore. On extrait alors 5 scènes issues de l'ambiance \textit{Parc}, 6 issues de \textit{Rue calme}, 4 de \textit{Rue bruyante} et 5 de \textit{Rue très bruyante}. Pour chaque audio, 30 secondes sont ensuite sélectionnés aléatoirement.
 La seconde moitié du corpus est alors composée des mêmes 30 secondes des scènes répliquées respectives. Si l'hypothèse est vérifiée, nous supposerons que si le réalisme de ces 20 scènes répliquées est perçu de la même manière que les 20 scènes enregistrées, celui-ci pourra être étendu aux 54 autres scènes répliquées puisqu'elles sont construites sur le même processus. Un récapitulatif des fichiers audio sélectionnés et de la position des 30 secondes extraites sont résumés dans le Tableau~\ref{tab:resume_scene_test}.\\
 
 \input{tab/tab_40_audio_teste}
@@ -357,13 +357,13 @@ Le plan optimal $X_{opt}$ en fonction des conditions $J$, $K$ et $R$ est réalis
 
 Le plan obtenu correspond alors à l'ordre d'écoutes des scènes audio pour chaque juge. Avec ce plan, chaque juge écoute un mélange de scènes enregistrées et répliquées qui n'est pas nécessairement identique. Si la plupart des auditeurs écoutent un même nombre de scènes enregistrées et répliquées, d'autres sont susceptibles d'écouter plus de scènes d'un type que d'un autre. Au maximum, certain juges écoutent 8 scènes d'un type et 12 scènes d'un autre (Figure \ref{fig:repartitionScene}). 
 De ce mélange, les auditeurs, durant le test d'écoute, n'évaluent donc pas nécessairement une scène enregistrée et sa version répliquée. 
-L'optimisation du plan ne permet également pas d'avoir un nombre de réplication $R$ constant sur l'ensemble des scènes testées mais variable évoluant dans l'intervalle $\left[20,30 \right]$ (Figure~\ref{fig:replication}). \\
+L'optimisation du plan ne permet également pas d'avoir un nombre de réplications $R$ constant sur l'ensemble des scènes testées mais variable évoluant dans l'intervalle $\left[20,30 \right]$ (Figure~\ref{fig:replication}). \\
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width = 0.7\textwidth]{./figures/test_perceptif/nb_replication.pdf}
-\caption{Nombre de réplication, $R$, pour chaque scène obtenu dans $X_{opt}$ avec comme combinaison $J = 50$, $B = 40$, $K = 20$. Les 20 premières scènes sont les scènes issues des enregistrements du projet GRAFIC, les 20 suivantes sont les scènes répliquées sous \textit{SimScene}.}
+\caption{Nombre de réplications, $R$, pour chaque scène obtenu dans $X_{opt}$ avec comme combinaison $J = 50$, $B = 40$, $K = 20$. Les 20 premières scènes sont les scènes issues des enregistrements du projet GRAFIC, les 20 suivantes sont les scènes répliquées sous \textit{SimScene}.}
 \label{fig:replication}
 \end{figure}
 
@@ -381,12 +381,10 @@ La Figure \ref{fig:panelTest} résume, sous forme d'histogrammes, l'âge, le sex
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width = .8\textwidth]{./figures/test_perceptif/testPerceptif_panel.pdf}
+\includegraphics[width=.8\textwidth]{./figures/test_perceptif/testPerceptif_panel.pdf}
 \caption{Résumé des informations relatifs aux auditeurs.}
 \label{fig:panelTest}
 \end{figure}
-
-
 
 \subsubsection{Distribution des notes des scènes enregistrées et répliquées} 
 
@@ -458,7 +456,7 @@ valeur $p$ & \textbf{0,38} & \textbf{0,35} & \textbf{0,13} & \textbf{0,38} & \te
 
 \begin{tabular}{|p{1.5cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2cm}|l|p{0.001cm}|p{2.75cm}|l|}
 \hhline{|-|-|~|-|-|~|-|-|~|-|-|}
-Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue animée & {\cellcolor[HTML]{F56B00}} & &  Rue très animée & {\cellcolor[HTML]{9A0000}}\\
+Parc & {\cellcolor[HTML]{5AB25A}} & & Rue calme & {\cellcolor[HTML]{FFCB2F}} & & Rue bruyante & {\cellcolor[HTML]{F56B00}} & &  Rue très bruyante & {\cellcolor[HTML]{9A0000}}\\
 \hhline{|-|-|~|-|-|~|-|-|~|-|-|}
 \end{tabular}
 
