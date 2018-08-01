@@ -78,7 +78,7 @@ Le second estimateur est celui basé sur la NMF, présentée dans le chapitre \r
 \end{figure}
 
 
-\subsection{Constitution du dictionnaire} 
+\subsection{Constitution du dictionnaire}\label{part:W_design}
 
 Dans un premier temps, le dictionnaire $\mathbf{W}$ est construit, à partir d'un corpus d'apprentissage composé de 53  enregistrements audio des passages des voitures Renault Scénic et Dacia Sandero. Ces enregistrements ont été réalisés sur la piste d'essais de l'Ifsttar dans les mêmes conditions d'enregistrements que les 2 véhicules composants le corpus élémentaire de \textit{SimScene} (voir partie \ref{part:voiture_record}). Ces 53 échantillons audio issus des enregistrements ne sont pas ceux utilisés dans la création des scènes sonores afin d'éviter tout problème de sur-apprentissage.
 
@@ -115,7 +115,7 @@ L'ensemble de ces facteurs expérimentaux et leurs modalités sont résumés dan
 
 Chaque version du dictionnaire $\mathbf{W}$ est utilisée par l'estimateur du niveau de trafic. Cet estimateur est lui-même basé sur plusieurs versions de la NMF décrites précédemment (voir chapitre \ref{chap:NMF})  : la NMF supervisée (NMF SUP), semi-supervisée (NMF SEM) et initialisée seuillée (NMF IS). Pour chaque NMF, 3 $\beta$-divergences sont utilisées : la distance Euclidienne ($\beta = 2$) (voir partie \ref{part:dist_EUC}), la divergence de Kullback-Leibler ($\beta = 1$) (partie \ref{part:div_KL}) et la divergence d'Itakura-Saïto ($\beta = 0$) (partie \ref{part:div_IS}). La NMF SUP dépend seulement des différentes versions du dictionnaire apprises et des valeurs de $\beta$. Le signal trafic est estimé selon l'équation \ref{eq:WH_trafic} à partir de la matrice $\mathbf{H}$ obtenue.
 Dans le cas de la NMF SEM, le dictionnaire appris compose la partie fixe $\mathbf{W_s}$. Le nombre d'éléments du dictionnaire libre $\mathbf{W_r}$ est alors fixé à 2 ($J = 2$). Le signal \textit{trafic} est ensuite déterminé par le relation \ref{eq:WSHs_trafic}.
-Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. À chaque itération, les éléments du dictionnaire sont également tous normalisés selon la norme $ell_1$. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
+Enfin pour la NMF IS, les dictionnaires appris correspondent aux dictionnaires initiaux $\mathbf{W_0}$ qui seront ensuite mis à jour. À chaque itération, les éléments du dictionnaire sont également tous normalisés selon la norme $\ell_1$. Les dictionnaires obtenus $\mathbf{W'}$ sont ensuite soumis à l'étape d'extraction par seuillage qui implique également plusieurs facteurs expérimentaux :
 
 \begin{itemize}
 \item la représentation de la distance entre les dictionnaires initiaux et finaux $D_{\theta}(\mathbf{W_0} \Vert \mathbf{W'})$ (linéaire ou bien exprimé au travers d'une fonction sigmoïde ($\lambda = 2$)),
@@ -137,7 +137,7 @@ Malgré la réduction du nombre d'éléments par l'algorithme $K$-means, la tail
 \label{fig:tiers_octaves}
 \end{figure}
 
-Enfin, le nombre d'itérations est fixé à 100 pour toutes les versions de la NMF étudiées.
+Enfin, le nombre d'itérations est fixé à 100 pour toutes les versions de la NMF étudiées. Également, si le niveau en sortie de l'estimateur est exprimé en dB, la NMF est réalisée avec le spectrogramme et le dictionnaire exprimés en grandeur linéaire (équivalent à la pression \textit{rms} en Pa). Ce n'est que lorsque la composante \textit{trafic} est estimée et que l'évolution de son niveau sonore est calculé que le dB est employé.
 
 \subsection{Résumé des facteurs expérimentaux}
 
@@ -146,65 +146,78 @@ De nombreux facteurs expérimentaux sont donc présents dans cette expérience, 
 \begin{table*}[h]
 \centering
 \caption{Facteurs expérimentaux et leurs modalités utilisés pour le corpus d'évaluation \textit{Ambiance}.}
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
 	\hline
     \textbf{\begin{tabular}[c]{@{}l@{}}facteurs \\ expérimentaux \end{tabular}} & \textbf{modalités} & \begin{tabular}[c]{@{}C{2cm}@{}}\textbf{nombre de}\\ \textbf{modalités}\end{tabular}\\ \toprule
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{2.8cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2cm}@{}@{}C{2.2cm}@{}C{2cm}}
    \textbf{sous-corpus} & alerte (al.) & animaux (an). & climat (cl.) &  humain (hu.) & transport (tr.) & mécanique (me.) & 6\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{2.8cm}@{}@{}C{2.435cm}@{}@{}C{2.435cm}@{}@{}C{2.435cm}@{}@{}C{2.435cm}@{}@{}C{2.435cm}@{}C{2cm}}
 \rowcolor[HTML]{C0C0C0}
    $TIR$ (dB) & -12 & -6 & 0 & 6 & 12 & 5\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
   \textbf{estimateur} & filtre passe bas & NMF SUP & NMF SEM & NMF IS & 4\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}@{}C{1.714cm}@{}C{2cm}@{}}
 \rowcolor[HTML]{C0C0C0}
    $f_c$ (kHz) & 0,1 & 0,5 & 1 & 2 &  5 & 10 & 20 & 7\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
     $w_t$ (s)& 0,5 & 1 & 2 & \textit{all} & 4\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}@{}C{3cm}@{}C{2cm}@{}}
 	\rowcolor[HTML]{C0C0C0}
     $K$ & 25 & 50 & 100 & 200 & 4\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{4cm}@{}@{}C{4cm}@{}@{}C{4cm}@{}C{2cm}@{}}
    $\beta$ & 0 & 1 & 2 & 3\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{6cm}@{}@{}C{6cm}@{}C{2cm}@{}}
 	\rowcolor[HTML]{C0C0C0}
    \textbf{représentation} & linéaire & sigmoïde & 2\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{6cm}@{}@{}C{6cm}@{}C{2cm}@{}}
    \textbf{seuillage} & dur & \textit{firm} & 2\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
 	\rowcolor[HTML]{C0C0C0}
 	\textbf{seuil dur} $\mathbf{t_h}$ & de 0,30 à 0,60 avec un pas de 0.01 & 31\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
    \textbf{seuil firm} $\mathbf{t_{f,1}}$ & de 0,20 à 0,55 avec un pas de 0,01 & 36\\
-\end{tabularx}
+\end{tabularx}}
 
+\resizebox{\textwidth}{!}{%
 \begin{tabularx}{17.5cm}{L{3cm}@{}C{12cm}@{}C{2cm}@{}}
 	\rowcolor[HTML]{C0C0C0}
    \textbf{seuil firm} $\mathbf{t_{f,2}}$ & de 0,35 à 0,70 avec un pas de 0,01 & 36\\
    \bottomrule
-\end{tabularx}
+\end{tabularx}}
 \label{tab:experimental_factorsNMF_ambiance}
 \end{table*}
 
@@ -217,7 +230,7 @@ De nombreux facteurs expérimentaux sont donc présents dans cette expérience, 
 
 Pour l'estimateur filtre, c'est donc 210 combinaisons qui sont réalisées (6 sous-corpus $\times$ 5 $TIR$ $\times$ 7 $f_c$). Dans le cas de la NMF SUP et SEM, ce sont respectivement 1260 combinaisons qui sont évaluées (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$). Dans le cas de la NMF IS, ce nombre est beaucoup plus élevé (2 789 640) en raison des nombreuses valeurs seuils (6 sous-corpus $\times$ 5 $TIR$ $\times$ (3 $w_t$ $\times$ 4 $K$ + 1 $w_t$ $\times$ 2 $K$ ) $\times$ 3 $\beta$ $\times$ 2 représentations $\times$ (31 + 1076)).
 
-Les calculs exhaustifs de toutes les combinaisons expérimentales sont réalisés avec le logiciel Matlab à l'aide de l'outil expLanes\footnote{\url{http://mathieulagrange.github.io/expLanes}} qui permet la réalisation d'expériences numériques, de gérer la distribution des facteurs expérimentaux et de leurs modalités et de collecter les nombreux résultats générés. 
+Les calculs exhaustifs de toutes les combinaisons expérimentales sont réalisés avec le logiciel Matlab à l'aide de l'outil expLanes\footnote{\url{http://mathieulagrange.github.io/expLanes}} qui permet la réalisation d'expériences numériques, de gérer la distribution des facteurs expérimentaux et de leurs modalités et de collecter les nombreux résultats générés. Les programmes mis en place et développés sont disponibles en ligne\footnote{\url{https://github.com/jean-remyGloaguen/trafficNoiseEstimationNMF.git}}. 
 
 \section{Performances de l'estimateur \textit{baseline}}
 
@@ -564,7 +577,7 @@ Les classes de sons \textit{climat} et de \textit{mécanique} restent encore en 
 \end{figure}
 
 \section{Conclusion du chapitre}
-Cette première étude, à partir du corpus élémentaire \textit{Ambiance}, a permis d'établir le fonctionnement de plusieurs formes de NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante quelque soient les différentes sources sonores interférantes ou la présence variable du trafic.
+Cette première étude, à partir du corpus élémentaire \textit{Ambiance}, a permis d'établir le fonctionnement de plusieurs formes de NMF face à des scènes sonores urbaines. Ces résultats révèlent la difficulté à obtenir une méthode efficace et performante quelles que soient les différentes sources sonores interférantes ou la présence variable du trafic.
 La NMF SUP, composée d'un dictionnaire comprenant des éléments relatifs au trafic, se révèle être peu performante lorsque le trafic est peu présent en activant des bases \textit{trafic} pour simuler d'autres sources sonores mais est plus efficace lorsque les valeurs du $TIR$ sont positives. La NMF SEM, à l'inverse, est très efficace pour des $TIR$ négatifs, mais échoue à définir correctement le signal \textit{trafic} lorsque cette source sonore devient prédominante. L'ajout du dictionnaire libre $\mathbf{W_r}$ est alors un atout ou un inconvénient selon la prédominance du trafic : dans le premier cas $\mathbf{W_r}$ modélise convenablement la classe de son \textit{interférante} ce qui permet une bonne estimation du niveau sonore du trafic, mais dans le second cas, cet élément du dictionnaire inclut des composantes \textit{trafic} ce qui détériore son estimation. Finalement, la NMF IS se trouve être l'approche qui minimise le mieux l'erreur sur l'ensemble du corpus. Elle réalise un compromis entre les deux méthodes : elle offre suffisamment de liberté par la mise à jour de $\mathbf{W_0}$ pour s'adapter aux différentes ambiances et sources sonores tout en étant contrainte par le seuillage à ne conserver que les éléments les moins divergents. Les différentes pistes étudiées ont permis d'établir que la simple estimation de la distance $D_{\theta}(\mathbf{V}\Vert\mathbf{WH})$ avec l'extraction de la composante \textit{trafic} par seuillage dur est l'approche la plus efficace. \`A la différence des deux autres méthodes, la NMF IS présente l'avantage de modéliser la composante trafic telle qu'elle est capté par le capteur et donc susceptible de prendre en compte l'impact de l'environnement. Si on se réfère au problème posé au chapitre \ref{chap:modele} dans la partie \ref{part:problème}, la NMF IS revient à estimer directement le signal $S(t)$ où la composante \textit{trafic}, $S_{tr.}(t)$, est ensuite extraite par la méthode de seuillage dur. La NMF SUP et SEM, quant à elles, tente de déterminer $S_{tr.}(t)$ à partir des connaissances apprises sur la source trafic et donc $s_{tr.}(t)$. La NMF IS présente dont l'intérêt de mieux considérer l'impact de l'environnement sur la source sonore que les deux autres méthodes et d'être ainsi plus généralisable.\\
 
 

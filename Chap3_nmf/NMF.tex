@@ -41,14 +41,7 @@ Cette méthode est assimilable aux méthodes de factorisation comme l'Analyse en
 Si la NMF fut introduite pour la première fois par Paatero et Tapper \cite{paatero_positive_1994} en 1994 (mais sous le nom de \textit{Positive Matrix Factorization}), elle doit sa popularité aux travaux de Lee et Seung \cite{lee_learning_1999} dont les résultats furent publiés dans la revue \textit{Nature} en 1999. La NMF a ensuite trouvé de nombreuses applications dans des domaines variés : imagerie \cite{guillamet_introducing_2003, monga_robust_2007}, traitement de texte \cite{xu_document_2003, berry_email_2005}, biologie \cite{gao_improving_2005, chen_constrained_nodate}, gastronomie \cite{hawkins_clustering_2006} ou bien encore pour la recommandation de contenus audio-visuels \cite{luo2014efficient}. Dans le domaine de l'audio, c'est Smaragdis et Brown \cite{smaragdis_non-negative_2003} qui furent les premiers à l'utiliser dans le cas de la transcription d'un morceau de musique polyphonique. Plus généralement, pour un signal audio quelconque, la NMF consiste à approximer son spectrogramme en amplitude ou en puissance, obtenu, par exemple, à partir d'une Transformée de Fourier à Court Terme, à l'aide du dictionnaire $\textbf{W}$ constitué d'un ensemble de spectres sonores dont leurs amplitudes sont pondérées temporellement par les activateurs $\textbf{H}$.
 
 De nombreuses applications de la NMF furent trouvées pour des signaux musicaux et contenant de la parole pour les tâches de détections \cite{dessein2013real}, de reconnaissances de sources \cite{gemmeke2013exemplar}, de classifications \cite{benetos2006musical}, de débruitage \cite{wilson_speech_2008} et de séparations de sources sonores \cite{virtanen_monaural_2007}.
-
-%La NMF pour des signaux environnementaux, c'est-à-dire les signaux qui ne sont ni musicaux ni de parole.
-% CITATION avec un peu plus de détaille sur le fonctionnement
-%
-%\cite{ghoraani2011time} où la NMF est utilisée sur un point d'un long processus
-%\cite{gemmeke2013exemplar} pour des sons d'intérieurs
-%\cite{mesaros_sound_2015} pour le détection aidé par la NMF
-%\cite{satoshi_innami_nmf-based_2012} utilisation de la NMF pour faire de la séparation de sources environnemental.
+Dans le cas de sons environnementaux (c'est-à-dire les sons qui ne sons ni musicaux ni de paroles), plusieurs applications ont été faites de la NMF. \cite{gemmeke2013exemplar} utilise la NMF en vue de réaliser de la détection d'évènements sonores sur des sons d'intérieurs (bruit de clés, sonnerie de téléphone, bruit de clavier\dots{}) et est testée sur une base de données synthétique où les évènements sonores sont artificiellement mixés à un bruit de fond, à des niveaux sonores calibrés. \cite{mesaros_sound_2015} réalise également de la détection de sons environnementaux. Un aspect intéressant de leur étude est la comparaison des performances de leur outil à partir de la forme du dictionnaire selon les techniques de réduction de dimensions employées. Ils comparent le cas d'un dictionnaire composé de bandes fines mais réduit en nombre d'éléments $K$ par un algorithme de clustering $K$-means et le cas d'un dictionnaire avec la base complète mais avec une représentation en bandes mel. Les auteurs observent alors que les deux techniques de réduction, sur leur corpus, offrent des performances similaires par rapport au dictionnaire original non réduit et suggèrent même la possibilité d'appliquer ces deux techniques de réduction en vue de réduire les tailles des matrices et ainsi réduire les coûts de calcul. Cet aspect sera repris pour la construction du dictionnaire dans la partie \ref{part:W_design}. Enfin, \cite{satoshi_innami_nmf-based_2012} ont proposé d'utiliser la NMF en vue de réaliser de la séparation de sources sur des mixtures sonores environnementales issues d'un processus de simulation. Leur méthode consiste dans un premier temps à isoler le bruit de fond des évènements sonores afin ensuite de les séparer individuellement. Pour cela, en plus d'une description des éléments par des MFCC, deux autres paramètres descripteurs sont ajoutés : la variance de l'élément $i$ sur la durée de la scène et son rapport des valeurs proches de zéro. Ces paramètres permettent de différencier les évènements sonores, dont ces valeurs seront alors élevées, du bruit de fond, où la variance et le rapport seront proches de zéro. Ces travaux sont toutefois, réalisés sur une base de données restreintes à quelques éléments audio.
 
 \section{Fonction de coût et familles de divergences}
 
@@ -135,7 +128,7 @@ p(x \vert \theta, \lambda) & = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1
 & = \frac{1}{\sqrt{2 \pi \sigma^2}}\exp\left(-\frac{1}{\sigma^2}  d_{\phi_{2}}(x\vert \mu) \right)
 \end{align}
 
-avec $g(x,\lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$, $\lambda = \sigma^2$ et $d_{\phi_{2}}(x\vert \mu)$ qui correspond alors à la distance euclidienne. Ces distances et divergences, déduites de la distribution de Tweedie, sont alors regroupées dans une sous-classe des divergences de Bregman, appelée $\beta$-divergences \cite{hennequin_beta-divergence_2011}. C'est cette famille de divergences qui est la plus couramment utilisée dans le cadre de la NMF. La Figure \ref{fig:allure-divergence} permet d'illustrer le comportement de ces divergences. Dans le cas où $\beta \in \left[ 1,2 \right]$, on constate que $d_{\phi_{\beta}}$ est strictement convexe. En dehors de cet intervalle, les divergences présentent également une partie concave. \\
+avec $g(x,\lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$, $\lambda = \sigma^2$ et $d_{\phi_{2}}(x\vert \mu)$ qui correspond alors à la distance Euclidienne. Ces distances et divergences, déduites de la distribution de Tweedie, sont alors regroupées dans une sous-classe des divergences de Bregman, appelée $\beta$-divergences \cite{hennequin_beta-divergence_2011}. C'est cette famille de divergences qui est la plus couramment utilisée dans le cadre de la NMF. La Figure \ref{fig:allure-divergence} permet d'illustrer le comportement de ces divergences. Dans le cas où $\beta \in \left[ 1,2 \right]$, on constate que $d_{\phi_{\beta}}$ est strictement convexe. En dehors de cet intervalle, les divergences présentent également une partie concave. \\
 
 \begin{figure}[h]
 \centering
@@ -146,14 +139,14 @@ avec $g(x,\lambda) = \frac{1}{\sqrt{2 \pi \sigma^2}}$, $\lambda = \sigma^2$ et $
 
 Dans le reste du document, par soucis de clarté, les $\beta$-divergences $d_{\phi_{\beta}}$ seront dénommées $d_{\beta}$. Trois $\beta$-divergences associées à des valeurs spécifiques de $\beta  = [0,1,2]$ et à des distributions particulières, sont le plus souvent utilisées dans le cadre de la NMF et sont présentées dans les parties suivantes.
 
-\subsection{Distance euclidienne}\label{part:dist_EUC}
-Lorsque $\beta = 2$, la $\beta$-divergence devient \textbf{la distance euclidienne} (abrégé EUC) :
+\subsection{Distance Euclidienne}\label{part:dist_EUC}
+Lorsque $\beta = 2$, la $\beta$-divergence devient \textbf{la distance Euclidienne} (abrégé EUC) :
 
 \begin{equation}
 d_{{2}}(x\vert y) = \dfrac{1}{2}(x-y)^2.
 \end{equation}
 
-Cette métrique équivaut à une mesure de similarité entre les points $x$ et $y$ et se révèle très sensible aux grandes variations entre eux en raison de la présence de la puissance carré. En plus des propriétés des divergences de Bregman, la distance euclidienne en possède 2 autres :
+Cette métrique équivaut à une mesure de similarité entre les points $x$ et $y$ et se révèle très sensible aux grandes variations entre eux en raison de la présence de la puissance carré. En plus des propriétés des divergences de Bregman, la distance Euclidienne en possède 2 autres :
 \begin{enumerate}
 
 \item \textbf{Symétrie} : $d_{2}(x \vert y ) = d_{2}(y \vert x)$.
@@ -161,7 +154,7 @@ Cette métrique équivaut à une mesure de similarité entre les points $x$ et $
 \item \textbf{Inégalité triangulaire} : $d_{2}(x \vert y ) \leq d_{2}(x \vert z ) + d_{2}(x \vert z )$.\\
 \end{enumerate}
 
-Comme chaque mesure de distance au point $(x,y)$ possède le même poids que les autres couples de points, il est possible, pour la distance euclidienne, de considérer une pondération $g_{v_{fn}}$  sur les distances selon un critère psycho-acoustique, liée à l'énergie de $v_{fn}$. Cette pondération permet de prendre en compte dans l'erreur de reconstruction, les points temps-fréquences de faibles énergies \cite{virtanen2004separation} :
+Comme chaque mesure de distance au point $(x,y)$ possède le même poids que les autres couples de points, il est possible, pour la distance Euclidienne, de considérer une pondération $g_{v_{fn}}$  sur les distances selon un critère psycho-acoustique, liée à l'énergie de $v_{fn}$. Cette pondération permet de prendre en compte dans l'erreur de reconstruction, les points temps-fréquences de faibles énergies \cite{virtanen2004separation} :
 
 \begin{equation}
 d'_2(v_{fn} \vert w_{fk} h_{kn}) = g_{v_{fn}} d_2 (v_{fn} \vert w_{fk} h_{kn}).
@@ -302,22 +295,25 @@ d_{\beta}(x\vert y) = \breve{d}(x\vert y) + \textit{\textroundcap{d}}(x\vert y) 
 
 \begin{table}[t]
 \centering
-	\begin{tabular}{|*{5}{c|}}
- 		\hline
-   		 & $\beta < 1$ et $\beta \neq 0$  & $\beta = 0$ & $1 \leq \beta \leq 2$ & $\beta > 2$  \\
-   		\hline
-   		$\breve{d}(x\vert y)$&$-\frac{1}{\beta -1}xy^{\beta-1}$ & $xy^{-1}$ & $d_{\beta}(x\vert y)$& $\frac{1}{\beta}y^{\beta}$ \\
-   		\hline
-   		$\breve{d}'(x\vert y)$& $-xy^{\beta-2}$ & $-xy^{-2}$ & $d_{\beta}'(x\vert y)$ & $y^{\beta-1}$\\
-   		\hline
-   		$\textit{\textroundcap{d}}(x\vert y)$& $\frac{1}{\beta}y^{\beta}$ & $\log y$ & 0 & $\frac{1}{\beta-1}xy^{\beta-1}$ \\
-   		\hline
-   		$\textit{\textroundcap{d}'}(x\vert y)$& $y^{\beta-1}$ & $y^{-1}$ & 0 & $-xy^{\beta-2}$ \\
-   		\hline
-   		$\bar{d}(x\vert y)$& $\frac{1}{\beta(\beta-1)}x^{\beta}$ & $x(\log x-1)$ & 0 & $\frac{1}{\beta(\beta-1)}x^{\beta}$\\
-   		\hline
- 	\end{tabular}
 \caption{Fonctions concaves, convexes et constantes selon $\beta$.}
+	\begin{tabular}{*{5}{c}}
+ 		\toprule
+   		 & $\beta < 1$ et $\beta \neq 0$  & $\beta = 0$ & $1 \leq \beta \leq 2$ & $\beta > 2$  \\
+   		\toprule
+   		\rowcolor[HTML]{C0C0C0}
+   		$\breve{d}(x\vert y)$&$-\frac{1}{\beta -1}xy^{\beta-1}$ & $xy^{-1}$ & $d_{\beta}(x\vert y)$& $\frac{1}{\beta}y^{\beta}$ \\
+
+   		$\breve{d}'(x\vert y)$& $-xy^{\beta-2}$ & $-xy^{-2}$ & $d_{\beta}'(x\vert y)$ & $y^{\beta-1}$\\
+
+   		\rowcolor[HTML]{C0C0C0}
+   		$\textit{\textroundcap{d}}(x\vert y)$& $\frac{1}{\beta}y^{\beta}$ & $\log y$ & 0 & $\frac{1}{\beta-1}xy^{\beta-1}$ \\
+
+   		$\textit{\textroundcap{d}'}(x\vert y)$& $y^{\beta-1}$ & $y^{-1}$ & 0 & $-xy^{\beta-2}$ \\
+
+   		\rowcolor[HTML]{C0C0C0}
+   		$\bar{d}(x\vert y)$& $\frac{1}{\beta(\beta-1)}x^{\beta}$ & $x(\log x-1)$ & 0 & $\frac{1}{\beta(\beta-1)}x^{\beta}$\\
+   		\bottomrule
+ 	\end{tabular}
 \label{tab:fonctionConcaveConvexe}
 \end{table}
 
@@ -628,7 +624,7 @@ Dans le cas où $\beta \geq 2$, la contrainte apparait au numérateur et est sou
 \end{figure}
 
 
-\subsection{Contrainte de régularité temporelle ou \textit{smooth} NMF}\label{part:smoothness}
+\subsection{Contrainte de régularité temporelle}\label{part:smoothness}
 
 La mise à jour de la matrice d'activation $\mathbf{H}$ se fait par défaut trame par trame sans considérer de liens entre les trames $n$ et les précédentes. Néanmoins, la plupart des sons réels ont une évolution temporelle lente. Prendre en compte l'évolution des trames temporelles adjacentes peut permettre que la forme des activateurs soit plus réaliste et que l'outil soit plus robuste dans la reconstruction du signal. Cette contrainte trouve son intérêt dans la musique (\cite{virtanen_sound_2003, fevotte_majorization-minimization_2011}) où les instruments (à l'exception des instruments percussifs) peuvent jouer des notes durant, au moins, plusieurs centaines de milli-secondes. Mais c'est aussi le cas au sein d'environnements sonores urbains où les sons (notamment le trafic routier) ont des variations lentes, de plusieurs secondes. L'une des approches les plus citées est celle de Virtanen \cite{virtanen_monaural_2007}, qui fut ensuite généralisée sous la forme d'un algorithme générique dans \cite{fevotte2017single}, avec l'ajout d'une contrainte $C_t(\mathbf{H})$ :
 

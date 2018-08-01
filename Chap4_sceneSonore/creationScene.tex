@@ -126,7 +126,7 @@ Les échantillons sont ensuite séparés en deux classes de sons : \textit{Voitu
 \input{tab/tab_base_de_donnee}
 
 La classe de son \textit{bruit rue} résume les nombreux bruits, le plus souvent très bref, dont la source sonore n'a pas pu être déterminée. De la même façon, les sons relatifs à un chantier en construction (marteau-piqueur, marteau, perceuse) sont regroupés en une seule classe par soucis de simplification.
-À partir de ce corpus constitué, disponible en ligne\footnote{\url{https://zenodo.org/record/1213793}}, il est possible de réaliser des corpus de scènes sonores urbaines. En vue d'étudier le comportement de la NMF puis d'en évaluer les performances, deux corpus de scènes sonores urbaines sont construits.
+À partir de ce corpus constitué, disponible en ligne\footnote{\url{https://doi.org/10.5281/zenodo.1213793}}, il est possible de réaliser des corpus de scènes sonores urbaines. En vue d'étudier le comportement de la NMF puis d'en évaluer les performances, deux corpus de scènes sonores urbaines sont construits.
 
 \section{Corpus d'évaluation \textit{Ambiance}}
 \label{part:corpus_ambiance}
@@ -201,7 +201,7 @@ où $TIR_{init.,i} = L_{eq,tr.,init.,i}-L_{eq,int.,i}$. Les étapes sont résum�
 \end{figure}
 
 
-En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 $TIR$) pour une durée totale du corpus de 6h30. Les scènes de ce corpus ne peuvent pas être assimilables à des enregistrements sonores réalisés en ville, mais permettront d'étudier le comportement des estimateurs dans le chapitre \ref{chap:ambiance}. 
+En tout 750 scènes sont ainsi disponibles (6 sous-corpus $\times$ 25 scènes $\times$ 5 $TIR$) pour une durée totale du corpus de 6h30. Les scènes de ce corpus ne peuvent pas être assimilables à des enregistrements sonores réalisés en ville, mais permettront d'étudier le comportement des estimateurs dans le chapitre \ref{chap:ambiance}. Ce corpus de sons est disponible en ligne\footnote{\url{https://doi.org/10.5281/zenodo.1145855}}. 
 
 \section{Corpus d'évaluation de scènes sonores urbaines réalistes}
 \label{part:corpus_grafic}
@@ -274,11 +274,11 @@ Sans étude perceptive sur le débit de véhicules à partir duquel les passages
 
 \subsection{Reproduction des enregistrements audio}\label{section:reproductionScene}
 
-Afin d'obtenir des scènes les plus réalistes que possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonores est la plus proche d'une structure temporelle écologiquement valide. Les durées cumulées par ambiance sonore sont résumées dans la Tableau \ref{tab:resume_sour}. Avec un nombre de scènes plus importante, \textit{rue calme} est naturellement l'ambiance dont la durée cumulée est la plus longue, l'ambiance \textit{parc} étant alors la plus courte.
+Afin d'obtenir des scènes les plus réalistes que possibles, le choix a été fait de reproduire les 74 enregistrements à l'aide de leur annotation et du mode \textit{replicate} de \textit{SimScene}. Ce choix permet ainsi de s'assurer que la disposition des évènements sonores dans les mixtures sonores est la plus proche d'une structure temporelle écologiquement valide. Les durées cumulées par ambiance sonore sont résumées dans la Tableau \ref{tab:resume_sour4}. Avec un nombre de scènes plus importante, \textit{rue calme} est naturellement l'ambiance dont la durée cumulée est la plus longue, l'ambiance \textit{parc} étant alors la plus courte.
 
 \begin{table}[h!]
 \caption{Durées cumulées par ambiance du corpus \textit{SOUR}.}
-\label{tab:resume_sour}
+\label{tab:resume_sour4}
 \centering
 \begin{tabular}{L{3cm}C{2cm}C{2cm}}
 \toprule
@@ -301,7 +301,7 @@ La difficulté dans la génération des scènes sonores réside surtout dans l'e
 \end{figure}
 
 Les scènes sonores sont ensuite calibrées non pas selon les niveaux sonores des enregistrements qui ont servi à les construire puisque leurs niveaux sonores exacts ne sont pas connus mais selon le niveau sonore moyen par ambiance sonore, résumé dans le Tableau \ref{tab:obsScene}. 
-Cet étape n'influe en rien sur la suite de l'étude car les scènes sont construites d'un point de vue relatif, c'est-à-dire que les scènes sonores et l'ambiance auxquelles elles appartiennent ne sont pas liées à leur niveau sonore global mais aux différentes classes de sons présentes et à leurs émergences par rapport au bruit de fond. En vue de déterminer le niveau de bruit du trafic, le facteur déterminant est alors la contribution de cette source sonore dans la scène et non le niveau sonore global de celle-ci. Cette calibration a surtout pour objectif d'homogénéiser les différentes scènes sonores dans chaque ambiance.\\
+Cet étape n'influe en rien sur la suite de l'étude car les scènes sont construites d'un point de vue relatif, c'est-à-dire que les scènes sonores et l'ambiance auxquelles elles appartiennent ne sont pas liées à leur niveau sonore global mais aux différentes classes de sons présentes et à leurs émergences par rapport au bruit de fond. En vue de déterminer le niveau de bruit du trafic, le facteur déterminant est alors la contribution de cette source sonore dans la scène et non le niveau sonore global de celle-ci. Cette calibration a surtout pour objectif d'homogénéiser les différentes scènes sonores dans chaque ambiance. Ce corpus de sons est également disponible en ligne\footnote{\url{https://doi.org/10.5281/zenodo.1184443}}\\
 
 Dans la suite du document, les scènes issues du mode \textit{replicate} de \textit{SimScene} seront appelées \og scènes répliquées \fg{} en raison du processus de duplication. Les scènes originelles sont, quant à elles, nommées \og scènes enregistrées \fg{}. L'ensemble des ces scènes répliquées forment le \textit{corpus d'évaluation SOUR}. L'annexe \ref{annexe:correspondanceNameSour} résume la correspondance entre le nom des scènes enregistrées, nommées en fonction du jour, du sens du trajet et du point d'enregistrement (par exemple 1-EW-01), et le nom des scènes répliquées, nommées en fonction de l'ambiance sonore auxquelles elles appartiennent et d'un numéro d'identification (par exemple \textit{Parc-01}). \\
 
@@ -344,7 +344,7 @@ avec $\left[J, B, K, R, \lambda\right] \in \mathbb{N}$.\\
 
 La dénomination \og incomplète \fg{} provient du fait que les juges n'évaluent pas tous les produits testés (condition \ref{eq:BIE_cond1}). La dénomination \og équilibré \fg{}, quant à elle, provient du fait que chaque juge évalue un même nombre de produits ($K$), que ces produits sont évalués un même nombre de fois ($R$) et que toute paire de produits est évaluée un même nombre de fois ($\lambda$). \\
 
-Plusieurs paramètres ont été choisis et justifiés au début de la partie : le nombre d'extraits sonores testé a été établi à 40 ($B = 40$) pour un nombre d'extraits audio évalué par auditeur fixé à 20, ($K = 20$). La principale difficulté reste à obtenir la participation de $J$ personnes pour ce test. Ce nombre est alors fixé à $J = 50$ en cela que ce nombre est suffisant et facilement atteignable en un temps raisonnable. À partir des variables $J$, $B$ et $K$, le nombre $R$ de réplication est fixé à 25. Toutefois, ces valeurs impliquent que la condition \ref{eq:BIE_cond3} n'est pas validée ($\lambda = 9,69 \notin \mathbb{N}$) et donc que les contraintes que l'on s'impose ne permettent pas d'obtenir un plan équilibré. Deux solutions sont alors possibles : la première serait de modifier certains paramètres pour trouver l'équilibre. Or le nombre d'auditeur, $J = 50$, parait un nombre maximal raisonnable à atteindre tout comme le nombre de fichiers audio à tester $K$. Avec ces 2 contraintes fixées, il n'est pas possible d'obtenir un plan d'écoute satisfaisant. La deuxième solution, qui semble alors la plus adaptée, est de réaliser un plan optimal \cite{pages_blocs_2007}. Dans ce cas, pour une configuration $\left[J, K, B\right]$ donnée, un algorithme d'échange détermine un \og plan optimal \fg{} qui satisfait le plus possible son équilibre (sans toutefois l'atteindre parfaitement). En d'autres termes, cet algorithme permet de déterminer la suite de produits testés par chaque juge qui permettra de respecter au mieux les conditions \ref{BIE_cond}.
+Plusieurs paramètres ont été choisis et justifiés au début de la partie : le nombre d'extraits sonores testé a été établi à 40 ($B = 40$) pour un nombre d'extraits audio évalué par auditeur fixé à 20, ($K = 20$). La principale difficulté reste à obtenir la participation de $J$ personnes pour ce test. Ce nombre est alors fixé à $J = 50$ en cela que ce nombre est suffisant et facilement atteignable en un temps raisonnable. À partir des variables $J$, $B$ et $K$, le nombre $R$ de réplication est fixé à 25. Toutefois, ces valeurs impliquent que la condition \ref{eq:BIE_cond3} n'est pas validée ($\lambda = 9,69 \notin \mathbb{N}$) et donc que les contraintes que l'on s'impose ne permettent pas d'obtenir un plan équilibré. Deux solutions sont alors possibles : la première serait de modifier certains paramètres pour trouver l'équilibre. Or le nombre d'auditeur, $J = 50$, parait un nombre maximal raisonnable à atteindre tout comme le nombre de fichiers audio à tester $K$. Avec ces 2 contraintes fixées, il n'est pas possible d'obtenir un plan d'écoute satisfaisant. La deuxième solution, qui semble alors la plus adaptée, est de réaliser un plan optimal \cite{pages_blocs_2007}. Dans ce cas, pour une configuration $\left[J, K, B\right]$ donnée, un algorithme d'échange détermine un plan qui satisfait le plus possible son équilibre (sans toutefois l'atteindre parfaitement). En d'autres termes, cet algorithme permet de déterminer la suite de produits testés par chaque juge qui permettra de respecter au mieux les conditions \ref{BIE_cond}.
 Le plan optimal $X_{opt}$ en fonction des conditions $J$, $K$ et $R$ est réalisé sous le logiciel \textit{R} à l'aide la fonction \textit{optimaldesign} fourni par le package \textit{SensoMineR} \cite{le_sensominer_2008}.
 
 
@@ -428,7 +428,8 @@ Par soucis de concision, seul l'ensemble des 20 valeurs $p$ calculées et les bo
 \begin{table}[h!]
 \caption{DDL, valeurs $t$ et valeurs $p$ pour chaque test de Student mené entre les scènes enregistrées et répliquées; en gras, les valeur $p$ supérieures au seuil de signification de 5 $\%$.}
 \label{tab:test-student}
-\begin{tabular}{L{1.5cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{L{2cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}
 \toprule
 scène & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
 \toprule
@@ -437,16 +438,17 @@ scène & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
 \textbf{valeur} $\mathbf{t}$ & 1,03 & 0,21 & 0,44 & 1,02 & 2,13 & 1,30 & 1,54 & 0,45 & 0,85 & 1,01 \\
 \textbf{valeur} $\mathbf{p}$ & \textbf{0,15} & \textbf{0,42} & \textbf{0,33} & \textbf{0,16} & 0,02 &\textbf{0,10} & \textbf{0,06} & \textbf{0,32} & \textbf{0,20} & \textbf{0,16} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{L{1.5cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}C{1cm}}
 \toprule
 scène & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 \\
 \toprule
 DDL & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 & 60 \\
 \rowcolor[HTML]{C0C0C0}
-valeur $t$ & 0,29 & 0,39 & 1,15 & 0,30 & 0,84 & 0,32 & 0,82 & 2,20 & 0,24 & 0,45 \\
-valeur $p$ & \textbf{0,38} & \textbf{0,35} & \textbf{0,13} & \textbf{0,38} & \textbf{0,20} & \textbf{0,37} & \textbf{0,21} & 0,01 & \textbf{0,40} & \textbf{0,33}\\ \bottomrule
-\end{tabular}
+\textbf{valeur} $\mathbf{t}$ & 0,29 & 0,39 & 1,15 & 0,30 & 0,84 & 0,32 & 0,82 & 2,20 & 0,24 & 0,45 \\
+\textbf{valeur} $\mathbf{p}$ & \textbf{0,38} & \textbf{0,35} & \textbf{0,13} & \textbf{0,38} & \textbf{0,20} & \textbf{0,37} & \textbf{0,21} & 0,01 & \textbf{0,40} & \textbf{0,33}\\ \bottomrule
+\end{tabular}}
 \end{table}
 
 \begin{figure}[h]
